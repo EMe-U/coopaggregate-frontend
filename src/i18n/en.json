@@ -1,0 +1,56 @@
+{
+  "app": {
+    "name": "CoopAggregate",
+    "cooperative": "Koperative Intagamburuzwa"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "recordDelivery": "Record Delivery",
+    "members": "Members",
+    "lots": "Lots & Stock",
+    "sales": "Sales",
+    "share": "Share Lot Money",
+    "payments": "Payments",
+    "buyerRequests": "Buyer Requests",
+    "ledger": "Ledger",
+    "disputes": "Disputes",
+    "reports": "Reports",
+    "settings": "Settings",
+    "logout": "Logout",
+    "soon": "soon"
+  },
+  "publicNav": {
+    "home": "Home",
+    "sendRequest": "Send Request",
+    "checkStatus": "Check Request Status"
+  },
+  "topbar": {
+    "online": "Online",
+    "offline": "Offline",
+    "user": "Jean Bosco – Manager",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "pages": {
+    "login": "Login",
+    "dashboard": "Dashboard",
+    "recordDelivery": "Record Delivery",
+    "members": "Members",
+    "memberDetail": "Member Details",
+    "lots": "Lots & Stock",
+    "sales": "Sales",
+    "share": "Share Lot Money",
+    "payments": "Payments",
+    "buyerRequests": "Buyer Requests",
+    "ledger": "Ledger",
+    "settings": "Settings",
+    "home": "Available Potatoes",
+    "sendRequest": "Send a Purchase Request",
+    "checkStatus": "Check Request Status"
+  },
+  "health": {
+    "checking": "Checking backend connection...",
+    "connected": "Backend connected",
+    "unreachable": "Backend not reachable"
+  }
+}

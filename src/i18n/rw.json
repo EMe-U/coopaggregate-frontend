@@ -1,0 +1,56 @@
+{
+  "app": {
+    "name": "CoopAggregate",
+    "cooperative": "Koperative Intagamburuzwa"
+  },
+  "nav": {
+    "dashboard": "Ahabanza",
+    "recordDelivery": "Andika Ibyagemuwe",
+    "members": "Abanyamuryango",
+    "lots": "Ibirundo n'Ububiko",
+    "sales": "Ibyagurishijwe",
+    "share": "Gabanya Amafaranga y'Ikirundo",
+    "payments": "Kwishyura",
+    "buyerRequests": "Ibisabwa n'Abaguzi",
+    "ledger": "Igitabo cy'Imari",
+    "disputes": "Impaka",
+    "reports": "Raporo",
+    "settings": "Igenamiterere",
+    "logout": "Sohoka",
+    "soon": "vuba"
+  },
+  "publicNav": {
+    "home": "Ahabanza",
+    "sendRequest": "Ohereza Icyifuzo",
+    "checkStatus": "Reba Uko Icyifuzo Gihagaze"
+  },
+  "topbar": {
+    "online": "Kuri murandasi",
+    "offline": "Nta murandasi",
+    "user": "Jean Bosco – Umuyobozi",
+    "openMenu": "Fungura menu",
+    "closeMenu": "Funga menu"
+  },
+  "pages": {
+    "login": "Injira",
+    "dashboard": "Ahabanza",
+    "recordDelivery": "Andika Ibyagemuwe",
+    "members": "Abanyamuryango",
+    "memberDetail": "Amakuru y'Umunyamuryango",
+    "lots": "Ibirundo n'Ububiko",
+    "sales": "Ibyagurishijwe",
+    "share": "Gabanya Amafaranga y'Ikirundo",
+    "payments": "Kwishyura",
+    "buyerRequests": "Ibisabwa n'Abaguzi",
+    "ledger": "Igitabo cy'Imari",
+    "settings": "Igenamiterere",
+    "home": "Ibirayi Bihari",
+    "sendRequest": "Ohereza Icyifuzo cyo Kugura",
+    "checkStatus": "Reba Uko Icyifuzo Gihagaze"
+  },
+  "health": {
+    "checking": "Turimo kureba niba seriveri ikora...",
+    "connected": "Seriveri irakora",
+    "unreachable": "Seriveri ntiboneka"
+  }
+}
