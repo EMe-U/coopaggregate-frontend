@@ -25,8 +25,8 @@ export function AuthProvider({ children }) {
     }
   }, [token])
 
-  function signIn(newToken) {
-    setToken(newToken)
+  function signIn(newToken, remember) {
+    setToken(newToken, remember)
     setTokenState(newToken)
   }
 
