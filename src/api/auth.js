@@ -1,6 +1,4 @@
-import client from './client'
-
-export const LOGIN_URL = '/api/auth/login'
+import client, { LOGIN_URL } from './client'
 
 export async function login(email, password) {
   const response = await client.post(LOGIN_URL, { email, password })

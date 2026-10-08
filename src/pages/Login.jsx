@@ -21,6 +21,13 @@ function validate(email, password) {
   return errors
 }
 
+function loginErrorKey(error) {
+  if (!error.response) return 'login.errors.serverUnreachable'
+  if (error.response.status === 401) return 'login.errors.wrongCredentials'
+  if (error.response.status === 429) return 'login.errors.tooManyAttempts'
+  return 'login.errors.unknown'
+}
+
 const inputClass =
   'w-full rounded-lg border border-muted/30 bg-surface px-3 py-2 text-text outline-none focus:border-primary focus:ring-2 focus:ring-primary/20'
 
@@ -54,8 +61,8 @@ export default function Login() {
       const data = await login(trimmedEmail, password)
       signIn(data.token)
       navigate('/dashboard', { replace: true })
-    } catch {
-      setFormError('login.errors.unknown')
+    } catch (error) {
+      setFormError(loginErrorKey(error))
       setSubmitting(false)
     }
   }
