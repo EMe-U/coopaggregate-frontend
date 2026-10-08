@@ -16,7 +16,7 @@ import {
   Wallet,
   X,
 } from 'lucide-react'
-import { clearToken } from '../utils/auth'
+import { useAuth } from '../context/AuthContext'
 
 const menuItems = [
   { to: '/dashboard', labelKey: 'nav.dashboard', icon: LayoutDashboard },
@@ -38,9 +38,10 @@ const itemClass = 'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-med
 export default function Sidebar({ isOpen, onClose }) {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const { signOut } = useAuth()
 
   function handleLogout() {
-    clearToken()
+    signOut()
     navigate('/login', { replace: true })
   }
 

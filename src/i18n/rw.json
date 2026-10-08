@@ -27,12 +27,10 @@
   "topbar": {
     "online": "Kuri murandasi",
     "offline": "Nta murandasi",
-    "user": "Jean Bosco – Umuyobozi",
     "openMenu": "Fungura menu",
     "closeMenu": "Funga menu"
   },
   "pages": {
-    "login": "Injira",
     "dashboard": "Ahabanza",
     "recordDelivery": "Andika Ibyagemuwe",
     "members": "Abanyamuryango",
@@ -52,5 +50,35 @@
     "checking": "Turimo kureba niba seriveri ikora...",
     "connected": "Seriveri irakora",
     "unreachable": "Seriveri ntiboneka"
+  },
+  "login": {
+    "email": "Imeyili",
+    "password": "Ijambo ry'ibanga",
+    "submit": "Injira",
+    "submitting": "Tegereza...",
+    "showPassword": "Erekana ijambo ry'ibanga",
+    "hidePassword": "Hisha ijambo ry'ibanga",
+    "errors": {
+      "emailRequired": "Andika imeyili yawe",
+      "emailInvalid": "Andika imeyili nyayo",
+      "passwordRequired": "Andika ijambo ry'ibanga",
+      "wrongCredentials": "Imeyili cyangwa ijambo ry'ibanga si byo",
+      "tooManyAttempts": "Wagerageje inshuro nyinshi. Ongera ugerageze nyuma.",
+      "serverUnreachable": "Ntibishoboka kugera kuri seriveri. Reba murandasi yawe.",
+      "unknown": "Habaye ikibazo. Ongera ugerageze."
+    },
+    "portal": "Urubuga rw'Umuyobozi",
+    "location": "Busogo, Musanze, Rwanda",
+    "emailPlaceholder": "urugero: izina@example.com",
+    "passwordPlaceholder": "Andika ijambo ry'ibanga",
+    "rememberDevice": "Ibuka iki gikoresho",
+    "footer": "© {{year}} CoopAggregate. Uburenganzira bwose burasigasiwe."
+  },
+  "auth": {
+    "role": "Umuyobozi"
+  },
+  "language": {
+    "en": "English",
+    "rw": "Kinyarwanda"
   }
 }

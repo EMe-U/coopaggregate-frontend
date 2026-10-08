@@ -27,12 +27,10 @@
   "topbar": {
     "online": "Online",
     "offline": "Offline",
-    "user": "Jean Bosco – Manager",
     "openMenu": "Open menu",
     "closeMenu": "Close menu"
   },
   "pages": {
-    "login": "Login",
     "dashboard": "Dashboard",
     "recordDelivery": "Record Delivery",
     "members": "Members",
@@ -52,5 +50,35 @@
     "checking": "Checking backend connection...",
     "connected": "Backend connected",
     "unreachable": "Backend not reachable"
+  },
+  "login": {
+    "email": "Email",
+    "password": "Password",
+    "submit": "Log in",
+    "submitting": "Logging in...",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "errors": {
+      "emailRequired": "Enter your email",
+      "emailInvalid": "Enter a valid email address",
+      "passwordRequired": "Enter your password",
+      "wrongCredentials": "Wrong email or password",
+      "tooManyAttempts": "Too many attempts. Please try again later.",
+      "serverUnreachable": "Cannot reach the server. Check your connection.",
+      "unknown": "Something went wrong. Please try again."
+    },
+    "portal": "Manager Portal",
+    "location": "Busogo, Musanze, Rwanda",
+    "emailPlaceholder": "e.g. name@example.com",
+    "passwordPlaceholder": "Enter your password",
+    "rememberDevice": "Remember this device",
+    "footer": "© {{year}} CoopAggregate. All rights reserved."
+  },
+  "auth": {
+    "role": "Manager"
+  },
+  "language": {
+    "en": "English",
+    "rw": "Kinyarwanda"
   }
 }

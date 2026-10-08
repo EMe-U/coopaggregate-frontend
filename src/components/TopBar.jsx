@@ -1,10 +1,12 @@
 import { useTranslation } from 'react-i18next'
 import { Menu } from 'lucide-react'
+import { useAuth } from '../context/AuthContext'
 import useOnlineStatus from '../hooks/useOnlineStatus'
 import LanguageSwitch from './LanguageSwitch'
 
 export default function TopBar({ onMenuClick }) {
   const { t } = useTranslation()
+  const { manager } = useAuth()
   const isOnline = useOnlineStatus()
 
   return (
@@ -28,8 +30,11 @@ export default function TopBar({ onMenuClick }) {
 
       <div className="ml-auto flex items-center gap-4">
         <LanguageSwitch />
-        {/* TODO: load the manager's name from the backend once a profile endpoint exists. */}
-        <span className="hidden text-sm text-text sm:inline">{t('topbar.user')}</span>
+        {manager && (
+          <span className="hidden text-sm text-text sm:inline">
+            {manager.name} – {t('auth.role')}
+          </span>
+        )}
       </div>
     </header>
   )
