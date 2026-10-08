@@ -52,8 +52,6 @@
     "unreachable": "Seriveri ntiboneka"
   },
   "login": {
-    "title": "Injira",
-    "subtitle": "Injira kugira ngo ucunge koperative",
     "email": "Imeyili",
     "password": "Ijambo ry'ibanga",
     "submit": "Injira",
@@ -68,9 +66,19 @@
       "tooManyAttempts": "Wagerageje inshuro nyinshi. Ongera ugerageze nyuma.",
       "serverUnreachable": "Ntibishoboka kugera kuri seriveri. Reba murandasi yawe.",
       "unknown": "Habaye ikibazo. Ongera ugerageze."
-    }
+    },
+    "portal": "Urubuga rw'Umuyobozi",
+    "location": "Busogo, Musanze, Rwanda",
+    "emailPlaceholder": "urugero: izina@example.com",
+    "passwordPlaceholder": "Andika ijambo ry'ibanga",
+    "rememberDevice": "Ibuka iki gikoresho",
+    "footer": "© {{year}} CoopAggregate. Uburenganzira bwose burasigasiwe."
   },
   "auth": {
     "role": "Umuyobozi"
+  },
+  "language": {
+    "en": "English",
+    "rw": "Kinyarwanda"
   }
 }

@@ -52,12 +52,10 @@
     "unreachable": "Backend not reachable"
   },
   "login": {
-    "title": "Sign in",
-    "subtitle": "Sign in to manage the cooperative",
     "email": "Email",
     "password": "Password",
-    "submit": "Sign in",
-    "submitting": "Signing in...",
+    "submit": "Log in",
+    "submitting": "Logging in...",
     "showPassword": "Show password",
     "hidePassword": "Hide password",
     "errors": {
@@ -68,9 +66,19 @@
       "tooManyAttempts": "Too many attempts. Please try again later.",
       "serverUnreachable": "Cannot reach the server. Check your connection.",
       "unknown": "Something went wrong. Please try again."
-    }
+    },
+    "portal": "Manager Portal",
+    "location": "Busogo, Musanze, Rwanda",
+    "emailPlaceholder": "e.g. name@example.com",
+    "passwordPlaceholder": "Enter your password",
+    "rememberDevice": "Remember this device",
+    "footer": "© {{year}} CoopAggregate. All rights reserved."
   },
   "auth": {
     "role": "Manager"
+  },
+  "language": {
+    "en": "English",
+    "rw": "Kinyarwanda"
   }
 }
