@@ -32,7 +32,6 @@
     "closeMenu": "Close menu"
   },
   "pages": {
-    "login": "Login",
     "dashboard": "Dashboard",
     "recordDelivery": "Record Delivery",
     "members": "Members",
