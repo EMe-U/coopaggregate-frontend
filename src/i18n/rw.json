@@ -52,5 +52,27 @@
     "checking": "Turimo kureba niba seriveri ikora...",
     "connected": "Seriveri irakora",
     "unreachable": "Seriveri ntiboneka"
+  },
+  "login": {
+    "title": "Injira",
+    "subtitle": "Injira kugira ngo ucunge koperative",
+    "email": "Imeyili",
+    "password": "Ijambo ry'ibanga",
+    "submit": "Injira",
+    "submitting": "Tegereza...",
+    "showPassword": "Erekana ijambo ry'ibanga",
+    "hidePassword": "Hisha ijambo ry'ibanga",
+    "errors": {
+      "emailRequired": "Andika imeyili yawe",
+      "emailInvalid": "Andika imeyili nyayo",
+      "passwordRequired": "Andika ijambo ry'ibanga",
+      "wrongCredentials": "Imeyili cyangwa ijambo ry'ibanga si byo",
+      "tooManyAttempts": "Wagerageje inshuro nyinshi. Ongera ugerageze nyuma.",
+      "serverUnreachable": "Ntibishoboka kugera kuri seriveri. Reba murandasi yawe.",
+      "unknown": "Habaye ikibazo. Ongera ugerageze."
+    }
+  },
+  "auth": {
+    "role": "Umuyobozi"
   }
 }

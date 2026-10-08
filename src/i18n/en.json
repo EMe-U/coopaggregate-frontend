@@ -52,5 +52,27 @@
     "checking": "Checking backend connection...",
     "connected": "Backend connected",
     "unreachable": "Backend not reachable"
+  },
+  "login": {
+    "title": "Sign in",
+    "subtitle": "Sign in to manage the cooperative",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Sign in",
+    "submitting": "Signing in...",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "errors": {
+      "emailRequired": "Enter your email",
+      "emailInvalid": "Enter a valid email address",
+      "passwordRequired": "Enter your password",
+      "wrongCredentials": "Wrong email or password",
+      "tooManyAttempts": "Too many attempts. Please try again later.",
+      "serverUnreachable": "Cannot reach the server. Check your connection.",
+      "unknown": "Something went wrong. Please try again."
+    }
+  },
+  "auth": {
+    "role": "Manager"
   }
 }
