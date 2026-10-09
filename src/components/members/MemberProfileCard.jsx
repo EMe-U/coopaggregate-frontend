@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { MessageSquare, Pencil, Printer } from 'lucide-react'
+import { MessageSquare, Pencil, Printer, UserCheck, UserX } from 'lucide-react'
 import Avatar from '../Avatar'
 import StatusBadge from '../StatusBadge'
 import { formatDate, formatPhone } from '../../utils/format'
@@ -13,19 +13,56 @@ function Detail({ label, children }) {
   )
 }
 
-export default function MemberProfileCard({ member, onEdit, children }) {
+const smallButtonClass =
+  'flex items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium disabled:opacity-60'
+
+export default function MemberProfileCard({ member, onEdit, onToggleActive, changingStatus }) {
   const { t } = useTranslation()
   const active = member.status === 'ACTIVE'
 
   return (
     <div className="rounded-xl bg-surface p-5 shadow-sm">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <StatusBadge active={active}>
-          {active ? t('members.detail.activeMember') : t('members.detail.inactiveMember')}
-        </StatusBadge>
-        <span className="font-mono text-xs text-muted">
-          {t('members.detail.memberNumber', { code: member.memberCode })}
-        </span>
+      <div className="flex flex-wrap items-start justify-between gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <StatusBadge active={active}>
+            {active ? t('members.detail.activeMember') : t('members.detail.inactiveMember')}
+          </StatusBadge>
+          <span className="font-mono text-xs text-muted">
+            {t('members.detail.memberNumber', { code: member.memberCode })}
+          </span>
+        </div>
+
+        <div className="flex gap-1.5 print:hidden">
+          <button
+            type="button"
+            onClick={onEdit}
+            className={`${smallButtonClass} border-text/10 text-text hover:bg-background`}
+          >
+            <Pencil size={13} />
+            {t('members.detail.edit')}
+          </button>
+          {active ? (
+            <button
+              type="button"
+              onClick={onToggleActive}
+              disabled={changingStatus}
+              className={`${smallButtonClass} border-danger/30 text-danger hover:bg-danger/5`}
+            >
+              <UserX size={13} />
+              {t('members.detail.deactivate')}
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={onToggleActive}
+              disabled={changingStatus}
+              className={`${smallButtonClass} border-primary/30 text-primary hover:bg-primary-light`}
+            >
+              <UserCheck size={13} />
+              {t('members.detail.activate')}
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="mt-4 flex items-center gap-4">
@@ -62,21 +99,12 @@ export default function MemberProfileCard({ member, onEdit, children }) {
         </button>
         <button
           type="button"
-          onClick={onEdit}
-          className="flex items-center gap-2 rounded-lg border border-text/10 px-3 py-2 text-sm font-medium text-text hover:bg-background"
-        >
-          <Pencil size={16} />
-          {t('members.detail.edit')}
-        </button>
-        <button
-          type="button"
           onClick={() => window.print()}
           className="flex items-center gap-2 rounded-lg border border-text/10 px-3 py-2 text-sm font-medium text-text hover:bg-background"
         >
           <Printer size={16} />
           {t('members.detail.print')}
         </button>
-        {children}
       </div>
     </div>
   )

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, UserCheck, UserX } from 'lucide-react'
+import { ArrowLeft, UserX } from 'lucide-react'
 import { activateMember, deactivateMember, getMember } from '../../api/members'
 import EmptyState from '../../components/EmptyState'
 import SuccessToast from '../../components/SuccessToast'
@@ -115,31 +115,14 @@ export default function MemberDetail() {
 
       <div className="grid gap-6 lg:grid-cols-5">
         <div className="lg:col-span-2">
-          <MemberProfileCard member={member} onEdit={() => setEditing(true)}>
-            {member.status === 'ACTIVE' ? (
-              <button
-                type="button"
-                onClick={handleToggleActive}
-                disabled={changingStatus}
-                className="flex items-center gap-2 rounded-lg border border-danger/30 px-3 py-2 text-sm font-medium text-danger hover:bg-danger/5 disabled:opacity-60"
-              >
-                <UserX size={16} />
-                {t('members.detail.deactivate')}
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={handleToggleActive}
-                disabled={changingStatus}
-                className="flex items-center gap-2 rounded-lg border border-primary/30 px-3 py-2 text-sm font-medium text-primary hover:bg-primary-light disabled:opacity-60"
-              >
-                <UserCheck size={16} />
-                {t('members.detail.activate')}
-              </button>
-            )}
-          </MemberProfileCard>
+          <MemberProfileCard
+            member={member}
+            onEdit={() => setEditing(true)}
+            onToggleActive={handleToggleActive}
+            changingStatus={changingStatus}
+          />
           {statusError && (
-            <p role="alert" className="mt-2 text-sm text-danger">
+            <p role="alert" className="mt-2 text-sm text-danger print:hidden">
               {statusError}
             </p>
           )}
