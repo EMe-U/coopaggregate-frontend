@@ -7,6 +7,7 @@ import DuplicateWarning from '../../components/deliveries/DuplicateWarning'
 import GradeSelector from '../../components/deliveries/GradeSelector'
 import LotAssignment from '../../components/deliveries/LotAssignment'
 import MemberPicker from '../../components/deliveries/MemberPicker'
+import TodayDeliveries from '../../components/deliveries/TodayDeliveries'
 import useOnlineStatus from '../../hooks/useOnlineStatus'
 import { kigaliIsoDate } from '../../utils/format'
 
@@ -223,6 +224,7 @@ export default function RecordDelivery() {
         </div>
       </div>
 
+      <TodayDeliveries reloadKey={receipt?.id} />
     </div>
   )
 }
