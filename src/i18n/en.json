@@ -33,8 +33,6 @@
   "pages": {
     "dashboard": "Dashboard",
     "recordDelivery": "Record Delivery",
-    "members": "Members",
-    "memberDetail": "Member Details",
     "lots": "Lots & Stock",
     "sales": "Sales",
     "share": "Share Lot Money",
@@ -80,5 +78,161 @@
   "language": {
     "en": "English",
     "rw": "Kinyarwanda"
+  },
+  "members": {
+    "eyebrow": "Cooperative directory",
+    "title": "Members Management",
+    "subtitle": "Manage registered farmers, their status and personal records.",
+    "add": "Add member",
+    "summary": {
+      "total": "Total members",
+      "active": "Active",
+      "inactive": "Inactive",
+      "joinedThisMonth": "+{{count}} this month"
+    },
+    "search": {
+      "label": "Search members",
+      "placeholder": "Search by name, phone, or national ID"
+    },
+    "filter": {
+      "label": "Filter status:",
+      "all": "All",
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "table": {
+      "memberId": "Member ID",
+      "fullName": "Full name",
+      "phone": "Phone",
+      "nationalId": "National ID",
+      "joinDate": "Join date",
+      "status": "Status",
+      "actions": "Actions",
+      "view": "View member",
+      "edit": "Edit member"
+    },
+    "status": {
+      "ACTIVE": "Active",
+      "INACTIVE": "Inactive"
+    },
+    "pagination": {
+      "showing": "Showing {{from}}-{{to}} of {{total}} members",
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "empty": {
+      "title": "No members yet",
+      "message": "Add the first member of the cooperative.",
+      "noResults": "No members found",
+      "noResultsMessage": "Try another name, phone or national ID, or change the status filter."
+    },
+    "error": {
+      "load": "Could not load members.",
+      "summary": "Could not load the member counts.",
+      "retry": "Try again"
+    },
+    "form": {
+      "addTitle": "Add member",
+      "editTitle": "Edit member",
+      "close": "Close",
+      "fullName": "Full name",
+      "phone": "Phone",
+      "phoneHint": "Example: 0788123456",
+      "nationalId": "National ID",
+      "optional": "(optional)",
+      "address": "Address",
+      "joinDate": "Join date",
+      "preferredLanguage": "Preferred language",
+      "cancel": "Cancel",
+      "save": "Save",
+      "saving": "Saving...",
+      "saved": "Member saved",
+      "errors": {
+        "fullNameRequired": "Enter the full name",
+        "phoneInvalid": "Enter a Rwandan mobile number, for example 0788123456",
+        "nationalIdInvalid": "The national ID must have 16 digits",
+        "joinDateRequired": "Choose the join date",
+        "joinDateFuture": "The join date cannot be in the future",
+        "generic": "Could not save the member. Please try again.",
+        "serverUnreachable": "Cannot reach the server. Check your connection."
+      }
+    },
+    "detail": {
+      "back": "Back to members",
+      "activeMember": "Active member",
+      "inactiveMember": "Inactive member",
+      "memberNumber": "ID: {{code}}",
+      "phone": "Phone",
+      "nationalId": "National ID",
+      "joinDate": "Join date",
+      "notProvided": "Not provided",
+      "edit": "Edit",
+      "deactivate": "Deactivate",
+      "activate": "Activate",
+      "confirmDeactivate": "Deactivate {{name}}? Their deliveries, payments and history are kept, and you can activate them again later.",
+      "activated": "Member activated",
+      "deactivated": "Member deactivated",
+      "statusError": "Could not change the member's status. Please try again.",
+      "sendSms": "Send statement by SMS",
+      "soon": "soon",
+      "print": "Print",
+      "notFound": "Member not found",
+      "notFoundMessage": "There is no member with this ID.",
+      "loadError": "Could not load this member."
+    },
+    "statement": {
+      "summaryTitle": "Financial statement summary",
+      "netAmount": "Net amount owed / balance to disburse",
+      "grossShare": "Total gross share",
+      "grossShareNote": "From lot shares",
+      "deductions": "Total deductions",
+      "deductionsNote": "Per-kg deduction",
+      "paidOut": "Total paid",
+      "currency": "RWF",
+      "noValue": "—",
+      "deliveries": {
+        "title": "Deliveries record",
+        "date": "Date",
+        "receiptCode": "Receipt code",
+        "grade": "Grade",
+        "lot": "Lot",
+        "kg": "Kg",
+        "deduction": "Deduction",
+        "empty": "No deliveries recorded yet",
+        "total": "Total"
+      },
+      "lotShares": {
+        "title": "Lot shares",
+        "lot": "Lot",
+        "memberKg": "Member kg",
+        "lotKg": "Lot kg",
+        "sharePercent": "Share %",
+        "shareOfMoney": "Share of money",
+        "empty": "No lot shares yet",
+        "waitingForSale": "Waiting for sale"
+      },
+      "payments": {
+        "title": "Payments history",
+        "subtitle": "Showing all disbursements",
+        "date": "Date",
+        "amountPaid": "Amount paid",
+        "method": "Method",
+        "referenceCode": "Reference code",
+        "empty": "No payments yet",
+        "methods": {
+          "CASH": "Cash",
+          "MOBILE_MONEY": "MoMo",
+          "BANK": "Bank"
+        }
+      },
+      "grades": {
+        "Big": "Big",
+        "Normal": "Normal",
+        "Small": "Small"
+      }
+    },
+    "print": {
+      "statementAsOf": "Statement as of {{date}}"
+    }
   }
 }

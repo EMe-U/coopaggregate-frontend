@@ -33,8 +33,6 @@
   "pages": {
     "dashboard": "Ahabanza",
     "recordDelivery": "Andika Ibyagemuwe",
-    "members": "Abanyamuryango",
-    "memberDetail": "Amakuru y'Umunyamuryango",
     "lots": "Ibirundo n'Ububiko",
     "sales": "Ibyagurishijwe",
     "share": "Gabanya Amafaranga y'Ikirundo",
@@ -80,5 +78,161 @@
   "language": {
     "en": "English",
     "rw": "Kinyarwanda"
+  },
+  "members": {
+    "eyebrow": "Ububiko bw'abanyamuryango",
+    "title": "Gucunga Abanyamuryango",
+    "subtitle": "Reba abahinzi banditswe, uko bahagaze n'amakuru yabo.",
+    "add": "Ongeramo umunyamuryango",
+    "summary": {
+      "total": "Abanyamuryango bose",
+      "active": "Bakora",
+      "inactive": "Badakora",
+      "joinedThisMonth": "+{{count}} uku kwezi"
+    },
+    "search": {
+      "label": "Shakisha abanyamuryango",
+      "placeholder": "Shakisha ukoresheje izina, telefoni cyangwa indangamuntu"
+    },
+    "filter": {
+      "label": "Uko bahagaze:",
+      "all": "Bose",
+      "active": "Bakora",
+      "inactive": "Badakora"
+    },
+    "table": {
+      "memberId": "Nimero",
+      "fullName": "Amazina yose",
+      "phone": "Telefoni",
+      "nationalId": "Indangamuntu",
+      "joinDate": "Itariki yinjiriyeho",
+      "status": "Uko ahagaze",
+      "actions": "Ibikorwa",
+      "view": "Reba umunyamuryango",
+      "edit": "Hindura umunyamuryango"
+    },
+    "status": {
+      "ACTIVE": "Arakora",
+      "INACTIVE": "Ntakora"
+    },
+    "pagination": {
+      "showing": "Herekanywe {{from}}-{{to}} kuri {{total}}",
+      "previous": "Ibibanza",
+      "next": "Ibikurikira"
+    },
+    "empty": {
+      "title": "Nta munyamuryango uranditswe",
+      "message": "Ongeramo umunyamuryango wa mbere wa koperative.",
+      "noResults": "Nta munyamuryango wabonetse",
+      "noResultsMessage": "Gerageza irindi zina, telefoni cyangwa indangamuntu, cyangwa uhindure uko bahagaze."
+    },
+    "error": {
+      "load": "Ntibishobotse kubona abanyamuryango.",
+      "summary": "Ntibishobotse kubona umubare w'abanyamuryango.",
+      "retry": "Ongera ugerageze"
+    },
+    "form": {
+      "addTitle": "Ongeramo umunyamuryango",
+      "editTitle": "Hindura umunyamuryango",
+      "close": "Funga",
+      "fullName": "Amazina yose",
+      "phone": "Telefoni",
+      "phoneHint": "Urugero: 0788123456",
+      "nationalId": "Indangamuntu",
+      "optional": "(si ngombwa)",
+      "address": "Aho atuye",
+      "joinDate": "Itariki yinjiriyeho",
+      "preferredLanguage": "Ururimi ahitamo",
+      "cancel": "Hagarika",
+      "save": "Bika",
+      "saving": "Birabikwa...",
+      "saved": "Umunyamuryango yabitswe",
+      "errors": {
+        "fullNameRequired": "Andika amazina yose",
+        "phoneInvalid": "Andika nimero ya telefoni yo mu Rwanda, urugero 0788123456",
+        "nationalIdInvalid": "Indangamuntu igomba kugira imibare 16",
+        "joinDateRequired": "Hitamo itariki yinjiriyeho",
+        "joinDateFuture": "Itariki ntishobora kuba iri imbere",
+        "generic": "Ntibishobotse kubika umunyamuryango. Ongera ugerageze.",
+        "serverUnreachable": "Ntibishoboka kugera kuri seriveri. Reba murandasi yawe."
+      }
+    },
+    "detail": {
+      "back": "Subira ku banyamuryango",
+      "activeMember": "Umunyamuryango ukora",
+      "inactiveMember": "Umunyamuryango udakora",
+      "memberNumber": "Nimero: {{code}}",
+      "phone": "Telefoni",
+      "nationalId": "Indangamuntu",
+      "joinDate": "Itariki yinjiriyeho",
+      "notProvided": "Ntibyatanzwe",
+      "edit": "Hindura",
+      "deactivate": "Hagarika",
+      "activate": "Subizaho",
+      "confirmDeactivate": "Urashaka guhagarika {{name}}? Ibyo yagemuye, ubwishyu n'amateka ye bizagumaho, kandi ushobora kumusubizaho nyuma.",
+      "activated": "Umunyamuryango yasubijweho",
+      "deactivated": "Umunyamuryango yahagaritswe",
+      "statusError": "Ntibishobotse guhindura uko ahagaze. Ongera ugerageze.",
+      "sendSms": "Ohereza raporo kuri SMS",
+      "soon": "vuba",
+      "print": "Capa",
+      "notFound": "Umunyamuryango ntiyabonetse",
+      "notFoundMessage": "Nta munyamuryango ufite iyi nimero.",
+      "loadError": "Ntibishobotse kubona amakuru y'umunyamuryango."
+    },
+    "statement": {
+      "summaryTitle": "Incamake y'imari",
+      "netAmount": "Amafaranga agomba guhabwa",
+      "grossShare": "Umugabane wose",
+      "grossShareNote": "Uva ku birundo",
+      "deductions": "Ibikurwaho byose",
+      "deductionsNote": "Bikurwa kuri buri kilo",
+      "paidOut": "Ayishyuwe yose",
+      "currency": "RWF",
+      "noValue": "—",
+      "deliveries": {
+        "title": "Ibyo yagemuye",
+        "date": "Itariki",
+        "receiptCode": "Nimero ya resi",
+        "grade": "Urwego",
+        "lot": "Ikirundo",
+        "kg": "Kg",
+        "deduction": "Ibikurwaho",
+        "empty": "Nta byagemuwe biranditswe",
+        "total": "Igiteranyo"
+      },
+      "lotShares": {
+        "title": "Imigabane ku birundo",
+        "lot": "Ikirundo",
+        "memberKg": "Kg ze",
+        "lotKg": "Kg z'ikirundo",
+        "sharePercent": "Umugabane %",
+        "shareOfMoney": "Amafaranga ye",
+        "empty": "Nta migabane iranditswe",
+        "waitingForSale": "Bitegereje kugurishwa"
+      },
+      "payments": {
+        "title": "Amateka y'ubwishyu",
+        "subtitle": "Ubwishyu bwose",
+        "date": "Itariki",
+        "amountPaid": "Amafaranga yishyuwe",
+        "method": "Uburyo",
+        "referenceCode": "Nimero y'ikimenyetso",
+        "empty": "Nta bwishyu buranditswe",
+        "methods": {
+          "CASH": "Amafaranga mu ntoki",
+          "MOBILE_MONEY": "MoMo",
+          "BANK": "Banki"
+        }
+      },
+      "grades": {
+        "Big": "Binini",
+        "Normal": "Bisanzwe",
+        "Small": "Bito"
+      }
+    },
+    "print": {
+      "statementAsOf": "Raporo yo ku itariki ya {{date}}"
+    }
   }
 }
