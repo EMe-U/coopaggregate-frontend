@@ -209,7 +209,8 @@
         "lotKg": "Kg z'ikirundo",
         "sharePercent": "Umugabane %",
         "shareOfMoney": "Amafaranga ye",
-        "empty": "Nta migabane iranditswe"
+        "empty": "Nta migabane iranditswe",
+        "waitingForSale": "Bitegereje kugurishwa"
       },
       "payments": {
         "title": "Amateka y'ubwishyu",

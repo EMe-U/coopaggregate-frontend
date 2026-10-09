@@ -209,7 +209,8 @@
         "lotKg": "Lot kg",
         "sharePercent": "Share %",
         "shareOfMoney": "Share of money",
-        "empty": "No lot shares yet"
+        "empty": "No lot shares yet",
+        "waitingForSale": "Waiting for sale"
       },
       "payments": {
         "title": "Payments history",

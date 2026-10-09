@@ -125,22 +125,49 @@ function DeliveriesSection({ deliveries = [], totals }) {
   )
 }
 
+function LotSharesSection({ lotShares = [] }) {
+  const { t } = useTranslation()
+  const key = 'members.statement.lotShares'
+  const cell = 'whitespace-nowrap px-3 py-2'
+
+  return (
+    <StatementSection
+      icon={Banknote}
+      title={t(`${key}.title`)}
+      columns={['lot', 'memberKg', 'lotKg', 'sharePercent', 'shareOfMoney'].map((column) => t(`${key}.${column}`))}
+      rows={lotShares}
+      renderRow={(share) => (
+        <tr key={share.id}>
+          <td className={cell}>{share.lotCode}</td>
+          <td className={cell}>{formatKg(share.memberKg)}</td>
+          <td className={cell}>{formatKg(share.lotKg)}</td>
+          <td className={cell}>{share.sharePercent}%</td>
+          <td className={cell}>
+            {/* A lot that is not sold yet has no money to share. */}
+            {share.shareAmount == null ? (
+              <span className="rounded-full bg-warning/15 px-2 py-0.5 text-xs font-medium text-amber-700">
+                {t(`${key}.waitingForSale`)}
+              </span>
+            ) : (
+              formatMoney(share.shareAmount)
+            )}
+          </td>
+        </tr>
+      )}
+      emptyMessage={t(`${key}.empty`)}
+    />
+  )
+}
+
 export function StatementSections() {
   const { t } = useTranslation()
-  const lotShares = 'members.statement.lotShares'
   const payments = 'members.statement.payments'
 
   return (
     <>
       <div className="grid gap-6 lg:grid-cols-2">
         <DeliveriesSection />
-        <StatementSection
-          icon={Banknote}
-          title={t(`${lotShares}.title`)}
-          columns={['lot', 'memberKg', 'lotKg', 'sharePercent', 'shareOfMoney'].map((key) => t(`${lotShares}.${key}`))}
-          rows={[]}
-          emptyMessage={t(`${lotShares}.empty`)}
-        />
+        <LotSharesSection />
       </div>
       <StatementSection
         icon={ReceiptText}
