@@ -10,7 +10,7 @@ export default function TopBar({ onMenuClick }) {
   const isOnline = useOnlineStatus()
 
   return (
-    <header className="flex items-center gap-4 bg-surface px-4 py-3 shadow-sm md:px-6">
+    <header className="flex items-center gap-4 bg-surface px-4 py-3 shadow-sm md:px-6 print:hidden">
       <button
         type="button"
         className="text-text md:hidden"

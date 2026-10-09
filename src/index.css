@@ -16,3 +16,17 @@
 body {
   @apply bg-background text-text font-sans;
 }
+
+/* The sidebar, top bar and buttons are hidden with Tailwind's print: classes. */
+@media print {
+  @page {
+    margin: 12mm;
+  }
+
+  body {
+    background: white;
+    /* Keep the green summary card and badges in colour instead of letting the browser drop them. */
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}

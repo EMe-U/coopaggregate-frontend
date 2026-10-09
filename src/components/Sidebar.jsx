@@ -48,11 +48,11 @@ export default function Sidebar({ isOpen, onClose }) {
   return (
     <>
       {isOpen && (
-        <div className="fixed inset-0 z-30 bg-black/40 md:hidden" onClick={onClose} />
+        <div className="fixed inset-0 z-30 bg-black/40 md:hidden print:hidden" onClick={onClose} />
       )}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-40 flex w-64 flex-col bg-surface shadow-sm transition-transform md:static md:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-40 flex w-64 flex-col bg-surface shadow-sm transition-transform md:static md:translate-x-0 print:hidden ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >

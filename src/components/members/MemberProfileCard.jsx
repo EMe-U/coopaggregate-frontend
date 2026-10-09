@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { MessageSquare, Pencil } from 'lucide-react'
+import { MessageSquare, Pencil, Printer } from 'lucide-react'
 import Avatar from '../Avatar'
 import StatusBadge from '../StatusBadge'
 import { formatDate, formatPhone } from '../../utils/format'
@@ -67,6 +67,14 @@ export default function MemberProfileCard({ member, onEdit, children }) {
         >
           <Pencil size={16} />
           {t('members.detail.edit')}
+        </button>
+        <button
+          type="button"
+          onClick={() => window.print()}
+          className="flex items-center gap-2 rounded-lg border border-text/10 px-3 py-2 text-sm font-medium text-text hover:bg-background"
+        >
+          <Printer size={16} />
+          {t('members.detail.print')}
         </button>
         {children}
       </div>
