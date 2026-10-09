@@ -1,0 +1,75 @@
+import { useTranslation } from 'react-i18next'
+import { MessageSquare, Pencil } from 'lucide-react'
+import Avatar from '../Avatar'
+import StatusBadge from '../StatusBadge'
+import { formatDate, formatPhone } from '../../utils/format'
+
+function Detail({ label, children }) {
+  return (
+    <div>
+      <p className="text-xs font-medium uppercase tracking-wide text-muted">{label}</p>
+      <p className="mt-0.5 text-sm text-text">{children}</p>
+    </div>
+  )
+}
+
+export default function MemberProfileCard({ member, onEdit, children }) {
+  const { t } = useTranslation()
+  const active = member.status === 'ACTIVE'
+
+  return (
+    <div className="rounded-xl bg-surface p-5 shadow-sm">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <StatusBadge active={active}>
+          {active ? t('members.detail.activeMember') : t('members.detail.inactiveMember')}
+        </StatusBadge>
+        <span className="font-mono text-xs text-muted">
+          {t('members.detail.memberNumber', { code: member.memberCode })}
+        </span>
+      </div>
+
+      <div className="mt-4 flex items-center gap-4">
+        <Avatar
+          name={member.fullName}
+          size="lg"
+          className={active ? 'bg-primary text-white' : 'bg-muted text-white'}
+        />
+        <div className="min-w-0">
+          <h1 className="text-xl font-semibold text-text">{member.fullName}</h1>
+          {member.address && <p className="text-sm text-muted">{member.address}</p>}
+        </div>
+      </div>
+
+      <div className="mt-5 grid grid-cols-2 gap-4 border-t border-text/5 pt-4">
+        <Detail label={t('members.detail.phone')}>{formatPhone(member.phone)}</Detail>
+        <Detail label={t('members.detail.nationalId')}>
+          {member.nationalId ?? <span className="text-muted">{t('members.detail.notProvided')}</span>}
+        </Detail>
+        <Detail label={t('members.detail.joinDate')}>{formatDate(member.joinDate)}</Detail>
+      </div>
+
+      <div className="mt-5 flex flex-wrap gap-2 print:hidden">
+        <button
+          type="button"
+          disabled
+          className="flex cursor-not-allowed items-center gap-2 rounded-lg bg-primary/60 px-3 py-2 text-sm font-medium text-white"
+        >
+          <MessageSquare size={16} />
+          {t('members.detail.sendSms')}
+          <span className="rounded-full bg-white/20 px-1.5 py-0.5 text-[10px] uppercase">
+            {t('members.detail.soon')}
+          </span>
+        </button>
+        <button
+          type="button"
+          onClick={onEdit}
+          className="flex items-center gap-2 rounded-lg border border-text/10 px-3 py-2 text-sm font-medium text-text hover:bg-background"
+        >
+          <Pencil size={16} />
+          {t('members.detail.edit')}
+        </button>
+        {children}
+      </div>
+    </div>
+  )
+}
