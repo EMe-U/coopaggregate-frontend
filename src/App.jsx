@@ -8,6 +8,7 @@ import RecordDelivery from './pages/manager/RecordDelivery'
 import Members from './pages/manager/Members'
 import MemberDetail from './pages/manager/MemberDetail'
 import Lots from './pages/manager/Lots'
+import LotDetail from './pages/manager/LotDetail'
 import Sales from './pages/manager/Sales'
 import ShareLotMoney from './pages/manager/ShareLotMoney'
 import Payments from './pages/manager/Payments'
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="/members" element={<Members />} />
           <Route path="/members/:id" element={<MemberDetail />} />
           <Route path="/lots" element={<Lots />} />
+          <Route path="/lots/:id" element={<LotDetail />} />
           <Route path="/sales" element={<Sales />} />
           <Route path="/share" element={<ShareLotMoney />} />
           <Route path="/payments" element={<Payments />} />
