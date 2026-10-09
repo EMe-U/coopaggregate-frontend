@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, Boxes, TriangleAlert, Users } from 'lucide-react'
-import { getLot, listLosses } from '../../api/lots'
+import { ArrowLeft, Boxes, Lock, TriangleAlert, Users } from 'lucide-react'
+import { closeLot, getLot, listLosses } from '../../api/lots'
 import EmptyState from '../../components/EmptyState'
 import GradeName from '../../components/GradeName'
+import SuccessToast from '../../components/SuccessToast'
 import LotStatusBadge from '../../components/lots/LotStatusBadge'
 import { formatDate, formatKg, formatMoney } from '../../utils/format'
 
@@ -89,7 +90,28 @@ export default function LotDetail() {
   const [loadState, setLoadState] = useState('loading')
   const [reloadKey, setReloadKey] = useState(0)
 
+  const [closing, setClosing] = useState(false)
+  const [actionError, setActionError] = useState('')
+  const [notice, setNotice] = useState('')
+  const clearNotice = useCallback(() => setNotice(''), [])
+
   const reload = useCallback(() => setReloadKey((key) => key + 1), [])
+
+  async function handleClose() {
+    if (!window.confirm(t('lots.detail.confirmClose', { code: lot.code }))) return
+
+    setClosing(true)
+    setActionError('')
+    try {
+      await closeLot(lot.id)
+      setNotice(t('lots.detail.closedNotice'))
+      reload()
+    } catch (error) {
+      setActionError(error.response?.data?.message || t('lots.detail.closeError'))
+    } finally {
+      setClosing(false)
+    }
+  }
 
   useEffect(() => {
     let ignore = false
@@ -159,7 +181,27 @@ export default function LotDetail() {
             {lot.closedAt && <> · {t('lots.detail.closedOn', { date: formatDate(lot.closedAt) })}</>}
           </p>
         </div>
+
+        <div className="flex flex-wrap gap-2">
+          {lot.status === 'OPEN' && (
+            <button
+              type="button"
+              onClick={handleClose}
+              disabled={closing}
+              className="flex min-h-11 items-center gap-2 rounded-lg border border-text/10 bg-surface px-4 text-sm font-medium text-text hover:bg-background disabled:opacity-60"
+            >
+              <Lock size={16} />
+              {closing ? t('lots.detail.closing') : t('lots.detail.closeLot')}
+            </button>
+          )}
+        </div>
       </div>
+
+      {actionError && (
+        <p role="alert" className="rounded-lg bg-danger/10 px-3 py-2 text-sm text-danger">
+          {actionError}
+        </p>
+      )}
 
       <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-6">
         <Stat label={t('lots.detail.delivered')} value={formatKg(lot.deliveredKg)} />
@@ -212,6 +254,8 @@ export default function LotDetail() {
           <LossesList lotId={lot.id} reloadKey={reloadKey} />
         </Section>
       </div>
+
+      {notice && <SuccessToast message={notice} onDone={clearNotice} />}
     </div>
   )
 }
