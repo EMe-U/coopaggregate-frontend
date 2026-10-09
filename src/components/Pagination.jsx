@@ -26,7 +26,7 @@ export default function Pagination({ page, totalPages, summary, onPageChange }) 
             disabled={page === 0}
             onClick={() => onPageChange(page - 1)}
           >
-            {t('members.pagination.previous')}
+            {t('pagination.previous')}
           </button>
           {pageNumbers.map((number) => (
             <button
@@ -49,7 +49,7 @@ export default function Pagination({ page, totalPages, summary, onPageChange }) 
             disabled={page >= totalPages - 1}
             onClick={() => onPageChange(page + 1)}
           >
-            {t('members.pagination.next')}
+            {t('pagination.next')}
           </button>
         </div>
       )}

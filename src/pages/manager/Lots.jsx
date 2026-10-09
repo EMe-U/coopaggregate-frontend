@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Boxes } from 'lucide-react'
 import { getStock } from '../../api/lots'
 import PageTitle from '../../components/PageTitle'
+import LotsTable from '../../components/lots/LotsTable'
 import StockOverview from '../../components/lots/StockOverview'
 
 export default function Lots() {
@@ -33,6 +34,8 @@ export default function Lots() {
       </div>
 
       <StockOverview stock={stock} error={stockError} onRetry={loadStock} />
+
+      <LotsTable />
     </div>
   )
 }

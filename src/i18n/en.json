@@ -114,9 +114,7 @@
       "INACTIVE": "Inactive"
     },
     "pagination": {
-      "showing": "Showing {{from}}-{{to}} of {{total}} members",
-      "previous": "Previous",
-      "next": "Next"
+      "showing": "Showing {{from}}-{{to}} of {{total}} members"
     },
     "empty": {
       "title": "No members yet",
@@ -530,5 +528,9 @@
       "retry": "Try again",
       "showing": "Showing {{from}}-{{to}} of {{total}} sales"
     }
+  },
+  "pagination": {
+    "previous": "Previous",
+    "next": "Next"
   }
 }

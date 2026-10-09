@@ -114,9 +114,7 @@
       "INACTIVE": "Ntakora"
     },
     "pagination": {
-      "showing": "Herekanywe {{from}}-{{to}} kuri {{total}}",
-      "previous": "Ibibanza",
-      "next": "Ibikurikira"
+      "showing": "Herekanywe {{from}}-{{to}} kuri {{total}}"
     },
     "empty": {
       "title": "Nta munyamuryango uranditswe",
@@ -530,5 +528,9 @@
       "retry": "Ongera ugerageze",
       "showing": "Herekanywe {{from}}-{{to}} kuri {{total}}"
     }
+  },
+  "pagination": {
+    "previous": "Ibibanza",
+    "next": "Ibikurikira"
   }
 }
