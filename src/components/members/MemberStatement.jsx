@@ -22,7 +22,7 @@ export function FinancialSummaryCard() {
   const { t } = useTranslation()
 
   return (
-    <div className="flex h-full flex-col justify-between gap-6 rounded-xl bg-primary p-6 text-white shadow-sm">
+    <div className="flex h-full flex-col justify-between gap-6 rounded-xl bg-primary p-6 text-white shadow-sm print:break-inside-avoid">
       <div>
         <p className="text-xs font-medium uppercase tracking-wide text-white/70">
           {t('members.statement.summaryTitle')}
@@ -41,7 +41,7 @@ export function FinancialSummaryCard() {
 
 function StatementSection({ icon: Icon, title, subtitle, columns, rows, renderRow, totalsRow, emptyMessage }) {
   return (
-    <section className="rounded-xl bg-surface p-5 shadow-sm">
+    <section className="rounded-xl bg-surface p-5 shadow-sm print:break-inside-avoid">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
         <h2 className="flex items-center gap-2 font-semibold text-text">
           <Icon size={18} className="text-primary" />

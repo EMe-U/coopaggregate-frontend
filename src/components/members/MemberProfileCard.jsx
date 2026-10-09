@@ -21,9 +21,9 @@ export default function MemberProfileCard({ member, onEdit, onToggleActive, chan
   const active = member.status === 'ACTIVE'
 
   return (
-    <div className="rounded-xl bg-surface p-5 shadow-sm">
-      <div className="flex flex-wrap items-start justify-between gap-2">
-        <div className="flex flex-wrap items-center gap-2">
+    <div className="rounded-xl bg-surface p-5 shadow-sm print:break-inside-avoid">
+      <div className="flex items-start justify-between gap-2">
+        <div className="flex flex-col items-start gap-1">
           <StatusBadge active={active}>
             {active ? t('members.detail.activeMember') : t('members.detail.inactiveMember')}
           </StatusBadge>
