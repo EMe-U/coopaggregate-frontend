@@ -20,7 +20,7 @@ import { useAuth } from '../context/AuthContext'
 
 const menuItems = [
   { to: '/dashboard', labelKey: 'nav.dashboard', icon: LayoutDashboard },
-  { to: '/deliveries/new', labelKey: 'nav.recordDelivery', icon: PackagePlus },
+  { to: '/record-delivery', labelKey: 'nav.recordDelivery', icon: PackagePlus },
   { to: '/members', labelKey: 'nav.members', icon: Users },
   { to: '/lots', labelKey: 'nav.lots', icon: Boxes },
   { to: '/sales', labelKey: 'nav.sales', icon: ShoppingCart },

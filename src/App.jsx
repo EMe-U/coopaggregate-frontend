@@ -26,7 +26,7 @@ export default function App() {
       <Route element={<ProtectedRoute />}>
         <Route element={<Layout />}>
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/deliveries/new" element={<RecordDelivery />} />
+          <Route path="/record-delivery" element={<RecordDelivery />} />
           <Route path="/members" element={<Members />} />
           <Route path="/members/:id" element={<MemberDetail />} />
           <Route path="/lots" element={<Lots />} />
