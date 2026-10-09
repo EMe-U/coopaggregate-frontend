@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, Boxes, Lock, TriangleAlert, Users } from 'lucide-react'
+import { ArrowLeft, Boxes, HandCoins, Lock, TriangleAlert, Users } from 'lucide-react'
 import { closeLot, getLot, listLosses } from '../../api/lots'
 import EmptyState from '../../components/EmptyState'
 import GradeName from '../../components/GradeName'
 import SuccessToast from '../../components/SuccessToast'
+import LossModal from '../../components/lots/LossModal'
 import LotStatusBadge from '../../components/lots/LotStatusBadge'
 import { formatDate, formatKg, formatMoney } from '../../utils/format'
 
@@ -85,17 +86,25 @@ function LossesList({ lotId, reloadKey }) {
 export default function LotDetail() {
   const { t } = useTranslation()
   const { id } = useParams()
+  const navigate = useNavigate()
 
   const [lot, setLot] = useState(null)
   const [loadState, setLoadState] = useState('loading')
   const [reloadKey, setReloadKey] = useState(0)
 
   const [closing, setClosing] = useState(false)
+  const [recordingLoss, setRecordingLoss] = useState(false)
   const [actionError, setActionError] = useState('')
   const [notice, setNotice] = useState('')
   const clearNotice = useCallback(() => setNotice(''), [])
 
   const reload = useCallback(() => setReloadKey((key) => key + 1), [])
+
+  function handleLossSaved() {
+    setRecordingLoss(false)
+    setNotice(t('lots.loss.saved'))
+    reload()
+  }
 
   async function handleClose() {
     if (!window.confirm(t('lots.detail.confirmClose', { code: lot.code }))) return
@@ -166,6 +175,10 @@ export default function LotDetail() {
     return <div className="h-64 animate-pulse rounded-xl bg-surface shadow-sm" />
   }
 
+  const hasStock = Number(lot.remainingKg) > 0
+  const canRecordLoss = (lot.status === 'OPEN' || lot.status === 'CLOSED') && hasStock
+  const canSell = lot.status === 'CLOSED' && hasStock
+
   return (
     <div className="space-y-6">
       {backLink}
@@ -192,6 +205,26 @@ export default function LotDetail() {
             >
               <Lock size={16} />
               {closing ? t('lots.detail.closing') : t('lots.detail.closeLot')}
+            </button>
+          )}
+          {canRecordLoss && (
+            <button
+              type="button"
+              onClick={() => setRecordingLoss(true)}
+              className="flex min-h-11 items-center gap-2 rounded-lg border border-danger/30 bg-surface px-4 text-sm font-medium text-danger hover:bg-danger/5"
+            >
+              <TriangleAlert size={16} />
+              {t('lots.detail.recordLoss')}
+            </button>
+          )}
+          {canSell && (
+            <button
+              type="button"
+              onClick={() => navigate(`/sales?lotId=${lot.id}`)}
+              className="flex min-h-11 items-center gap-2 rounded-lg bg-primary px-4 text-sm font-semibold text-white hover:bg-primary/90"
+            >
+              <HandCoins size={16} />
+              {t('lots.detail.recordSale')}
             </button>
           )}
         </div>
@@ -255,6 +288,9 @@ export default function LotDetail() {
         </Section>
       </div>
 
+      {recordingLoss && (
+        <LossModal lot={lot} onClose={() => setRecordingLoss(false)} onSaved={handleLossSaved} />
+      )}
       {notice && <SuccessToast message={notice} onDone={clearNotice} />}
     </div>
   )
