@@ -19,6 +19,17 @@ export function formatDate(isoDate) {
   return `${day}/${month}/${year}`
 }
 
+const numberFormat = new Intl.NumberFormat('en-US')
+
+// Display only. Amounts are always calculated by the backend.
+export function formatMoney(amount) {
+  return `${numberFormat.format(amount)} RWF`
+}
+
+export function formatKg(kg) {
+  return `${numberFormat.format(kg)} kg`
+}
+
 export function todayIso() {
   const now = new Date()
   const month = String(now.getMonth() + 1).padStart(2, '0')

@@ -199,7 +199,8 @@
         "lot": "Ikirundo",
         "kg": "Kg",
         "deduction": "Ibikurwaho",
-        "empty": "Nta byagemuwe biranditswe"
+        "empty": "Nta byagemuwe biranditswe",
+        "total": "Igiteranyo"
       },
       "lotShares": {
         "title": "Imigabane ku birundo",
@@ -219,6 +220,11 @@
         "referenceCode": "Nimero y'ikimenyetso",
         "status": "Uko bihagaze",
         "empty": "Nta bwishyu buranditswe"
+      },
+      "grades": {
+        "Big": "Binini",
+        "Normal": "Bisanzwe",
+        "Small": "Bito"
       }
     },
     "print": {

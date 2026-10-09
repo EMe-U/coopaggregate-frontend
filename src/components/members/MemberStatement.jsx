@@ -1,8 +1,10 @@
 import { useTranslation } from 'react-i18next'
 import { Banknote, ReceiptText, Truck } from 'lucide-react'
+import { formatDate, formatKg, formatMoney } from '../../utils/format'
 
-// The amounts and tables below will be filled from the backend once deliveries,
-// lot shares and payments exist. Until then they show empty values on purpose.
+// Deliveries, lot shares and payments are not loaded yet, so every section shows its empty
+// state and the summary shows no amounts. Row field names follow the backend entities and
+// must be checked when those endpoints are built. Totals come from the backend as well.
 
 function SummaryBox({ label, note }) {
   const { t } = useTranslation()
@@ -11,7 +13,7 @@ function SummaryBox({ label, note }) {
     <div className="rounded-lg bg-white/10 p-4">
       <p className="text-xs text-white/70">{label}</p>
       <p className="mt-1 text-lg font-semibold">{t('members.statement.noValue')}</p>
-      <p className="mt-0.5 text-xs text-white/60">{note}</p>
+      {note && <p className="mt-0.5 text-xs text-white/60">{note}</p>}
     </div>
   )
 }
@@ -37,7 +39,7 @@ export function FinancialSummaryCard() {
   )
 }
 
-function StatementSection({ icon: Icon, title, subtitle, columns, emptyMessage }) {
+function StatementSection({ icon: Icon, title, subtitle, columns, rows, renderRow, totalsRow, emptyMessage }) {
   return (
     <section className="rounded-xl bg-surface p-5 shadow-sm">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
@@ -58,38 +60,85 @@ function StatementSection({ icon: Icon, title, subtitle, columns, emptyMessage }
               ))}
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td colSpan={columns.length} className="px-3 py-8 text-center text-sm text-muted">
-                {emptyMessage}
-              </td>
-            </tr>
+          <tbody className="divide-y divide-text/5">
+            {rows.length === 0 ? (
+              <tr>
+                <td colSpan={columns.length} className="px-3 py-8 text-center text-sm text-muted">
+                  {emptyMessage}
+                </td>
+              </tr>
+            ) : (
+              rows.map(renderRow)
+            )}
           </tbody>
+          {rows.length > 0 && totalsRow && (
+            <tfoot className="border-t-2 border-text/10 font-semibold">{totalsRow}</tfoot>
+          )}
         </table>
       </div>
     </section>
   )
 }
 
+function GradeName({ name }) {
+  const { t } = useTranslation()
+  // Grade names come from the grade table; unknown names are shown as they are.
+  return t(`members.statement.grades.${name}`, { defaultValue: name })
+}
+
+function DeliveriesSection({ deliveries = [], totals }) {
+  const { t } = useTranslation()
+  const key = 'members.statement.deliveries'
+  const cell = 'whitespace-nowrap px-3 py-2'
+
+  return (
+    <StatementSection
+      icon={Truck}
+      title={t(`${key}.title`)}
+      columns={['date', 'receiptCode', 'grade', 'lot', 'kg', 'deduction'].map((column) => t(`${key}.${column}`))}
+      rows={deliveries}
+      renderRow={(delivery) => (
+        <tr key={delivery.id}>
+          <td className={cell}>{formatDate(delivery.deliveredAt?.slice(0, 10))}</td>
+          <td className={`${cell} font-mono text-xs`}>{delivery.receiptCode}</td>
+          <td className={cell}>
+            <GradeName name={delivery.gradeName} />
+          </td>
+          <td className={cell}>{delivery.lotCode}</td>
+          <td className={cell}>{formatKg(delivery.quantityKg)}</td>
+          <td className={cell}>{formatMoney(delivery.deductionAmount)}</td>
+        </tr>
+      )}
+      totalsRow={
+        totals && (
+          <tr>
+            <td colSpan={4} className={cell}>
+              {t(`${key}.total`)}
+            </td>
+            <td className={cell}>{formatKg(totals.totalKg)}</td>
+            <td className={cell}>{formatMoney(totals.totalDeduction)}</td>
+          </tr>
+        )
+      }
+      emptyMessage={t(`${key}.empty`)}
+    />
+  )
+}
+
 export function StatementSections() {
   const { t } = useTranslation()
-  const deliveries = 'members.statement.deliveries'
   const lotShares = 'members.statement.lotShares'
   const payments = 'members.statement.payments'
 
   return (
     <>
       <div className="grid gap-6 lg:grid-cols-2">
-        <StatementSection
-          icon={Truck}
-          title={t(`${deliveries}.title`)}
-          columns={['date', 'receiptCode', 'grade', 'lot', 'kg', 'deduction'].map((key) => t(`${deliveries}.${key}`))}
-          emptyMessage={t(`${deliveries}.empty`)}
-        />
+        <DeliveriesSection />
         <StatementSection
           icon={Banknote}
           title={t(`${lotShares}.title`)}
           columns={['lot', 'memberKg', 'lotKg', 'sharePercent', 'shareOfMoney'].map((key) => t(`${lotShares}.${key}`))}
+          rows={[]}
           emptyMessage={t(`${lotShares}.empty`)}
         />
       </div>
@@ -98,6 +147,7 @@ export function StatementSections() {
         title={t(`${payments}.title`)}
         subtitle={t(`${payments}.subtitle`)}
         columns={['date', 'amountPaid', 'method', 'referenceCode', 'status'].map((key) => t(`${payments}.${key}`))}
+        rows={[]}
         emptyMessage={t(`${payments}.empty`)}
       />
     </>

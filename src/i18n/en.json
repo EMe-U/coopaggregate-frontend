@@ -199,7 +199,8 @@
         "lot": "Lot",
         "kg": "Kg",
         "deduction": "Deduction",
-        "empty": "No deliveries recorded yet"
+        "empty": "No deliveries recorded yet",
+        "total": "Total"
       },
       "lotShares": {
         "title": "Lot shares",
@@ -219,6 +220,11 @@
         "referenceCode": "Reference code",
         "status": "Status",
         "empty": "No payments yet"
+      },
+      "grades": {
+        "Big": "Big",
+        "Normal": "Normal",
+        "Small": "Small"
       }
     },
     "print": {
