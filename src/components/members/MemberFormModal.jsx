@@ -50,6 +50,22 @@ function validate(request) {
   return errors
 }
 
+// The backend sends all field errors in one message: "fullName: is required; phone: must be ...".
+function parseFieldErrors(message, fields) {
+  const fieldErrors = {}
+  const otherErrors = []
+  for (const part of message.split('; ')) {
+    const separator = part.indexOf(': ')
+    const field = part.slice(0, separator)
+    if (separator > 0 && fields.includes(field)) {
+      fieldErrors[field] = part.slice(separator + 2)
+    } else {
+      otherErrors.push(part)
+    }
+  }
+  return { fieldErrors, otherErrors }
+}
+
 const inputClass =
   'w-full rounded-md border border-text/10 bg-surface px-3 py-2 text-sm text-text outline-none focus:border-primary focus:ring-2 focus:ring-primary/20'
 
@@ -104,10 +120,25 @@ export default function MemberFormModal({ member, onClose, onSaved }) {
       const saved = isEdit ? await updateMember(member.id, request) : await createMember(request)
       onSaved(saved)
     } catch (error) {
-      setFormError(
-        error.response ? t('members.form.errors.generic') : t('members.form.errors.serverUnreachable'),
-      )
+      showServerError(error, Object.keys(request))
       setSaving(false)
+    }
+  }
+
+  function showServerError(error, fields) {
+    const status = error.response?.status
+    const message = error.response?.data?.message
+
+    if (!error.response) {
+      setFormError(t('members.form.errors.serverUnreachable'))
+    } else if (status === 400 && message) {
+      const { fieldErrors: serverErrors, otherErrors } = parseFieldErrors(message, fields)
+      setFieldErrors(serverErrors)
+      if (otherErrors.length > 0) setFormError(otherErrors.join(' '))
+    } else if (status === 409 && message) {
+      setFormError(message)
+    } else {
+      setFormError(t('members.form.errors.generic'))
     }
   }
 
