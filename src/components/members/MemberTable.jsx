@@ -40,46 +40,48 @@ export default function MemberTable({ members, onEdit }) {
 
   return (
     <>
-      <table className="hidden w-full text-left text-sm md:table">
-        <thead className="bg-background text-xs uppercase tracking-wide text-muted">
-          <tr>
-            <th className="px-4 py-3 font-semibold">{t('members.table.memberId')}</th>
-            <th className="px-4 py-3 font-semibold">{t('members.table.fullName')}</th>
-            <th className="px-4 py-3 font-semibold">{t('members.table.phone')}</th>
-            <th className="px-4 py-3 font-semibold">{t('members.table.nationalId')}</th>
-            <th className="px-4 py-3 font-semibold">{t('members.table.joinDate')}</th>
-            <th className="px-4 py-3 font-semibold">{t('members.table.status')}</th>
-            <th className="px-4 py-3 font-semibold">{t('members.table.actions')}</th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-text/5">
-          {members.map((member) => (
-            <tr key={member.id}>
-              <td className="whitespace-nowrap px-4 py-3 font-medium text-primary">{member.memberCode}</td>
-              <td className="px-4 py-3">
-                <div className="flex items-center gap-3">
-                  <Avatar name={member.fullName} className={avatarClass(member)} />
-                  <div>
-                    <p className="font-medium text-text">{member.fullName}</p>
-                    {member.address && <p className="text-xs text-muted">{member.address}</p>}
-                  </div>
-                </div>
-              </td>
-              <td className="whitespace-nowrap px-4 py-3">{formatPhone(member.phone)}</td>
-              <td className="whitespace-nowrap px-4 py-3 font-mono text-xs">{maskNationalId(member.nationalId)}</td>
-              <td className="whitespace-nowrap px-4 py-3">{formatDate(member.joinDate)}</td>
-              <td className="px-4 py-3">
-                <StatusBadge active={member.status === 'ACTIVE'}>
-                  {t(`members.status.${member.status}`)}
-                </StatusBadge>
-              </td>
-              <td className="px-4 py-3">
-                <MemberActions member={member} onEdit={onEdit} />
-              </td>
+      <div className="hidden overflow-x-auto md:block">
+        <table className="w-full text-left text-sm">
+          <thead className="bg-background text-xs uppercase tracking-wide text-muted">
+            <tr>
+              <th className="px-4 py-3 font-semibold">{t('members.table.memberId')}</th>
+              <th className="px-4 py-3 font-semibold">{t('members.table.fullName')}</th>
+              <th className="px-4 py-3 font-semibold">{t('members.table.phone')}</th>
+              <th className="px-4 py-3 font-semibold">{t('members.table.nationalId')}</th>
+              <th className="px-4 py-3 font-semibold">{t('members.table.joinDate')}</th>
+              <th className="px-4 py-3 font-semibold">{t('members.table.status')}</th>
+              <th className="px-4 py-3 font-semibold">{t('members.table.actions')}</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className="divide-y divide-text/5">
+            {members.map((member) => (
+              <tr key={member.id}>
+                <td className="whitespace-nowrap px-4 py-3 font-medium text-primary">{member.memberCode}</td>
+                <td className="px-4 py-3">
+                  <div className="flex items-center gap-3">
+                    <Avatar name={member.fullName} className={avatarClass(member)} />
+                    <div>
+                      <p className="font-medium text-text">{member.fullName}</p>
+                      {member.address && <p className="text-xs text-muted">{member.address}</p>}
+                    </div>
+                  </div>
+                </td>
+                <td className="whitespace-nowrap px-4 py-3">{formatPhone(member.phone)}</td>
+                <td className="whitespace-nowrap px-4 py-3 font-mono text-xs">{maskNationalId(member.nationalId)}</td>
+                <td className="whitespace-nowrap px-4 py-3">{formatDate(member.joinDate)}</td>
+                <td className="px-4 py-3">
+                  <StatusBadge active={member.status === 'ACTIVE'}>
+                    {t(`members.status.${member.status}`)}
+                  </StatusBadge>
+                </td>
+                <td className="px-4 py-3">
+                  <MemberActions member={member} onEdit={onEdit} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       <ul className="divide-y divide-text/5 md:hidden">
         {members.map((member) => (

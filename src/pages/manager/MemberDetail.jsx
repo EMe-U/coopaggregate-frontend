@@ -125,7 +125,7 @@ export default function MemberDetail() {
       </header>
 
       <div className="grid gap-6 lg:grid-cols-5">
-        <div className="lg:col-span-2">
+        <div className="min-w-0 lg:col-span-2">
           <MemberProfileCard
             member={member}
             onEdit={() => setEditing(true)}
@@ -138,7 +138,7 @@ export default function MemberDetail() {
             </p>
           )}
         </div>
-        <div className="lg:col-span-3">
+        <div className="min-w-0 lg:col-span-3">
           <FinancialSummaryCard />
         </div>
       </div>

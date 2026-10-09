@@ -41,7 +41,7 @@ export function FinancialSummaryCard() {
 
 function StatementSection({ icon: Icon, title, subtitle, columns, rows, renderRow, totalsRow, emptyMessage }) {
   return (
-    <section className="rounded-xl bg-surface p-5 shadow-sm print:break-inside-avoid">
+    <section className="min-w-0 rounded-xl bg-surface p-5 shadow-sm print:break-inside-avoid">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
         <h2 className="flex items-center gap-2 font-semibold text-text">
           <Icon size={18} className="text-primary" />
