@@ -87,7 +87,7 @@
     "summary": {
       "total": "Abanyamuryango bose",
       "active": "Bakora",
-      "inactive": "Bahagaritswe",
+      "inactive": "Badakora",
       "joinedThisMonth": "+{{count}} uku kwezi"
     },
     "search": {
@@ -98,7 +98,7 @@
       "label": "Uko bahagaze:",
       "all": "Bose",
       "active": "Bakora",
-      "inactive": "Bahagaritswe"
+      "inactive": "Badakora"
     },
     "table": {
       "memberId": "Nimero",
@@ -113,7 +113,7 @@
     },
     "status": {
       "ACTIVE": "Arakora",
-      "INACTIVE": "Yahagaritswe"
+      "INACTIVE": "Ntakora"
     },
     "pagination": {
       "showing": "Herekanywe {{from}}-{{to}} kuri {{total}}",
@@ -160,7 +160,7 @@
     "detail": {
       "back": "Subira ku banyamuryango",
       "activeMember": "Umunyamuryango ukora",
-      "inactiveMember": "Umunyamuryango wahagaritswe",
+      "inactiveMember": "Umunyamuryango udakora",
       "memberNumber": "Nimero: {{code}}",
       "phone": "Telefoni",
       "nationalId": "Indangamuntu",
