@@ -8,6 +8,8 @@ import Pagination from '../../components/Pagination'
 import MemberSummaryCards from '../../components/members/MemberSummaryCards'
 import MemberTable from '../../components/members/MemberTable'
 import MemberFilters from '../../components/members/MemberFilters'
+import MemberFormModal from '../../components/members/MemberFormModal'
+import SuccessToast from '../../components/SuccessToast'
 import useDebouncedValue from '../../hooks/useDebouncedValue'
 
 const PAGE_SIZE = 10
@@ -28,6 +30,11 @@ export default function Members() {
   const [loading, setLoading] = useState(true)
   const [loadError, setLoadError] = useState(false)
   const [reloadKey, setReloadKey] = useState(0)
+
+  // form is null when closed; form.member is null when adding a new member.
+  const [form, setForm] = useState(null)
+  const [notice, setNotice] = useState('')
+  const clearNotice = useCallback(() => setNotice(''), [])
 
   const loadSummary = useCallback(() => {
     setSummaryError(false)
@@ -72,7 +79,12 @@ export default function Members() {
     setPage(0)
   }
 
-  function handleEdit() {}
+  function handleSaved() {
+    setForm(null)
+    setNotice(t('members.form.saved'))
+    setReloadKey((key) => key + 1)
+    loadSummary()
+  }
 
   function renderList() {
     if (loadError) {
@@ -117,7 +129,7 @@ export default function Members() {
 
     return (
       <div className={loading ? 'opacity-60' : undefined}>
-        <MemberTable members={result.content} onEdit={handleEdit} />
+        <MemberTable members={result.content} onEdit={(member) => setForm({ member })} />
         <div className="border-t border-text/5 bg-background/60 px-4 py-3">
           <Pagination
             page={result.page}
@@ -143,6 +155,7 @@ export default function Members() {
         </div>
         <button
           type="button"
+          onClick={() => setForm({ member: null })}
           className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-primary/90"
         >
           <UserPlus size={16} />
@@ -160,6 +173,11 @@ export default function Members() {
       />
 
       <div className="overflow-hidden rounded-xl bg-surface shadow-sm">{renderList()}</div>
+
+      {form && (
+        <MemberFormModal member={form.member} onClose={() => setForm(null)} onSaved={handleSaved} />
+      )}
+      {notice && <SuccessToast message={notice} onDone={clearNotice} />}
     </div>
   )
 }
