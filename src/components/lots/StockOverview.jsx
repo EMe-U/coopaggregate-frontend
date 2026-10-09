@@ -83,7 +83,7 @@ export default function StockOverview({ stock, error, onRetry }) {
   return (
     <div className="space-y-4">
       <BalanceBanner stock={stock} />
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(11rem,1fr))] gap-4">
         {stock.byGrade.map((grade) => (
           <StockCard
             key={grade.gradeName}

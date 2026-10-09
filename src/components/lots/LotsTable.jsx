@@ -105,7 +105,7 @@ export default function LotsTable({ reloadKey }) {
           <table className="w-full text-left text-sm">
             <thead className="bg-background text-xs uppercase tracking-wide text-muted">
               <tr>
-                {['lot', 'grade', 'dates', 'delivered', 'sold', 'lost', 'inStock', 'members', 'saleAmount', 'status'].map(
+                {['lot', 'grade', 'status', 'dates', 'delivered', 'sold', 'lost', 'inStock', 'members', 'saleAmount'].map(
                   (column) => (
                     <th key={column} className="whitespace-nowrap px-3 py-3 font-semibold">
                       {t(`lots.table.${column}`)}
@@ -129,6 +129,9 @@ export default function LotsTable({ reloadKey }) {
                   <td className={cell}>
                     <GradeName name={lot.gradeName} />
                   </td>
+                  <td className={cell}>
+                    <LotStatusBadge status={lot.status} />
+                  </td>
                   <td className={`${cell} text-xs text-muted`}>
                     <LotDates lot={lot} />
                   </td>
@@ -139,9 +142,6 @@ export default function LotsTable({ reloadKey }) {
                   <td className={cell}>{lot.memberCount}</td>
                   <td className={cell}>
                     <SaleAmount amount={lot.saleAmountRwf} />
-                  </td>
-                  <td className={cell}>
-                    <LotStatusBadge status={lot.status} />
                   </td>
                 </tr>
               ))}
