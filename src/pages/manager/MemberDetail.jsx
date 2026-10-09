@@ -7,6 +7,7 @@ import EmptyState from '../../components/EmptyState'
 import SuccessToast from '../../components/SuccessToast'
 import MemberFormModal from '../../components/members/MemberFormModal'
 import MemberProfileCard from '../../components/members/MemberProfileCard'
+import { FinancialSummaryCard, StatementSections } from '../../components/members/MemberStatement'
 
 export default function MemberDetail() {
   const { t } = useTranslation()
@@ -92,7 +93,12 @@ export default function MemberDetail() {
         <div className="lg:col-span-2">
           <MemberProfileCard member={member} onEdit={() => setEditing(true)} />
         </div>
+        <div className="lg:col-span-3">
+          <FinancialSummaryCard />
+        </div>
       </div>
+
+      <StatementSections />
 
       {editing && (
         <MemberFormModal member={member} onClose={() => setEditing(false)} onSaved={handleSaved} />
