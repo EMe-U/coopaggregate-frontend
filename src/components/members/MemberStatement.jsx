@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { Banknote, ReceiptText, Truck } from 'lucide-react'
 import { formatDate, formatKg, formatMoney } from '../../utils/format'
+import GradeName from '../GradeName'
 
 // Deliveries, lot shares and payments are not loaded yet, so every section shows its empty
 // state and the summary shows no amounts. Row field names follow the backend entities and
@@ -78,12 +79,6 @@ function StatementSection({ icon: Icon, title, subtitle, columns, rows, renderRo
       </div>
     </section>
   )
-}
-
-function GradeName({ name }) {
-  const { t } = useTranslation()
-  // Grade names come from the grade table; unknown names are shown as they are.
-  return t(`members.statement.grades.${name}`, { defaultValue: name })
 }
 
 function DeliveriesSection({ deliveries = [], totals }) {

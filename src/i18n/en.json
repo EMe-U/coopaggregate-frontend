@@ -224,15 +224,110 @@
           "MOBILE_MONEY": "MoMo",
           "BANK": "Bank"
         }
-      },
-      "grades": {
-        "Big": "Big",
-        "Normal": "Normal",
-        "Small": "Small"
       }
     },
     "print": {
       "statementAsOf": "Statement as of {{date}}"
     }
+  },
+  "deliveries": {
+    "title": "Record member delivery",
+    "member": {
+      "label": "Search member (name, phone or member number)",
+      "placeholder": "Type a name, phone or member number",
+      "searching": "Searching...",
+      "noResults": "No active member found",
+      "error": "Could not search members.",
+      "change": "Change"
+    },
+    "grade": {
+      "label": "Quality grade",
+      "error": "Could not load grades.",
+      "none": "No grades are set up.",
+      "retry": "Try again"
+    },
+    "date": {
+      "label": "Delivery date"
+    },
+    "quantity": {
+      "label": "Quantity (kg)",
+      "unit": "kg"
+    },
+    "lot": {
+      "title": "Lot assignment and deductions",
+      "chooseGrade": "Choose a grade to see which lot this delivery goes to.",
+      "checking": "Checking the open lot...",
+      "existing": "Will be added to lot {{code}} (open)",
+      "newLot": "A new lot will be started for this grade",
+      "error": "Could not check the open lot.",
+      "deduction": "Cooperative deduction: {{kg}} kg × {{rate}} RWF = {{amount}}",
+      "deductionHint": "Enter the quantity to see the deduction.",
+      "note": "No price is entered now. The member is paid after the lot is sold."
+    },
+    "duplicate": {
+      "title": "Possible duplicate delivery",
+      "message_one": "This member delivered {{kg}} kg {{count}} minute ago. Is this a duplicate?",
+      "message_other": "This member delivered {{kg}} kg {{count}} minutes ago. Is this a duplicate?"
+    },
+    "offline": {
+      "title": "You are offline",
+      "message": "Offline saving is coming soon. Connect to the internet to save this delivery."
+    },
+    "save": "Save delivery",
+    "saving": "Saving...",
+    "errors": {
+      "memberRequired": "Choose a member",
+      "gradeRequired": "Choose a grade",
+      "quantityRequired": "Enter the quantity",
+      "quantityInvalid": "Enter a number above 0 with at most 2 decimals",
+      "quantityTooLarge": "The quantity must be at most 5,000 kg",
+      "dateRequired": "Choose the delivery date",
+      "dateFuture": "The delivery date cannot be in the future",
+      "generic": "Could not save the delivery. Please try again.",
+      "serverUnreachable": "Cannot reach the server. Check your connection and try again."
+    },
+    "receipt": {
+      "title": "Delivery receipt",
+      "member": "Member",
+      "dateTime": "Date and time",
+      "gradeLot": "Grade and lot",
+      "gradeLotValue": "{{grade}} (lot {{lot}})",
+      "quantity": "Quantity",
+      "deduction": "Deduction",
+      "print": "Print receipt",
+      "recordAnother": "Record another",
+      "viewMember": "View member"
+    },
+    "tips": {
+      "title": "Manager tips",
+      "text": "Make sure the scale shows zero before weighing. The duplicate warning shows when the same member delivered in the last 15 minutes."
+    },
+    "today": {
+      "title": "Today's deliveries",
+      "total_one": "Total today: {{kg}} ({{count}} record)",
+      "total_other": "Total today: {{kg}} ({{count}} records)",
+      "code": "Code",
+      "member": "Member",
+      "grade": "Grade",
+      "lot": "Lot",
+      "kg": "Kg",
+      "deduction": "Deduction",
+      "time": "Time",
+      "actions": "Actions",
+      "view": "View",
+      "empty": "No deliveries recorded today.",
+      "error": "Could not load today's deliveries.",
+      "retry": "Try again"
+    },
+    "memberSection": {
+      "loading": "Loading deliveries...",
+      "error": "Could not load deliveries.",
+      "showing": "Showing {{from}}-{{to}} of {{total}} deliveries"
+    }
+  },
+  "grades": {
+    "Big": "Big",
+    "Normal": "Normal",
+    "Small": "Small"
   }
 }

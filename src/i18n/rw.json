@@ -224,15 +224,110 @@
           "MOBILE_MONEY": "MoMo",
           "BANK": "Banki"
         }
-      },
-      "grades": {
-        "Big": "Binini",
-        "Normal": "Bisanzwe",
-        "Small": "Bito"
       }
     },
     "print": {
       "statementAsOf": "Raporo yo ku itariki ya {{date}}"
     }
+  },
+  "deliveries": {
+    "title": "Andika ibyo umunyamuryango yagemuye",
+    "member": {
+      "label": "Shakisha umunyamuryango (izina, telefoni cyangwa nimero)",
+      "placeholder": "Andika izina, telefoni cyangwa nimero",
+      "searching": "Birashakishwa...",
+      "noResults": "Nta munyamuryango ukora wabonetse",
+      "error": "Ntibishobotse gushakisha abanyamuryango.",
+      "change": "Hindura"
+    },
+    "grade": {
+      "label": "Urwego rw'ubwiza",
+      "error": "Ntibishobotse kubona inzego.",
+      "none": "Nta nzego zashyizweho.",
+      "retry": "Ongera ugerageze"
+    },
+    "date": {
+      "label": "Itariki yagemuriyeho"
+    },
+    "quantity": {
+      "label": "Ingano (kg)",
+      "unit": "kg"
+    },
+    "lot": {
+      "title": "Ikirundo n'ibikurwaho",
+      "chooseGrade": "Hitamo urwego kugira ngo urebe ikirundo bizajyamo.",
+      "checking": "Turimo kureba ikirundo gifunguye...",
+      "existing": "Bizongerwa ku kirundo {{code}} (gifunguye)",
+      "newLot": "Hazatangizwa ikirundo gishya cy'uru rwego",
+      "error": "Ntibishobotse kureba ikirundo gifunguye.",
+      "deduction": "Ibikurwaho na koperative: {{kg}} kg × {{rate}} RWF = {{amount}}",
+      "deductionHint": "Andika ingano kugira ngo urebe ibikurwaho.",
+      "note": "Nta giciro cyandikwa ubu. Umunyamuryango yishyurwa nyuma y'uko ikirundo kigurishijwe."
+    },
+    "duplicate": {
+      "title": "Bishobora kuba byanditswe kabiri",
+      "message_one": "Uyu munyamuryango yagemuye {{kg}} kg mu munota {{count}} ushize. Ese ni ibyanditswe kabiri?",
+      "message_other": "Uyu munyamuryango yagemuye {{kg}} kg mu minota {{count}} ishize. Ese ni ibyanditswe kabiri?"
+    },
+    "offline": {
+      "title": "Nta murandasi",
+      "message": "Kubika nta murandasi biraza vuba. Fungura murandasi kugira ngo ubike ibi byagemuwe."
+    },
+    "save": "Bika ibyagemuwe",
+    "saving": "Birabikwa...",
+    "errors": {
+      "memberRequired": "Hitamo umunyamuryango",
+      "gradeRequired": "Hitamo urwego",
+      "quantityRequired": "Andika ingano",
+      "quantityInvalid": "Andika umubare uri hejuru ya 0 ufite imibare 2 nibura nyuma y'akadomo",
+      "quantityTooLarge": "Ingano ntishobora kurenza kg 5,000",
+      "dateRequired": "Hitamo itariki yagemuriyeho",
+      "dateFuture": "Itariki ntishobora kuba iri imbere",
+      "generic": "Ntibishobotse kubika ibyagemuwe. Ongera ugerageze.",
+      "serverUnreachable": "Ntibishoboka kugera kuri seriveri. Reba murandasi yawe wongere ugerageze."
+    },
+    "receipt": {
+      "title": "Inyemezabuguzi y'ibyagemuwe",
+      "member": "Umunyamuryango",
+      "dateTime": "Itariki n'isaha",
+      "gradeLot": "Urwego n'ikirundo",
+      "gradeLotValue": "{{grade}} (ikirundo {{lot}})",
+      "quantity": "Ingano",
+      "deduction": "Ibikurwaho",
+      "print": "Capa inyemezabuguzi",
+      "recordAnother": "Andika ibindi",
+      "viewMember": "Reba umunyamuryango"
+    },
+    "tips": {
+      "title": "Inama ku muyobozi",
+      "text": "Banza urebe ko umunzani werekana zeru mbere yo gupima. Umuburo w'ibyanditswe kabiri ugaragara iyo umunyamuryango umwe yagemuye mu minota 15 ishize."
+    },
+    "today": {
+      "title": "Ibyagemuwe uyu munsi",
+      "total_one": "Byose uyu munsi: {{kg}} (inyandiko {{count}})",
+      "total_other": "Byose uyu munsi: {{kg}} (inyandiko {{count}})",
+      "code": "Nimero",
+      "member": "Umunyamuryango",
+      "grade": "Urwego",
+      "lot": "Ikirundo",
+      "kg": "Kg",
+      "deduction": "Ibikurwaho",
+      "time": "Isaha",
+      "actions": "Ibikorwa",
+      "view": "Reba",
+      "empty": "Nta byagemuwe byanditswe uyu munsi.",
+      "error": "Ntibishobotse kubona ibyagemuwe uyu munsi.",
+      "retry": "Ongera ugerageze"
+    },
+    "memberSection": {
+      "loading": "Ibyagemuwe biraza...",
+      "error": "Ntibishobotse kubona ibyagemuwe.",
+      "showing": "Herekanywe {{from}}-{{to}} kuri {{total}}"
+    }
+  },
+  "grades": {
+    "Big": "Binini",
+    "Normal": "Bisanzwe",
+    "Small": "Bito"
   }
 }
