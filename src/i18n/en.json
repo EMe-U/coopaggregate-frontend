@@ -33,7 +33,6 @@
   "pages": {
     "dashboard": "Dashboard",
     "recordDelivery": "Record Delivery",
-    "members": "Members",
     "memberDetail": "Member Details",
     "lots": "Lots & Stock",
     "sales": "Sales",
