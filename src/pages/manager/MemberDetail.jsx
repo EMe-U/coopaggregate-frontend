@@ -7,6 +7,7 @@ import EmptyState from '../../components/EmptyState'
 import SuccessToast from '../../components/SuccessToast'
 import MemberFormModal from '../../components/members/MemberFormModal'
 import MemberProfileCard from '../../components/members/MemberProfileCard'
+import { formatDate, todayIso } from '../../utils/format'
 import { FinancialSummaryCard, StatementSections } from '../../components/members/MemberStatement'
 
 export default function MemberDetail() {
@@ -112,6 +113,16 @@ export default function MemberDetail() {
   return (
     <div className="space-y-6">
       {backLink}
+
+      <header className="hidden border-b border-text/10 pb-4 print:block">
+        <p className="text-lg font-bold text-primary">{t('app.cooperative')}</p>
+        <p className="text-base font-semibold text-text">
+          {member.fullName} – {member.memberCode}
+        </p>
+        <p className="text-sm text-muted">
+          {t('members.print.statementAsOf', { date: formatDate(todayIso()) })}
+        </p>
+      </header>
 
       <div className="grid gap-6 lg:grid-cols-5">
         <div className="lg:col-span-2">

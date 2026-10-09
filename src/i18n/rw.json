@@ -220,6 +220,9 @@
         "status": "Uko bihagaze",
         "empty": "Nta bwishyu buranditswe"
       }
+    },
+    "print": {
+      "statementAsOf": "Raporo yo ku itariki ya {{date}}"
     }
   }
 }
