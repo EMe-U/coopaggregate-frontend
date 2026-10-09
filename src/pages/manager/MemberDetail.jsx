@@ -143,7 +143,7 @@ export default function MemberDetail() {
         </div>
       </div>
 
-      <StatementSections />
+      <StatementSections memberId={member.id} />
 
       {editing && (
         <MemberFormModal member={member} onClose={() => setEditing(false)} onSaved={handleSaved} />

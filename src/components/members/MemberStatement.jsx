@@ -1,11 +1,15 @@
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Banknote, ReceiptText, Truck } from 'lucide-react'
-import { formatDate, formatKg, formatMoney } from '../../utils/format'
+import { listDeliveries } from '../../api/deliveries'
+import { formatDate, formatKg, formatMoney, kigaliIsoDate } from '../../utils/format'
 import GradeName from '../GradeName'
+import Pagination from '../Pagination'
 
-// Deliveries, lot shares and payments are not loaded yet, so every section shows its empty
-// state and the summary shows no amounts. Row field names follow the backend entities and
-// must be checked when those endpoints are built. Totals come from the backend as well.
+// Deliveries come from the API. Lot shares and payments are not loaded yet, so those sections
+// show their empty state and the summary shows no amounts; their row field names follow the
+// backend entities and must be checked when those endpoints are built. Totals come from the
+// backend as well, never from adding up money here.
 
 function SummaryBox({ label, note }) {
   const { t } = useTranslation()
@@ -40,7 +44,7 @@ export function FinancialSummaryCard() {
   )
 }
 
-function StatementSection({ icon: Icon, title, subtitle, columns, rows, renderRow, totalsRow, emptyMessage }) {
+function StatementSection({ icon: Icon, title, subtitle, columns, rows, renderRow, totalsRow, emptyMessage, footer }) {
   return (
     <section className="min-w-0 rounded-xl bg-surface p-5 shadow-sm print:break-inside-avoid">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
@@ -77,14 +81,59 @@ function StatementSection({ icon: Icon, title, subtitle, columns, rows, renderRo
           )}
         </table>
       </div>
+      {footer && <div className="mt-3">{footer}</div>}
     </section>
   )
 }
 
-function DeliveriesSection({ deliveries = [], totals }) {
+const DELIVERIES_PAGE_SIZE = 10
+
+function DeliveriesSection({ memberId, totals }) {
   const { t } = useTranslation()
   const key = 'members.statement.deliveries'
   const cell = 'whitespace-nowrap px-3 py-2'
+
+  const [page, setPage] = useState(0)
+  const [result, setResult] = useState(null)
+  const [status, setStatus] = useState('loading')
+  const [reloadKey, setReloadKey] = useState(0)
+
+  useEffect(() => {
+    let ignore = false
+    setStatus('loading')
+    listDeliveries({ memberId, page, size: DELIVERIES_PAGE_SIZE })
+      .then((data) => {
+        if (ignore) return
+        setResult(data)
+        setStatus('done')
+      })
+      .catch(() => {
+        if (!ignore) setStatus('error')
+      })
+    return () => {
+      ignore = true
+    }
+  }, [memberId, page, reloadKey])
+
+  let emptyMessage = t(`${key}.empty`)
+  if (status === 'loading' && !result) emptyMessage = t('deliveries.memberSection.loading')
+  if (status === 'error') {
+    emptyMessage = (
+      <span className="text-danger">
+        {t('deliveries.memberSection.error')}{' '}
+        <button
+          type="button"
+          onClick={() => setReloadKey((current) => current + 1)}
+          className="font-medium underline print:hidden"
+        >
+          {t('members.error.retry')}
+        </button>
+      </span>
+    )
+  }
+
+  const deliveries = status === 'error' ? [] : (result?.content ?? [])
+  const from = result ? result.page * result.size + 1 : 0
 
   return (
     <StatementSection
@@ -94,14 +143,14 @@ function DeliveriesSection({ deliveries = [], totals }) {
       rows={deliveries}
       renderRow={(delivery) => (
         <tr key={delivery.id}>
-          <td className={cell}>{formatDate(delivery.deliveredAt?.slice(0, 10))}</td>
+          <td className={cell}>{formatDate(kigaliIsoDate(new Date(delivery.deliveredAt)))}</td>
           <td className={`${cell} font-mono text-xs`}>{delivery.receiptCode}</td>
           <td className={cell}>
             <GradeName name={delivery.gradeName} />
           </td>
           <td className={cell}>{delivery.lotCode}</td>
           <td className={cell}>{formatKg(delivery.quantityKg)}</td>
-          <td className={cell}>{formatMoney(delivery.deductionAmount)}</td>
+          <td className={cell}>{formatMoney(delivery.deductionRwf)}</td>
         </tr>
       )}
       totalsRow={
@@ -115,7 +164,23 @@ function DeliveriesSection({ deliveries = [], totals }) {
           </tr>
         )
       }
-      emptyMessage={t(`${key}.empty`)}
+      emptyMessage={emptyMessage}
+      footer={
+        deliveries.length > 0 && (
+          <div className="print:hidden">
+            <Pagination
+              page={result.page}
+              totalPages={result.totalPages}
+              summary={t('deliveries.memberSection.showing', {
+                from,
+                to: from + deliveries.length - 1,
+                total: result.totalElements,
+              })}
+              onPageChange={setPage}
+            />
+          </div>
+        )
+      }
     />
   )
 }
@@ -179,11 +244,11 @@ function PaymentsSection({ payments = [] }) {
   )
 }
 
-export function StatementSections() {
+export function StatementSections({ memberId }) {
   return (
     <>
       <div className="grid gap-6 lg:grid-cols-2">
-        <DeliveriesSection />
+        <DeliveriesSection memberId={memberId} />
         <LotSharesSection />
       </div>
       <PaymentsSection />
