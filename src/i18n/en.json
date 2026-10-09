@@ -187,8 +187,7 @@
       "grossShareNote": "From lot shares",
       "deductions": "Total deductions",
       "deductionsNote": "Per-kg deduction",
-      "paidOut": "Total paid out",
-      "paidOutNote": "Paid to the member",
+      "paidOut": "Total paid",
       "currency": "RWF",
       "noValue": "—",
       "deliveries": {
@@ -219,8 +218,12 @@
         "amountPaid": "Amount paid",
         "method": "Method",
         "referenceCode": "Reference code",
-        "status": "Status",
-        "empty": "No payments yet"
+        "empty": "No payments yet",
+        "methods": {
+          "CASH": "Cash",
+          "MOBILE_MONEY": "MoMo",
+          "BANK": "Bank"
+        }
       },
       "grades": {
         "Big": "Big",

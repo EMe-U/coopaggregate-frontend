@@ -187,8 +187,7 @@
       "grossShareNote": "Uva ku birundo",
       "deductions": "Ibikurwaho byose",
       "deductionsNote": "Bikurwa kuri buri kilo",
-      "paidOut": "Ayamaze kwishyurwa",
-      "paidOutNote": "Yahawe umunyamuryango",
+      "paidOut": "Ayishyuwe yose",
       "currency": "RWF",
       "noValue": "—",
       "deliveries": {
@@ -219,8 +218,12 @@
         "amountPaid": "Amafaranga yishyuwe",
         "method": "Uburyo",
         "referenceCode": "Nimero y'ikimenyetso",
-        "status": "Uko bihagaze",
-        "empty": "Nta bwishyu buranditswe"
+        "empty": "Nta bwishyu buranditswe",
+        "methods": {
+          "CASH": "Amafaranga mu ntoki",
+          "MOBILE_MONEY": "MoMo",
+          "BANK": "Banki"
+        }
       },
       "grades": {
         "Big": "Binini",

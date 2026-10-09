@@ -33,7 +33,7 @@ export function FinancialSummaryCard() {
       <div className="grid gap-3 sm:grid-cols-3">
         <SummaryBox label={t('members.statement.grossShare')} note={t('members.statement.grossShareNote')} />
         <SummaryBox label={t('members.statement.deductions')} note={t('members.statement.deductionsNote')} />
-        <SummaryBox label={t('members.statement.paidOut')} note={t('members.statement.paidOutNote')} />
+        <SummaryBox label={t('members.statement.paidOut')} />
       </div>
     </div>
   )
@@ -159,24 +159,39 @@ function LotSharesSection({ lotShares = [] }) {
   )
 }
 
-export function StatementSections() {
+function PaymentsSection({ payments = [] }) {
   const { t } = useTranslation()
-  const payments = 'members.statement.payments'
+  const key = 'members.statement.payments'
+  const cell = 'whitespace-nowrap px-3 py-2'
 
+  return (
+    <StatementSection
+      icon={ReceiptText}
+      title={t(`${key}.title`)}
+      subtitle={t(`${key}.subtitle`)}
+      columns={['date', 'amountPaid', 'method', 'referenceCode'].map((column) => t(`${key}.${column}`))}
+      rows={payments}
+      renderRow={(payment) => (
+        <tr key={payment.id}>
+          <td className={cell}>{formatDate(payment.paymentDate)}</td>
+          <td className={cell}>{formatMoney(payment.amount)}</td>
+          <td className={cell}>{t(`${key}.methods.${payment.method}`)}</td>
+          <td className={`${cell} font-mono text-xs`}>{payment.referenceNo}</td>
+        </tr>
+      )}
+      emptyMessage={t(`${key}.empty`)}
+    />
+  )
+}
+
+export function StatementSections() {
   return (
     <>
       <div className="grid gap-6 lg:grid-cols-2">
         <DeliveriesSection />
         <LotSharesSection />
       </div>
-      <StatementSection
-        icon={ReceiptText}
-        title={t(`${payments}.title`)}
-        subtitle={t(`${payments}.subtitle`)}
-        columns={['date', 'amountPaid', 'method', 'referenceCode', 'status'].map((key) => t(`${payments}.${key}`))}
-        rows={[]}
-        emptyMessage={t(`${payments}.empty`)}
-      />
+      <PaymentsSection />
     </>
   )
 }
