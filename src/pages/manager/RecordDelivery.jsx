@@ -1,8 +1,8 @@
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Lightbulb, Save, WifiOff } from 'lucide-react'
 import { recordDelivery } from '../../api/deliveries'
-import SuccessToast from '../../components/SuccessToast'
+import DeliveryReceipt from '../../components/deliveries/DeliveryReceipt'
 import DuplicateWarning from '../../components/deliveries/DuplicateWarning'
 import GradeSelector from '../../components/deliveries/GradeSelector'
 import LotAssignment from '../../components/deliveries/LotAssignment'
@@ -66,8 +66,9 @@ export default function RecordDelivery() {
   const [errors, setErrors] = useState({})
   const [formError, setFormError] = useState('')
   const [saving, setSaving] = useState(false)
-  const [notice, setNotice] = useState('')
-  const clearNotice = useCallback(() => setNotice(''), [])
+  // The saved delivery. While it is shown the form is locked until "Record another".
+  const [receipt, setReceipt] = useState(null)
+  const locked = saving || receipt !== null
 
   function setField(name, value) {
     setForm((current) => ({ ...current, [name]: value }))
@@ -76,7 +77,7 @@ export default function RecordDelivery() {
 
   async function handleSubmit(event) {
     event.preventDefault()
-    if (saving || !isOnline) return
+    if (locked || !isOnline) return
     setFormError('')
 
     const fieldErrors = validate(form, today)
@@ -85,16 +86,14 @@ export default function RecordDelivery() {
 
     setSaving(true)
     try {
-      await recordDelivery({
+      const saved = await recordDelivery({
         clientUuid,
         memberId: form.member.id,
         gradeId: form.grade.id,
         quantityKg: parseQuantity(form.quantityText),
         deliveredAt: deliveredAtFor(form.date, today),
       })
-      setForm(emptyForm())
-      setClientUuid(crypto.randomUUID())
-      setNotice(t('deliveries.receipt.title'))
+      setReceipt(saved)
     } catch (error) {
       if (!error.response) setFormError(t('deliveries.errors.serverUnreachable'))
       else setFormError(error.response.data?.message || t('deliveries.errors.generic'))
@@ -103,12 +102,20 @@ export default function RecordDelivery() {
     }
   }
 
+  function handleRecordAnother() {
+    setForm(emptyForm())
+    setErrors({})
+    setFormError('')
+    setReceipt(null)
+    setClientUuid(crypto.randomUUID())
+  }
+
   const quantityKg = parseQuantity(form.quantityText)
 
   return (
     <div className="space-y-6">
       {!isOnline && (
-        <div role="status" className="flex items-start gap-3 rounded-xl bg-text/85 p-4 text-sm text-white">
+        <div role="status" className="flex items-start gap-3 rounded-xl bg-text/85 p-4 text-sm text-white print:hidden">
           <WifiOff size={20} className="mt-0.5 shrink-0" />
           <div>
             <p className="font-semibold">{t('deliveries.offline.title')}</p>
@@ -121,7 +128,7 @@ export default function RecordDelivery() {
         <form
           onSubmit={handleSubmit}
           noValidate
-          className="min-w-0 space-y-5 rounded-xl bg-surface p-5 shadow-sm sm:p-6 lg:col-span-3"
+          className="min-w-0 space-y-5 rounded-xl bg-surface p-5 shadow-sm sm:p-6 lg:col-span-3 print:hidden"
         >
           <h1 className="text-lg font-semibold text-text">{t('deliveries.title')}</h1>
 
@@ -136,7 +143,7 @@ export default function RecordDelivery() {
             <MemberPicker
               member={form.member}
               onChange={(member) => setField('member', member)}
-              disabled={saving}
+              disabled={locked}
               error={errors.member}
             />
             <FieldError message={errors.member && t(errors.member)} />
@@ -153,7 +160,7 @@ export default function RecordDelivery() {
                 value={form.date}
                 max={today}
                 onChange={(event) => setField('date', event.target.value)}
-                disabled={saving}
+                disabled={locked}
                 className="min-h-12 w-full rounded-lg border border-transparent bg-background px-3 text-base outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
               />
               <FieldError message={errors.date && t(errors.date)} />
@@ -164,7 +171,7 @@ export default function RecordDelivery() {
               <GradeSelector
                 gradeId={form.grade?.id}
                 onChange={(grade) => setField('grade', grade)}
-                disabled={saving}
+                disabled={locked}
               />
               <FieldError message={errors.grade && t(errors.grade)} />
             </div>
@@ -180,7 +187,7 @@ export default function RecordDelivery() {
                 autoComplete="off"
                 value={form.quantityText}
                 onChange={(event) => setField('quantityText', event.target.value)}
-                disabled={saving}
+                disabled={locked}
                 aria-invalid={Boolean(errors.quantityText)}
                 className="min-h-12 w-full rounded-lg border border-transparent bg-background py-3 pl-3 pr-12 text-lg font-semibold outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
               />
@@ -195,7 +202,7 @@ export default function RecordDelivery() {
 
           <button
             type="submit"
-            disabled={saving || !isOnline}
+            disabled={locked || !isOnline}
             className="flex min-h-14 w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 text-base font-semibold text-white shadow-sm hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
           >
             <Save size={18} />
@@ -204,7 +211,9 @@ export default function RecordDelivery() {
         </form>
 
         <div className="min-w-0 space-y-6 lg:col-span-2">
-          <div className="rounded-xl bg-background p-4 text-sm ring-1 ring-text/5">
+          {receipt && <DeliveryReceipt delivery={receipt} onRecordAnother={handleRecordAnother} />}
+
+          <div className="rounded-xl bg-background p-4 text-sm ring-1 ring-text/5 print:hidden">
             <p className="flex items-center gap-2 font-semibold text-text">
               <Lightbulb size={16} />
               {t('deliveries.tips.title')}
@@ -214,7 +223,6 @@ export default function RecordDelivery() {
         </div>
       </div>
 
-      {notice && <SuccessToast message={notice} onDone={clearNotice} />}
     </div>
   )
 }
