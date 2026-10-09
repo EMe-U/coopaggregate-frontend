@@ -10,15 +10,9 @@ import MemberPicker from '../../components/deliveries/MemberPicker'
 import TodayDeliveries from '../../components/deliveries/TodayDeliveries'
 import useOnlineStatus from '../../hooks/useOnlineStatus'
 import { kigaliIsoDate } from '../../utils/format'
+import { parseKg } from '../../utils/quantity'
 
-const QUANTITY_PATTERN = /^\d+(\.\d{1,2})?$/
 const MAX_QUANTITY_KG = 5000
-
-// Phone keypads in some languages type a comma as the decimal separator.
-function parseQuantity(text) {
-  const value = text.trim().replace(',', '.')
-  return QUANTITY_PATTERN.test(value) ? Number(value) : null
-}
 
 function validate({ member, grade, date, quantityText }, today) {
   const errors = {}
@@ -27,7 +21,7 @@ function validate({ member, grade, date, quantityText }, today) {
   if (!date) errors.date = 'deliveries.errors.dateRequired'
   else if (date > today) errors.date = 'deliveries.errors.dateFuture'
 
-  const quantityKg = parseQuantity(quantityText)
+  const quantityKg = parseKg(quantityText)
   if (quantityText.trim() === '') errors.quantityText = 'deliveries.errors.quantityRequired'
   else if (quantityKg === null || quantityKg <= 0) errors.quantityText = 'deliveries.errors.quantityInvalid'
   else if (quantityKg > MAX_QUANTITY_KG) errors.quantityText = 'deliveries.errors.quantityTooLarge'
@@ -91,7 +85,7 @@ export default function RecordDelivery() {
         clientUuid,
         memberId: form.member.id,
         gradeId: form.grade.id,
-        quantityKg: parseQuantity(form.quantityText),
+        quantityKg: parseKg(form.quantityText),
         deliveredAt: deliveredAtFor(form.date, today),
       })
       setReceipt(saved)
@@ -111,7 +105,7 @@ export default function RecordDelivery() {
     setClientUuid(crypto.randomUUID())
   }
 
-  const quantityKg = parseQuantity(form.quantityText)
+  const quantityKg = parseKg(form.quantityText)
 
   return (
     <div className="space-y-6">
