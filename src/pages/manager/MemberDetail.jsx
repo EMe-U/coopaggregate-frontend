@@ -90,13 +90,16 @@ export default function MemberDetail() {
     return (
       <div className="rounded-xl bg-surface shadow-sm">
         <EmptyState title={t('members.detail.loadError')}>
-          <button
-            type="button"
-            onClick={() => setReloadKey((key) => key + 1)}
-            className="rounded-lg border border-text/10 px-4 py-2 text-sm font-medium text-primary hover:bg-background"
-          >
-            {t('members.error.retry')}
-          </button>
+          <div className="flex flex-col items-center gap-4">
+            <button
+              type="button"
+              onClick={() => setReloadKey((key) => key + 1)}
+              className="rounded-lg border border-text/10 px-4 py-2 text-sm font-medium text-primary hover:bg-background"
+            >
+              {t('members.error.retry')}
+            </button>
+            {backLink}
+          </div>
         </EmptyState>
       </div>
     )

@@ -55,7 +55,7 @@ export default function MemberTable({ members, onEdit }) {
         <tbody className="divide-y divide-text/5">
           {members.map((member) => (
             <tr key={member.id}>
-              <td className="px-4 py-3 font-medium text-primary">{member.memberCode}</td>
+              <td className="whitespace-nowrap px-4 py-3 font-medium text-primary">{member.memberCode}</td>
               <td className="px-4 py-3">
                 <div className="flex items-center gap-3">
                   <Avatar name={member.fullName} className={avatarClass(member)} />
