@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Lightbulb, Save, WifiOff } from 'lucide-react'
 import { recordDelivery } from '../../api/deliveries'
 import SuccessToast from '../../components/SuccessToast'
+import DuplicateWarning from '../../components/deliveries/DuplicateWarning'
 import GradeSelector from '../../components/deliveries/GradeSelector'
 import LotAssignment from '../../components/deliveries/LotAssignment'
 import MemberPicker from '../../components/deliveries/MemberPicker'
@@ -140,6 +141,8 @@ export default function RecordDelivery() {
             />
             <FieldError message={errors.member && t(errors.member)} />
           </div>
+
+          <DuplicateWarning memberId={form.member?.id} />
 
           <div className="grid gap-5 sm:grid-cols-2">
             <div>
