@@ -7,14 +7,21 @@ import EmptyState from '../../components/EmptyState'
 import Pagination from '../../components/Pagination'
 import MemberSummaryCards from '../../components/members/MemberSummaryCards'
 import MemberTable from '../../components/members/MemberTable'
+import MemberFilters from '../../components/members/MemberFilters'
+import useDebouncedValue from '../../hooks/useDebouncedValue'
 
 const PAGE_SIZE = 10
+const ACTIVE_PARAM = { all: undefined, active: true, inactive: false }
 
 export default function Members() {
   const { t } = useTranslation()
 
   const [summary, setSummary] = useState(null)
   const [summaryError, setSummaryError] = useState(false)
+
+  const [search, setSearch] = useState('')
+  const [status, setStatus] = useState('all')
+  const debouncedSearch = useDebouncedValue(search.trim(), 300)
 
   const [page, setPage] = useState(0)
   const [result, setResult] = useState(null)
@@ -34,12 +41,12 @@ export default function Members() {
   }, [loadSummary])
 
   useEffect(() => {
-    // Ignore a slow response if the page changed before it arrived.
+    // Ignore a slow response if the search, filter or page changed before it arrived.
     let ignore = false
     setLoading(true)
     setLoadError(false)
 
-    listMembers({ page, size: PAGE_SIZE })
+    listMembers({ page, size: PAGE_SIZE, search: debouncedSearch, active: ACTIVE_PARAM[status] })
       .then((data) => {
         if (!ignore) setResult(data)
       })
@@ -53,7 +60,17 @@ export default function Members() {
     return () => {
       ignore = true
     }
-  }, [page, reloadKey])
+  }, [debouncedSearch, status, page, reloadKey])
+
+  function handleSearchChange(value) {
+    setSearch(value)
+    setPage(0)
+  }
+
+  function handleStatusChange(value) {
+    setStatus(value)
+    setPage(0)
+  }
 
   function handleEdit() {}
 
@@ -83,7 +100,14 @@ export default function Members() {
     }
 
     if (result.totalElements === 0) {
-      return (
+      const filtered = debouncedSearch !== '' || status !== 'all'
+      return filtered ? (
+        <EmptyState
+          icon={Users}
+          title={t('members.empty.noResults')}
+          message={t('members.empty.noResultsMessage')}
+        />
+      ) : (
         <EmptyState icon={Users} title={t('members.empty.title')} message={t('members.empty.message')} />
       )
     }
@@ -127,6 +151,13 @@ export default function Members() {
       </div>
 
       <MemberSummaryCards summary={summary} error={summaryError} onRetry={loadSummary} />
+
+      <MemberFilters
+        search={search}
+        onSearchChange={handleSearchChange}
+        status={status}
+        onStatusChange={handleStatusChange}
+      />
 
       <div className="overflow-hidden rounded-xl bg-surface shadow-sm">{renderList()}</div>
     </div>
