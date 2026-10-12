@@ -437,7 +437,7 @@
     },
     "actions": {
       "column": "Actions",
-      "menu": "Actions for lot {{code}}",
+      "menu": "Actions for {{code}}",
       "view": "View details",
       "close": "Close lot",
       "recordLoss": "Record loss",

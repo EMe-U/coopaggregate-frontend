@@ -437,7 +437,7 @@
     },
     "actions": {
       "column": "Ibikorwa",
-      "menu": "Ibikorwa ku kirundo {{code}}",
+      "menu": "Ibikorwa bya {{code}}",
       "view": "Reba ibisobanuro",
       "close": "Funga ikirundo",
       "recordLoss": "Andika ibyangiritse",

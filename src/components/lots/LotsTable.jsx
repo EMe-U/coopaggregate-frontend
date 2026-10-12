@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Boxes } from 'lucide-react'
 import { listGrades } from '../../api/grades'
@@ -43,7 +42,6 @@ function SaleAmount({ amount }) {
 
 export default function LotsTable({ reloadKey, onClose, onRecordLoss }) {
   const { t } = useTranslation()
-  const navigate = useNavigate()
 
   const [grades, setGrades] = useState([])
   const [status, setStatus] = useState('')
@@ -135,16 +133,8 @@ export default function LotsTable({ reloadKey, onClose, onRecordLoss }) {
             </thead>
             <tbody className="divide-y divide-text/5">
               {result.content.map((lot) => (
-                <tr
-                  key={lot.id}
-                  onClick={() => navigate(`/lots/${lot.id}`)}
-                  className="cursor-pointer hover:bg-background/60"
-                >
-                  <td className={`${oneLine} font-mono font-medium`}>
-                    <Link to={`/lots/${lot.id}`} className="text-primary hover:underline">
-                      {lot.code}
-                    </Link>
-                  </td>
+                <tr key={lot.id}>
+                  <td className={`${oneLine} font-mono font-medium text-text`}>{lot.code}</td>
                   <td className={cell}>
                     <GradeName name={lot.gradeName} />
                   </td>
@@ -173,15 +163,9 @@ export default function LotsTable({ reloadKey, onClose, onRecordLoss }) {
 
         <ul className="divide-y divide-text/5 md:hidden">
           {result.content.map((lot) => (
-            <li
-              key={lot.id}
-              onClick={() => navigate(`/lots/${lot.id}`)}
-              className="cursor-pointer p-4 hover:bg-background/60"
-            >
+            <li key={lot.id} className="p-4">
               <div className="flex items-center gap-2">
-                <Link to={`/lots/${lot.id}`} className="font-mono font-medium text-primary hover:underline">
-                  {lot.code}
-                </Link>
+                <span className="font-mono font-medium text-text">{lot.code}</span>
                 <LotStatusBadge status={lot.status} />
                 <div className="ml-auto -mr-2">
                   <LotActionsMenu lot={lot} onClose={onClose} onRecordLoss={onRecordLoss} />

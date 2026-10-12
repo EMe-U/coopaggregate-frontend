@@ -6,7 +6,8 @@ import { Eye, HandCoins, Lock, MoreVertical, Split, TriangleAlert } from 'lucide
 
 const MENU_WIDTH = 208
 
-// Only the actions the lot's status allows. Close and loss need a handler from the page.
+// The only place for lot actions. "View details" comes first, then what the lot's status allows.
+// Close and loss need a handler from the page.
 function actionsFor(lot, { onClose, onRecordLoss }) {
   const hasStock = Number(lot.remainingKg) > 0
   const actions = [{ key: 'view', icon: Eye, path: `/lots/${lot.id}` }]
@@ -96,16 +97,11 @@ export default function LotActionsMenu({ lot, onClose, onRecordLoss }) {
       <button
         ref={buttonRef}
         type="button"
-        onClick={(event) => {
-          // Rows open the lot when clicked; the menu button must not.
-          event.stopPropagation()
-          if (open) closeMenu(false)
-          else openMenu()
-        }}
+        onClick={() => (open ? closeMenu(false) : openMenu())}
         aria-haspopup="menu"
         aria-expanded={open}
         aria-label={t('lots.actions.menu', { code: lot.code })}
-        className="flex h-11 w-11 items-center justify-center rounded-lg text-muted hover:bg-background hover:text-text"
+        className="flex h-11 w-11 items-center justify-center rounded-lg border border-text/10 bg-surface text-text hover:bg-background"
       >
         <MoreVertical size={18} />
       </button>
@@ -127,10 +123,7 @@ export default function LotActionsMenu({ lot, onClose, onRecordLoss }) {
                   key={action.key}
                   type="button"
                   role="menuitem"
-                  onClick={(event) => {
-                    event.stopPropagation()
-                    choose(action)
-                  }}
+                  onClick={() => choose(action)}
                   className={`flex min-h-11 w-full items-center gap-2.5 px-3 text-left text-sm hover:bg-background focus:bg-background focus:outline-none ${
                     action.danger ? 'text-danger' : 'text-text'
                   }`}
