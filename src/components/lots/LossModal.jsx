@@ -22,10 +22,13 @@ export default function LossModal({ lot, onClose, onSaved }) {
         aria-labelledby="loss-modal-title"
         className="w-full max-w-md rounded-xl bg-surface shadow-lg"
       >
-        <div className="flex items-center justify-between border-b border-text/5 px-5 py-4">
-          <h2 id="loss-modal-title" className="text-lg font-semibold text-text">
-            {t('lots.loss.modalTitle', { code: lot.code })}
-          </h2>
+        <div className="flex items-start justify-between gap-3 border-b border-text/5 px-5 py-4">
+          <div className="min-w-0">
+            <h2 id="loss-modal-title" className="text-lg font-semibold text-text">
+              {t('lots.loss.modalTitle', { code: lot.code })}
+            </h2>
+            <p className="text-sm text-muted">{t('lots.loss.subtitle')}</p>
+          </div>
           <button
             type="button"
             onClick={onClose}
@@ -36,7 +39,7 @@ export default function LossModal({ lot, onClose, onSaved }) {
           </button>
         </div>
         <div className="px-5 py-4">
-          <LossForm fixedLot={lot} onSaved={onSaved} onCancel={onClose} />
+          <LossForm lot={lot} onSaved={onSaved} onCancel={onClose} />
         </div>
       </div>
     </div>

@@ -5,7 +5,7 @@ import { closeLot, getStock } from '../../api/lots'
 import ConfirmDialog from '../../components/ConfirmDialog'
 import PageTitle from '../../components/PageTitle'
 import SuccessToast from '../../components/SuccessToast'
-import LossPanel from '../../components/lots/LossPanel'
+import LossModal from '../../components/lots/LossModal'
 import LotsTable from '../../components/lots/LotsTable'
 import StockOverview from '../../components/lots/StockOverview'
 
@@ -14,12 +14,13 @@ export default function Lots() {
 
   const [stock, setStock] = useState(null)
   const [stockError, setStockError] = useState(false)
-  // Bumped after a loss so the table and the loss panel load the new remaining kg.
+  // Bumped after a loss or a close so the table shows the new numbers.
   const [reloadKey, setReloadKey] = useState(0)
   const [notice, setNotice] = useState('')
   const clearNotice = useCallback(() => setNotice(''), [])
 
   const [closing, setClosing] = useState(null)
+  const [lossLot, setLossLot] = useState(null)
   const [closeBusy, setCloseBusy] = useState(false)
   const [closeError, setCloseError] = useState('')
 
@@ -60,9 +61,9 @@ export default function Lots() {
   }
 
   function handleLossSaved() {
+    setLossLot(null)
     setNotice(t('lots.loss.saved'))
-    setReloadKey((key) => key + 1)
-    loadStock()
+    refresh()
   }
 
   return (
@@ -77,12 +78,7 @@ export default function Lots() {
 
       <StockOverview stock={stock} error={stockError} onRetry={loadStock} />
 
-      <div className="grid gap-6 xl:grid-cols-3">
-        <div className="min-w-0 xl:col-span-2">
-          <LotsTable reloadKey={reloadKey} onClose={askToClose} />
-        </div>
-        <LossPanel reloadKey={reloadKey} onSaved={handleLossSaved} />
-      </div>
+      <LotsTable reloadKey={reloadKey} onClose={askToClose} onRecordLoss={setLossLot} />
 
       {closing && (
         <ConfirmDialog
@@ -98,6 +94,7 @@ export default function Lots() {
           onCancel={() => setClosing(null)}
         />
       )}
+      {lossLot && <LossModal lot={lossLot} onClose={() => setLossLot(null)} onSaved={handleLossSaved} />}
       {notice && <SuccessToast message={notice} onDone={clearNotice} />}
     </div>
   )

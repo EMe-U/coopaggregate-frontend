@@ -373,14 +373,8 @@
       "all": "All"
     },
     "loss": {
-      "badge": "Inventory adjustment",
-      "title": "Record storage loss",
       "subtitle": "Record rot, damage or other losses so the stock stays correct.",
       "modalTitle": "Record loss for lot {{code}}",
-      "lot": "Lot",
-      "chooseLot": "Choose a lot",
-      "lotOption": "{{code}} ({{grade}}) – {{kg}} in stock",
-      "noLots": "No open or closed lot has stock.",
       "quantity": "Quantity lost (kg)",
       "maxAvailable": "At most {{kg}}",
       "reason": "Loss reason",
@@ -399,7 +393,6 @@
       "cancel": "Cancel",
       "close": "Close",
       "errors": {
-        "lotRequired": "Choose a lot",
         "quantityRequired": "Enter the quantity lost",
         "quantityInvalid": "Enter a number above 0 with at most 2 decimals",
         "quantityTooLarge": "Only {{kg}} remain in this lot",

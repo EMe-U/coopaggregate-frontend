@@ -373,14 +373,8 @@
       "all": "Byose"
     },
     "loss": {
-      "badge": "Guhindura ububiko",
-      "title": "Andika ibyangiritse mu bubiko",
       "subtitle": "Andika ibyaboze, ibyangiritse cyangwa ibindi byatakaye kugira ngo ububiko bube ukuri.",
       "modalTitle": "Andika ibyangiritse ku kirundo {{code}}",
-      "lot": "Ikirundo",
-      "chooseLot": "Hitamo ikirundo",
-      "lotOption": "{{code}} ({{grade}}) – {{kg}} mu bubiko",
-      "noLots": "Nta kirundo gifunguye cyangwa gifunze gifite ibiri mu bubiko.",
       "quantity": "Ingano yangiritse (kg)",
       "maxAvailable": "Ntirenze {{kg}}",
       "reason": "Impamvu",
@@ -399,7 +393,6 @@
       "cancel": "Hagarika",
       "close": "Funga",
       "errors": {
-        "lotRequired": "Hitamo ikirundo",
         "quantityRequired": "Andika ingano yangiritse",
         "quantityInvalid": "Andika umubare uri hejuru ya 0 ufite imibare 2 nibura nyuma y'akadomo",
         "quantityTooLarge": "Hasigaye {{kg}} gusa muri iki kirundo",
