@@ -365,7 +365,8 @@
       "empty": "Nta birundo biraboneka. Ikirundo gifunguka ubwacyo iyo hagemuwe bwa mbere ku rwego runaka.",
       "noResults": "Nta kirundo gihuye n'ibyo wahisemo.",
       "error": "Ntibishobotse kubona ibirundo.",
-      "showing": "Herekanywe {{from}}-{{to}} kuri {{total}}"
+      "showing": "Herekanywe {{from}}-{{to}} kuri {{total}}",
+      "stillOpen": "gifunguye"
     },
     "filters": {
       "status": "Uko gihagaze",

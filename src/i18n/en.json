@@ -365,7 +365,8 @@
       "empty": "No lots yet. A lot opens by itself with the first delivery of a grade.",
       "noResults": "No lots match these filters.",
       "error": "Could not load lots.",
-      "showing": "Showing {{from}}-{{to}} of {{total}} lots"
+      "showing": "Showing {{from}}-{{to}} of {{total}} lots",
+      "stillOpen": "open"
     },
     "filters": {
       "status": "Status",

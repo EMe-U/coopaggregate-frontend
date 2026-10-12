@@ -24,6 +24,19 @@ function LotDates({ lot }) {
     : t('lots.table.openSince', { date: formatDate(lot.createdAt) })
 }
 
+// The table shows the dates on two lines so the column stays narrow on a laptop screen.
+function LotDatesStacked({ lot }) {
+  const { t } = useTranslation()
+  return (
+    <>
+      <span className="block whitespace-nowrap">{formatDate(lot.createdAt)}</span>
+      <span className="block whitespace-nowrap">
+        {lot.closedAt ? `– ${formatDate(lot.closedAt)}` : t('lots.table.stillOpen')}
+      </span>
+    </>
+  )
+}
+
 function SaleAmount({ amount }) {
   return amount ? formatMoney(amount) : <span className="text-muted">–</span>
 }
@@ -97,18 +110,20 @@ export default function LotsTable({ reloadKey, onClose, onRecordLoss }) {
       return <EmptyState icon={Boxes} title={filtered ? t('lots.table.noResults') : t('lots.table.empty')} />
     }
 
-    const cell = 'whitespace-nowrap px-3 py-3'
+    // Short numbers stay on one line; headers and money may wrap so all columns fit on a laptop.
+    const cell = 'px-2 py-3'
+    const oneLine = `${cell} whitespace-nowrap`
     const from = result.page * result.size + 1
 
     return (
       <div className={loading ? 'opacity-60' : undefined}>
         <div className="hidden overflow-x-auto md:block">
           <table className="w-full text-left text-sm">
-            <thead className="bg-background text-xs uppercase tracking-wide text-muted">
+            <thead className="bg-background text-xs text-muted">
               <tr>
                 {['lot', 'grade', 'status', 'dates', 'delivered', 'sold', 'lost', 'inStock', 'members', 'saleAmount'].map(
                   (column) => (
-                    <th key={column} className="whitespace-nowrap px-3 py-3 font-semibold">
+                    <th key={column} className="px-2 py-3 align-bottom font-semibold">
                       {t(`lots.table.${column}`)}
                     </th>
                   ),
@@ -125,7 +140,7 @@ export default function LotsTable({ reloadKey, onClose, onRecordLoss }) {
                   onClick={() => navigate(`/lots/${lot.id}`)}
                   className="cursor-pointer hover:bg-background/60"
                 >
-                  <td className={`${cell} font-mono font-medium`}>
+                  <td className={`${oneLine} font-mono font-medium`}>
                     <Link to={`/lots/${lot.id}`} className="text-primary hover:underline">
                       {lot.code}
                     </Link>
@@ -137,12 +152,12 @@ export default function LotsTable({ reloadKey, onClose, onRecordLoss }) {
                     <LotStatusBadge status={lot.status} />
                   </td>
                   <td className={`${cell} text-xs text-muted`}>
-                    <LotDates lot={lot} />
+                    <LotDatesStacked lot={lot} />
                   </td>
-                  <td className={cell}>{formatKg(lot.deliveredKg)}</td>
-                  <td className={cell}>{formatKg(lot.soldKg)}</td>
-                  <td className={`${cell} ${Number(lot.lostKg) > 0 ? 'text-danger' : ''}`}>{formatKg(lot.lostKg)}</td>
-                  <td className={`${cell} font-medium`}>{formatKg(lot.remainingKg)}</td>
+                  <td className={oneLine}>{formatKg(lot.deliveredKg)}</td>
+                  <td className={oneLine}>{formatKg(lot.soldKg)}</td>
+                  <td className={`${oneLine} ${Number(lot.lostKg) > 0 ? 'text-danger' : ''}`}>{formatKg(lot.lostKg)}</td>
+                  <td className={`${oneLine} font-medium`}>{formatKg(lot.remainingKg)}</td>
                   <td className={cell}>{lot.memberCount}</td>
                   <td className={cell}>
                     <SaleAmount amount={lot.saleAmountRwf} />
