@@ -2,29 +2,26 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Banknote, ReceiptText, Truck } from 'lucide-react'
 import { listDeliveries } from '../../api/deliveries'
-import { formatDate, formatKg, formatMoney, kigaliIsoDate } from '../../utils/format'
+import { formatDate, formatDay, formatKg, formatMoney, kigaliIsoDate } from '../../utils/format'
 import GradeName from '../GradeName'
 import Pagination from '../Pagination'
 
-// Deliveries come from the API. Lot shares and payments are not loaded yet, so those sections
-// show their empty state and the summary shows no amounts; their row field names follow the
-// backend entities and must be checked when those endpoints are built. Totals come from the
-// backend as well, never from adding up money here.
+// Deliveries come from the deliveries API; the summary, lot shares and payments come from the
+// member statement. Every amount is calculated by the backend, never by adding up money here.
 
-function SummaryBox({ label, note }) {
-  const { t } = useTranslation()
-
+function SummaryBox({ label, value, note }) {
   return (
     <div className="rounded-lg bg-white/10 p-4">
       <p className="text-xs text-white/70">{label}</p>
-      <p className="mt-1 text-lg font-semibold">{t('members.statement.noValue')}</p>
+      <p className="mt-1 text-lg font-semibold">{value}</p>
       {note && <p className="mt-0.5 text-xs text-white/60">{note}</p>}
     </div>
   )
 }
 
-export function FinancialSummaryCard() {
+export function FinancialSummaryCard({ statement, error, onPay }) {
   const { t } = useTranslation()
+  const money = (amount) => (statement ? formatMoney(amount) : t('members.statement.noValue'))
 
   return (
     <div className="flex h-full flex-col justify-between gap-6 rounded-xl bg-primary p-6 text-white shadow-sm print:break-inside-avoid">
@@ -32,13 +29,34 @@ export function FinancialSummaryCard() {
         <p className="text-xs font-medium uppercase tracking-wide text-white/70">
           {t('members.statement.summaryTitle')}
         </p>
-        <p className="mt-2 text-3xl font-semibold">{t('members.statement.noValue')}</p>
-        <p className="mt-1 text-sm text-white/70">{t('members.statement.netAmount')}</p>
+        <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
+          <p className="text-3xl font-semibold">{money(statement?.owedRwf)}</p>
+          {statement?.owedRwf > 0 && onPay && (
+            <button
+              type="button"
+              onClick={onPay}
+              className="min-h-11 rounded-lg bg-white px-5 text-sm font-semibold text-primary hover:bg-primary-light print:hidden"
+            >
+              {t('members.statement.pay')}
+            </button>
+          )}
+        </div>
+        <p className="mt-1 text-sm text-white/70">
+          {error ? t('members.statement.error') : t('members.statement.netAmount')}
+        </p>
       </div>
       <div className="grid gap-3 sm:grid-cols-3">
-        <SummaryBox label={t('members.statement.grossShare')} note={t('members.statement.grossShareNote')} />
-        <SummaryBox label={t('members.statement.deductions')} note={t('members.statement.deductionsNote')} />
-        <SummaryBox label={t('members.statement.paidOut')} />
+        <SummaryBox
+          label={t('members.statement.grossShare')}
+          value={money(statement?.grossShareRwf)}
+          note={t('members.statement.grossShareNote')}
+        />
+        <SummaryBox
+          label={t('members.statement.deductions')}
+          value={money(statement?.deductionsRwf)}
+          note={t('members.statement.deductionsNote')}
+        />
+        <SummaryBox label={t('members.statement.paidOut')} value={money(statement?.paidRwf)} />
       </div>
     </div>
   )
@@ -185,7 +203,28 @@ function DeliveriesSection({ memberId, totals }) {
   )
 }
 
-function LotSharesSection({ lotShares = [] }) {
+// Placeholder text for a statement section while the statement loads or when it failed.
+function statementMessage(t, statement, error, emptyMessage) {
+  if (error) return <span className="text-danger">{t('members.statement.error')}</span>
+  if (!statement) return t('members.statement.loading')
+  return emptyMessage
+}
+
+function ShareMoney({ share }) {
+  const { t } = useTranslation()
+  const key = 'members.statement.lotShares'
+
+  if (share.status === 'SHARED') return formatMoney(share.shareRwf)
+  // A sold lot has money but has not been shared yet; an open or closed lot is not sold.
+  const waitingKey = share.status === 'SOLD' ? 'waitingForSharing' : 'waitingForSale'
+  return (
+    <span className="rounded-full bg-warning/15 px-2 py-0.5 text-xs font-medium text-amber-700">
+      {t(`${key}.${waitingKey}`)}
+    </span>
+  )
+}
+
+function LotSharesSection({ statement, error }) {
   const { t } = useTranslation()
   const key = 'members.statement.lotShares'
   const cell = 'whitespace-nowrap px-3 py-2'
@@ -195,31 +234,24 @@ function LotSharesSection({ lotShares = [] }) {
       icon={Banknote}
       title={t(`${key}.title`)}
       columns={['lot', 'memberKg', 'lotKg', 'sharePercent', 'shareOfMoney'].map((column) => t(`${key}.${column}`))}
-      rows={lotShares}
+      rows={statement?.lotShares ?? []}
       renderRow={(share) => (
-        <tr key={share.id}>
-          <td className={cell}>{share.lotCode}</td>
+        <tr key={share.lotCode}>
+          <td className={`${cell} font-mono text-xs`}>{share.lotCode}</td>
           <td className={cell}>{formatKg(share.memberKg)}</td>
           <td className={cell}>{formatKg(share.lotKg)}</td>
-          <td className={cell}>{share.sharePercent}%</td>
+          <td className={cell}>{share.sharePercent == null ? '–' : `${share.sharePercent}%`}</td>
           <td className={cell}>
-            {/* A lot that is not sold yet has no money to share. */}
-            {share.shareAmount == null ? (
-              <span className="rounded-full bg-warning/15 px-2 py-0.5 text-xs font-medium text-amber-700">
-                {t(`${key}.waitingForSale`)}
-              </span>
-            ) : (
-              formatMoney(share.shareAmount)
-            )}
+            <ShareMoney share={share} />
           </td>
         </tr>
       )}
-      emptyMessage={t(`${key}.empty`)}
+      emptyMessage={statementMessage(t, statement, error, t(`${key}.empty`))}
     />
   )
 }
 
-function PaymentsSection({ payments = [] }) {
+function PaymentsSection({ statement, error }) {
   const { t } = useTranslation()
   const key = 'members.statement.payments'
   const cell = 'whitespace-nowrap px-3 py-2'
@@ -230,28 +262,28 @@ function PaymentsSection({ payments = [] }) {
       title={t(`${key}.title`)}
       subtitle={t(`${key}.subtitle`)}
       columns={['date', 'amountPaid', 'method', 'referenceCode'].map((column) => t(`${key}.${column}`))}
-      rows={payments}
-      renderRow={(payment) => (
-        <tr key={payment.id}>
-          <td className={cell}>{formatDate(payment.paymentDate)}</td>
-          <td className={cell}>{formatMoney(payment.amount)}</td>
-          <td className={cell}>{t(`${key}.methods.${payment.method}`)}</td>
-          <td className={`${cell} font-mono text-xs`}>{payment.referenceNo}</td>
+      rows={statement?.payments ?? []}
+      renderRow={(payment, index) => (
+        <tr key={`${payment.paidAt}-${index}`}>
+          <td className={cell}>{formatDay(payment.paidAt)}</td>
+          <td className={cell}>{formatMoney(payment.amountRwf)}</td>
+          <td className={cell}>{t(`payments.methods.${payment.method}`, { defaultValue: payment.method })}</td>
+          <td className={`${cell} font-mono text-xs`}>{payment.reference}</td>
         </tr>
       )}
-      emptyMessage={t(`${key}.empty`)}
+      emptyMessage={statementMessage(t, statement, error, t(`${key}.empty`))}
     />
   )
 }
 
-export function StatementSections({ memberId }) {
+export function StatementSections({ memberId, statement, statementError }) {
   return (
     <>
       <div className="grid gap-6 lg:grid-cols-2">
         <DeliveriesSection memberId={memberId} />
-        <LotSharesSection />
+        <LotSharesSection statement={statement} error={statementError} />
       </div>
-      <PaymentsSection />
+      <PaymentsSection statement={statement} error={statementError} />
     </>
   )
 }

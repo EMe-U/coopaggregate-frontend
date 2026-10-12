@@ -212,15 +212,11 @@
         "amountPaid": "Amafaranga yishyuwe",
         "method": "Uburyo",
         "referenceCode": "Nimero y'ikimenyetso",
-        "empty": "Nta bwishyu buranditswe",
-        "methods": {
-          "CASH": "Amafaranga mu ntoki",
-          "MOBILE_MONEY": "MoMo",
-          "BANK": "Banki"
-        }
+        "empty": "Nta bwishyu buranditswe"
       },
       "error": "Ntibishobotse kubona raporo y'imari.",
-      "pay": "Ishyura"
+      "pay": "Ishyura",
+      "loading": "Biraza..."
     },
     "print": {
       "statementAsOf": "Raporo yo ku itariki ya {{date}}"

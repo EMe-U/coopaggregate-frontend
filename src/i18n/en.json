@@ -212,15 +212,11 @@
         "amountPaid": "Amount paid",
         "method": "Method",
         "referenceCode": "Reference code",
-        "empty": "No payments yet",
-        "methods": {
-          "CASH": "Cash",
-          "MOBILE_MONEY": "MoMo",
-          "BANK": "Bank"
-        }
+        "empty": "No payments yet"
       },
       "error": "Could not load the statement.",
-      "pay": "Pay"
+      "pay": "Pay",
+      "loading": "Loading..."
     },
     "print": {
       "statementAsOf": "Statement as of {{date}}"
