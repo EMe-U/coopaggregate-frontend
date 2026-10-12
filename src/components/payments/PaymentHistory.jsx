@@ -6,7 +6,13 @@ import Pagination from '../Pagination'
 import { formatDay, formatMoney } from '../../utils/format'
 
 const PAGE_SIZE = 10
-const METHODS = ['CASH', 'MOMO']
+const METHODS = ['CASH', 'MOMO', 'BANK']
+
+const methodStyles = {
+  CASH: 'bg-background text-text',
+  MOMO: 'bg-primary-light text-primary',
+  BANK: 'bg-sky-100 text-sky-800',
+}
 
 export default function PaymentHistory({ reloadKey }) {
   const { t } = useTranslation()
@@ -94,7 +100,7 @@ export default function PaymentHistory({ reloadKey }) {
             <table className="w-full text-left text-sm">
               <thead className="bg-background text-xs uppercase tracking-wide text-muted">
                 <tr>
-                  {['date', 'member', 'amount', 'method', 'reference'].map((column) => (
+                  {['paymentId', 'date', 'member', 'amount', 'method', 'reference'].map((column) => (
                     <th key={column} className="whitespace-nowrap px-3 py-2 font-semibold">
                       {t(`payments.history.${column}`)}
                     </th>
@@ -104,6 +110,7 @@ export default function PaymentHistory({ reloadKey }) {
               <tbody className="divide-y divide-text/5">
                 {result.content.map((payment) => (
                   <tr key={payment.id}>
+                    <td className={`${cell} font-mono font-medium text-primary`}>{payment.paymentCode}</td>
                     <td className={cell}>{formatDay(payment.paidAt)}</td>
                     <td className={cell}>
                       <Link to={`/members/${payment.memberId}`} className="text-primary hover:underline">
@@ -112,7 +119,11 @@ export default function PaymentHistory({ reloadKey }) {
                       <span className="ml-1.5 font-mono text-xs text-muted">{payment.memberNumber}</span>
                     </td>
                     <td className={`${cell} font-semibold`}>{formatMoney(payment.amountRwf)}</td>
-                    <td className={cell}>{t(`payments.methods.${payment.method}`, { defaultValue: payment.method })}</td>
+                    <td className={cell}>
+                      <span className={`rounded-md px-2 py-0.5 text-xs font-medium ${methodStyles[payment.method] ?? ''}`}>
+                        {t(`payments.methods.${payment.method}`, { defaultValue: payment.method })}
+                      </span>
+                    </td>
                     <td className={`${cell} font-mono text-xs`}>{payment.reference}</td>
                   </tr>
                 ))}
