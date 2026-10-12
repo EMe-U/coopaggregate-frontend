@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, Boxes, HandCoins, Lock, TriangleAlert, Users } from 'lucide-react'
+import { ArrowLeft, Boxes, HandCoins, Lock, Split, TriangleAlert, Users } from 'lucide-react'
 import { closeLot, getLot, listLosses } from '../../api/lots'
 import EmptyState from '../../components/EmptyState'
 import GradeName from '../../components/GradeName'
@@ -225,6 +225,16 @@ export default function LotDetail() {
             >
               <HandCoins size={16} />
               {t('lots.detail.recordSale')}
+            </button>
+          )}
+          {lot.status === 'SOLD' && (
+            <button
+              type="button"
+              onClick={() => navigate(`/share?lotId=${lot.id}`)}
+              className="flex min-h-11 items-center gap-2 rounded-lg bg-primary px-4 text-sm font-semibold text-white hover:bg-primary/90"
+            >
+              <Split size={16} />
+              {t('share.shareMoney')}
             </button>
           )}
         </div>

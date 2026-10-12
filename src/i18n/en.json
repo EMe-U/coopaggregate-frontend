@@ -32,7 +32,6 @@
   },
   "pages": {
     "dashboard": "Dashboard",
-    "share": "Share Lot Money",
     "payments": "Payments",
     "buyerRequests": "Buyer Requests",
     "ledger": "Ledger",
