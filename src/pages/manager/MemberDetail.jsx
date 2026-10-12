@@ -2,11 +2,12 @@ import { useCallback, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { ArrowLeft, UserX } from 'lucide-react'
-import { activateMember, deactivateMember, getMember } from '../../api/members'
+import { activateMember, deactivateMember, getMember, getMemberStatement } from '../../api/members'
 import EmptyState from '../../components/EmptyState'
 import SuccessToast from '../../components/SuccessToast'
 import MemberFormModal from '../../components/members/MemberFormModal'
 import MemberProfileCard from '../../components/members/MemberProfileCard'
+import PaymentFormModal from '../../components/payments/PaymentFormModal'
 import { formatDate, todayIso } from '../../utils/format'
 import { FinancialSummaryCard, StatementSections } from '../../components/members/MemberStatement'
 
@@ -22,6 +23,11 @@ export default function MemberDetail() {
   const [changingStatus, setChangingStatus] = useState(false)
   const [statusError, setStatusError] = useState('')
   const clearNotice = useCallback(() => setNotice(''), [])
+
+  const [statement, setStatement] = useState(null)
+  const [statementError, setStatementError] = useState(false)
+  const [statementReloadKey, setStatementReloadKey] = useState(0)
+  const [paying, setPaying] = useState(false)
 
   useEffect(() => {
     let ignore = false
@@ -41,6 +47,27 @@ export default function MemberDetail() {
       ignore = true
     }
   }, [id, reloadKey])
+
+  useEffect(() => {
+    let ignore = false
+    setStatementError(false)
+    getMemberStatement(id)
+      .then((data) => {
+        if (!ignore) setStatement(data)
+      })
+      .catch(() => {
+        if (!ignore) setStatementError(true)
+      })
+    return () => {
+      ignore = true
+    }
+  }, [id, statementReloadKey])
+
+  function handlePaymentSaved() {
+    setPaying(false)
+    setNotice(t('payments.form.saved'))
+    setStatementReloadKey((key) => key + 1)
+  }
 
   function handleSaved(saved) {
     setMember(saved)
@@ -139,14 +166,21 @@ export default function MemberDetail() {
           )}
         </div>
         <div className="min-w-0 lg:col-span-3">
-          <FinancialSummaryCard />
+          <FinancialSummaryCard statement={statement} error={statementError} onPay={() => setPaying(true)} />
         </div>
       </div>
 
-      <StatementSections />
+      <StatementSections memberId={member.id} statement={statement} statementError={statementError} />
 
       {editing && (
         <MemberFormModal member={member} onClose={() => setEditing(false)} onSaved={handleSaved} />
+      )}
+      {paying && (
+        <PaymentFormModal
+          member={{ memberId: member.id, memberName: member.fullName, owedRwf: statement.owedRwf }}
+          onClose={() => setPaying(false)}
+          onSaved={handlePaymentSaved}
+        />
       )}
       {notice && <SuccessToast message={notice} onDone={clearNotice} />}
     </div>

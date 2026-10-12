@@ -32,11 +32,6 @@
   },
   "pages": {
     "dashboard": "Ahabanza",
-    "recordDelivery": "Andika Ibyagemuwe",
-    "lots": "Ibirundo n'Ububiko",
-    "sales": "Ibyagurishijwe",
-    "share": "Gabanya Amafaranga y'Ikirundo",
-    "payments": "Kwishyura",
     "buyerRequests": "Ibisabwa n'Abaguzi",
     "ledger": "Igitabo cy'Imari",
     "settings": "Igenamiterere",
@@ -116,9 +111,7 @@
       "INACTIVE": "Ntakora"
     },
     "pagination": {
-      "showing": "Herekanywe {{from}}-{{to}} kuri {{total}}",
-      "previous": "Ibibanza",
-      "next": "Ibikurikira"
+      "showing": "Herekanywe {{from}}-{{to}} kuri {{total}}"
     },
     "empty": {
       "title": "Nta munyamuryango uranditswe",
@@ -209,7 +202,8 @@
         "sharePercent": "Umugabane %",
         "shareOfMoney": "Amafaranga ye",
         "empty": "Nta migabane iranditswe",
-        "waitingForSale": "Bitegereje kugurishwa"
+        "waitingForSale": "Bitegereje kugurishwa",
+        "waitingForSharing": "Bitegereje kugabanywa"
       },
       "payments": {
         "title": "Amateka y'ubwishyu",
@@ -218,21 +212,477 @@
         "amountPaid": "Amafaranga yishyuwe",
         "method": "Uburyo",
         "referenceCode": "Nimero y'ikimenyetso",
-        "empty": "Nta bwishyu buranditswe",
-        "methods": {
-          "CASH": "Amafaranga mu ntoki",
-          "MOBILE_MONEY": "MoMo",
-          "BANK": "Banki"
-        }
+        "empty": "Nta bwishyu buranditswe"
       },
-      "grades": {
-        "Big": "Binini",
-        "Normal": "Bisanzwe",
-        "Small": "Bito"
-      }
+      "error": "Ntibishobotse kubona raporo y'imari.",
+      "pay": "Ishyura",
+      "loading": "Biraza..."
     },
     "print": {
       "statementAsOf": "Raporo yo ku itariki ya {{date}}"
+    }
+  },
+  "deliveries": {
+    "title": "Andika ibyo umunyamuryango yagemuye",
+    "member": {
+      "label": "Shakisha umunyamuryango (izina, telefoni cyangwa nimero)",
+      "placeholder": "Andika izina, telefoni cyangwa nimero",
+      "searching": "Birashakishwa...",
+      "noResults": "Nta munyamuryango ukora wabonetse",
+      "error": "Ntibishobotse gushakisha abanyamuryango.",
+      "change": "Hindura"
+    },
+    "grade": {
+      "label": "Urwego rw'ubwiza",
+      "error": "Ntibishobotse kubona inzego.",
+      "none": "Nta nzego zashyizweho.",
+      "retry": "Ongera ugerageze"
+    },
+    "date": {
+      "label": "Itariki yagemuriyeho"
+    },
+    "quantity": {
+      "label": "Ingano (kg)",
+      "unit": "kg"
+    },
+    "lot": {
+      "title": "Ikirundo n'ibikurwaho",
+      "chooseGrade": "Hitamo urwego kugira ngo urebe ikirundo bizajyamo.",
+      "checking": "Turimo kureba ikirundo gifunguye...",
+      "existing": "Bizongerwa ku kirundo {{code}} (gifunguye)",
+      "newLot": "Hazatangizwa ikirundo gishya cy'uru rwego",
+      "error": "Ntibishobotse kureba ikirundo gifunguye.",
+      "deduction": "Ibikurwaho na koperative: {{kg}} kg × {{rate}} RWF = {{amount}}",
+      "deductionHint": "Andika ingano kugira ngo urebe ibikurwaho.",
+      "note": "Nta giciro cyandikwa ubu. Umunyamuryango yishyurwa nyuma y'uko ikirundo kigurishijwe."
+    },
+    "duplicate": {
+      "title": "Bishobora kuba byanditswe kabiri",
+      "message_one": "Uyu munyamuryango yagemuye {{kg}} kg mu munota {{count}} ushize. Ese ni ibyanditswe kabiri?",
+      "message_other": "Uyu munyamuryango yagemuye {{kg}} kg mu minota {{count}} ishize. Ese ni ibyanditswe kabiri?"
+    },
+    "offline": {
+      "title": "Nta murandasi",
+      "message": "Kubika nta murandasi biraza vuba. Fungura murandasi kugira ngo ubike ibi byagemuwe."
+    },
+    "save": "Bika ibyagemuwe",
+    "saving": "Birabikwa...",
+    "errors": {
+      "memberRequired": "Hitamo umunyamuryango",
+      "gradeRequired": "Hitamo urwego",
+      "quantityRequired": "Andika ingano",
+      "quantityInvalid": "Andika umubare uri hejuru ya 0 ufite imibare 2 nibura nyuma y'akadomo",
+      "quantityTooLarge": "Ingano ntishobora kurenza kg 5,000",
+      "dateRequired": "Hitamo itariki yagemuriyeho",
+      "dateFuture": "Itariki ntishobora kuba iri imbere",
+      "generic": "Ntibishobotse kubika ibyagemuwe. Ongera ugerageze.",
+      "serverUnreachable": "Ntibishoboka kugera kuri seriveri. Reba murandasi yawe wongere ugerageze."
+    },
+    "receipt": {
+      "title": "Inyemezabuguzi y'ibyagemuwe",
+      "member": "Umunyamuryango",
+      "dateTime": "Itariki n'isaha",
+      "gradeLot": "Urwego n'ikirundo",
+      "gradeLotValue": "{{grade}} (ikirundo {{lot}})",
+      "quantity": "Ingano",
+      "deduction": "Ibikurwaho",
+      "print": "Capa inyemezabuguzi",
+      "recordAnother": "Andika ibindi",
+      "viewMember": "Reba umunyamuryango"
+    },
+    "tips": {
+      "title": "Inama ku muyobozi",
+      "text": "Banza urebe ko umunzani werekana zeru mbere yo gupima. Umuburo w'ibyanditswe kabiri ugaragara iyo umunyamuryango umwe yagemuye mu minota 15 ishize."
+    },
+    "today": {
+      "title": "Ibyagemuwe uyu munsi",
+      "total_one": "Byose uyu munsi: {{kg}} (inyandiko {{count}})",
+      "total_other": "Byose uyu munsi: {{kg}} (inyandiko {{count}})",
+      "code": "Nimero",
+      "member": "Umunyamuryango",
+      "grade": "Urwego",
+      "lot": "Ikirundo",
+      "kg": "Kg",
+      "deduction": "Ibikurwaho",
+      "time": "Isaha",
+      "actions": "Ibikorwa",
+      "view": "Reba",
+      "empty": "Nta byagemuwe byanditswe uyu munsi.",
+      "error": "Ntibishobotse kubona ibyagemuwe uyu munsi.",
+      "retry": "Ongera ugerageze"
+    },
+    "memberSection": {
+      "loading": "Ibyagemuwe biraza...",
+      "error": "Ntibishobotse kubona ibyagemuwe.",
+      "showing": "Herekanywe {{from}}-{{to}} kuri {{total}}"
+    }
+  },
+  "grades": {
+    "Big": "Binini",
+    "Normal": "Bisanzwe",
+    "Small": "Bito"
+  },
+  "lots": {
+    "eyebrow": "Gucunga ububiko",
+    "title": "Ibirundo n'Ububiko",
+    "status": {
+      "OPEN": "Gifunguye",
+      "CLOSED": "Gifunze",
+      "SOLD": "Cyagurishijwe",
+      "SHARED": "Cyagabanyijwe"
+    },
+    "balance": {
+      "title": "Iringaniza ry'ububiko",
+      "formula": "Ibyagemuwe = Ibyagurishijwe + Ibyangiritse + Ibiri mu bubiko ({{delivered}} = {{sold}} + {{lost}} + {{inStock}})",
+      "ok": "Ububiko buraringaniye.",
+      "mismatch": "Ububiko ntiburinganiye: {{difference}} irabura cyangwa irarenga. Reba ibyagemuwe, ibyagurishijwe n'ibyangiritse vuba aha."
+    },
+    "cards": {
+      "gradeAvailable": "{{grade}} biri mu bubiko",
+      "totalInStock": "Byose biri mu bubiko",
+      "lotCounts": "Ibirundo {{open}} bifunguye · {{closed}} bifunze",
+      "addedToday": "Byongewe uyu munsi",
+      "deliveriesToday_one": "Inshuro {{count}} yo kugemura",
+      "deliveriesToday_other": "Inshuro {{count}} zo kugemura"
+    },
+    "stockError": "Ntibishobotse kubona incamake y'ububiko.",
+    "retry": "Ongera ugerageze",
+    "table": {
+      "title": "Ibirundo bifunguye n'ibifunze",
+      "subtitle": "Kurikirana ibiro n'uko buri kirundo gihagaze.",
+      "lot": "Ikirundo",
+      "grade": "Urwego",
+      "dates": "Amatariki",
+      "delivered": "Ibyagemuwe",
+      "sold": "Ibyagurishijwe",
+      "lost": "Ibyangiritse",
+      "inStock": "Mu bubiko",
+      "members": "Abanyamuryango",
+      "saleAmount": "Amafaranga y'igurisha",
+      "status": "Uko gihagaze",
+      "openSince": "{{date}} – gifunguye",
+      "period": "{{from}} – {{to}}",
+      "empty": "Nta birundo biraboneka. Ikirundo gifunguka ubwacyo iyo hagemuwe bwa mbere ku rwego runaka.",
+      "noResults": "Nta kirundo gihuye n'ibyo wahisemo.",
+      "error": "Ntibishobotse kubona ibirundo.",
+      "showing": "Herekanywe {{from}}-{{to}} kuri {{total}}",
+      "stillOpen": "gifunguye"
+    },
+    "filters": {
+      "status": "Uko gihagaze",
+      "grade": "Urwego",
+      "all": "Byose"
+    },
+    "loss": {
+      "subtitle": "Andika ibyaboze, ibyangiritse cyangwa ibindi byatakaye kugira ngo ububiko bube ukuri.",
+      "modalTitle": "Andika ibyangiritse ku kirundo {{code}}",
+      "quantity": "Ingano yangiritse (kg)",
+      "maxAvailable": "Ntirenze {{kg}}",
+      "reason": "Impamvu",
+      "chooseReason": "Hitamo impamvu",
+      "reasons": {
+        "ROT": "Byaboze",
+        "DAMAGE": "Byangiritse",
+        "THEFT": "Byibwe",
+        "OTHER": "Ibindi"
+      },
+      "notes": "Ibisobanuro by'inyongera",
+      "notesPlaceholder": "Sobanura ibyabaye",
+      "save": "Bika ibyangiritse",
+      "saving": "Birabikwa...",
+      "saved": "Ibyangiritse byanditswe",
+      "cancel": "Hagarika",
+      "close": "Funga",
+      "errors": {
+        "quantityRequired": "Andika ingano yangiritse",
+        "quantityInvalid": "Andika umubare uri hejuru ya 0 ufite imibare 2 nibura nyuma y'akadomo",
+        "quantityTooLarge": "Hasigaye {{kg}} gusa muri iki kirundo",
+        "reasonRequired": "Hitamo impamvu",
+        "generic": "Ntibishobotse kubika ibyangiritse. Ongera ugerageze.",
+        "serverUnreachable": "Ntibishoboka kugera kuri seriveri. Reba murandasi yawe wongere ugerageze."
+      }
+    },
+    "detail": {
+      "back": "Subira ku birundo",
+      "opened": "Cyafunguwe {{date}}",
+      "closedOn": "Cyafunzwe {{date}}",
+      "delivered": "Ibyagemuwe",
+      "sold": "Ibyagurishijwe",
+      "lost": "Ibyangiritse",
+      "inStock": "Mu bubiko",
+      "saleAmount": "Amafaranga y'igurisha",
+      "members": "Abanyamuryango",
+      "closeLot": "Funga ikirundo",
+      "closing": "Kirafungwa...",
+      "confirmClose": "Ufunga ikirundo {{code}}? Nta byagemuwe bizongerwamo, kandi ibizagemurwa ku rwego nk'uru bizatangiza ikirundo gishya.",
+      "closedNotice": "Ikirundo cyafunzwe",
+      "closeError": "Ntibishobotse gufunga ikirundo. Ongera ugerageze.",
+      "recordLoss": "Andika ibyangiritse",
+      "recordSale": "Andika igurisha",
+      "membersTitle": "Abanyamuryango bari muri iki kirundo",
+      "memberName": "Umunyamuryango",
+      "memberNumber": "Nimero",
+      "kg": "Kg",
+      "noMembers": "Nta byagemuwe muri iki kirundo.",
+      "lossesTitle": "Ibyangiritse",
+      "lossDate": "Itariki",
+      "lossKg": "Kg",
+      "lossReason": "Impamvu",
+      "lossNotes": "Ibisobanuro",
+      "noLosses": "Nta byangiritse byanditswe.",
+      "lossesError": "Ntibishobotse kubona ibyangiritse.",
+      "notFound": "Ikirundo ntikiboneka",
+      "notFoundMessage": "Nta kirundo gifite iyi nimero.",
+      "loadError": "Ntibishobotse kubona iki kirundo."
+    },
+    "actions": {
+      "column": "Ibikorwa",
+      "menu": "Ibikorwa bya {{code}}",
+      "view": "Reba ibisobanuro",
+      "close": "Funga ikirundo",
+      "recordLoss": "Andika ibyangiritse",
+      "recordSale": "Andika igurisha",
+      "shareMoney": "Gabanya amafaranga",
+      "viewShares": "Reba imigabane"
+    },
+    "close": {
+      "title": "Ufunga {{code}}?",
+      "message": "Nta byagemuwe bizongera kujya muri iki kirundo. Ibizagemurwa bya {{grade}} bizatangiza ikirundo gishya.",
+      "confirm": "Funga ikirundo",
+      "cancel": "Hagarika",
+      "done": "Ikirundo {{code}} cyafunzwe"
+    },
+    "statusHelp": {
+      "OPEN": "Gifunguye: kiracyakira ibigemurwa.",
+      "CLOSED": "Gifunze: nta bindi bigemurwa; cyiteguye kugurishwa.",
+      "SOLD": "Cyagurishijwe: cyagurishijwe cyose; amafaranga ategereje kugabanywa.",
+      "SHARED": "Cyagabanyijwe: amafaranga yagabanyijwe abanyamuryango."
+    }
+  },
+  "sales": {
+    "title": "Igurisha n'Abaguzi",
+    "summary": {
+      "salesThisMonth": "Igurisha ry'uku kwezi",
+      "soldThisMonth": "Ibyagurishijwe uku kwezi",
+      "buyersThisMonth": "Abaguzi b'uku kwezi",
+      "averagePrice": "Igiciro mpuzandengo",
+      "noValue": "—",
+      "perKg": "{{amount}}/kg"
+    },
+    "form": {
+      "title": "Andika igurisha",
+      "subtitle": "Uzuza amakuru y'igurisha hano hasi",
+      "buyer": "Umuguzi",
+      "lot": "Ikirundo",
+      "chooseLot": "Hitamo ikirundo gifunze",
+      "lotOption": "{{code}} ({{grade}}) – {{kg}} birahari",
+      "noLots": "Nta kirundo gifunze gifite ibyo kugurisha. Banza ufunge ikirundo.",
+      "available": "{{kg}} birahari muri {{code}}",
+      "date": "Itariki y'igurisha",
+      "quantity": "Ingano (kg)",
+      "maxAvailable": "Ntirenze: {{kg}}",
+      "price": "Igiciro kuri kg (RWF)",
+      "total": "Amafaranga yose",
+      "belowFloorLive": "Igiciro kiri munsi y'igiciro fatizo cy'uru rwego ({{floor}} kuri kg).",
+      "clear": "Siba",
+      "save": "Bika igurisha",
+      "saving": "Birabikwa...",
+      "errors": {
+        "lotRequired": "Hitamo ikirundo",
+        "buyerRequired": "Hitamo umuguzi",
+        "quantityRequired": "Andika ingano",
+        "quantityInvalid": "Andika umubare uri hejuru ya 0 ufite imibare 2 nibura nyuma y'akadomo",
+        "quantityTooLarge": "Hasigaye {{kg}} gusa muri iki kirundo",
+        "priceRequired": "Andika igiciro kuri kg",
+        "priceInvalid": "Andika umubare wuzuye wa RWF uri hejuru ya 0",
+        "dateRequired": "Hitamo itariki y'igurisha",
+        "dateFuture": "Itariki ntishobora kuba iri imbere",
+        "generic": "Ntibishobotse kubika igurisha. Ongera ugerageze.",
+        "serverUnreachable": "Ntibishoboka kugera kuri seriveri. Reba murandasi yawe wongere ugerageze."
+      }
+    },
+    "buyer": {
+      "placeholder": "Shakisha umuguzi ukoresheje izina cyangwa telefoni",
+      "searching": "Birashakishwa...",
+      "noResults": "Nta muguzi wabonetse",
+      "error": "Ntibishobotse gushakisha abaguzi.",
+      "change": "Hindura",
+      "addNew": "Ongeramo umuguzi mushya",
+      "newTitle": "Umuguzi mushya",
+      "name": "Izina",
+      "phone": "Telefoni",
+      "phoneHint": "Urugero: 0788123456",
+      "add": "Ongeramo umuguzi",
+      "adding": "Biroherezwa...",
+      "cancel": "Hagarika",
+      "errors": {
+        "nameRequired": "Andika izina ry'umuguzi",
+        "phoneInvalid": "Andika nimero ya telefoni yo mu Rwanda, urugero 0788123456",
+        "generic": "Ntibishobotse kongeramo umuguzi. Ongera ugerageze."
+      }
+    },
+    "result": {
+      "title": "Igurisha {{code}} ryabitswe",
+      "total": "Yose hamwe: {{amount}}",
+      "belowFloor": "Igiciro kiri munsi y'igiciro fatizo cy'uru rwego. Igurisha ryabitswe uko byagenda kose.",
+      "lotSold": "Ikirundo {{code}} cyagurishijwe cyose kandi cyiteguye kugabanywa.",
+      "recordAnother": "Andika irindi gurisha"
+    },
+    "history": {
+      "title": "Amateka y'igurisha",
+      "saleId": "Nimero",
+      "date": "Itariki",
+      "buyer": "Umuguzi",
+      "lot": "Ikirundo",
+      "kg": "Kg",
+      "pricePerKg": "Igiciro/kg",
+      "total": "Yose hamwe",
+      "empty": "Nta gurisha riraba.",
+      "error": "Ntibishobotse kubona igurisha.",
+      "retry": "Ongera ugerageze",
+      "showing": "Herekanywe {{from}}-{{to}} kuri {{total}}"
+    }
+  },
+  "pagination": {
+    "previous": "Ibibanza",
+    "next": "Ibikurikira"
+  },
+  "share": {
+    "eyebrow": "Kugabanya amafaranga y'ibirundo",
+    "title": "Kugabanya Amafaranga y'Ikirundo",
+    "lot": "Ikirundo cyagurishijwe",
+    "chooseLot": "Hitamo ikirundo cyagurishijwe",
+    "noLots": "Nta kirundo cyagurishijwe kiraboneka. Ikirundo kigabanywa iyo cyagurishijwe cyose.",
+    "lotOption": "{{code}} ({{grade}}) – cyagurishijwe, cyiteguye kugabanywa",
+    "lotsError": "Ntibishobotse kubona ibirundo.",
+    "previewError": "Ntibishobotse kubona imigabane y'iki kirundo.",
+    "retry": "Ongera ugerageze",
+    "empty": "Hitamo ikirundo cyagurishijwe urebe uko amafaranga yacyo azagabanywa.",
+    "stockBalanced": "Ububiko buraringaniye",
+    "stockUnbalanced": "Ububiko ntiburinganiye",
+    "cards": {
+      "delivered": "Ingano yagemuwe",
+      "lost": "Ibyangiritse",
+      "sold": "Ibyagurishijwe",
+      "soldSales_one": "Ibyagurishijwe (igurisha {{count}})",
+      "soldSales_other": "Ibyagurishijwe (amagurisha {{count}})",
+      "saleMoney": "Amafaranga y'igurisha",
+      "moneyPerKg": "Amafaranga kuri kg yagemuwe"
+    },
+    "breakdown": {
+      "title": "Uko amafaranga agabanywa ku banyamuryango",
+      "contributors_one": "Umunyamuryango {{count}}",
+      "contributors_other": "Abanyamuryango {{count}}"
+    },
+    "table": {
+      "member": "Umunyamuryango",
+      "delivered": "Yagemuye (kg)",
+      "share": "Umugabane",
+      "shareOfMoney": "Amafaranga y'umugabane",
+      "deduction": "Ibikurwaho",
+      "net": "Ayo azahabwa",
+      "total": "Igiteranyo"
+    },
+    "rules": {
+      "title": "Uko bibarwa",
+      "shareLabel": "Umugabane w'umunyamuryango",
+      "share": "= (kg z'umunyamuryango ÷ kg zose z'ikirundo) × amafaranga y'igurisha.",
+      "deduction": "Koperative ifata amafaranga angana kuri buri kg yagemuwe, ashyirwaho mu Igenamiterere, akurwa kuri buri mugabane."
+    },
+    "finalize": {
+      "title": "Rangiza kugabanya ikirundo",
+      "text": "Kwemeza bibika burundu umugabane wa buri munyamuryango mu gitabo cy'imari. Ntibishobora gusubizwa inyuma.",
+      "confirm": "Emeza kugabanya",
+      "sharing": "Biragabanywa...",
+      "cancel": "Hagarika"
+    },
+    "confirmQuestion": "Ugabanya amafaranga y'ikirundo {{code}} ku banyamuryango bacyo? Ibi ntibishobora gusubizwa inyuma.",
+    "success": "Ikirundo {{code}} cyagabanyijwe. Abanyamuryango bashobora kwishyurwa.",
+    "goToPayments": "Jya ku kwishyura",
+    "error": "Ntibishobotse kugabanya ikirundo. Ongera ugerageze.",
+    "shareMoney": "Gabanya amafaranga"
+  },
+  "payments": {
+    "eyebrow": "Ibikorwa by'imari",
+    "title": "Kwishyura Abanyamuryango",
+    "subtitle": "Ishyura abanyamuryango umugabane wabo nyuma yo kugabanya ibirundo, kandi ukurikirane ayo buri wese asigaje.",
+    "totalOwed": "Ayo babereyemo yose",
+    "paidThisWeek": "Ayishyuwe iki cyumweru",
+    "methods": {
+      "CASH": "Amafaranga mu ntoki",
+      "MOMO": "Mobile money",
+      "MOBILE_MONEY": "Mobile money",
+      "BANK": "Banki"
+    },
+    "status": {
+      "UNPAID": "Ntiyishyuwe",
+      "PART_PAID": "Yishyuwe igice",
+      "PAID": "Yishyuwe"
+    },
+    "balances": {
+      "title": "Incamake y'ayo babereyemo",
+      "searchLabel": "Shakisha abanyamuryango",
+      "searchPlaceholder": "Shakisha umunyamuryango",
+      "filterLabel": "Uko bihagaze",
+      "allStatuses": "Byose",
+      "member": "Umunyamuryango",
+      "share": "Umugabane",
+      "deduction": "Ibikurwaho",
+      "paidSoFar": "Ayamaze kwishyurwa",
+      "balance": "Asigaye",
+      "status": "Uko bihagaze",
+      "pay": "Ishyura",
+      "empty": "Nta munyamuryango ufite umugabane. Ayo babereyemo agaragara nyuma yo kugabanya ikirundo.",
+      "noResults": "Nta munyamuryango uhuye n'ibyo washakishije.",
+      "error": "Ntibishobotse kubona ayo babereyemo.",
+      "retry": "Ongera ugerageze"
+    },
+    "form": {
+      "title": "Andika ubwishyu",
+      "modalTitle": "Ishyura {{name}}",
+      "member": "Umunyamuryango",
+      "chooseMember": "Hitamo umunyamuryango ubereyemo",
+      "noMembers": "Nta muntu ubereyemo amafaranga.",
+      "owed": "Abereyemo: {{amount}}",
+      "amount": "Amafaranga (RWF)",
+      "maxAllowed": "Ntarenze: {{amount}}",
+      "method": "Uburyo bwo kwishyura",
+      "reference": "Nimero y'ikimenyetso",
+      "referenceOptional": "Nimero y'ikimenyetso (si ngombwa)",
+      "referenceHint": "Nimero y'igikorwa",
+      "date": "Itariki",
+      "cancel": "Hagarika",
+      "close": "Funga",
+      "save": "Bika ubwishyu",
+      "saving": "Birabikwa...",
+      "saved": "Ubwishyu bwanditswe",
+      "errors": {
+        "memberRequired": "Hitamo umunyamuryango",
+        "amountRequired": "Andika amafaranga",
+        "amountInvalid": "Andika umubare wuzuye wa RWF uri hejuru ya 0",
+        "amountTooLarge": "Amafaranga ntashobora kurenza {{amount}} abereyemo",
+        "referenceRequired": "Andika nimero y'ikimenyetso cy'igikorwa",
+        "dateRequired": "Hitamo itariki yo kwishyura",
+        "dateFuture": "Itariki ntishobora kuba iri imbere",
+        "generic": "Ntibishobotse kubika ubwishyu. Ongera ugerageze.",
+        "serverUnreachable": "Ntibishoboka kugera kuri seriveri. Reba murandasi yawe wongere ugerageze."
+      }
+    },
+    "history": {
+      "title": "Amateka y'ubwishyu",
+      "paymentId": "Nimero y'ubwishyu",
+      "date": "Itariki",
+      "member": "Umunyamuryango",
+      "amount": "Amafaranga",
+      "method": "Uburyo",
+      "reference": "Nimero y'ikimenyetso",
+      "filterLabel": "Uburyo",
+      "all": "Uburyo bwose",
+      "empty": "Nta bwishyu buranditswe.",
+      "noResults": "Nta bwishyu bukoresheje ubu buryo.",
+      "error": "Ntibishobotse kubona ubwishyu.",
+      "retry": "Ongera ugerageze",
+      "showing": "Herekanywe {{from}}-{{to}} kuri {{total}}"
     }
   }
 }

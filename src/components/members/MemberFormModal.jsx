@@ -3,9 +3,9 @@ import { useTranslation } from 'react-i18next'
 import { X } from 'lucide-react'
 import { createMember, updateMember } from '../../api/members'
 import { todayIso } from '../../utils/format'
+import { RWANDAN_PHONE_PATTERN, cleanPhone } from '../../utils/phone'
 
 // Same rules as the backend's MemberRequest.
-const PHONE_PATTERN = /^(\+250|250|0)7[2389]\d{7}$/
 const NATIONAL_ID_PATTERN = /^\d{16}$/
 
 // The backend stores +2507XXXXXXXX; the manager is used to typing 07XXXXXXXX.
@@ -27,7 +27,7 @@ function initialValues(member) {
 function toRequest(values) {
   return {
     fullName: values.fullName.trim(),
-    phone: values.phone.replace(/\s/g, ''),
+    phone: cleanPhone(values.phone),
     nationalId: values.nationalId.trim() || null,
     address: values.address.trim() || null,
     joinDate: values.joinDate,
@@ -38,7 +38,7 @@ function toRequest(values) {
 function validate(request) {
   const errors = {}
   if (!request.fullName) errors.fullName = 'members.form.errors.fullNameRequired'
-  if (!PHONE_PATTERN.test(request.phone)) errors.phone = 'members.form.errors.phoneInvalid'
+  if (!RWANDAN_PHONE_PATTERN.test(request.phone)) errors.phone = 'members.form.errors.phoneInvalid'
   if (request.nationalId && !NATIONAL_ID_PATTERN.test(request.nationalId)) {
     errors.nationalId = 'members.form.errors.nationalIdInvalid'
   }

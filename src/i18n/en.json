@@ -32,11 +32,6 @@
   },
   "pages": {
     "dashboard": "Dashboard",
-    "recordDelivery": "Record Delivery",
-    "lots": "Lots & Stock",
-    "sales": "Sales",
-    "share": "Share Lot Money",
-    "payments": "Payments",
     "buyerRequests": "Buyer Requests",
     "ledger": "Ledger",
     "settings": "Settings",
@@ -116,9 +111,7 @@
       "INACTIVE": "Inactive"
     },
     "pagination": {
-      "showing": "Showing {{from}}-{{to}} of {{total}} members",
-      "previous": "Previous",
-      "next": "Next"
+      "showing": "Showing {{from}}-{{to}} of {{total}} members"
     },
     "empty": {
       "title": "No members yet",
@@ -209,7 +202,8 @@
         "sharePercent": "Share %",
         "shareOfMoney": "Share of money",
         "empty": "No lot shares yet",
-        "waitingForSale": "Waiting for sale"
+        "waitingForSale": "Waiting for sale",
+        "waitingForSharing": "Waiting for sharing"
       },
       "payments": {
         "title": "Payments history",
@@ -218,21 +212,477 @@
         "amountPaid": "Amount paid",
         "method": "Method",
         "referenceCode": "Reference code",
-        "empty": "No payments yet",
-        "methods": {
-          "CASH": "Cash",
-          "MOBILE_MONEY": "MoMo",
-          "BANK": "Bank"
-        }
+        "empty": "No payments yet"
       },
-      "grades": {
-        "Big": "Big",
-        "Normal": "Normal",
-        "Small": "Small"
-      }
+      "error": "Could not load the statement.",
+      "pay": "Pay",
+      "loading": "Loading..."
     },
     "print": {
       "statementAsOf": "Statement as of {{date}}"
+    }
+  },
+  "deliveries": {
+    "title": "Record member delivery",
+    "member": {
+      "label": "Search member (name, phone or member number)",
+      "placeholder": "Type a name, phone or member number",
+      "searching": "Searching...",
+      "noResults": "No active member found",
+      "error": "Could not search members.",
+      "change": "Change"
+    },
+    "grade": {
+      "label": "Quality grade",
+      "error": "Could not load grades.",
+      "none": "No grades are set up.",
+      "retry": "Try again"
+    },
+    "date": {
+      "label": "Delivery date"
+    },
+    "quantity": {
+      "label": "Quantity (kg)",
+      "unit": "kg"
+    },
+    "lot": {
+      "title": "Lot assignment and deductions",
+      "chooseGrade": "Choose a grade to see which lot this delivery goes to.",
+      "checking": "Checking the open lot...",
+      "existing": "Will be added to lot {{code}} (open)",
+      "newLot": "A new lot will be started for this grade",
+      "error": "Could not check the open lot.",
+      "deduction": "Cooperative deduction: {{kg}} kg × {{rate}} RWF = {{amount}}",
+      "deductionHint": "Enter the quantity to see the deduction.",
+      "note": "No price is entered now. The member is paid after the lot is sold."
+    },
+    "duplicate": {
+      "title": "Possible duplicate delivery",
+      "message_one": "This member delivered {{kg}} kg {{count}} minute ago. Is this a duplicate?",
+      "message_other": "This member delivered {{kg}} kg {{count}} minutes ago. Is this a duplicate?"
+    },
+    "offline": {
+      "title": "You are offline",
+      "message": "Offline saving is coming soon. Connect to the internet to save this delivery."
+    },
+    "save": "Save delivery",
+    "saving": "Saving...",
+    "errors": {
+      "memberRequired": "Choose a member",
+      "gradeRequired": "Choose a grade",
+      "quantityRequired": "Enter the quantity",
+      "quantityInvalid": "Enter a number above 0 with at most 2 decimals",
+      "quantityTooLarge": "The quantity must be at most 5,000 kg",
+      "dateRequired": "Choose the delivery date",
+      "dateFuture": "The delivery date cannot be in the future",
+      "generic": "Could not save the delivery. Please try again.",
+      "serverUnreachable": "Cannot reach the server. Check your connection and try again."
+    },
+    "receipt": {
+      "title": "Delivery receipt",
+      "member": "Member",
+      "dateTime": "Date and time",
+      "gradeLot": "Grade and lot",
+      "gradeLotValue": "{{grade}} (lot {{lot}})",
+      "quantity": "Quantity",
+      "deduction": "Deduction",
+      "print": "Print receipt",
+      "recordAnother": "Record another",
+      "viewMember": "View member"
+    },
+    "tips": {
+      "title": "Manager tips",
+      "text": "Make sure the scale shows zero before weighing. The duplicate warning shows when the same member delivered in the last 15 minutes."
+    },
+    "today": {
+      "title": "Today's deliveries",
+      "total_one": "Total today: {{kg}} ({{count}} record)",
+      "total_other": "Total today: {{kg}} ({{count}} records)",
+      "code": "Code",
+      "member": "Member",
+      "grade": "Grade",
+      "lot": "Lot",
+      "kg": "Kg",
+      "deduction": "Deduction",
+      "time": "Time",
+      "actions": "Actions",
+      "view": "View",
+      "empty": "No deliveries recorded today.",
+      "error": "Could not load today's deliveries.",
+      "retry": "Try again"
+    },
+    "memberSection": {
+      "loading": "Loading deliveries...",
+      "error": "Could not load deliveries.",
+      "showing": "Showing {{from}}-{{to}} of {{total}} deliveries"
+    }
+  },
+  "grades": {
+    "Big": "Big",
+    "Normal": "Normal",
+    "Small": "Small"
+  },
+  "lots": {
+    "eyebrow": "Inventory management",
+    "title": "Lots & Stock Control",
+    "status": {
+      "OPEN": "Open",
+      "CLOSED": "Closed",
+      "SOLD": "Sold",
+      "SHARED": "Shared"
+    },
+    "balance": {
+      "title": "Stock balance",
+      "formula": "Delivered = Sold + Lost + In stock ({{delivered}} = {{sold}} + {{lost}} + {{inStock}})",
+      "ok": "The stock balances.",
+      "mismatch": "The stock does not balance: {{difference}} is missing or extra. Check recent deliveries, sales and losses."
+    },
+    "cards": {
+      "gradeAvailable": "{{grade}} available",
+      "totalInStock": "Total in stock",
+      "lotCounts": "{{open}} open · {{closed}} closed lots",
+      "addedToday": "Added today",
+      "deliveriesToday_one": "{{count}} delivery",
+      "deliveriesToday_other": "{{count}} deliveries"
+    },
+    "stockError": "Could not load the stock summary.",
+    "retry": "Try again",
+    "table": {
+      "title": "Active & closed lots",
+      "subtitle": "Track the weight and status of every lot.",
+      "lot": "Lot",
+      "grade": "Grade",
+      "dates": "Dates",
+      "delivered": "Delivered",
+      "sold": "Sold",
+      "lost": "Lost",
+      "inStock": "In stock",
+      "members": "Members",
+      "saleAmount": "Sale amount",
+      "status": "Status",
+      "openSince": "{{date}} – open",
+      "period": "{{from}} – {{to}}",
+      "empty": "No lots yet. A lot opens by itself with the first delivery of a grade.",
+      "noResults": "No lots match these filters.",
+      "error": "Could not load lots.",
+      "showing": "Showing {{from}}-{{to}} of {{total}} lots",
+      "stillOpen": "open"
+    },
+    "filters": {
+      "status": "Status",
+      "grade": "Grade",
+      "all": "All"
+    },
+    "loss": {
+      "subtitle": "Record rot, damage or other losses so the stock stays correct.",
+      "modalTitle": "Record loss for lot {{code}}",
+      "quantity": "Quantity lost (kg)",
+      "maxAvailable": "At most {{kg}}",
+      "reason": "Loss reason",
+      "chooseReason": "Choose a reason",
+      "reasons": {
+        "ROT": "Rot",
+        "DAMAGE": "Damage",
+        "THEFT": "Theft",
+        "OTHER": "Other"
+      },
+      "notes": "Additional notes",
+      "notesPlaceholder": "Describe what happened",
+      "save": "Save loss",
+      "saving": "Saving...",
+      "saved": "Loss recorded",
+      "cancel": "Cancel",
+      "close": "Close",
+      "errors": {
+        "quantityRequired": "Enter the quantity lost",
+        "quantityInvalid": "Enter a number above 0 with at most 2 decimals",
+        "quantityTooLarge": "Only {{kg}} remain in this lot",
+        "reasonRequired": "Choose a reason",
+        "generic": "Could not save the loss. Please try again.",
+        "serverUnreachable": "Cannot reach the server. Check your connection and try again."
+      }
+    },
+    "detail": {
+      "back": "Back to lots",
+      "opened": "Opened {{date}}",
+      "closedOn": "Closed {{date}}",
+      "delivered": "Delivered",
+      "sold": "Sold",
+      "lost": "Lost",
+      "inStock": "In stock",
+      "saleAmount": "Sale amount",
+      "members": "Members",
+      "closeLot": "Close lot",
+      "closing": "Closing...",
+      "confirmClose": "Close lot {{code}}? No more deliveries will be added to it, and the next delivery of this grade starts a new lot.",
+      "closedNotice": "Lot closed",
+      "closeError": "Could not close the lot. Please try again.",
+      "recordLoss": "Record loss",
+      "recordSale": "Record sale",
+      "membersTitle": "Members in this lot",
+      "memberName": "Member",
+      "memberNumber": "Member ID",
+      "kg": "Kg",
+      "noMembers": "No deliveries in this lot yet.",
+      "lossesTitle": "Losses",
+      "lossDate": "Date",
+      "lossKg": "Kg",
+      "lossReason": "Reason",
+      "lossNotes": "Notes",
+      "noLosses": "No losses recorded.",
+      "lossesError": "Could not load the losses.",
+      "notFound": "Lot not found",
+      "notFoundMessage": "There is no lot with this ID.",
+      "loadError": "Could not load this lot."
+    },
+    "actions": {
+      "column": "Actions",
+      "menu": "Actions for {{code}}",
+      "view": "View details",
+      "close": "Close lot",
+      "recordLoss": "Record loss",
+      "recordSale": "Record sale",
+      "shareMoney": "Share money",
+      "viewShares": "View shares"
+    },
+    "close": {
+      "title": "Close {{code}}?",
+      "message": "No more deliveries will go into this lot. The next {{grade}} delivery will start a new lot.",
+      "confirm": "Close lot",
+      "cancel": "Cancel",
+      "done": "Lot {{code}} closed"
+    },
+    "statusHelp": {
+      "OPEN": "Open: still receiving deliveries.",
+      "CLOSED": "Closed: no more deliveries; ready to be sold.",
+      "SOLD": "Sold: fully sold; the money is waiting to be shared.",
+      "SHARED": "Shared: the money has been shared with the members."
+    }
+  },
+  "sales": {
+    "title": "Sales & Buyer Transactions",
+    "summary": {
+      "salesThisMonth": "Sales this month",
+      "soldThisMonth": "Sold this month",
+      "buyersThisMonth": "Buyers this month",
+      "averagePrice": "Average price",
+      "noValue": "—",
+      "perKg": "{{amount}}/kg"
+    },
+    "form": {
+      "title": "Record sale",
+      "subtitle": "Fill in the sale details below",
+      "buyer": "Buyer",
+      "lot": "Lot",
+      "chooseLot": "Choose a closed lot",
+      "lotOption": "{{code}} ({{grade}}) – {{kg}} available",
+      "noLots": "No closed lot has stock to sell. Close a lot first.",
+      "available": "{{kg}} available in {{code}}",
+      "date": "Sale date",
+      "quantity": "Quantity (kg)",
+      "maxAvailable": "Max available: {{kg}}",
+      "price": "Price per kg (RWF)",
+      "total": "Total amount",
+      "belowFloorLive": "The price is below the floor price for this grade ({{floor}} per kg).",
+      "clear": "Clear",
+      "save": "Save sale",
+      "saving": "Saving...",
+      "errors": {
+        "lotRequired": "Choose a lot",
+        "buyerRequired": "Choose a buyer",
+        "quantityRequired": "Enter the quantity",
+        "quantityInvalid": "Enter a number above 0 with at most 2 decimals",
+        "quantityTooLarge": "Only {{kg}} remain in this lot",
+        "priceRequired": "Enter the price per kg",
+        "priceInvalid": "Enter a whole number of RWF above 0",
+        "dateRequired": "Choose the sale date",
+        "dateFuture": "The sale date cannot be in the future",
+        "generic": "Could not save the sale. Please try again.",
+        "serverUnreachable": "Cannot reach the server. Check your connection and try again."
+      }
+    },
+    "buyer": {
+      "placeholder": "Search a buyer by name or phone",
+      "searching": "Searching...",
+      "noResults": "No buyer found",
+      "error": "Could not search buyers.",
+      "change": "Change",
+      "addNew": "Add new buyer",
+      "newTitle": "New buyer",
+      "name": "Name",
+      "phone": "Phone",
+      "phoneHint": "Example: 0788123456",
+      "add": "Add buyer",
+      "adding": "Adding...",
+      "cancel": "Cancel",
+      "errors": {
+        "nameRequired": "Enter the buyer's name",
+        "phoneInvalid": "Enter a Rwandan mobile number, for example 0788123456",
+        "generic": "Could not add the buyer. Please try again."
+      }
+    },
+    "result": {
+      "title": "Sale {{code}} saved",
+      "total": "Total: {{amount}}",
+      "belowFloor": "The price is below the floor price for this grade. The sale was saved anyway.",
+      "lotSold": "Lot {{code}} is now fully sold and ready for sharing.",
+      "recordAnother": "Record another sale"
+    },
+    "history": {
+      "title": "Sales history",
+      "saleId": "Sale ID",
+      "date": "Date",
+      "buyer": "Buyer",
+      "lot": "Lot",
+      "kg": "Kg",
+      "pricePerKg": "Price/kg",
+      "total": "Total",
+      "empty": "No sales yet.",
+      "error": "Could not load sales.",
+      "retry": "Try again",
+      "showing": "Showing {{from}}-{{to}} of {{total}} sales"
+    }
+  },
+  "pagination": {
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "share": {
+    "eyebrow": "Financial distribution & lot settlement",
+    "title": "Share Lot Money",
+    "lot": "Sold lot",
+    "chooseLot": "Choose a sold lot",
+    "noLots": "No sold lots yet. A lot can be shared once it is fully sold.",
+    "lotOption": "{{code}} ({{grade}}) – sold, ready to share",
+    "lotsError": "Could not load the lots.",
+    "previewError": "Could not load the shares for this lot.",
+    "retry": "Try again",
+    "empty": "Choose a sold lot to see how its money will be shared.",
+    "stockBalanced": "Stock check balanced",
+    "stockUnbalanced": "Stock check does not balance",
+    "cards": {
+      "delivered": "Delivered quantity",
+      "lost": "Lost",
+      "sold": "Sold",
+      "soldSales_one": "Sold ({{count}} sale)",
+      "soldSales_other": "Sold ({{count}} sales)",
+      "saleMoney": "Sale money",
+      "moneyPerKg": "Money per kg delivered"
+    },
+    "breakdown": {
+      "title": "Member allocation breakdown",
+      "contributors_one": "{{count}} contributor",
+      "contributors_other": "{{count}} contributors"
+    },
+    "table": {
+      "member": "Member",
+      "delivered": "Delivered (kg)",
+      "share": "Share",
+      "shareOfMoney": "Share of money",
+      "deduction": "Deduction",
+      "net": "Net to receive",
+      "total": "Total"
+    },
+    "rules": {
+      "title": "Calculation rules",
+      "shareLabel": "Member's share",
+      "share": "= (member's kg ÷ total kg in the lot) × sale money.",
+      "deduction": "The cooperative keeps a fixed amount for every kg delivered, set in Settings, and takes it from each share."
+    },
+    "finalize": {
+      "title": "Finalize lot distribution",
+      "text": "Confirming saves each member's share permanently in the ledger. This cannot be undone.",
+      "confirm": "Confirm sharing",
+      "sharing": "Sharing...",
+      "cancel": "Cancel"
+    },
+    "confirmQuestion": "Share the money of lot {{code}} between its members? This cannot be undone.",
+    "success": "Lot {{code}} has been shared. The members can now be paid.",
+    "goToPayments": "Go to payments",
+    "error": "Could not share the lot. Please try again.",
+    "shareMoney": "Share money"
+  },
+  "payments": {
+    "eyebrow": "Financial operations",
+    "title": "Member Payments & Settlements",
+    "subtitle": "Pay members their share after their lots are shared, and follow each member's balance.",
+    "totalOwed": "Total owed",
+    "paidThisWeek": "Paid this week",
+    "methods": {
+      "CASH": "Cash",
+      "MOMO": "Mobile money",
+      "MOBILE_MONEY": "Mobile money",
+      "BANK": "Bank"
+    },
+    "status": {
+      "UNPAID": "Unpaid",
+      "PART_PAID": "Part paid",
+      "PAID": "Paid"
+    },
+    "balances": {
+      "title": "Amounts owed summary",
+      "searchLabel": "Search members",
+      "searchPlaceholder": "Search member",
+      "filterLabel": "Status",
+      "allStatuses": "All statuses",
+      "member": "Member",
+      "share": "Share",
+      "deduction": "Deduction",
+      "paidSoFar": "Paid so far",
+      "balance": "Balance",
+      "status": "Status",
+      "pay": "Pay",
+      "empty": "No member has a share yet. Balances appear after a lot is shared.",
+      "noResults": "No member matches this search or filter.",
+      "error": "Could not load the balances.",
+      "retry": "Try again"
+    },
+    "form": {
+      "title": "Record payment",
+      "modalTitle": "Pay {{name}}",
+      "member": "Member",
+      "chooseMember": "Choose a member with a balance",
+      "noMembers": "Nobody has a balance to pay.",
+      "owed": "Owed: {{amount}}",
+      "amount": "Amount (RWF)",
+      "maxAllowed": "Max allowed: {{amount}}",
+      "method": "Payment method",
+      "reference": "Reference #",
+      "referenceOptional": "Reference # (optional)",
+      "referenceHint": "The transaction ID",
+      "date": "Date",
+      "cancel": "Cancel",
+      "close": "Close",
+      "save": "Save payment",
+      "saving": "Saving...",
+      "saved": "Payment recorded",
+      "errors": {
+        "memberRequired": "Choose a member",
+        "amountRequired": "Enter the amount",
+        "amountInvalid": "Enter a whole number of RWF above 0",
+        "amountTooLarge": "The amount cannot be more than the {{amount}} owed",
+        "referenceRequired": "Enter the transaction reference",
+        "dateRequired": "Choose the payment date",
+        "dateFuture": "The payment date cannot be in the future",
+        "generic": "Could not save the payment. Please try again.",
+        "serverUnreachable": "Cannot reach the server. Check your connection and try again."
+      }
+    },
+    "history": {
+      "title": "Payment history",
+      "paymentId": "Payment ID",
+      "date": "Date",
+      "member": "Member",
+      "amount": "Amount",
+      "method": "Method",
+      "reference": "Reference",
+      "filterLabel": "Method",
+      "all": "All methods",
+      "empty": "No payments yet.",
+      "noResults": "No payments with this method.",
+      "error": "Could not load payments.",
+      "retry": "Try again",
+      "showing": "Showing {{from}}-{{to}} of {{total}} payments"
     }
   }
 }
