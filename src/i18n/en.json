@@ -449,7 +449,8 @@
       "soldThisMonth": "Sold this month",
       "buyersThisMonth": "Buyers this month",
       "averagePrice": "Average price",
-      "noValue": "—"
+      "noValue": "—",
+      "perKg": "{{amount}}/kg"
     },
     "form": {
       "title": "Record sale",

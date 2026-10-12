@@ -449,7 +449,8 @@
       "soldThisMonth": "Ibyagurishijwe uku kwezi",
       "buyersThisMonth": "Abaguzi b'uku kwezi",
       "averagePrice": "Igiciro mpuzandengo",
-      "noValue": "—"
+      "noValue": "—",
+      "perKg": "{{amount}}/kg"
     },
     "form": {
       "title": "Andika igurisha",

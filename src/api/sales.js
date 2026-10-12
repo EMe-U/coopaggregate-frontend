@@ -7,6 +7,12 @@ export async function recordSale(sale) {
   return response.data
 }
 
+// This month's totals in Kigali time, calculated by the backend.
+export async function getSalesSummary() {
+  const response = await client.get('/api/sales/summary')
+  return response.data
+}
+
 export async function listSales({ lotId, buyerId, page = 0, size = 20 } = {}) {
   const params = { page, size }
   if (lotId) params.lotId = lotId

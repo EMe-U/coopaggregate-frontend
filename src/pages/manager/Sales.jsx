@@ -10,17 +10,18 @@ export default function Sales() {
   const { t } = useTranslation()
   // Set when coming from a lot's "Record sale" button.
   const [searchParams] = useSearchParams()
-  const [historyReloadKey, setHistoryReloadKey] = useState(0)
+  // Bumped after a sale so the summary cards and the history reload.
+  const [reloadKey, setReloadKey] = useState(0)
 
   return (
     <div className="space-y-6">
       <PageTitle className="mb-0">{t('sales.title')}</PageTitle>
-      <SalesSummaryCards />
+      <SalesSummaryCards reloadKey={reloadKey} />
       <SaleForm
         initialLotId={searchParams.get('lotId')}
-        onSaved={() => setHistoryReloadKey((key) => key + 1)}
+        onSaved={() => setReloadKey((key) => key + 1)}
       />
-      <SalesHistory reloadKey={historyReloadKey} />
+      <SalesHistory reloadKey={reloadKey} />
     </div>
   )
 }
