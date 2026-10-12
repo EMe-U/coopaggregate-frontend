@@ -204,7 +204,8 @@
         "sharePercent": "Share %",
         "shareOfMoney": "Share of money",
         "empty": "No lot shares yet",
-        "waitingForSale": "Waiting for sale"
+        "waitingForSale": "Waiting for sale",
+        "waitingForSharing": "Waiting for sharing"
       },
       "payments": {
         "title": "Payments history",
@@ -219,7 +220,9 @@
           "MOBILE_MONEY": "MoMo",
           "BANK": "Bank"
         }
-      }
+      },
+      "error": "Could not load the statement.",
+      "pay": "Pay"
     },
     "print": {
       "statementAsOf": "Statement as of {{date}}"
@@ -531,5 +534,111 @@
   "pagination": {
     "previous": "Previous",
     "next": "Next"
+  },
+  "share": {
+    "title": "Share Lot Money",
+    "subtitle": "Split the money from a sold lot between the members who delivered to it.",
+    "lot": "Lot",
+    "chooseLot": "Choose a sold lot",
+    "noLots": "No sold lots yet. A lot can be shared once it is fully sold.",
+    "groupSold": "Sold – ready to share",
+    "groupShared": "Already shared",
+    "lotOption": "{{code}} ({{grade}})",
+    "lotsError": "Could not load the lots.",
+    "previewError": "Could not load the shares for this lot.",
+    "retry": "Try again",
+    "empty": "Choose a sold lot to see how its money will be shared.",
+    "facts": {
+      "grade": "Grade",
+      "delivered": "Delivered",
+      "saleMoney": "Sale money",
+      "members": "Members"
+    },
+    "formula": "Share = member kg ÷ lot kg × sale money. Net to pay = share − deduction.",
+    "table": {
+      "member": "Member",
+      "memberNumber": "Member ID",
+      "kg": "Kg",
+      "sharePercent": "Share %",
+      "share": "Share",
+      "deduction": "Deduction",
+      "net": "Net to pay",
+      "total": "Total"
+    },
+    "confirm": "Confirm and share",
+    "sharing": "Sharing...",
+    "confirmQuestion": "Share the money of lot {{code}} between its members? This cannot be undone.",
+    "success": "Lot {{code}} has been shared. The members can now be paid.",
+    "goToPayments": "Go to payments",
+    "error": "Could not share the lot. Please try again.",
+    "sharedNote": "This lot has been shared. These are the saved shares.",
+    "shareMoney": "Share money"
+  },
+  "payments": {
+    "title": "Payments",
+    "subtitle": "Pay members what they are owed after their lots are shared.",
+    "totalOwed": "Total owed to members",
+    "membersOwed_one": "{{count}} member waiting to be paid",
+    "membersOwed_other": "{{count}} members waiting to be paid",
+    "methods": {
+      "CASH": "Cash",
+      "MOMO": "MoMo",
+      "MOBILE_MONEY": "MoMo",
+      "BANK": "Bank"
+    },
+    "owed": {
+      "title": "Members owed",
+      "searchLabel": "Search members owed",
+      "searchPlaceholder": "Search by name, phone or member number",
+      "member": "Member",
+      "memberNumber": "Member ID",
+      "phone": "Phone",
+      "owed": "Owed",
+      "pay": "Pay",
+      "empty": "Nobody is owed money right now.",
+      "noResults": "No member owed matches this search.",
+      "error": "Could not load the members owed.",
+      "retry": "Try again"
+    },
+    "form": {
+      "title": "Pay {{name}}",
+      "owed": "Owed: {{amount}}",
+      "amount": "Amount (RWF)",
+      "method": "Method",
+      "reference": "Reference",
+      "referenceOptional": "Reference (optional)",
+      "referenceHint": "The MoMo transaction ID",
+      "date": "Payment date",
+      "cancel": "Cancel",
+      "close": "Close",
+      "save": "Save payment",
+      "saving": "Saving...",
+      "saved": "Payment recorded",
+      "errors": {
+        "amountRequired": "Enter the amount",
+        "amountInvalid": "Enter a whole number of RWF above 0",
+        "amountTooLarge": "The amount cannot be more than the {{amount}} owed",
+        "referenceRequired": "Enter the MoMo reference",
+        "dateRequired": "Choose the payment date",
+        "dateFuture": "The payment date cannot be in the future",
+        "generic": "Could not save the payment. Please try again.",
+        "serverUnreachable": "Cannot reach the server. Check your connection and try again."
+      }
+    },
+    "history": {
+      "title": "Payment history",
+      "date": "Date",
+      "member": "Member",
+      "amount": "Amount",
+      "method": "Method",
+      "reference": "Reference",
+      "filterLabel": "Method",
+      "all": "All methods",
+      "empty": "No payments yet.",
+      "noResults": "No payments with this method.",
+      "error": "Could not load payments.",
+      "retry": "Try again",
+      "showing": "Showing {{from}}-{{to}} of {{total}} payments"
+    }
   }
 }
