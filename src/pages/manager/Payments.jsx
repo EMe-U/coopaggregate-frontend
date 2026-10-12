@@ -4,6 +4,7 @@ import PageTitle from '../../components/PageTitle'
 import SuccessToast from '../../components/SuccessToast'
 import OwedMembers from '../../components/payments/OwedMembers'
 import PaymentFormModal from '../../components/payments/PaymentFormModal'
+import PaymentHistory from '../../components/payments/PaymentHistory'
 import TotalOwedCard from '../../components/payments/TotalOwedCard'
 
 export default function Payments() {
@@ -29,6 +30,7 @@ export default function Payments() {
       </div>
       <TotalOwedCard reloadKey={reloadKey} />
       <OwedMembers reloadKey={reloadKey} onPay={setPaying} />
+      <PaymentHistory reloadKey={reloadKey} />
 
       {paying && <PaymentFormModal member={paying} onClose={() => setPaying(null)} onSaved={handleSaved} />}
       {notice && <SuccessToast message={notice} onDone={clearNotice} />}

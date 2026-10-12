@@ -45,6 +45,12 @@ export function formatTime(instant) {
   return kigaliTimeFormat.format(new Date(instant))
 }
 
+// Accepts a day (YYYY-MM-DD) or a timestamp and shows the day, in Kigali time for timestamps.
+export function formatDay(value) {
+  if (!value) return ''
+  return value.length === 10 ? formatDate(value) : formatDate(kigaliIsoDate(new Date(value)))
+}
+
 export function formatDateTime(instant) {
   return `${formatDate(kigaliIsoDate(new Date(instant)))}, ${formatTime(instant)}`
 }
