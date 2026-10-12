@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Info, Split } from 'lucide-react'
+import { CircleCheck, Info, Split } from 'lucide-react'
 import { listAllLots } from '../../api/lots'
-import { getSharePreview } from '../../api/shares'
+import { getSharePreview, shareLot } from '../../api/shares'
 import EmptyState from '../../components/EmptyState'
 import GradeName from '../../components/GradeName'
 import PageTitle from '../../components/PageTitle'
@@ -39,6 +39,10 @@ export default function ShareLotMoney() {
   const [previewState, setPreviewState] = useState('idle')
   const [previewReloadKey, setPreviewReloadKey] = useState(0)
 
+  const [sharing, setSharing] = useState(false)
+  const [shareError, setShareError] = useState('')
+  const [sharedCode, setSharedCode] = useState('')
+
   useEffect(() => {
     let ignore = false
     setLotsError(false)
@@ -56,6 +60,8 @@ export default function ShareLotMoney() {
 
   useEffect(() => {
     setPreview(null)
+    setShareError('')
+    setSharedCode('')
     if (!lotId) {
       setPreviewState('idle')
       return
@@ -81,6 +87,23 @@ export default function ShareLotMoney() {
 
   function chooseLot(id) {
     setSearchParams(id ? { lotId: id } : {})
+  }
+
+  async function handleShare() {
+    if (!window.confirm(t('share.confirmQuestion', { code: preview.lotCode }))) return
+
+    setSharing(true)
+    setShareError('')
+    try {
+      // The answer holds the saved shares, which replace the preview.
+      setPreview(await shareLot(lotId))
+      setSharedCode(preview.lotCode)
+      setLotsReloadKey((key) => key + 1)
+    } catch (error) {
+      setShareError(error.response?.data?.message || t('share.error'))
+    } finally {
+      setSharing(false)
+    }
   }
 
   function lotLabel(candidate) {
@@ -127,11 +150,44 @@ export default function ShareLotMoney() {
           {t('share.formula')}
         </p>
 
-        {lot?.status === 'SHARED' && (
-          <p className="rounded-lg bg-primary-light px-3 py-2 text-sm text-primary">{t('share.sharedNote')}</p>
+        {sharedCode ? (
+          <div role="status" className="flex flex-wrap items-center gap-3 rounded-lg bg-primary-light p-3 text-sm text-primary">
+            <CircleCheck size={20} className="shrink-0" />
+            <span className="flex-1 font-medium">{t('share.success', { code: sharedCode })}</span>
+            <Link
+              to="/payments"
+              className="flex min-h-11 items-center rounded-lg bg-primary px-4 font-semibold text-white hover:bg-primary/90"
+            >
+              {t('share.goToPayments')}
+            </Link>
+          </div>
+        ) : (
+          lot?.status === 'SHARED' && (
+            <p className="rounded-lg bg-primary-light px-3 py-2 text-sm text-primary">{t('share.sharedNote')}</p>
+          )
+        )}
+
+        {shareError && (
+          <p role="alert" className="rounded-lg bg-danger/10 px-3 py-2 text-sm text-danger">
+            {shareError}
+          </p>
         )}
 
         <SharePreviewTable members={preview.members} totals={preview.totals} />
+
+        {lot?.status === 'SOLD' && !sharedCode && (
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={handleShare}
+              disabled={sharing}
+              className="flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-primary px-6 text-base font-semibold text-white hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+            >
+              <Split size={18} />
+              {sharing ? t('share.sharing') : t('share.confirm')}
+            </button>
+          </div>
+        )}
       </div>
     )
   }
