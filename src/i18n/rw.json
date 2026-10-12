@@ -546,7 +546,7 @@
     },
     "history": {
       "title": "Amateka y'igurisha",
-      "saleId": "Nimero",
+      "saleId": "Itegeko / igurisha",
       "date": "Itariki",
       "buyer": "Umuguzi",
       "lot": "Ikirundo",
@@ -556,7 +556,9 @@
       "empty": "Nta gurisha riraba.",
       "error": "Ntibishobotse kubona igurisha.",
       "retry": "Ongera ugerageze",
-      "showing": "Herekanywe {{from}}-{{to}} kuri {{total}}"
+      "showing": "Herekanywe {{from}}-{{to}} kuri {{total}}",
+      "lots_one": "Ikirundo {{count}}",
+      "lots_other": "Ibirundo {{count}}"
     }
   },
   "pagination": {

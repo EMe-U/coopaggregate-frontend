@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { listSales } from '../../api/sales'
@@ -6,6 +6,40 @@ import Pagination from '../Pagination'
 import { formatDate, formatKg, formatMoney } from '../../utils/format'
 
 const PAGE_SIZE = 10
+const cell = 'whitespace-nowrap px-3 py-3'
+
+// Sales come newest first, so the lines of one order sit next to each other. Older sales without
+// an order stay on their own. An order cut by the page edge continues on the next page.
+function groupByOrder(sales) {
+  const groups = []
+  for (const sale of sales) {
+    const last = groups.at(-1)
+    if (sale.orderCode && last?.orderCode === sale.orderCode) last.sales.push(sale)
+    else groups.push({ orderCode: sale.orderCode, sales: [sale] })
+  }
+  return groups
+}
+
+// Lines of an order leave out the date and buyer, which their order row already shows.
+function SaleRow({ sale, inOrder }) {
+  return (
+    <tr>
+      <td className={`${cell} font-mono ${inOrder ? 'pl-7 text-xs text-muted' : 'font-medium text-primary'}`}>
+        {sale.saleCode}
+      </td>
+      <td className={cell}>{inOrder ? '' : formatDate(sale.soldAt)}</td>
+      <td className={cell}>{inOrder ? '' : sale.buyerName}</td>
+      <td className={`${cell} font-mono text-xs`}>
+        <Link to={`/lots/${sale.lotId}`} className="text-primary hover:underline">
+          {sale.lotCode}
+        </Link>
+      </td>
+      <td className={cell}>{formatKg(sale.quantityKg)}</td>
+      <td className={cell}>{formatMoney(sale.pricePerKg)}</td>
+      <td className={`${cell} font-medium`}>{formatMoney(sale.totalAmountRwf)}</td>
+    </tr>
+  )
+}
 
 export default function SalesHistory({ reloadKey }) {
   const { t } = useTranslation()
@@ -35,7 +69,6 @@ export default function SalesHistory({ reloadKey }) {
     }
   }, [page, reloadKey, retryKey])
 
-  const cell = 'whitespace-nowrap px-3 py-3'
 
   return (
     <section className="min-w-0 rounded-xl bg-surface p-5 shadow-sm">
@@ -80,21 +113,25 @@ export default function SalesHistory({ reloadKey }) {
                 </tr>
               </thead>
               <tbody className="divide-y divide-text/5">
-                {result.content.map((sale) => (
-                  <tr key={sale.id}>
-                    <td className={`${cell} font-mono font-medium text-primary`}>{sale.saleCode}</td>
-                    <td className={cell}>{formatDate(sale.soldAt)}</td>
-                    <td className={cell}>{sale.buyerName}</td>
-                    <td className={`${cell} font-mono text-xs`}>
-                      <Link to={`/lots/${sale.lotId}`} className="text-primary hover:underline">
-                        {sale.lotCode}
-                      </Link>
-                    </td>
-                    <td className={cell}>{formatKg(sale.quantityKg)}</td>
-                    <td className={cell}>{formatMoney(sale.pricePerKg)}</td>
-                    <td className={`${cell} font-medium`}>{formatMoney(sale.totalAmountRwf)}</td>
-                  </tr>
-                ))}
+                {groupByOrder(result.content).map((group) =>
+                  group.orderCode ? (
+                    <Fragment key={group.orderCode}>
+                      <tr className="bg-background/60">
+                        <td className={`${cell} font-mono font-semibold text-primary`}>{group.orderCode}</td>
+                        <td className={cell}>{formatDate(group.sales[0].soldAt)}</td>
+                        <td className={cell}>{group.sales[0].buyerName}</td>
+                        <td colSpan={4} className={`${cell} text-muted`}>
+                          {t('sales.history.lots', { count: group.sales.length })}
+                        </td>
+                      </tr>
+                      {group.sales.map((sale) => (
+                        <SaleRow key={sale.id} sale={sale} inOrder />
+                      ))}
+                    </Fragment>
+                  ) : (
+                    <SaleRow key={group.sales[0].id} sale={group.sales[0]} />
+                  ),
+                )}
               </tbody>
             </table>
           </div>

@@ -546,7 +546,7 @@
     },
     "history": {
       "title": "Sales history",
-      "saleId": "Sale ID",
+      "saleId": "Order / sale",
       "date": "Date",
       "buyer": "Buyer",
       "lot": "Lot",
@@ -556,7 +556,9 @@
       "empty": "No sales yet.",
       "error": "Could not load sales.",
       "retry": "Try again",
-      "showing": "Showing {{from}}-{{to}} of {{total}} sales"
+      "showing": "Showing {{from}}-{{to}} of {{total}} sales",
+      "lots_one": "{{count}} lot",
+      "lots_other": "{{count}} lots"
     }
   },
   "pagination": {
