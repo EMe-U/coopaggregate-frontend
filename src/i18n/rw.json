@@ -451,6 +451,12 @@
       "confirm": "Funga ikirundo",
       "cancel": "Hagarika",
       "done": "Ikirundo {{code}} cyafunzwe"
+    },
+    "statusHelp": {
+      "OPEN": "Gifunguye: kiracyakira ibigemurwa.",
+      "CLOSED": "Gifunze: nta bindi bigemurwa; cyiteguye kugurishwa.",
+      "SOLD": "Cyagurishijwe: cyagurishijwe cyose; amafaranga ategereje kugabanywa.",
+      "SHARED": "Cyagabanyijwe: amafaranga yagabanyijwe abanyamuryango."
     }
   },
   "sales": {

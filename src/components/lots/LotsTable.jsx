@@ -173,7 +173,11 @@ export default function LotsTable({ reloadKey, onClose, onRecordLoss }) {
 
         <ul className="divide-y divide-text/5 md:hidden">
           {result.content.map((lot) => (
-            <li key={lot.id} className="p-4">
+            <li
+              key={lot.id}
+              onClick={() => navigate(`/lots/${lot.id}`)}
+              className="cursor-pointer p-4 hover:bg-background/60"
+            >
               <div className="flex items-center gap-2">
                 <Link to={`/lots/${lot.id}`} className="font-mono font-medium text-primary hover:underline">
                   {lot.code}
@@ -183,7 +187,7 @@ export default function LotsTable({ reloadKey, onClose, onRecordLoss }) {
                   <LotActionsMenu lot={lot} onClose={onClose} onRecordLoss={onRecordLoss} />
                 </div>
               </div>
-              <Link to={`/lots/${lot.id}`} className="block">
+              <div>
                 <p className="mt-0.5 text-sm text-text">
                   <GradeName name={lot.gradeName} />
                 </p>
@@ -218,7 +222,7 @@ export default function LotsTable({ reloadKey, onClose, onRecordLoss }) {
                     </dd>
                   </div>
                 </dl>
-              </Link>
+              </div>
             </li>
           ))}
         </ul>
