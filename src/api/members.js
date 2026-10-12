@@ -20,6 +20,12 @@ export async function getMember(id) {
   return response.data
 }
 
+// Gross share, deductions, paid and owed amounts, all calculated by the backend.
+export async function getMemberStatement(id) {
+  const response = await client.get(`/api/members/${id}/statement`)
+  return response.data
+}
+
 export async function createMember(member) {
   const response = await client.post('/api/members', member)
   return response.data
