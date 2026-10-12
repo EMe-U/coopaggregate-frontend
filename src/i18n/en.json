@@ -440,6 +440,16 @@
       "notFound": "Lot not found",
       "notFoundMessage": "There is no lot with this ID.",
       "loadError": "Could not load this lot."
+    },
+    "actions": {
+      "column": "Actions",
+      "menu": "Actions for lot {{code}}",
+      "view": "View details",
+      "close": "Close lot",
+      "recordLoss": "Record loss",
+      "recordSale": "Record sale",
+      "shareMoney": "Share money",
+      "viewShares": "View shares"
     }
   },
   "sales": {

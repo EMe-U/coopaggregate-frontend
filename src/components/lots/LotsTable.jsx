@@ -7,6 +7,7 @@ import { listLots } from '../../api/lots'
 import EmptyState from '../EmptyState'
 import GradeName from '../GradeName'
 import Pagination from '../Pagination'
+import LotActionsMenu from './LotActionsMenu'
 import LotStatusBadge from './LotStatusBadge'
 import { formatDate, formatKg, formatMoney } from '../../utils/format'
 
@@ -27,7 +28,7 @@ function SaleAmount({ amount }) {
   return amount ? formatMoney(amount) : <span className="text-muted">–</span>
 }
 
-export default function LotsTable({ reloadKey }) {
+export default function LotsTable({ reloadKey, onClose, onRecordLoss }) {
   const { t } = useTranslation()
   const navigate = useNavigate()
 
@@ -112,6 +113,9 @@ export default function LotsTable({ reloadKey }) {
                     </th>
                   ),
                 )}
+                <th className="px-3 py-3">
+                  <span className="sr-only">{t('lots.actions.column')}</span>
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-text/5">
@@ -143,6 +147,9 @@ export default function LotsTable({ reloadKey }) {
                   <td className={cell}>
                     <SaleAmount amount={lot.saleAmountRwf} />
                   </td>
+                  <td className="px-1 py-1 text-right">
+                    <LotActionsMenu lot={lot} onClose={onClose} onRecordLoss={onRecordLoss} />
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -151,12 +158,17 @@ export default function LotsTable({ reloadKey }) {
 
         <ul className="divide-y divide-text/5 md:hidden">
           {result.content.map((lot) => (
-            <li key={lot.id}>
-              <Link to={`/lots/${lot.id}`} className="block p-4 hover:bg-background/60">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="font-mono font-medium text-primary">{lot.code}</span>
-                  <LotStatusBadge status={lot.status} />
+            <li key={lot.id} className="p-4">
+              <div className="flex items-center gap-2">
+                <Link to={`/lots/${lot.id}`} className="font-mono font-medium text-primary hover:underline">
+                  {lot.code}
+                </Link>
+                <LotStatusBadge status={lot.status} />
+                <div className="ml-auto -mr-2">
+                  <LotActionsMenu lot={lot} onClose={onClose} onRecordLoss={onRecordLoss} />
                 </div>
+              </div>
+              <Link to={`/lots/${lot.id}`} className="block">
                 <p className="mt-0.5 text-sm text-text">
                   <GradeName name={lot.gradeName} />
                 </p>

@@ -440,6 +440,16 @@
       "notFound": "Ikirundo ntikiboneka",
       "notFoundMessage": "Nta kirundo gifite iyi nimero.",
       "loadError": "Ntibishobotse kubona iki kirundo."
+    },
+    "actions": {
+      "column": "Ibikorwa",
+      "menu": "Ibikorwa ku kirundo {{code}}",
+      "view": "Reba ibisobanuro",
+      "close": "Funga ikirundo",
+      "recordLoss": "Andika ibyangiritse",
+      "recordSale": "Andika igurisha",
+      "shareMoney": "Gabanya amafaranga",
+      "viewShares": "Reba imigabane"
     }
   },
   "sales": {
