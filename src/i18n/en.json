@@ -32,7 +32,6 @@
   },
   "pages": {
     "dashboard": "Dashboard",
-    "payments": "Payments",
     "buyerRequests": "Buyer Requests",
     "ledger": "Ledger",
     "settings": "Settings",
