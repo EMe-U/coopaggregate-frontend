@@ -450,6 +450,13 @@
       "recordSale": "Andika igurisha",
       "shareMoney": "Gabanya amafaranga",
       "viewShares": "Reba imigabane"
+    },
+    "close": {
+      "title": "Ufunga {{code}}?",
+      "message": "Nta byagemuwe bizongera kujya muri iki kirundo. Ibizagemurwa bya {{grade}} bizatangiza ikirundo gishya.",
+      "confirm": "Funga ikirundo",
+      "cancel": "Hagarika",
+      "done": "Ikirundo {{code}} cyafunzwe"
     }
   },
   "sales": {

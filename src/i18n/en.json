@@ -450,6 +450,13 @@
       "recordSale": "Record sale",
       "shareMoney": "Share money",
       "viewShares": "View shares"
+    },
+    "close": {
+      "title": "Close {{code}}?",
+      "message": "No more deliveries will go into this lot. The next {{grade}} delivery will start a new lot.",
+      "confirm": "Close lot",
+      "cancel": "Cancel",
+      "done": "Lot {{code}} closed"
     }
   },
   "sales": {

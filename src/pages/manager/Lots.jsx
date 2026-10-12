@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Boxes } from 'lucide-react'
-import { getStock } from '../../api/lots'
+import { closeLot, getStock } from '../../api/lots'
+import ConfirmDialog from '../../components/ConfirmDialog'
 import PageTitle from '../../components/PageTitle'
 import SuccessToast from '../../components/SuccessToast'
 import LossPanel from '../../components/lots/LossPanel'
@@ -18,6 +19,10 @@ export default function Lots() {
   const [notice, setNotice] = useState('')
   const clearNotice = useCallback(() => setNotice(''), [])
 
+  const [closing, setClosing] = useState(null)
+  const [closeBusy, setCloseBusy] = useState(false)
+  const [closeError, setCloseError] = useState('')
+
   const loadStock = useCallback(() => {
     setStockError(false)
     getStock()
@@ -28,6 +33,31 @@ export default function Lots() {
   useEffect(() => {
     loadStock()
   }, [loadStock])
+
+  function refresh() {
+    setReloadKey((key) => key + 1)
+    loadStock()
+  }
+
+  function askToClose(lot) {
+    setCloseError('')
+    setClosing(lot)
+  }
+
+  async function confirmClose() {
+    setCloseBusy(true)
+    setCloseError('')
+    try {
+      await closeLot(closing.id)
+      setNotice(t('lots.close.done', { code: closing.code }))
+      setClosing(null)
+      refresh()
+    } catch (error) {
+      setCloseError(error.response?.data?.message || t('lots.detail.closeError'))
+    } finally {
+      setCloseBusy(false)
+    }
+  }
 
   function handleLossSaved() {
     setNotice(t('lots.loss.saved'))
@@ -49,11 +79,25 @@ export default function Lots() {
 
       <div className="grid gap-6 xl:grid-cols-3">
         <div className="min-w-0 xl:col-span-2">
-          <LotsTable reloadKey={reloadKey} />
+          <LotsTable reloadKey={reloadKey} onClose={askToClose} />
         </div>
         <LossPanel reloadKey={reloadKey} onSaved={handleLossSaved} />
       </div>
 
+      {closing && (
+        <ConfirmDialog
+          title={t('lots.close.title', { code: closing.code })}
+          message={t('lots.close.message', {
+            grade: t(`grades.${closing.gradeName}`, { defaultValue: closing.gradeName }),
+          })}
+          confirmLabel={closeBusy ? t('lots.detail.closing') : t('lots.close.confirm')}
+          cancelLabel={t('lots.close.cancel')}
+          busy={closeBusy}
+          error={closeError}
+          onConfirm={confirmClose}
+          onCancel={() => setClosing(null)}
+        />
+      )}
       {notice && <SuccessToast message={notice} onDone={clearNotice} />}
     </div>
   )
