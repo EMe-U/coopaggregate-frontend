@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { CircleCheck, HandCoins, Save, TriangleAlert } from 'lucide-react'
+import { CircleCheck, HandCoins, Save, Sparkles, TriangleAlert } from 'lucide-react'
 import { listGrades } from '../../api/grades'
 import { listAllLots } from '../../api/lots'
 import { recordSaleOrder } from '../../api/sales'
@@ -27,6 +27,25 @@ function roundKg(kg) {
 let nextLineKey = 1
 function newLine(lotId = '') {
   return { key: nextLineKey++, lotId: String(lotId), kgText: '', priceText: '' }
+}
+
+// Oldest lots first (by the day they opened, then by id), so older potatoes are sold before newer ones.
+function oldestFirst(a, b) {
+  return a.createdAt.localeCompare(b.createdAt) || a.id - b.id
+}
+
+// Takes kg from the oldest lots until the wanted kg is reached. Returns the lines and the kg still
+// missing when the lots do not hold enough.
+function suggestLines(lots, wantedKg) {
+  const lines = []
+  let missing = wantedKg
+  for (const lot of [...lots].sort(oldestFirst)) {
+    if (missing <= 0) break
+    const take = roundKg(Math.min(Number(lot.remainingKg), missing))
+    lines.push({ ...newLine(lot.id), kgText: String(take) })
+    missing = roundKg(missing - take)
+  }
+  return { lines, missing }
 }
 
 function emptyForm() {
@@ -112,6 +131,7 @@ export default function SaleForm({ initialLotId, onSaved }) {
   const [formError, setFormError] = useState('')
   const [saving, setSaving] = useState(false)
   const [savedOrder, setSavedOrder] = useState(null)
+  const [shortBy, setShortBy] = useState(0)
   const initialLotUsed = useRef(false)
 
   useEffect(() => {
@@ -192,6 +212,13 @@ export default function SaleForm({ initialLotId, onSaved }) {
   function changeGrade(gradeId) {
     // Lots belong to one grade, so lines from the old grade no longer fit.
     setForm((current) => ({ ...current, gradeId, lines: [] }))
+    setShortBy(0)
+  }
+
+  function handleSuggest() {
+    const suggestion = suggestLines(gradeLots, wantedKg)
+    setForm((current) => ({ ...current, lines: suggestion.lines }))
+    setShortBy(suggestion.missing)
   }
 
   function changeLine(key, changes) {
@@ -239,6 +266,7 @@ export default function SaleForm({ initialLotId, onSaved }) {
 
   function reset() {
     setForm(emptyForm())
+    setShortBy(0)
     setFormError('')
     setSavedOrder(null)
     setClientUuid(crypto.randomUUID())
@@ -330,7 +358,32 @@ export default function SaleForm({ initialLotId, onSaved }) {
           </div>
 
           <div className="space-y-3">
-            <h3 className="text-sm font-semibold text-text">{t('sales.form.linesTitle')}</h3>
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <h3 className="text-sm font-semibold text-text">{t('sales.form.linesTitle')}</h3>
+              {grade && gradeLots.length > 0 && (
+                <button
+                  type="button"
+                  onClick={handleSuggest}
+                  disabled={saving || !(wantedKg > 0)}
+                  title={t('sales.form.suggestHint')}
+                  className="flex min-h-11 items-center gap-1.5 rounded-lg bg-primary-light px-4 text-sm font-semibold text-primary hover:bg-primary/15 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  <Sparkles size={16} />
+                  {t('sales.form.suggest')}
+                </button>
+              )}
+            </div>
+            {grade && gradeLots.length > 0 && (
+              <p className="text-xs text-muted">{t('sales.form.suggestHint')}</p>
+            )}
+            {shortBy > 0 && (
+              <p className="flex items-start gap-2 rounded-lg bg-warning/15 p-3 text-sm text-amber-800">
+                <TriangleAlert size={16} className="mt-0.5 shrink-0" />
+                {t('sales.form.notEnoughStock', {
+                  available: formatKg(roundKg(gradeLots.reduce((sum, lot) => sum + Number(lot.remainingKg), 0))),
+                })}
+              </p>
+            )}
             {lotsError && <p className="text-sm text-danger">{t('lots.table.error')}</p>}
             {!grade && <p className="rounded-lg bg-background p-4 text-sm text-muted">{t('sales.form.noLines')}</p>}
             {grade && lots && gradeLots.length === 0 && (
