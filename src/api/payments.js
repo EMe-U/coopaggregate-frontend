@@ -1,7 +1,13 @@
 import client from './client'
 
-export async function getOwed(search) {
-  const response = await client.get('/api/payments/owed', { params: search ? { search } : {} })
+// One row per member who has a share: share, deduction, paid so far, balance and status,
+// plus the total owed and the amount paid this week for all members.
+export async function getBalances({ search, status } = {}) {
+  const params = {}
+  if (search) params.search = search
+  if (status) params.status = status
+
+  const response = await client.get('/api/payments/balances', { params })
   return response.data
 }
 

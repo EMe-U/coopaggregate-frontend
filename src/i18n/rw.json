@@ -666,22 +666,6 @@
       "error": "Ntibishobotse kubona ubwishyu.",
       "retry": "Ongera ugerageze",
       "showing": "Herekanywe {{from}}-{{to}} kuri {{total}}"
-    },
-    "owed": {
-      "title": "Abanyamuryango babereyemo",
-      "searchLabel": "Shakisha abanyamuryango babereyemo",
-      "searchPlaceholder": "Shakisha ukoresheje izina, telefoni cyangwa nimero",
-      "member": "Umunyamuryango",
-      "memberNumber": "Nimero",
-      "phone": "Telefoni",
-      "owed": "Abereyemo",
-      "pay": "Ishyura",
-      "empty": "Nta muntu ubereyemo amafaranga ubu.",
-      "noResults": "Nta munyamuryango ubereyemo uhuye n'ibyo washakishije.",
-      "error": "Ntibishobotse kubona abanyamuryango babereyemo.",
-      "retry": "Ongera ugerageze"
-    },
-    "membersOwed_one": "Umunyamuryango {{count}} utegereje kwishyurwa",
-    "membersOwed_other": "Abanyamuryango {{count}} bategereje kwishyurwa"
+    }
   }
 }

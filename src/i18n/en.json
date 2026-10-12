@@ -666,22 +666,6 @@
       "error": "Could not load payments.",
       "retry": "Try again",
       "showing": "Showing {{from}}-{{to}} of {{total}} payments"
-    },
-    "owed": {
-      "title": "Members owed",
-      "searchLabel": "Search members owed",
-      "searchPlaceholder": "Search by name, phone or member number",
-      "member": "Member",
-      "memberNumber": "Member ID",
-      "phone": "Phone",
-      "owed": "Owed",
-      "pay": "Pay",
-      "empty": "Nobody is owed money right now.",
-      "noResults": "No member owed matches this search.",
-      "error": "Could not load the members owed.",
-      "retry": "Try again"
-    },
-    "membersOwed_one": "{{count}} member waiting to be paid",
-    "membersOwed_other": "{{count}} members waiting to be paid"
+    }
   }
 }
