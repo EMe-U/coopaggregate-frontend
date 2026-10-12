@@ -1,56 +1,59 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import Avatar from '../Avatar'
 import { formatKg, formatMoney } from '../../utils/format'
 
 // Every amount here is calculated by the backend; this only displays them.
-export default function SharePreviewTable({ members, totals }) {
+export default function SharePreviewTable({ preview }) {
   const { t } = useTranslation()
   const cell = 'whitespace-nowrap px-3 py-3'
-  const columns = ['member', 'memberNumber', 'kg', 'sharePercent', 'share', 'deduction', 'net']
+  const number = `${cell} text-right`
 
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-left text-sm">
         <thead className="bg-background text-xs uppercase tracking-wide text-muted">
           <tr>
-            {columns.map((column) => (
-              <th key={column} className="whitespace-nowrap px-3 py-2 font-semibold">
+            <th className="whitespace-nowrap px-3 py-2 font-semibold">{t('share.table.member')}</th>
+            {['delivered', 'share', 'shareOfMoney', 'deduction', 'net'].map((column) => (
+              <th key={column} className="whitespace-nowrap px-3 py-2 text-right font-semibold">
                 {t(`share.table.${column}`)}
               </th>
             ))}
           </tr>
         </thead>
         <tbody className="divide-y divide-text/5">
-          {members.map((member) => (
+          {preview.members.map((member) => (
             <tr key={member.memberId}>
               <td className={cell}>
-                <Link to={`/members/${member.memberId}`} className="text-primary hover:underline">
-                  {member.memberName}
-                </Link>
+                <div className="flex items-center gap-2">
+                  <Avatar name={member.memberName} />
+                  <div>
+                    <Link to={`/members/${member.memberId}`} className="font-medium text-text hover:text-primary hover:underline">
+                      {member.memberName}
+                    </Link>
+                    <p className="font-mono text-xs text-muted">{member.memberNumber}</p>
+                  </div>
+                </div>
               </td>
-              <td className={`${cell} font-mono text-xs`}>{member.memberNumber}</td>
-              <td className={cell}>{formatKg(member.memberKg)}</td>
-              <td className={cell}>{member.sharePercent}%</td>
-              <td className={cell}>{formatMoney(member.shareRwf)}</td>
-              <td className={`${cell} text-danger`}>{formatMoney(member.deductionRwf)}</td>
-              <td className={`${cell} font-semibold`}>{formatMoney(member.netRwf)}</td>
+              <td className={number}>{formatKg(member.memberKg)}</td>
+              <td className={`${number} text-muted`}>{member.sharePercent}%</td>
+              <td className={number}>{formatMoney(member.shareRwf)}</td>
+              <td className={`${number} text-danger`}>{formatMoney(member.deductionRwf)}</td>
+              <td className={`${number} font-semibold text-primary`}>{formatMoney(member.netRwf)}</td>
             </tr>
           ))}
         </tbody>
-        {totals && (
-          <tfoot className="border-t-2 border-text/10 font-semibold">
-            <tr>
-              <td colSpan={2} className={cell}>
-                {t('share.table.total')}
-              </td>
-              <td className={cell}>{formatKg(totals.memberKg)}</td>
-              <td className={cell} />
-              <td className={cell}>{formatMoney(totals.shareRwf)}</td>
-              <td className={`${cell} text-danger`}>{formatMoney(totals.deductionRwf)}</td>
-              <td className={cell}>{formatMoney(totals.netRwf)}</td>
-            </tr>
-          </tfoot>
-        )}
+        <tfoot className="border-t-2 border-text/10 bg-background/60 font-semibold">
+          <tr>
+            <td className={`${cell} uppercase`}>{t('share.table.total')}</td>
+            <td className={number}>{formatKg(preview.deliveredKg)}</td>
+            <td className={number}>100%</td>
+            <td className={number}>{formatMoney(preview.totals.shareRwf)}</td>
+            <td className={`${number} text-danger`}>{formatMoney(preview.totals.deductionRwf)}</td>
+            <td className={`${number} text-lg text-primary`}>{formatMoney(preview.totals.netRwf)}</td>
+          </tr>
+        </tfoot>
       </table>
     </div>
   )

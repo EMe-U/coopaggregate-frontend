@@ -21,6 +21,10 @@ export function formatDate(isoDate) {
 
 const numberFormat = new Intl.NumberFormat('en-US')
 
+export function formatNumber(value) {
+  return numberFormat.format(value)
+}
+
 // Display only. Amounts are always calculated by the backend.
 export function formatMoney(amount) {
   return `${numberFormat.format(amount)} RWF`

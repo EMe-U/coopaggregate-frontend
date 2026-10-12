@@ -531,55 +531,141 @@
     "next": "Next"
   },
   "share": {
+    "eyebrow": "Financial distribution & lot settlement",
     "title": "Share Lot Money",
-    "subtitle": "Split the money from a sold lot between the members who delivered to it.",
-    "lot": "Lot",
+    "lot": "Sold lot",
     "chooseLot": "Choose a sold lot",
     "noLots": "No sold lots yet. A lot can be shared once it is fully sold.",
-    "groupSold": "Sold – ready to share",
-    "groupShared": "Already shared",
-    "lotOption": "{{code}} ({{grade}})",
+    "lotOption": "{{code}} ({{grade}}) – sold, ready to share",
     "lotsError": "Could not load the lots.",
     "previewError": "Could not load the shares for this lot.",
     "retry": "Try again",
     "empty": "Choose a sold lot to see how its money will be shared.",
-    "facts": {
-      "grade": "Grade",
-      "delivered": "Delivered",
+    "stockBalanced": "Stock check balanced",
+    "stockUnbalanced": "Stock check does not balance",
+    "cards": {
+      "delivered": "Delivered quantity",
+      "lost": "Lost",
+      "sold": "Sold",
+      "soldSales_one": "Sold ({{count}} sale)",
+      "soldSales_other": "Sold ({{count}} sales)",
       "saleMoney": "Sale money",
-      "members": "Members"
+      "moneyPerKg": "Money per kg delivered"
     },
-    "formula": "Share = member kg ÷ lot kg × sale money. Net to pay = share − deduction.",
+    "breakdown": {
+      "title": "Member allocation breakdown",
+      "contributors_one": "{{count}} contributor",
+      "contributors_other": "{{count}} contributors"
+    },
     "table": {
       "member": "Member",
-      "memberNumber": "Member ID",
-      "kg": "Kg",
-      "sharePercent": "Share %",
+      "delivered": "Delivered (kg)",
       "share": "Share",
+      "shareOfMoney": "Share of money",
       "deduction": "Deduction",
-      "net": "Net to pay",
+      "net": "Net to receive",
       "total": "Total"
     },
-    "confirm": "Confirm and share",
-    "sharing": "Sharing...",
+    "rules": {
+      "title": "Calculation rules",
+      "shareLabel": "Member's share",
+      "share": "= (member's kg ÷ total kg in the lot) × sale money.",
+      "deduction": "The cooperative keeps a fixed amount for every kg delivered, set in Settings, and takes it from each share."
+    },
+    "finalize": {
+      "title": "Finalize lot distribution",
+      "text": "Confirming saves each member's share permanently in the ledger. This cannot be undone.",
+      "confirm": "Confirm sharing",
+      "sharing": "Sharing...",
+      "cancel": "Cancel"
+    },
     "confirmQuestion": "Share the money of lot {{code}} between its members? This cannot be undone.",
     "success": "Lot {{code}} has been shared. The members can now be paid.",
     "goToPayments": "Go to payments",
     "error": "Could not share the lot. Please try again.",
-    "sharedNote": "This lot has been shared. These are the saved shares.",
     "shareMoney": "Share money"
   },
   "payments": {
-    "title": "Payments",
-    "subtitle": "Pay members what they are owed after their lots are shared.",
-    "totalOwed": "Total owed to members",
-    "membersOwed_one": "{{count}} member waiting to be paid",
-    "membersOwed_other": "{{count}} members waiting to be paid",
+    "eyebrow": "Financial operations",
+    "title": "Member Payments & Settlements",
+    "subtitle": "Pay members their share after their lots are shared, and follow each member's balance.",
+    "totalOwed": "Total owed",
+    "paidThisWeek": "Paid this week",
     "methods": {
       "CASH": "Cash",
-      "MOMO": "MoMo",
-      "MOBILE_MONEY": "MoMo",
+      "MOMO": "Mobile money",
+      "MOBILE_MONEY": "Mobile money",
       "BANK": "Bank"
+    },
+    "status": {
+      "UNPAID": "Unpaid",
+      "PART_PAID": "Part paid",
+      "PAID": "Paid"
+    },
+    "balances": {
+      "title": "Amounts owed summary",
+      "searchLabel": "Search members",
+      "searchPlaceholder": "Search member",
+      "filterLabel": "Status",
+      "allStatuses": "All statuses",
+      "member": "Member",
+      "share": "Share",
+      "deduction": "Deduction",
+      "paidSoFar": "Paid so far",
+      "balance": "Balance",
+      "status": "Status",
+      "pay": "Pay",
+      "empty": "No member has a share yet. Balances appear after a lot is shared.",
+      "noResults": "No member matches this search or filter.",
+      "error": "Could not load the balances.",
+      "retry": "Try again"
+    },
+    "form": {
+      "title": "Record payment",
+      "modalTitle": "Pay {{name}}",
+      "member": "Member",
+      "chooseMember": "Choose a member with a balance",
+      "noMembers": "Nobody has a balance to pay.",
+      "owed": "Owed: {{amount}}",
+      "amount": "Amount (RWF)",
+      "maxAllowed": "Max allowed: {{amount}}",
+      "method": "Payment method",
+      "reference": "Reference #",
+      "referenceOptional": "Reference # (optional)",
+      "referenceHint": "The transaction ID",
+      "date": "Date",
+      "cancel": "Cancel",
+      "close": "Close",
+      "save": "Save payment",
+      "saving": "Saving...",
+      "saved": "Payment recorded",
+      "errors": {
+        "memberRequired": "Choose a member",
+        "amountRequired": "Enter the amount",
+        "amountInvalid": "Enter a whole number of RWF above 0",
+        "amountTooLarge": "The amount cannot be more than the {{amount}} owed",
+        "referenceRequired": "Enter the transaction reference",
+        "dateRequired": "Choose the payment date",
+        "dateFuture": "The payment date cannot be in the future",
+        "generic": "Could not save the payment. Please try again.",
+        "serverUnreachable": "Cannot reach the server. Check your connection and try again."
+      }
+    },
+    "history": {
+      "title": "Payment history",
+      "paymentId": "Payment ID",
+      "date": "Date",
+      "member": "Member",
+      "amount": "Amount",
+      "method": "Method",
+      "reference": "Reference",
+      "filterLabel": "Method",
+      "all": "All methods",
+      "empty": "No payments yet.",
+      "noResults": "No payments with this method.",
+      "error": "Could not load payments.",
+      "retry": "Try again",
+      "showing": "Showing {{from}}-{{to}} of {{total}} payments"
     },
     "owed": {
       "title": "Members owed",
@@ -595,45 +681,7 @@
       "error": "Could not load the members owed.",
       "retry": "Try again"
     },
-    "form": {
-      "title": "Pay {{name}}",
-      "owed": "Owed: {{amount}}",
-      "amount": "Amount (RWF)",
-      "method": "Method",
-      "reference": "Reference",
-      "referenceOptional": "Reference (optional)",
-      "referenceHint": "The MoMo transaction ID",
-      "date": "Payment date",
-      "cancel": "Cancel",
-      "close": "Close",
-      "save": "Save payment",
-      "saving": "Saving...",
-      "saved": "Payment recorded",
-      "errors": {
-        "amountRequired": "Enter the amount",
-        "amountInvalid": "Enter a whole number of RWF above 0",
-        "amountTooLarge": "The amount cannot be more than the {{amount}} owed",
-        "referenceRequired": "Enter the MoMo reference",
-        "dateRequired": "Choose the payment date",
-        "dateFuture": "The payment date cannot be in the future",
-        "generic": "Could not save the payment. Please try again.",
-        "serverUnreachable": "Cannot reach the server. Check your connection and try again."
-      }
-    },
-    "history": {
-      "title": "Payment history",
-      "date": "Date",
-      "member": "Member",
-      "amount": "Amount",
-      "method": "Method",
-      "reference": "Reference",
-      "filterLabel": "Method",
-      "all": "All methods",
-      "empty": "No payments yet.",
-      "noResults": "No payments with this method.",
-      "error": "Could not load payments.",
-      "retry": "Try again",
-      "showing": "Showing {{from}}-{{to}} of {{total}} payments"
-    }
+    "membersOwed_one": "{{count}} member waiting to be paid",
+    "membersOwed_other": "{{count}} members waiting to be paid"
   }
 }

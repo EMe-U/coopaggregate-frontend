@@ -531,55 +531,141 @@
     "next": "Ibikurikira"
   },
   "share": {
+    "eyebrow": "Kugabanya amafaranga y'ibirundo",
     "title": "Kugabanya Amafaranga y'Ikirundo",
-    "subtitle": "Gabanya amafaranga y'ikirundo cyagurishijwe ku banyamuryango bakigemuyemo.",
-    "lot": "Ikirundo",
+    "lot": "Ikirundo cyagurishijwe",
     "chooseLot": "Hitamo ikirundo cyagurishijwe",
     "noLots": "Nta kirundo cyagurishijwe kiraboneka. Ikirundo kigabanywa iyo cyagurishijwe cyose.",
-    "groupSold": "Byagurishijwe – byiteguye kugabanywa",
-    "groupShared": "Byamaze kugabanywa",
-    "lotOption": "{{code}} ({{grade}})",
+    "lotOption": "{{code}} ({{grade}}) – cyagurishijwe, cyiteguye kugabanywa",
     "lotsError": "Ntibishobotse kubona ibirundo.",
     "previewError": "Ntibishobotse kubona imigabane y'iki kirundo.",
     "retry": "Ongera ugerageze",
     "empty": "Hitamo ikirundo cyagurishijwe urebe uko amafaranga yacyo azagabanywa.",
-    "facts": {
-      "grade": "Urwego",
-      "delivered": "Ibyagemuwe",
+    "stockBalanced": "Ububiko buraringaniye",
+    "stockUnbalanced": "Ububiko ntiburinganiye",
+    "cards": {
+      "delivered": "Ingano yagemuwe",
+      "lost": "Ibyangiritse",
+      "sold": "Ibyagurishijwe",
+      "soldSales_one": "Ibyagurishijwe (igurisha {{count}})",
+      "soldSales_other": "Ibyagurishijwe (amagurisha {{count}})",
       "saleMoney": "Amafaranga y'igurisha",
-      "members": "Abanyamuryango"
+      "moneyPerKg": "Amafaranga kuri kg yagemuwe"
     },
-    "formula": "Umugabane = kg z'umunyamuryango ÷ kg z'ikirundo × amafaranga y'igurisha. Ayo guhabwa = umugabane − ibikurwaho.",
+    "breakdown": {
+      "title": "Uko amafaranga agabanywa ku banyamuryango",
+      "contributors_one": "Umunyamuryango {{count}}",
+      "contributors_other": "Abanyamuryango {{count}}"
+    },
     "table": {
       "member": "Umunyamuryango",
-      "memberNumber": "Nimero",
-      "kg": "Kg",
-      "sharePercent": "Umugabane %",
+      "delivered": "Yagemuye (kg)",
       "share": "Umugabane",
+      "shareOfMoney": "Amafaranga y'umugabane",
       "deduction": "Ibikurwaho",
-      "net": "Ayo guhabwa",
+      "net": "Ayo azahabwa",
       "total": "Igiteranyo"
     },
-    "confirm": "Emeza kandi ugabanye",
-    "sharing": "Biragabanywa...",
+    "rules": {
+      "title": "Uko bibarwa",
+      "shareLabel": "Umugabane w'umunyamuryango",
+      "share": "= (kg z'umunyamuryango ÷ kg zose z'ikirundo) × amafaranga y'igurisha.",
+      "deduction": "Koperative ifata amafaranga angana kuri buri kg yagemuwe, ashyirwaho mu Igenamiterere, akurwa kuri buri mugabane."
+    },
+    "finalize": {
+      "title": "Rangiza kugabanya ikirundo",
+      "text": "Kwemeza bibika burundu umugabane wa buri munyamuryango mu gitabo cy'imari. Ntibishobora gusubizwa inyuma.",
+      "confirm": "Emeza kugabanya",
+      "sharing": "Biragabanywa...",
+      "cancel": "Hagarika"
+    },
     "confirmQuestion": "Ugabanya amafaranga y'ikirundo {{code}} ku banyamuryango bacyo? Ibi ntibishobora gusubizwa inyuma.",
     "success": "Ikirundo {{code}} cyagabanyijwe. Abanyamuryango bashobora kwishyurwa.",
     "goToPayments": "Jya ku kwishyura",
     "error": "Ntibishobotse kugabanya ikirundo. Ongera ugerageze.",
-    "sharedNote": "Iki kirundo cyamaze kugabanywa. Iyi ni imigabane yabitswe.",
     "shareMoney": "Gabanya amafaranga"
   },
   "payments": {
-    "title": "Kwishyura",
-    "subtitle": "Ishyura abanyamuryango amafaranga babereyemo nyuma yo kugabanya ibirundo.",
-    "totalOwed": "Amafaranga yose abanyamuryango babereyemo",
-    "membersOwed_one": "Umunyamuryango {{count}} utegereje kwishyurwa",
-    "membersOwed_other": "Abanyamuryango {{count}} bategereje kwishyurwa",
+    "eyebrow": "Ibikorwa by'imari",
+    "title": "Kwishyura Abanyamuryango",
+    "subtitle": "Ishyura abanyamuryango umugabane wabo nyuma yo kugabanya ibirundo, kandi ukurikirane ayo buri wese asigaje.",
+    "totalOwed": "Ayo babereyemo yose",
+    "paidThisWeek": "Ayishyuwe iki cyumweru",
     "methods": {
       "CASH": "Amafaranga mu ntoki",
-      "MOMO": "MoMo",
-      "MOBILE_MONEY": "MoMo",
+      "MOMO": "Mobile money",
+      "MOBILE_MONEY": "Mobile money",
       "BANK": "Banki"
+    },
+    "status": {
+      "UNPAID": "Ntiyishyuwe",
+      "PART_PAID": "Yishyuwe igice",
+      "PAID": "Yishyuwe"
+    },
+    "balances": {
+      "title": "Incamake y'ayo babereyemo",
+      "searchLabel": "Shakisha abanyamuryango",
+      "searchPlaceholder": "Shakisha umunyamuryango",
+      "filterLabel": "Uko bihagaze",
+      "allStatuses": "Byose",
+      "member": "Umunyamuryango",
+      "share": "Umugabane",
+      "deduction": "Ibikurwaho",
+      "paidSoFar": "Ayamaze kwishyurwa",
+      "balance": "Asigaye",
+      "status": "Uko bihagaze",
+      "pay": "Ishyura",
+      "empty": "Nta munyamuryango ufite umugabane. Ayo babereyemo agaragara nyuma yo kugabanya ikirundo.",
+      "noResults": "Nta munyamuryango uhuye n'ibyo washakishije.",
+      "error": "Ntibishobotse kubona ayo babereyemo.",
+      "retry": "Ongera ugerageze"
+    },
+    "form": {
+      "title": "Andika ubwishyu",
+      "modalTitle": "Ishyura {{name}}",
+      "member": "Umunyamuryango",
+      "chooseMember": "Hitamo umunyamuryango ubereyemo",
+      "noMembers": "Nta muntu ubereyemo amafaranga.",
+      "owed": "Abereyemo: {{amount}}",
+      "amount": "Amafaranga (RWF)",
+      "maxAllowed": "Ntarenze: {{amount}}",
+      "method": "Uburyo bwo kwishyura",
+      "reference": "Nimero y'ikimenyetso",
+      "referenceOptional": "Nimero y'ikimenyetso (si ngombwa)",
+      "referenceHint": "Nimero y'igikorwa",
+      "date": "Itariki",
+      "cancel": "Hagarika",
+      "close": "Funga",
+      "save": "Bika ubwishyu",
+      "saving": "Birabikwa...",
+      "saved": "Ubwishyu bwanditswe",
+      "errors": {
+        "memberRequired": "Hitamo umunyamuryango",
+        "amountRequired": "Andika amafaranga",
+        "amountInvalid": "Andika umubare wuzuye wa RWF uri hejuru ya 0",
+        "amountTooLarge": "Amafaranga ntashobora kurenza {{amount}} abereyemo",
+        "referenceRequired": "Andika nimero y'ikimenyetso cy'igikorwa",
+        "dateRequired": "Hitamo itariki yo kwishyura",
+        "dateFuture": "Itariki ntishobora kuba iri imbere",
+        "generic": "Ntibishobotse kubika ubwishyu. Ongera ugerageze.",
+        "serverUnreachable": "Ntibishoboka kugera kuri seriveri. Reba murandasi yawe wongere ugerageze."
+      }
+    },
+    "history": {
+      "title": "Amateka y'ubwishyu",
+      "paymentId": "Nimero y'ubwishyu",
+      "date": "Itariki",
+      "member": "Umunyamuryango",
+      "amount": "Amafaranga",
+      "method": "Uburyo",
+      "reference": "Nimero y'ikimenyetso",
+      "filterLabel": "Uburyo",
+      "all": "Uburyo bwose",
+      "empty": "Nta bwishyu buranditswe.",
+      "noResults": "Nta bwishyu bukoresheje ubu buryo.",
+      "error": "Ntibishobotse kubona ubwishyu.",
+      "retry": "Ongera ugerageze",
+      "showing": "Herekanywe {{from}}-{{to}} kuri {{total}}"
     },
     "owed": {
       "title": "Abanyamuryango babereyemo",
@@ -595,45 +681,7 @@
       "error": "Ntibishobotse kubona abanyamuryango babereyemo.",
       "retry": "Ongera ugerageze"
     },
-    "form": {
-      "title": "Ishyura {{name}}",
-      "owed": "Abereyemo: {{amount}}",
-      "amount": "Amafaranga (RWF)",
-      "method": "Uburyo",
-      "reference": "Nimero y'ikimenyetso",
-      "referenceOptional": "Nimero y'ikimenyetso (si ngombwa)",
-      "referenceHint": "Nimero y'igikorwa cya MoMo",
-      "date": "Itariki yo kwishyura",
-      "cancel": "Hagarika",
-      "close": "Funga",
-      "save": "Bika ubwishyu",
-      "saving": "Birabikwa...",
-      "saved": "Ubwishyu bwanditswe",
-      "errors": {
-        "amountRequired": "Andika amafaranga",
-        "amountInvalid": "Andika umubare wuzuye wa RWF uri hejuru ya 0",
-        "amountTooLarge": "Amafaranga ntashobora kurenza {{amount}} abereyemo",
-        "referenceRequired": "Andika nimero y'ikimenyetso cya MoMo",
-        "dateRequired": "Hitamo itariki yo kwishyura",
-        "dateFuture": "Itariki ntishobora kuba iri imbere",
-        "generic": "Ntibishobotse kubika ubwishyu. Ongera ugerageze.",
-        "serverUnreachable": "Ntibishoboka kugera kuri seriveri. Reba murandasi yawe wongere ugerageze."
-      }
-    },
-    "history": {
-      "title": "Amateka y'ubwishyu",
-      "date": "Itariki",
-      "member": "Umunyamuryango",
-      "amount": "Amafaranga",
-      "method": "Uburyo",
-      "reference": "Nimero y'ikimenyetso",
-      "filterLabel": "Uburyo",
-      "all": "Uburyo bwose",
-      "empty": "Nta bwishyu buranditswe.",
-      "noResults": "Nta bwishyu bukoresheje ubu buryo.",
-      "error": "Ntibishobotse kubona ubwishyu.",
-      "retry": "Ongera ugerageze",
-      "showing": "Herekanywe {{from}}-{{to}} kuri {{total}}"
-    }
+    "membersOwed_one": "Umunyamuryango {{count}} utegereje kwishyurwa",
+    "membersOwed_other": "Abanyamuryango {{count}} bategereje kwishyurwa"
   }
 }
