@@ -183,8 +183,8 @@ export default function ShareLotMoney() {
       <div className="space-y-6">
         {renderCards()}
 
-        <div className="grid gap-6 lg:grid-cols-3">
-          <section className="min-w-0 rounded-xl bg-surface p-5 shadow-sm lg:col-span-2">
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
+          <section className="min-w-0 rounded-xl bg-surface p-5 shadow-sm">
             <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
               <h2 className="flex items-center gap-2 font-semibold text-text">
                 <Users size={18} className="text-primary" />

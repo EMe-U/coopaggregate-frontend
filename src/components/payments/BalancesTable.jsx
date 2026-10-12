@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Banknote, Search, Wallet } from 'lucide-react'
 import { getBalances } from '../../api/payments'
@@ -18,7 +17,7 @@ const statusStyles = {
 const controlClass =
   'min-h-11 rounded-lg border border-transparent bg-background text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20'
 
-export default function BalancesTable({ reloadKey, onPay }) {
+export default function BalancesTable({ reloadKey, selectedId, onPay }) {
   const { t } = useTranslation()
 
   const [search, setSearch] = useState('')
@@ -78,7 +77,7 @@ export default function BalancesTable({ reloadKey, onPay }) {
       )
     }
 
-    const cell = 'whitespace-nowrap px-3 py-3'
+    const cell = 'px-3 py-3'
     const number = `${cell} text-right`
     return (
       <div className={`overflow-x-auto ${loading ? 'opacity-60' : ''}`}>
@@ -92,40 +91,37 @@ export default function BalancesTable({ reloadKey, onPay }) {
                 </th>
               ))}
               <th className="whitespace-nowrap px-3 py-2 font-semibold">{t('payments.balances.status')}</th>
-              <th className="px-3 py-2" />
             </tr>
           </thead>
           <tbody className="divide-y divide-text/5">
-            {members.map((member) => (
-              <tr key={member.memberId}>
-                <td className={cell}>
-                  <Link to={`/members/${member.memberId}`} className="font-medium text-text hover:text-primary hover:underline">
-                    {member.memberName}
-                  </Link>
-                  <p className="font-mono text-xs text-muted">{member.memberNumber}</p>
-                </td>
-                <td className={number}>{formatMoney(member.shareRwf)}</td>
-                <td className={`${number} text-muted`}>{formatMoney(member.deductionRwf)}</td>
-                <td className={`${number} text-muted`}>{formatMoney(member.paidRwf)}</td>
-                <td className={`${number} font-semibold`}>{formatMoney(member.balanceRwf)}</td>
-                <td className={cell}>
-                  <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${statusStyles[member.status]}`}>
-                    {t(`payments.status.${member.status}`)}
-                  </span>
-                </td>
-                <td className={`${cell} text-right`}>
-                  {member.balanceRwf > 0 && (
-                    <button
-                      type="button"
-                      onClick={() => onPay(member)}
-                      className="min-h-11 rounded-lg bg-primary px-4 text-sm font-semibold text-white hover:bg-primary/90"
-                    >
-                      {t('payments.balances.pay')}
-                    </button>
-                  )}
-                </td>
-              </tr>
-            ))}
+            {members.map((member) => {
+              const payable = member.balanceRwf > 0
+              const selected = member.memberId === selectedId
+              return (
+                <tr
+                  key={member.memberId}
+                  onClick={payable ? () => onPay(member) : undefined}
+                  onKeyDown={payable ? (event) => event.key === 'Enter' && onPay(member) : undefined}
+                  tabIndex={payable ? 0 : undefined}
+                  aria-label={payable ? `${t('payments.balances.pay')} ${member.memberName}` : undefined}
+                  className={`${payable ? 'cursor-pointer hover:bg-background/70' : ''} ${selected ? 'bg-primary-light/60' : ''}`}
+                >
+                  <td className={`${cell} min-w-36`}>
+                    <p className="font-medium text-text">{member.memberName}</p>
+                    <p className="font-mono text-xs text-muted">{member.memberNumber}</p>
+                  </td>
+                  <td className={number}>{formatMoney(member.shareRwf)}</td>
+                  <td className={`${number} text-muted`}>{formatMoney(member.deductionRwf)}</td>
+                  <td className={`${number} text-muted`}>{formatMoney(member.paidRwf)}</td>
+                  <td className={`${number} font-semibold`}>{formatMoney(member.balanceRwf)}</td>
+                  <td className={cell}>
+                    <span className={`whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs font-medium ${statusStyles[member.status]}`}>
+                      {t(`payments.status.${member.status}`)}
+                    </span>
+                  </td>
+                </tr>
+              )
+            })}
           </tbody>
         </table>
       </div>
