@@ -17,7 +17,7 @@ export default function SharePreviewTable({ preview }) {
           <tr>
             <th className="whitespace-nowrap px-3 py-2 font-semibold">{t('share.table.member')}</th>
             {['delivered', 'share', 'shareOfMoney', 'deduction', 'net'].map((column) => (
-              <th key={column} className="whitespace-nowrap px-3 py-2 text-right font-semibold">
+              <th key={column} className="px-3 py-2 text-right font-semibold">
                 {t(`share.table.${column}`)}
               </th>
             ))}
