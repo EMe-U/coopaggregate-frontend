@@ -5,6 +5,7 @@ import { Banknote, ShoppingCart, Truck } from 'lucide-react'
 import PageTitle from '../../components/PageTitle'
 import { MoneyCards, StockCards } from '../../components/dashboard/DashboardSummaryCards'
 import HistoryCheckCard from '../../components/dashboard/HistoryCheckCard'
+import NeedsAttention from '../../components/dashboard/NeedsAttention'
 import { getDashboard } from '../../api/dashboard'
 
 const quickLinks = [
@@ -78,6 +79,7 @@ export default function Dashboard() {
         {!loadError && <MoneyCards summary={summary} />}
         <HistoryCheckCard />
       </div>
+      {!loadError && <NeedsAttention summary={summary} />}
     </div>
   )
 }
