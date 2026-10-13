@@ -2,37 +2,48 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { listDeliveries } from '../../api/deliveries'
+import usePageSize from '../../hooks/usePageSize'
 import GradeName from '../GradeName'
+import Pagination from '../Pagination'
 import { formatKg, formatMoney, formatTime, kigaliIsoDate } from '../../utils/format'
 
-const PAGE_SIZE = 100
+const TOTAL_PAGE_SIZE = 100
 
-// Loads every page so the total covers the whole day, not only the first page.
-async function loadDay(day) {
-  const deliveries = []
+// The table shows one page, but the total covers the whole day, so it reads every page.
+// Kilograms are added for display only; no money is calculated here.
+async function loadDayKg(day) {
+  let totalKg = 0
   let page = 0
   let totalPages = 1
   while (page < totalPages) {
-    const data = await listDeliveries({ from: day, to: day, page, size: PAGE_SIZE })
-    deliveries.push(...data.content)
+    const data = await listDeliveries({ from: day, to: day, page, size: TOTAL_PAGE_SIZE })
+    totalKg += data.content.reduce((sum, delivery) => sum + Number(delivery.quantityKg), 0)
     totalPages = data.totalPages
     page++
   }
-  return deliveries
+  return Math.round(totalKg * 100) / 100
 }
 
 export default function TodayDeliveries({ reloadKey }) {
   const { t } = useTranslation()
-  const [deliveries, setDeliveries] = useState(null)
+  const pageSize = usePageSize()
+  const [page, setPage] = useState(0)
+  const [result, setResult] = useState(null)
+  const [totalKg, setTotalKg] = useState(null)
   const [loadError, setLoadError] = useState(false)
   const [retryKey, setRetryKey] = useState(0)
+
+  // A new delivery appears at the top, so go back to the first page after saving one.
+  useEffect(() => {
+    setPage(0)
+  }, [reloadKey])
 
   useEffect(() => {
     let ignore = false
     setLoadError(false)
-    loadDay(kigaliIsoDate())
+    listDeliveries({ from: kigaliIsoDate(), to: kigaliIsoDate(), page, size: pageSize })
       .then((data) => {
-        if (!ignore) setDeliveries(data)
+        if (!ignore) setResult(data)
       })
       .catch(() => {
         if (!ignore) setLoadError(true)
@@ -40,12 +51,22 @@ export default function TodayDeliveries({ reloadKey }) {
     return () => {
       ignore = true
     }
+  }, [page, pageSize, reloadKey, retryKey])
+
+  useEffect(() => {
+    let ignore = false
+    loadDayKg(kigaliIsoDate())
+      .then((kg) => {
+        if (!ignore) setTotalKg(kg)
+      })
+      // The total is extra information; the table still shows without it.
+      .catch(() => {})
+    return () => {
+      ignore = true
+    }
   }, [reloadKey, retryKey])
 
-  // Kilograms are added for display only; no money is calculated here.
-  const totalKg = deliveries
-    ? Math.round(deliveries.reduce((sum, delivery) => sum + Number(delivery.quantityKg), 0) * 100) / 100
-    : 0
+  const deliveries = result?.content
 
   const cell = 'whitespace-nowrap px-3 py-3'
 
@@ -53,9 +74,9 @@ export default function TodayDeliveries({ reloadKey }) {
     <section className="min-w-0 rounded-xl bg-surface p-5 shadow-sm print:hidden">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
         <h2 className="text-lg font-semibold text-text">{t('deliveries.today.title')}</h2>
-        {deliveries && (
+        {result && totalKg !== null && (
           <p className="text-sm text-muted">
-            {t('deliveries.today.total', { kg: formatKg(totalKg), count: deliveries.length })}
+            {t('deliveries.today.total', { kg: formatKg(totalKg), count: result.totalElements })}
           </p>
         )}
       </div>
@@ -125,6 +146,7 @@ export default function TodayDeliveries({ reloadKey }) {
           </table>
         </div>
       )}
+      {!loadError && result && <Pagination result={result} onPageChange={setPage} className="mt-3" />}
     </section>
   )
 }

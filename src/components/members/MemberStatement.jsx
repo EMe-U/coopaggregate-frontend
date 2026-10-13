@@ -5,6 +5,7 @@ import { listDeliveries } from '../../api/deliveries'
 import { formatDate, formatDay, formatKg, formatMoney, kigaliIsoDate } from '../../utils/format'
 import GradeName from '../GradeName'
 import Pagination from '../Pagination'
+import usePageSize from '../../hooks/usePageSize'
 
 // Deliveries come from the deliveries API; the summary, lot shares and payments come from the
 // member statement. Every amount is calculated by the backend, never by adding up money here.
@@ -104,10 +105,9 @@ function StatementSection({ icon: Icon, title, subtitle, columns, rows, renderRo
   )
 }
 
-const DELIVERIES_PAGE_SIZE = 10
-
 function DeliveriesSection({ memberId, totals }) {
   const { t } = useTranslation()
+  const pageSize = usePageSize()
   const key = 'members.statement.deliveries'
   const cell = 'whitespace-nowrap px-3 py-2'
 
@@ -119,7 +119,7 @@ function DeliveriesSection({ memberId, totals }) {
   useEffect(() => {
     let ignore = false
     setStatus('loading')
-    listDeliveries({ memberId, page, size: DELIVERIES_PAGE_SIZE })
+    listDeliveries({ memberId, page, size: pageSize })
       .then((data) => {
         if (ignore) return
         setResult(data)
@@ -131,7 +131,7 @@ function DeliveriesSection({ memberId, totals }) {
     return () => {
       ignore = true
     }
-  }, [memberId, page, reloadKey])
+  }, [memberId, page, pageSize, reloadKey])
 
   let emptyMessage = t(`${key}.empty`)
   if (status === 'loading' && !result) emptyMessage = t('deliveries.memberSection.loading')
@@ -151,7 +151,6 @@ function DeliveriesSection({ memberId, totals }) {
   }
 
   const deliveries = status === 'error' ? [] : (result?.content ?? [])
-  const from = result ? result.page * result.size + 1 : 0
 
   return (
     <StatementSection
@@ -184,20 +183,7 @@ function DeliveriesSection({ memberId, totals }) {
       }
       emptyMessage={emptyMessage}
       footer={
-        deliveries.length > 0 && (
-          <div className="print:hidden">
-            <Pagination
-              page={result.page}
-              totalPages={result.totalPages}
-              summary={t('deliveries.memberSection.showing', {
-                from,
-                to: from + deliveries.length - 1,
-                total: result.totalElements,
-              })}
-              onPageChange={setPage}
-            />
-          </div>
-        )
+        deliveries.length > 0 && <Pagination result={result} onPageChange={setPage} className="print:hidden" />
       }
     />
   )

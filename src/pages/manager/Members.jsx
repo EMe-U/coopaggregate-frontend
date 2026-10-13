@@ -11,12 +11,13 @@ import MemberFilters from '../../components/members/MemberFilters'
 import MemberFormModal from '../../components/members/MemberFormModal'
 import SuccessToast from '../../components/SuccessToast'
 import useDebouncedValue from '../../hooks/useDebouncedValue'
+import usePageSize from '../../hooks/usePageSize'
 
-const PAGE_SIZE = 10
 const ACTIVE_PARAM = { all: undefined, active: true, inactive: false }
 
 export default function Members() {
   const { t } = useTranslation()
+  const pageSize = usePageSize()
 
   const [summary, setSummary] = useState(null)
   const [summaryError, setSummaryError] = useState(false)
@@ -53,7 +54,7 @@ export default function Members() {
     setLoading(true)
     setLoadError(false)
 
-    listMembers({ page, size: PAGE_SIZE, search: debouncedSearch, active: ACTIVE_PARAM[status] })
+    listMembers({ page, size: pageSize, search: debouncedSearch, active: ACTIVE_PARAM[status] })
       .then((data) => {
         if (!ignore) setResult(data)
       })
@@ -67,7 +68,7 @@ export default function Members() {
     return () => {
       ignore = true
     }
-  }, [debouncedSearch, status, page, reloadKey])
+  }, [debouncedSearch, status, page, pageSize, reloadKey])
 
   function handleSearchChange(value) {
     setSearch(value)
@@ -124,20 +125,14 @@ export default function Members() {
       )
     }
 
-    const from = result.page * result.size + 1
-    const to = from + result.content.length - 1
-
     return (
       <div className={loading ? 'opacity-60' : undefined}>
         <MemberTable members={result.content} onEdit={(member) => setForm({ member })} />
-        <div className="border-t border-text/5 bg-background/60 px-4 py-3">
-          <Pagination
-            page={result.page}
-            totalPages={result.totalPages}
-            summary={t('members.pagination.showing', { from, to, total: result.totalElements })}
-            onPageChange={setPage}
-          />
-        </div>
+        <Pagination
+          result={result}
+          onPageChange={setPage}
+          className="border-t border-text/5 bg-background/60 px-4 py-3"
+        />
       </div>
     )
   }

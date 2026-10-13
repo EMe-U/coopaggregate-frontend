@@ -109,9 +109,6 @@
       "ACTIVE": "Active",
       "INACTIVE": "Inactive"
     },
-    "pagination": {
-      "showing": "Showing {{from}}-{{to}} of {{total}} members"
-    },
     "empty": {
       "title": "No members yet",
       "message": "Add the first member of the cooperative.",
@@ -312,8 +309,7 @@
     },
     "memberSection": {
       "loading": "Loading deliveries...",
-      "error": "Could not load deliveries.",
-      "showing": "Showing {{from}}-{{to}} of {{total}} deliveries"
+      "error": "Could not load deliveries."
     }
   },
   "grades": {
@@ -364,7 +360,6 @@
       "empty": "No lots yet. A lot opens by itself with the first delivery of a grade.",
       "noResults": "No lots match these filters.",
       "error": "Could not load lots.",
-      "showing": "Showing {{from}}-{{to}} of {{total}} lots",
       "stillOpen": "open"
     },
     "filters": {
@@ -556,14 +551,15 @@
       "empty": "No sales yet.",
       "error": "Could not load sales.",
       "retry": "Try again",
-      "showing": "Showing {{from}}-{{to}} of {{total}} sales",
       "lots_one": "{{count}} lot",
       "lots_other": "{{count}} lots"
     }
   },
   "pagination": {
     "previous": "Previous",
-    "next": "Next"
+    "next": "Next",
+    "showing": "Showing {{from}}–{{to}} of {{total}}",
+    "label": "Pages"
   },
   "share": {
     "eyebrow": "Financial distribution & lot settlement",
@@ -699,8 +695,7 @@
       "empty": "No payments yet.",
       "noResults": "No payments with this method.",
       "error": "Could not load payments.",
-      "retry": "Try again",
-      "showing": "Showing {{from}}-{{to}} of {{total}} payments"
+      "retry": "Try again"
     }
   },
   "ledger": {
@@ -760,8 +755,7 @@
       "empty": "No entries yet. They appear as deliveries, sales, shares and payments are recorded.",
       "noResults": "No entries match these filters.",
       "error": "Could not load the ledger.",
-      "retry": "Try again",
-      "showing": "Showing {{from}}-{{to}} of {{total}} entries"
+      "retry": "Try again"
     },
     "actions": {
       "menu": "Actions for entry #{{id}}",

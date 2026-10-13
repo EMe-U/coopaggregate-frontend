@@ -6,11 +6,11 @@ import { listLedger } from '../../api/ledger'
 import ActionsMenu from '../ActionsMenu'
 import EmptyState from '../EmptyState'
 import Pagination from '../Pagination'
+import usePageSize from '../../hooks/usePageSize'
 import LedgerTypeBadge from './LedgerTypeBadge'
 import { EntryAmount, EntryKg, EntryParty, saleBuyer, useEntryDescription } from './ledgerDisplay'
 import { formatDate, formatTime, kigaliIsoDate } from '../../utils/format'
 
-const PAGE_SIZE = 20
 
 export function canReverse(entry) {
   return entry.type !== 'REVERSAL' && entry.reversedByEntryId == null
@@ -41,6 +41,7 @@ function EntryMenu({ entry, onView, onReverse }) {
 export default function LedgerTable({ filters = {}, reloadKey, onView, onReverse }) {
   const { t } = useTranslation()
   const describe = useEntryDescription()
+  const pageSize = usePageSize()
 
   const [page, setPage] = useState(0)
   const [result, setResult] = useState(null)
@@ -58,7 +59,7 @@ export default function LedgerTable({ filters = {}, reloadKey, onView, onReverse
     let ignore = false
     setLoading(true)
     setLoadError(false)
-    listLedger({ ...JSON.parse(filterKey), page, size: PAGE_SIZE })
+    listLedger({ ...JSON.parse(filterKey), page, size: pageSize })
       .then((data) => {
         if (!ignore) setResult(data)
       })
@@ -71,7 +72,7 @@ export default function LedgerTable({ filters = {}, reloadKey, onView, onReverse
     return () => {
       ignore = true
     }
-  }, [filterKey, page, reloadKey, retryKey])
+  }, [filterKey, page, pageSize, reloadKey, retryKey])
 
   if (loadError) {
     return (
@@ -103,7 +104,6 @@ export default function LedgerTable({ filters = {}, reloadKey, onView, onReverse
   }
 
   const cell = 'px-2 py-3 align-top'
-  const from = result.page * result.size + 1
 
   return (
     <div className={loading ? 'opacity-60' : undefined}>
@@ -218,14 +218,7 @@ export default function LedgerTable({ filters = {}, reloadKey, onView, onReverse
         ))}
       </ul>
 
-      <div className="border-t border-text/5 bg-background/60 px-4 py-3">
-        <Pagination
-          page={result.page}
-          totalPages={result.totalPages}
-          summary={t('ledger.table.showing', { from, to: from + result.content.length - 1, total: result.totalElements })}
-          onPageChange={setPage}
-        />
-      </div>
+      <Pagination result={result} onPageChange={setPage} className="border-t border-text/5 bg-background/60 px-4 py-3" />
     </div>
   )
 }

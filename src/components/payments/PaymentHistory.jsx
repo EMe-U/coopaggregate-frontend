@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { listPayments } from '../../api/payments'
 import Pagination from '../Pagination'
+import usePageSize from '../../hooks/usePageSize'
 import { formatDay, formatMoney } from '../../utils/format'
 
-const PAGE_SIZE = 10
 const METHODS = ['CASH', 'MOMO', 'BANK']
 
 const methodStyles = {
@@ -17,6 +17,7 @@ const methodStyles = {
 export default function PaymentHistory({ reloadKey }) {
   const { t } = useTranslation()
 
+  const pageSize = usePageSize()
   const [method, setMethod] = useState('')
   const [page, setPage] = useState(0)
   const [result, setResult] = useState(null)
@@ -28,7 +29,7 @@ export default function PaymentHistory({ reloadKey }) {
     let ignore = false
     setLoading(true)
     setLoadError(false)
-    listPayments({ method, page, size: PAGE_SIZE })
+    listPayments({ method, page, size: pageSize })
       .then((data) => {
         if (!ignore) setResult(data)
       })
@@ -41,7 +42,7 @@ export default function PaymentHistory({ reloadKey }) {
     return () => {
       ignore = true
     }
-  }, [method, page, reloadKey, retryKey])
+  }, [method, page, pageSize, reloadKey, retryKey])
 
   const cell = 'whitespace-nowrap px-3 py-3'
 
@@ -130,18 +131,7 @@ export default function PaymentHistory({ reloadKey }) {
               </tbody>
             </table>
           </div>
-          <div className="mt-3">
-            <Pagination
-              page={result.page}
-              totalPages={result.totalPages}
-              summary={t('payments.history.showing', {
-                from: result.page * result.size + 1,
-                to: result.page * result.size + result.content.length,
-                total: result.totalElements,
-              })}
-              onPageChange={setPage}
-            />
-          </div>
+          <Pagination result={result} onPageChange={setPage} className="mt-3" />
         </div>
       )}
     </section>

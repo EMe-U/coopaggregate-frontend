@@ -109,9 +109,6 @@
       "ACTIVE": "Arakora",
       "INACTIVE": "Ntakora"
     },
-    "pagination": {
-      "showing": "Herekanywe {{from}}-{{to}} kuri {{total}}"
-    },
     "empty": {
       "title": "Nta munyamuryango uranditswe",
       "message": "Ongeramo umunyamuryango wa mbere wa koperative.",
@@ -312,8 +309,7 @@
     },
     "memberSection": {
       "loading": "Ibyagemuwe biraza...",
-      "error": "Ntibishobotse kubona ibyagemuwe.",
-      "showing": "Herekanywe {{from}}-{{to}} kuri {{total}}"
+      "error": "Ntibishobotse kubona ibyagemuwe."
     }
   },
   "grades": {
@@ -364,7 +360,6 @@
       "empty": "Nta birundo biraboneka. Ikirundo gifunguka ubwacyo iyo hagemuwe bwa mbere ku rwego runaka.",
       "noResults": "Nta kirundo gihuye n'ibyo wahisemo.",
       "error": "Ntibishobotse kubona ibirundo.",
-      "showing": "Herekanywe {{from}}-{{to}} kuri {{total}}",
       "stillOpen": "gifunguye"
     },
     "filters": {
@@ -556,14 +551,15 @@
       "empty": "Nta gurisha riraba.",
       "error": "Ntibishobotse kubona igurisha.",
       "retry": "Ongera ugerageze",
-      "showing": "Herekanywe {{from}}-{{to}} kuri {{total}}",
       "lots_one": "Ikirundo {{count}}",
       "lots_other": "Ibirundo {{count}}"
     }
   },
   "pagination": {
     "previous": "Ibibanza",
-    "next": "Ibikurikira"
+    "next": "Ibikurikira",
+    "showing": "Herekanywe {{from}}–{{to}} kuri {{total}}",
+    "label": "Amapaji"
   },
   "share": {
     "eyebrow": "Kugabanya amafaranga y'ibirundo",
@@ -699,8 +695,7 @@
       "empty": "Nta bwishyu buranditswe.",
       "noResults": "Nta bwishyu bukoresheje ubu buryo.",
       "error": "Ntibishobotse kubona ubwishyu.",
-      "retry": "Ongera ugerageze",
-      "showing": "Herekanywe {{from}}-{{to}} kuri {{total}}"
+      "retry": "Ongera ugerageze"
     }
   },
   "ledger": {
@@ -760,8 +755,7 @@
       "empty": "Nta byanditswe biraboneka. Bigaragara uko ibyagemuwe, igurisha, imigabane n'ubwishyu byandikwa.",
       "noResults": "Nta byanditswe bihuye n'ibyo wahisemo.",
       "error": "Ntibishobotse kubona igitabo.",
-      "retry": "Ongera ugerageze",
-      "showing": "Herekanywe {{from}}-{{to}} kuri {{total}}"
+      "retry": "Ongera ugerageze"
     },
     "actions": {
       "menu": "Ibikorwa ku cyanditswe #{{id}}",

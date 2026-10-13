@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { listSales } from '../../api/sales'
 import Pagination from '../Pagination'
+import usePageSize from '../../hooks/usePageSize'
 import { formatDate, formatKg, formatMoney } from '../../utils/format'
 
-const PAGE_SIZE = 10
 const cell = 'whitespace-nowrap px-3 py-3'
 
 // Sales come newest first, so the lines of one order sit next to each other. Older sales without
@@ -43,6 +43,7 @@ function SaleRow({ sale, inOrder }) {
 
 export default function SalesHistory({ reloadKey }) {
   const { t } = useTranslation()
+  const pageSize = usePageSize()
 
   const [page, setPage] = useState(0)
   const [result, setResult] = useState(null)
@@ -54,7 +55,7 @@ export default function SalesHistory({ reloadKey }) {
     let ignore = false
     setLoading(true)
     setLoadError(false)
-    listSales({ page, size: PAGE_SIZE })
+    listSales({ page, size: pageSize })
       .then((data) => {
         if (!ignore) setResult(data)
       })
@@ -67,7 +68,7 @@ export default function SalesHistory({ reloadKey }) {
     return () => {
       ignore = true
     }
-  }, [page, reloadKey, retryKey])
+  }, [page, pageSize, reloadKey, retryKey])
 
 
   return (
@@ -135,18 +136,7 @@ export default function SalesHistory({ reloadKey }) {
               </tbody>
             </table>
           </div>
-          <div className="mt-3">
-            <Pagination
-              page={result.page}
-              totalPages={result.totalPages}
-              summary={t('sales.history.showing', {
-                from: result.page * result.size + 1,
-                to: result.page * result.size + result.content.length,
-                total: result.totalElements,
-              })}
-              onPageChange={setPage}
-            />
-          </div>
+          <Pagination result={result} onPageChange={setPage} className="mt-3" />
         </div>
       )}
     </section>
