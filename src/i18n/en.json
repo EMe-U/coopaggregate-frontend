@@ -38,11 +38,6 @@
     "sendRequest": "Send a Purchase Request",
     "checkStatus": "Check Request Status"
   },
-  "health": {
-    "checking": "Checking backend connection...",
-    "connected": "Backend connected",
-    "unreachable": "Backend not reachable"
-  },
   "login": {
     "email": "Email",
     "password": "Password",

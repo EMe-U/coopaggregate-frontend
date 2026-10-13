@@ -38,11 +38,6 @@
     "sendRequest": "Ohereza Icyifuzo cyo Kugura",
     "checkStatus": "Reba Uko Icyifuzo Gihagaze"
   },
-  "health": {
-    "checking": "Turimo kureba niba seriveri ikora...",
-    "connected": "Seriveri irakora",
-    "unreachable": "Seriveri ntiboneka"
-  },
   "login": {
     "email": "Imeyili",
     "password": "Ijambo ry'ibanga",
