@@ -3,8 +3,12 @@ import { useTranslation } from 'react-i18next'
 import { BookOpen, CalendarClock, Hash, ListChecks } from 'lucide-react'
 import { getLedgerSummary } from '../../api/ledger'
 import PageTitle from '../../components/PageTitle'
+import LedgerFilters from '../../components/ledger/LedgerFilters'
 import LedgerTable from '../../components/ledger/LedgerTable'
+import useDebouncedValue from '../../hooks/useDebouncedValue'
 import { formatDateTime, formatNumber } from '../../utils/format'
+
+const NO_FILTERS = { type: '', from: '', to: '', search: '' }
 
 function SummaryCard({ label, value, icon: Icon }) {
   return (
@@ -24,6 +28,9 @@ export default function Ledger() {
   const { t } = useTranslation()
   const [summary, setSummary] = useState(null)
   const [reloadKey] = useState(0)
+  const [filterValues, setFilterValues] = useState(NO_FILTERS)
+  const search = useDebouncedValue(filterValues.search.trim(), 300)
+  const filters = { type: filterValues.type, from: filterValues.from, to: filterValues.to, search }
 
   useEffect(() => {
     // The cards keep showing no value if the summary cannot be loaded; the table still works.
@@ -64,7 +71,8 @@ export default function Ledger() {
       </div>
 
       <section className="min-w-0 overflow-hidden rounded-xl bg-surface shadow-sm">
-        <LedgerTable reloadKey={reloadKey} />
+        <LedgerFilters values={filterValues} onChange={setFilterValues} onClear={() => setFilterValues(NO_FILTERS)} />
+        <LedgerTable filters={filters} reloadKey={reloadKey} />
       </section>
     </div>
   )
