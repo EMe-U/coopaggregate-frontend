@@ -5,6 +5,7 @@ import { getLedgerSummary } from '../../api/ledger'
 import PageTitle from '../../components/PageTitle'
 import LedgerFilters from '../../components/ledger/LedgerFilters'
 import LedgerTable from '../../components/ledger/LedgerTable'
+import VerifyPanel from '../../components/ledger/VerifyPanel'
 import useDebouncedValue from '../../hooks/useDebouncedValue'
 import { formatDateTime, formatNumber } from '../../utils/format'
 
@@ -69,6 +70,8 @@ export default function Ledger() {
           icon={ListChecks}
         />
       </div>
+
+      <VerifyPanel />
 
       <section className="min-w-0 overflow-hidden rounded-xl bg-surface shadow-sm">
         <LedgerFilters values={filterValues} onChange={setFilterValues} onClear={() => setFilterValues(NO_FILTERS)} />
