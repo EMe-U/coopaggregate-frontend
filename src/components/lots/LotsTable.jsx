@@ -6,11 +6,11 @@ import { listLots } from '../../api/lots'
 import EmptyState from '../EmptyState'
 import GradeName from '../GradeName'
 import Pagination from '../Pagination'
+import usePageSize from '../../hooks/usePageSize'
 import LotActionsMenu from './LotActionsMenu'
 import LotStatusBadge from './LotStatusBadge'
 import { formatDate, formatKg, formatMoney } from '../../utils/format'
 
-const PAGE_SIZE = 10
 const STATUSES = ['OPEN', 'CLOSED', 'SOLD', 'SHARED']
 
 const selectClass =
@@ -42,6 +42,7 @@ function SaleAmount({ amount }) {
 
 export default function LotsTable({ reloadKey, onClose, onRecordLoss }) {
   const { t } = useTranslation()
+  const pageSize = usePageSize()
 
   const [grades, setGrades] = useState([])
   const [status, setStatus] = useState('')
@@ -63,7 +64,7 @@ export default function LotsTable({ reloadKey, onClose, onRecordLoss }) {
     let ignore = false
     setLoading(true)
     setLoadError(false)
-    listLots({ status, gradeId, page, size: PAGE_SIZE })
+    listLots({ status, gradeId, page, size: pageSize })
       .then((data) => {
         if (!ignore) setResult(data)
       })
@@ -76,7 +77,7 @@ export default function LotsTable({ reloadKey, onClose, onRecordLoss }) {
     return () => {
       ignore = true
     }
-  }, [status, gradeId, page, reloadKey, retryKey])
+  }, [status, gradeId, page, pageSize, reloadKey, retryKey])
 
   function renderBody() {
     if (loadError) {
@@ -111,7 +112,6 @@ export default function LotsTable({ reloadKey, onClose, onRecordLoss }) {
     // Short numbers stay on one line; headers and money may wrap so all columns fit on a laptop.
     const cell = 'px-2 py-3'
     const oneLine = `${cell} whitespace-nowrap`
-    const from = result.page * result.size + 1
 
     return (
       <div className={loading ? 'opacity-60' : undefined}>
@@ -211,18 +211,11 @@ export default function LotsTable({ reloadKey, onClose, onRecordLoss }) {
           ))}
         </ul>
 
-        <div className="border-t border-text/5 bg-background/60 px-4 py-3">
-          <Pagination
-            page={result.page}
-            totalPages={result.totalPages}
-            summary={t('lots.table.showing', {
-              from,
-              to: from + result.content.length - 1,
-              total: result.totalElements,
-            })}
-            onPageChange={setPage}
-          />
-        </div>
+        <Pagination
+          result={result}
+          onPageChange={setPage}
+          className="border-t border-text/5 bg-background/60 px-4 py-3"
+        />
       </div>
     )
   }

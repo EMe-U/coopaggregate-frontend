@@ -1,9 +1,10 @@
 import client from './client'
 
-// Returns the saved sale. The backend answers 201 for a new sale and 200 when a sale with
-// the same clientUuid was already saved, so a retry never records it twice.
-export async function recordSale(sale) {
-  const response = await client.post('/api/sales', sale)
+// One order can take kg from several closed lots of the same grade. Returns the saved order
+// with its sales and the lots that became fully sold. The backend answers 201 for a new order
+// and 200 when an order with the same clientUuid was already saved, so a retry never sells twice.
+export async function recordSaleOrder(order) {
+  const response = await client.post('/api/sales/orders', order)
   return response.data
 }
 

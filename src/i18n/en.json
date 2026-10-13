@@ -33,16 +33,10 @@
   "pages": {
     "dashboard": "Dashboard",
     "buyerRequests": "Buyer Requests",
-    "ledger": "Ledger",
     "settings": "Settings",
     "home": "Available Potatoes",
     "sendRequest": "Send a Purchase Request",
     "checkStatus": "Check Request Status"
-  },
-  "health": {
-    "checking": "Checking backend connection...",
-    "connected": "Backend connected",
-    "unreachable": "Backend not reachable"
   },
   "login": {
     "email": "Email",
@@ -109,9 +103,6 @@
     "status": {
       "ACTIVE": "Active",
       "INACTIVE": "Inactive"
-    },
-    "pagination": {
-      "showing": "Showing {{from}}-{{to}} of {{total}} members"
     },
     "empty": {
       "title": "No members yet",
@@ -313,8 +304,7 @@
     },
     "memberSection": {
       "loading": "Loading deliveries...",
-      "error": "Could not load deliveries.",
-      "showing": "Showing {{from}}-{{to}} of {{total}} deliveries"
+      "error": "Could not load deliveries."
     }
   },
   "grades": {
@@ -365,7 +355,6 @@
       "empty": "No lots yet. A lot opens by itself with the first delivery of a grade.",
       "noResults": "No lots match these filters.",
       "error": "Could not load lots.",
-      "showing": "Showing {{from}}-{{to}} of {{total}} lots",
       "stillOpen": "open"
     },
     "filters": {
@@ -382,6 +371,7 @@
       "chooseReason": "Choose a reason",
       "reasons": {
         "ROT": "Rot",
+        "DRYING": "Drying",
         "DAMAGE": "Damage",
         "THEFT": "Theft",
         "OTHER": "Other"
@@ -471,32 +461,47 @@
     },
     "form": {
       "title": "Record sale",
-      "subtitle": "Fill in the sale details below",
+      "subtitle": "One order can take potatoes from several closed lots of the same grade.",
       "buyer": "Buyer",
-      "lot": "Lot",
-      "chooseLot": "Choose a closed lot",
-      "lotOption": "{{code}} ({{grade}}) – {{kg}} available",
-      "noLots": "No closed lot has stock to sell. Close a lot first.",
-      "available": "{{kg}} available in {{code}}",
-      "date": "Sale date",
-      "quantity": "Quantity (kg)",
-      "maxAvailable": "Max available: {{kg}}",
+      "grade": "Grade",
+      "chooseGrade": "Choose a grade",
       "price": "Price per kg (RWF)",
-      "total": "Total amount",
-      "belowFloorLive": "The price is below the floor price for this grade ({{floor}} per kg).",
+      "wanted": "Total kg wanted",
+      "date": "Sale date",
+      "linesTitle": "Lots in this order",
+      "lot": "Lot",
+      "chooseLot": "Choose a lot",
+      "lotOption": "{{code}} – {{kg}} available",
+      "available": "Available",
+      "kg": "Kg taken",
+      "linePrice": "Price/kg",
+      "amount": "Amount",
+      "remove": "Remove lot {{code}}",
+      "addLot": "Add lot",
+      "suggest": "Suggest lots",
+      "suggestHint": "Fills the order from the oldest closed lots of this grade.",
+      "noLines": "Choose a grade, then suggest lots or add them one by one.",
+      "noLots": "No closed lot of this grade has stock to sell.",
+      "totalKg": "Total kg",
+      "totalAmount": "Total amount",
+      "mismatch": "The lots add up to {{taken}}, but {{wanted}} was wanted.",
+      "notEnoughStock": "The closed lots of this grade only have {{available}}.",
+      "belowFloor": "Below the floor price ({{floor}} per kg)",
       "clear": "Clear",
       "save": "Save sale",
       "saving": "Saving...",
       "errors": {
-        "lotRequired": "Choose a lot",
         "buyerRequired": "Choose a buyer",
-        "quantityRequired": "Enter the quantity",
-        "quantityInvalid": "Enter a number above 0 with at most 2 decimals",
-        "quantityTooLarge": "Only {{kg}} remain in this lot",
+        "gradeRequired": "Choose a grade",
         "priceRequired": "Enter the price per kg",
         "priceInvalid": "Enter a whole number of RWF above 0",
+        "wantedInvalid": "Enter a number above 0 with at most 2 decimals",
         "dateRequired": "Choose the sale date",
         "dateFuture": "The sale date cannot be in the future",
+        "lineLot": "Choose a lot",
+        "lineKg": "Enter kg above 0 with at most 2 decimals",
+        "lineKgTooLarge": "At most {{kg}}",
+        "linePrice": "Enter a whole RWF price above 0",
         "generic": "Could not save the sale. Please try again.",
         "serverUnreachable": "Cannot reach the server. Check your connection and try again."
       }
@@ -522,15 +527,16 @@
       }
     },
     "result": {
-      "title": "Sale {{code}} saved",
+      "title": "Order {{code}} saved",
       "total": "Total: {{amount}}",
-      "belowFloor": "The price is below the floor price for this grade. The sale was saved anyway.",
-      "lotSold": "Lot {{code}} is now fully sold and ready for sharing.",
+      "belowFloor": "Some prices are below the floor price for this grade. The sale was saved anyway.",
+      "readyToShare": "Now fully sold and ready to share:",
+      "share": "Share money",
       "recordAnother": "Record another sale"
     },
     "history": {
       "title": "Sales history",
-      "saleId": "Sale ID",
+      "saleId": "Order / sale",
       "date": "Date",
       "buyer": "Buyer",
       "lot": "Lot",
@@ -540,12 +546,15 @@
       "empty": "No sales yet.",
       "error": "Could not load sales.",
       "retry": "Try again",
-      "showing": "Showing {{from}}-{{to}} of {{total}} sales"
+      "lots_one": "{{count}} lot",
+      "lots_other": "{{count}} lots"
     }
   },
   "pagination": {
     "previous": "Previous",
-    "next": "Next"
+    "next": "Next",
+    "showing": "Showing {{from}}–{{to}} of {{total}}",
+    "label": "Pages"
   },
   "share": {
     "eyebrow": "Financial distribution & lot settlement",
@@ -681,8 +690,184 @@
       "empty": "No payments yet.",
       "noResults": "No payments with this method.",
       "error": "Could not load payments.",
-      "retry": "Try again",
-      "showing": "Showing {{from}}-{{to}} of {{total}} payments"
+      "retry": "Try again"
+    }
+  },
+  "ledger": {
+    "eyebrow": "Audit trail",
+    "title": "Ledger",
+    "explanation": "Every delivery, sale, share and payment is recorded here permanently. Entries cannot be edited or deleted.",
+    "summary": {
+      "totalEntries": "Total entries",
+      "lastEntry": "Last entry",
+      "entriesToday": "Entries today",
+      "noValue": "—"
+    },
+    "types": {
+      "DELIVERY": "Delivery",
+      "LOSS": "Loss",
+      "SALE": "Sale",
+      "SHARE": "Share",
+      "PAYMENT": "Payment",
+      "REVERSAL": "Reversal"
+    },
+    "verify": {
+      "title": "Chain check",
+      "explanation": "Recalculates the fingerprint (hash) of every entry to make sure nothing was changed.",
+      "button": "Verify ledger",
+      "checking": "Checking...",
+      "intact_one": "All {{count}} entry is intact",
+      "intact_other": "All {{count}} entries are intact",
+      "broken": "Problem found at entry #{{id}}",
+      "viewEntry": "View entry #{{id}}",
+      "entryNotFound": "Entry #{{id}} could not be found.",
+      "lastChecked": "Last checked at {{time}}",
+      "notChecked": "Not checked yet",
+      "error": "Could not verify the ledger. Please try again."
+    },
+    "filters": {
+      "type": "Type",
+      "allTypes": "All types",
+      "from": "From",
+      "to": "To",
+      "searchLabel": "Search the ledger",
+      "searchPlaceholder": "Search by code or member name",
+      "clear": "Clear filters"
+    },
+    "table": {
+      "date": "Date & time",
+      "type": "Type",
+      "description": "Description",
+      "reference": "Reference",
+      "member": "Member / Buyer",
+      "lot": "Lot",
+      "kg": "Kg",
+      "amount": "Amount",
+      "hash": "Hash",
+      "actions": "Actions",
+      "reversedBy": "Reversed by #{{id}}",
+      "reverses": "Reverses #{{id}}",
+      "empty": "No entries yet. They appear as deliveries, sales, shares and payments are recorded.",
+      "noResults": "No entries match these filters.",
+      "error": "Could not load the ledger.",
+      "retry": "Try again"
+    },
+    "actions": {
+      "menu": "Actions for entry #{{id}}",
+      "view": "View details",
+      "reverse": "Reverse entry"
+    },
+    "details": {
+      "title": "Entry #{{id}}",
+      "close": "Close",
+      "date": "Date & time",
+      "type": "Type",
+      "description": "Description",
+      "reference": "Reference code",
+      "member": "Member / Buyer",
+      "lot": "Lot",
+      "kg": "Quantity",
+      "amount": "Amount",
+      "reverses": "Reverses",
+      "reversedBy": "Reversed by",
+      "hash": "Hash",
+      "previousHash": "Previous hash",
+      "none": "—",
+      "chainTitle": "How the chain works",
+      "chain": "Each entry stores the hash of the entry before it. Changing any old entry would change its hash and break every link after it, which the chain check would find."
+    },
+    "reverse": {
+      "title": "Reverse entry #{{id}}?",
+      "explanation": "A new correcting entry will be added that cancels this one. The original entry stays in the ledger, marked as reversed.",
+      "reason": "Reason",
+      "reasonPlaceholder": "Explain why this entry is wrong",
+      "reasonRequired": "Enter the reason",
+      "confirm": "Reverse entry",
+      "reversing": "Reversing...",
+      "cancel": "Cancel",
+      "done": "Entry #{{id}} reversed by #{{reversalId}}",
+      "error": "Could not reverse the entry. Please try again."
+    },
+    "describe": {
+      "delivery": "Delivery {{code}} · fee {{fee}}",
+      "loss": "Loss from {{lot}}: {{reason}}",
+      "sale": "Sale {{code}} from {{lot}}",
+      "share": "Share of {{lot}} for {{member}}",
+      "payment": "Payment {{code}} by {{method}}",
+      "reversal": "Reversal of entry #{{id}}: {{reason}}"
+    }
+  },
+  "dashboard": {
+    "title": "{{cooperative}} – Overview",
+    "subtitle": "Today's deliveries, stock, sales and payments.",
+    "quick": {
+      "recordDelivery": "Record delivery",
+      "recordSale": "Record sale",
+      "payment": "Payment"
+    },
+    "error": "Could not load the overview. Please try again.",
+    "retry": "Try again",
+    "cards": {
+      "members": "Total members",
+      "joinedThisMonth_one": "+{{count}} this month",
+      "joinedThisMonth_other": "+{{count}} this month",
+      "active_one": "{{count}} active",
+      "active_other": "{{count}} active",
+      "stock": "Available stock",
+      "deliveriesToday": "Deliveries today",
+      "openLots": "Open lots",
+      "owed": "Amount owed to members",
+      "membersWaiting_one": "{{count}} member waiting",
+      "membersWaiting_other": "{{count}} members waiting",
+      "readyToShare": "Ready to share",
+      "lots_one": "{{count}} lot",
+      "lots_other": "{{count}} lots",
+      "goToShare": "Share lot money"
+    },
+    "history": {
+      "title": "History check",
+      "valid_one": "All {{count}} entry matches - no changes detected",
+      "valid_other": "All {{count}} entries match - no changes detected",
+      "broken": "Problem found at entry #{{id}}",
+      "checkedAt": "Checked at {{time}}",
+      "view": "View history",
+      "error": "Could not check the history."
+    },
+    "attention": {
+      "title": "Needs attention",
+      "count_one": "{{count}} item",
+      "count_other": "{{count}} items",
+      "allCaughtUp": "All caught up",
+      "readyToShare_one": "{{count}} sold lot is ready to share",
+      "readyToShare_other": "{{count}} sold lots are ready to share",
+      "readyToShareAction": "Share lot money",
+      "readyToSell_one": "{{count}} closed lot is ready to sell",
+      "readyToSell_other": "{{count}} closed lots are ready to sell",
+      "readyToSellAction": "Record sale",
+      "awaitingPayment_one": "{{count}} member is waiting for payment",
+      "awaitingPayment_other": "{{count}} members are waiting for payment",
+      "awaitingPaymentAction": "Pay members"
+    },
+    "recent": {
+      "title": "Recent deliveries",
+      "subtitle": "The latest deliveries recorded",
+      "viewAll": "View all",
+      "error": "Could not load recent deliveries.",
+      "empty": "No deliveries recorded yet.",
+      "receipt": "Receipt",
+      "member": "Member",
+      "grade": "Grade",
+      "kg": "Kg",
+      "time": "Time"
+    },
+    "weekly": {
+      "title": "Weekly deliveries by grade",
+      "subtitle": "Kilograms delivered in the last 4 weeks",
+      "thisWeek": "This week",
+      "weekOf": "Week of {{date}}",
+      "empty": "No deliveries in the last 4 weeks.",
+      "peak": "Peak:",
+      "peakValue": "{{week}} ({{kg}} total)"
     }
   }
 }
