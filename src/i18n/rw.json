@@ -33,7 +33,6 @@
   "pages": {
     "dashboard": "Ahabanza",
     "buyerRequests": "Ibisabwa n'Abaguzi",
-    "ledger": "Igitabo cy'Imari",
     "settings": "Igenamiterere",
     "home": "Ibirayi Bihari",
     "sendRequest": "Ohereza Icyifuzo cyo Kugura",
@@ -701,6 +700,103 @@
       "error": "Ntibishobotse kubona ubwishyu.",
       "retry": "Ongera ugerageze",
       "showing": "Herekanywe {{from}}-{{to}} kuri {{total}}"
+    }
+  },
+  "ledger": {
+    "eyebrow": "Igenzura",
+    "title": "Igitabo cy'Imari",
+    "explanation": "Ibyagemuwe byose, ibyagurishijwe, imigabane n'ubwishyu byandikwa hano burundu. Ibyanditswe ntibishobora guhindurwa cyangwa gusibwa.",
+    "summary": {
+      "totalEntries": "Ibyanditswe byose",
+      "lastEntry": "Icyanditswe giheruka",
+      "entriesToday": "Ibyanditswe uyu munsi",
+      "noValue": "—"
+    },
+    "types": {
+      "DELIVERY": "Ibyagemuwe",
+      "LOSS": "Ibyangiritse",
+      "SALE": "Igurisha",
+      "SHARE": "Umugabane",
+      "PAYMENT": "Ubwishyu",
+      "REVERSAL": "Ikosora"
+    },
+    "verify": {
+      "title": "Igenzura ry'urunigi",
+      "explanation": "Yongera kubara ikimenyetso (hash) cya buri cyanditswe kugira ngo yizere ko nta cyahinduwe.",
+      "button": "Genzura igitabo",
+      "checking": "Biragenzurwa...",
+      "intact_one": "Icyanditswe {{count}} ni kizima",
+      "intact_other": "Ibyanditswe {{count}} byose ni bizima",
+      "broken": "Habonetse ikibazo ku cyanditswe #{{id}}",
+      "viewEntry": "Reba icyanditswe #{{id}}",
+      "entryNotFound": "Icyanditswe #{{id}} nticyabonetse.",
+      "lastChecked": "Cyagenzuwe saa {{time}}",
+      "notChecked": "Ntikiragenzurwa",
+      "error": "Ntibishobotse kugenzura igitabo. Ongera ugerageze."
+    },
+    "filters": {
+      "type": "Ubwoko",
+      "allTypes": "Ubwoko bwose",
+      "from": "Kuva",
+      "to": "Kugeza",
+      "searchLabel": "Shakisha mu gitabo",
+      "searchPlaceholder": "Shakisha ukoresheje nimero cyangwa izina ry'umunyamuryango",
+      "clear": "Siba ibyo wahisemo"
+    },
+    "table": {
+      "date": "Itariki n'isaha",
+      "type": "Ubwoko",
+      "description": "Ibisobanuro",
+      "reference": "Nimero",
+      "member": "Umunyamuryango",
+      "lot": "Ikirundo",
+      "kg": "Kg",
+      "amount": "Amafaranga",
+      "hash": "Hash",
+      "actions": "Ibikorwa",
+      "reversedBy": "Byakosowe na #{{id}}",
+      "reverses": "Bikosora #{{id}}",
+      "empty": "Nta byanditswe biraboneka. Bigaragara uko ibyagemuwe, igurisha, imigabane n'ubwishyu byandikwa.",
+      "noResults": "Nta byanditswe bihuye n'ibyo wahisemo.",
+      "error": "Ntibishobotse kubona igitabo.",
+      "retry": "Ongera ugerageze",
+      "showing": "Herekanywe {{from}}-{{to}} kuri {{total}}"
+    },
+    "actions": {
+      "menu": "Ibikorwa ku cyanditswe #{{id}}",
+      "view": "Reba ibisobanuro",
+      "reverse": "Kosora icyanditswe"
+    },
+    "details": {
+      "title": "Icyanditswe #{{id}}",
+      "close": "Funga",
+      "date": "Itariki n'isaha",
+      "type": "Ubwoko",
+      "description": "Ibisobanuro",
+      "reference": "Nimero",
+      "member": "Umunyamuryango",
+      "lot": "Ikirundo",
+      "kg": "Ingano",
+      "amount": "Amafaranga",
+      "reverses": "Gikosora",
+      "reversedBy": "Cyakosowe na",
+      "hash": "Hash",
+      "previousHash": "Hash ibanziriza",
+      "none": "—",
+      "chainTitle": "Uko urunigi rukora",
+      "chain": "Buri cyanditswe kibika hash y'icyanditswe kibanziriza. Guhindura icyanditswe cya kera byahindura hash yacyo bigasenya isano zose zikurikira, kandi igenzura ry'urunigi ryabibona."
+    },
+    "reverse": {
+      "title": "Ukosora icyanditswe #{{id}}?",
+      "explanation": "Hazongerwaho icyanditswe gishya gikuraho iki. Icyanditswe cy'umwimerere kiguma mu gitabo, kigaragazwa ko cyakosowe.",
+      "reason": "Impamvu",
+      "reasonPlaceholder": "Sobanura impamvu iki cyanditswe kitari cyo",
+      "reasonRequired": "Andika impamvu",
+      "confirm": "Kosora icyanditswe",
+      "reversing": "Birakosorwa...",
+      "cancel": "Hagarika",
+      "done": "Icyanditswe #{{id}} cyakosowe na #{{reversalId}}",
+      "error": "Ntibishobotse gukosora icyanditswe. Ongera ugerageze."
     }
   }
 }

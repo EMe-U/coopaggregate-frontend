@@ -3,5 +3,5 @@ import PageTitle from '../../components/PageTitle'
 
 export default function Ledger() {
   const { t } = useTranslation()
-  return <PageTitle>{t('pages.ledger')}</PageTitle>
+  return <PageTitle>{t('ledger.title')}</PageTitle>
 }

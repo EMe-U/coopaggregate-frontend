@@ -33,7 +33,6 @@
   "pages": {
     "dashboard": "Dashboard",
     "buyerRequests": "Buyer Requests",
-    "ledger": "Ledger",
     "settings": "Settings",
     "home": "Available Potatoes",
     "sendRequest": "Send a Purchase Request",
@@ -701,6 +700,103 @@
       "error": "Could not load payments.",
       "retry": "Try again",
       "showing": "Showing {{from}}-{{to}} of {{total}} payments"
+    }
+  },
+  "ledger": {
+    "eyebrow": "Audit trail",
+    "title": "Ledger",
+    "explanation": "Every delivery, sale, share and payment is recorded here permanently. Entries cannot be edited or deleted.",
+    "summary": {
+      "totalEntries": "Total entries",
+      "lastEntry": "Last entry",
+      "entriesToday": "Entries today",
+      "noValue": "—"
+    },
+    "types": {
+      "DELIVERY": "Delivery",
+      "LOSS": "Loss",
+      "SALE": "Sale",
+      "SHARE": "Share",
+      "PAYMENT": "Payment",
+      "REVERSAL": "Reversal"
+    },
+    "verify": {
+      "title": "Chain check",
+      "explanation": "Recalculates the fingerprint (hash) of every entry to make sure nothing was changed.",
+      "button": "Verify ledger",
+      "checking": "Checking...",
+      "intact_one": "All {{count}} entry is intact",
+      "intact_other": "All {{count}} entries are intact",
+      "broken": "Problem found at entry #{{id}}",
+      "viewEntry": "View entry #{{id}}",
+      "entryNotFound": "Entry #{{id}} could not be found.",
+      "lastChecked": "Last checked at {{time}}",
+      "notChecked": "Not checked yet",
+      "error": "Could not verify the ledger. Please try again."
+    },
+    "filters": {
+      "type": "Type",
+      "allTypes": "All types",
+      "from": "From",
+      "to": "To",
+      "searchLabel": "Search the ledger",
+      "searchPlaceholder": "Search by code or member name",
+      "clear": "Clear filters"
+    },
+    "table": {
+      "date": "Date & time",
+      "type": "Type",
+      "description": "Description",
+      "reference": "Reference",
+      "member": "Member",
+      "lot": "Lot",
+      "kg": "Kg",
+      "amount": "Amount",
+      "hash": "Hash",
+      "actions": "Actions",
+      "reversedBy": "Reversed by #{{id}}",
+      "reverses": "Reverses #{{id}}",
+      "empty": "No entries yet. They appear as deliveries, sales, shares and payments are recorded.",
+      "noResults": "No entries match these filters.",
+      "error": "Could not load the ledger.",
+      "retry": "Try again",
+      "showing": "Showing {{from}}-{{to}} of {{total}} entries"
+    },
+    "actions": {
+      "menu": "Actions for entry #{{id}}",
+      "view": "View details",
+      "reverse": "Reverse entry"
+    },
+    "details": {
+      "title": "Entry #{{id}}",
+      "close": "Close",
+      "date": "Date & time",
+      "type": "Type",
+      "description": "Description",
+      "reference": "Reference code",
+      "member": "Member",
+      "lot": "Lot",
+      "kg": "Quantity",
+      "amount": "Amount",
+      "reverses": "Reverses",
+      "reversedBy": "Reversed by",
+      "hash": "Hash",
+      "previousHash": "Previous hash",
+      "none": "—",
+      "chainTitle": "How the chain works",
+      "chain": "Each entry stores the hash of the entry before it. Changing any old entry would change its hash and break every link after it, which the chain check would find."
+    },
+    "reverse": {
+      "title": "Reverse entry #{{id}}?",
+      "explanation": "A new correcting entry will be added that cancels this one. The original entry stays in the ledger, marked as reversed.",
+      "reason": "Reason",
+      "reasonPlaceholder": "Explain why this entry is wrong",
+      "reasonRequired": "Enter the reason",
+      "confirm": "Reverse entry",
+      "reversing": "Reversing...",
+      "cancel": "Cancel",
+      "done": "Entry #{{id}} reversed by #{{reversalId}}",
+      "error": "Could not reverse the entry. Please try again."
     }
   }
 }
