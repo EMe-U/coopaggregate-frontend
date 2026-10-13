@@ -6,6 +6,7 @@ import PageTitle from '../../components/PageTitle'
 import { MoneyCards, StockCards } from '../../components/dashboard/DashboardSummaryCards'
 import HistoryCheckCard from '../../components/dashboard/HistoryCheckCard'
 import NeedsAttention from '../../components/dashboard/NeedsAttention'
+import RecentDeliveries from '../../components/dashboard/RecentDeliveries'
 import { getDashboard } from '../../api/dashboard'
 
 const quickLinks = [
@@ -80,6 +81,9 @@ export default function Dashboard() {
         <HistoryCheckCard />
       </div>
       {!loadError && <NeedsAttention summary={summary} />}
+      <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+        <RecentDeliveries />
+      </div>
     </div>
   )
 }
