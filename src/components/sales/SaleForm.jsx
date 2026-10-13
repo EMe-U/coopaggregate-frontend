@@ -64,8 +64,19 @@ function Field({ htmlFor, label, error, children }) {
   )
 }
 
+// The order answer holds its sales; a sale whose lot is now SOLD used up the last of that lot.
+function lotsReadyToShare(sales) {
+  const lots = new Map()
+  for (const sale of sales) {
+    if (sale.lotStatus === 'SOLD') lots.set(sale.lotId, { lotId: sale.lotId, lotCode: sale.lotCode })
+  }
+  return [...lots.values()]
+}
+
 function OrderResult({ order, onRecordAnother }) {
   const { t } = useTranslation()
+  const readyToShare = lotsReadyToShare(order.sales)
+  const belowFloor = order.sales.some((sale) => sale.belowFloor)
 
   return (
     <div className="space-y-3">
@@ -75,21 +86,21 @@ function OrderResult({ order, onRecordAnother }) {
           <p className="font-semibold">{t('sales.result.title', { code: order.orderCode })}</p>
           <p className="text-2xl font-semibold">{t('sales.result.total', { amount: formatMoney(order.totalAmountRwf) })}</p>
           <p className="text-sm">
-            {order.buyerName} · {formatKg(order.totalKg)}
+            {order.buyer.name} · {formatKg(order.totalKg)}
           </p>
         </div>
       </div>
-      {order.belowFloor && (
+      {belowFloor && (
         <p className="flex items-start gap-2 rounded-lg bg-warning/15 p-3 text-sm text-amber-800">
           <TriangleAlert size={18} className="mt-0.5 shrink-0" />
           {t('sales.result.belowFloor')}
         </p>
       )}
-      {order.lotsReadyToShare?.length > 0 && (
+      {readyToShare.length > 0 && (
         <div className="rounded-lg bg-background p-3 text-sm">
           <p className="font-medium text-text">{t('sales.result.readyToShare')}</p>
           <ul className="mt-2 flex flex-wrap gap-2">
-            {order.lotsReadyToShare.map((lot) => (
+            {readyToShare.map((lot) => (
               <li key={lot.lotId}>
                 <Link
                   to={`/share?lotId=${lot.lotId}`}
@@ -246,7 +257,6 @@ export default function SaleForm({ initialLotId, onSaved }) {
       const order = await recordSaleOrder({
         clientUuid,
         buyerId: form.buyer.id,
-        gradeId: grade.id,
         soldAt: form.date,
         items: lines.map((line) => ({
           lotId: Number(line.lotId),
