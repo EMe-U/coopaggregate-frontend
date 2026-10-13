@@ -1,11 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BookOpen, CalendarClock, Hash, ListChecks } from 'lucide-react'
 import { findLedgerEntry, getLedgerSummary } from '../../api/ledger'
 import PageTitle from '../../components/PageTitle'
+import SuccessToast from '../../components/SuccessToast'
 import EntryDetailsPanel from '../../components/ledger/EntryDetailsPanel'
 import LedgerFilters from '../../components/ledger/LedgerFilters'
 import LedgerTable from '../../components/ledger/LedgerTable'
+import ReverseEntryDialog from '../../components/ledger/ReverseEntryDialog'
 import VerifyPanel from '../../components/ledger/VerifyPanel'
 import useDebouncedValue from '../../hooks/useDebouncedValue'
 import { formatDateTime, formatNumber } from '../../utils/format'
@@ -29,12 +31,16 @@ function SummaryCard({ label, value, icon: Icon }) {
 export default function Ledger() {
   const { t } = useTranslation()
   const [summary, setSummary] = useState(null)
-  const [reloadKey] = useState(0)
+  // Bumped after a reversal so the table and the summary show the new entry.
+  const [reloadKey, setReloadKey] = useState(0)
   const [filterValues, setFilterValues] = useState(NO_FILTERS)
   const search = useDebouncedValue(filterValues.search.trim(), 300)
   const filters = { type: filterValues.type, from: filterValues.from, to: filterValues.to, search }
   const [detail, setDetail] = useState(null)
   const [lookupError, setLookupError] = useState('')
+  const [reversing, setReversing] = useState(null)
+  const [notice, setNotice] = useState('')
+  const clearNotice = useCallback(() => setNotice(''), [])
 
   useEffect(() => {
     // The cards keep showing no value if the summary cannot be loaded; the table still works.
@@ -44,6 +50,13 @@ export default function Ledger() {
   }, [reloadKey])
 
   const noValue = t('ledger.summary.noValue')
+
+  function handleReversed(reversal) {
+    setNotice(t('ledger.reverse.done', { id: reversing.id, reversalId: reversal.id }))
+    setReversing(null)
+    setDetail(null)
+    setReloadKey((key) => key + 1)
+  }
 
   // Used for links to an entry that may be on another page of the table.
   async function openEntryById(id) {
@@ -95,10 +108,14 @@ export default function Ledger() {
 
       <section className="min-w-0 overflow-hidden rounded-xl bg-surface shadow-sm">
         <LedgerFilters values={filterValues} onChange={setFilterValues} onClear={() => setFilterValues(NO_FILTERS)} />
-        <LedgerTable filters={filters} reloadKey={reloadKey} onView={setDetail} />
+        <LedgerTable filters={filters} reloadKey={reloadKey} onView={setDetail} onReverse={setReversing} />
       </section>
 
       {detail && <EntryDetailsPanel entry={detail} onClose={() => setDetail(null)} onOpenEntry={openEntryById} />}
+      {reversing && (
+        <ReverseEntryDialog entry={reversing} onClose={() => setReversing(null)} onReversed={handleReversed} />
+      )}
+      {notice && <SuccessToast message={notice} onDone={clearNotice} />}
     </div>
   )
 }
