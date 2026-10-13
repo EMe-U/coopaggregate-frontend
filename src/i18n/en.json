@@ -252,10 +252,6 @@
       "message_one": "This member delivered {{kg}} kg {{count}} minute ago. Is this a duplicate?",
       "message_other": "This member delivered {{kg}} kg {{count}} minutes ago. Is this a duplicate?"
     },
-    "offline": {
-      "title": "You are offline",
-      "message": "Offline saving is coming soon. Connect to the internet to save this delivery."
-    },
     "save": "Save delivery",
     "saving": "Saving...",
     "errors": {
@@ -266,8 +262,7 @@
       "quantityTooLarge": "The quantity must be at most 5,000 kg",
       "dateRequired": "Choose the delivery date",
       "dateFuture": "The delivery date cannot be in the future",
-      "generic": "Could not save the delivery. Please try again.",
-      "serverUnreachable": "Cannot reach the server. Check your connection and try again."
+      "generic": "Could not save the delivery. Please try again."
     },
     "receipt": {
       "title": "Delivery receipt",
@@ -868,6 +863,59 @@
       "empty": "No deliveries in the last 4 weeks.",
       "peak": "Peak:",
       "peakValue": "{{week}} ({{kg}} total)"
+    }
+  },
+  "offline": {
+    "banner": {
+      "title": "You are offline",
+      "message": "You can still record deliveries. They are saved on this device and sync when the internet is back."
+    },
+    "saveFailed": "Could not save the delivery on this device. Please try again.",
+    "lotLater": "The lot will be assigned when this delivery syncs.",
+    "receipt": {
+      "waiting": "Waiting to sync",
+      "failed": "Sync failed",
+      "explanation": "Saved on this device. The receipt code, lot and deduction are given when it syncs.",
+      "grade": "Grade",
+      "lotLater": "Lot assigned when it syncs",
+      "deductionPreview": "Deduction (preview)"
+    },
+    "status": {
+      "WAITING": "Waiting",
+      "SYNCING": "Syncing",
+      "FAILED": "Failed",
+      "SYNCED": "Synced"
+    },
+    "syncColumn": "Sync",
+    "todayOffline": "You are offline. Deliveries saved on the server show again when the internet is back.",
+    "needsLogin": "Log in again to sync",
+    "waitingCount_one": "{{count}} waiting to sync",
+    "waitingCount_other": "{{count}} waiting to sync",
+    "failedCount_one": "{{count}} failed",
+    "failedCount_other": "{{count}} failed",
+    "panel": {
+      "title": "Deliveries on this device",
+      "syncNow": "Sync now",
+      "syncing": "Syncing...",
+      "offline": "They will sync when the internet is back.",
+      "needsLogin": "Your session has ended. Log in again to sync. The deliveries stay on this device.",
+      "logIn": "Log in again",
+      "empty": "Nothing waiting to sync.",
+      "retry": "Retry",
+      "discard": "Discard"
+    },
+    "discard": {
+      "title": "Discard this delivery?",
+      "message": "{{reference}} – {{member}}, {{kg}} will be removed from this device and never sent.",
+      "confirm": "Discard",
+      "cancel": "Keep it"
+    },
+    "logout": {
+      "title": "Deliveries not synced yet",
+      "message_one": "{{count}} delivery has not synced yet. It stays on this device and syncs after you log in again.",
+      "message_other": "{{count}} deliveries have not synced yet. They stay on this device and sync after you log in again.",
+      "confirm": "Log out",
+      "cancel": "Stay logged in"
     }
   }
 }

@@ -252,10 +252,6 @@
       "message_one": "Uyu munyamuryango yagemuye {{kg}} kg mu munota {{count}} ushize. Ese ni ibyanditswe kabiri?",
       "message_other": "Uyu munyamuryango yagemuye {{kg}} kg mu minota {{count}} ishize. Ese ni ibyanditswe kabiri?"
     },
-    "offline": {
-      "title": "Nta murandasi",
-      "message": "Kubika nta murandasi biraza vuba. Fungura murandasi kugira ngo ubike ibi byagemuwe."
-    },
     "save": "Bika ibyagemuwe",
     "saving": "Birabikwa...",
     "errors": {
@@ -266,8 +262,7 @@
       "quantityTooLarge": "Ingano ntishobora kurenza kg 5,000",
       "dateRequired": "Hitamo itariki yagemuriyeho",
       "dateFuture": "Itariki ntishobora kuba iri imbere",
-      "generic": "Ntibishobotse kubika ibyagemuwe. Ongera ugerageze.",
-      "serverUnreachable": "Ntibishoboka kugera kuri seriveri. Reba murandasi yawe wongere ugerageze."
+      "generic": "Ntibishobotse kubika ibyagemuwe. Ongera ugerageze."
     },
     "receipt": {
       "title": "Inyemezabuguzi y'ibyagemuwe",
@@ -868,6 +863,59 @@
       "empty": "Nta byagemuwe mu byumweru 4 bishize.",
       "peak": "Icyumweru cyagemuweho byinshi:",
       "peakValue": "{{week}} ({{kg}} byose hamwe)"
+    }
+  },
+  "offline": {
+    "banner": {
+      "title": "Nta interineti",
+      "message": "Urashobora gukomeza kwandika ibyagemuwe. Bibikwa kuri iki gikoresho, bikoherezwa interineti igarutse."
+    },
+    "saveFailed": "Ntibishobotse kubika ibyagemuwe kuri iki gikoresho. Ongera ugerageze.",
+    "lotLater": "Ikirundo kizagenwa igihe ibyagemuwe byoherejwe.",
+    "receipt": {
+      "waiting": "Bitegereje koherezwa",
+      "failed": "Kohereza byanze",
+      "explanation": "Byabitswe kuri iki gikoresho. Nimero y'inyemezabwishyu, ikirundo n'amafaranga akurwaho bitangwa byoherejwe.",
+      "grade": "Urwego",
+      "lotLater": "Ikirundo kigenwa byoherejwe",
+      "deductionPreview": "Amafaranga akurwaho (agereranyo)"
+    },
+    "status": {
+      "WAITING": "Bitegereje",
+      "SYNCING": "Biroherezwa",
+      "FAILED": "Byanze",
+      "SYNCED": "Byoherejwe"
+    },
+    "syncColumn": "Kohereza",
+    "todayOffline": "Nta interineti. Ibyabitswe kuri seriveri biragaragara interineti igarutse.",
+    "needsLogin": "Ongera winjire kugira ngo byoherezwe",
+    "waitingCount_one": "{{count}} bitegereje koherezwa",
+    "waitingCount_other": "{{count}} bitegereje koherezwa",
+    "failedCount_one": "{{count}} byanze",
+    "failedCount_other": "{{count}} byanze",
+    "panel": {
+      "title": "Ibyagemuwe biri kuri iki gikoresho",
+      "syncNow": "Ohereza ubu",
+      "syncing": "Biroherezwa...",
+      "offline": "Bizoherezwa interineti igarutse.",
+      "needsLogin": "Igihe cyawe cyarangiye. Ongera winjire kugira ngo byoherezwe. Ibyagemuwe bigumye kuri iki gikoresho.",
+      "logIn": "Ongera winjire",
+      "empty": "Nta bitegereje koherezwa.",
+      "retry": "Ongera ugerageze",
+      "discard": "Siba"
+    },
+    "discard": {
+      "title": "Gusiba ibi byagemuwe?",
+      "message": "{{reference}} – {{member}}, {{kg}} bizakurwa kuri iki gikoresho kandi ntibizoherezwa.",
+      "confirm": "Siba",
+      "cancel": "Bigumane"
+    },
+    "logout": {
+      "title": "Hari ibyagemuwe bitaroherezwa",
+      "message_one": "Ibyagemuwe {{count}} ntibiroherezwa. Bigumye kuri iki gikoresho, bikoherezwa nyuma yo kongera kwinjira.",
+      "message_other": "Ibyagemuwe {{count}} ntibiroherezwa. Bigumye kuri iki gikoresho, bikoherezwa nyuma yo kongera kwinjira.",
+      "confirm": "Sohoka",
+      "cancel": "Guma winjiye"
     }
   }
 }
