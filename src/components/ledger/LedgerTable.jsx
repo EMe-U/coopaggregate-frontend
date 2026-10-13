@@ -8,7 +8,7 @@ import EmptyState from '../EmptyState'
 import Pagination from '../Pagination'
 import usePageSize from '../../hooks/usePageSize'
 import LedgerTypeBadge from './LedgerTypeBadge'
-import { EntryAmount, EntryKg, EntryParty, saleBuyer, useEntryDescription } from './ledgerDisplay'
+import { EntryAmount, EntryKg, EntryParty, useEntryDescription } from './ledgerDisplay'
 import { formatDate, formatTime, kigaliIsoDate } from '../../utils/format'
 
 
@@ -201,7 +201,7 @@ export default function LedgerTable({ filters = {}, reloadKey, onView, onReverse
                   <EntryAmount entry={entry} />
                 </dd>
               </div>
-              {(entry.memberId || saleBuyer(entry)) && (
+              {(entry.memberId || entry.buyerName) && (
                 <div className="col-span-2 flex justify-between gap-2">
                   <dt className="text-muted">{t('ledger.table.member')}</dt>
                   <dd>

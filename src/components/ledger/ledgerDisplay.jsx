@@ -13,21 +13,10 @@ const SIGNS = {
   PAYMENT: { kg: null, amount: -1 },
 }
 
-// A reversal does not say which type it reverses, but the backend attaches the same references as
-// the original entry, and each type has its own combination (see LedgerQueryService.references).
-export function reversedType(entry) {
-  const hasMember = entry.memberId != null
-  const hasLot = entry.lotId != null
-  const hasReference = entry.referenceCode != null
-  if (hasLot && hasMember) return hasReference ? 'DELIVERY' : 'SHARE'
-  if (hasLot) return hasReference ? 'SALE' : 'LOSS'
-  if (hasMember) return 'PAYMENT'
-  return null
-}
-
 export function entrySigns(entry) {
   if (entry.type !== 'REVERSAL') return SIGNS[entry.type] ?? { kg: null, amount: null }
-  const original = SIGNS[reversedType(entry)] ?? { kg: null, amount: null }
+  // reversedType is the type of the entry this reversal cancels.
+  const original = SIGNS[entry.reversedType] ?? { kg: null, amount: null }
   // Opposite of the original; an unsigned share becomes money taken back.
   const flip = (sign) => (sign === null ? null : sign === 0 ? -1 : -sign)
   return { kg: flip(original.kg), amount: flip(original.amount) }
@@ -48,14 +37,6 @@ export function EntryAmount({ entry }) {
   return <SignedValue value={entry.amountRwf} sign={entrySigns(entry).amount} format={formatMoney} />
 }
 
-// A sale has no member; its stored text is "Sale SAL-… from LOT-… to <buyer>". The prefix is
-// built from the entry's own codes, so a buyer name that contains " to " still reads correctly.
-export function saleBuyer(entry) {
-  if (entry.type !== 'SALE') return null
-  const prefix = `Sale ${entry.referenceCode} from ${entry.lotCode} to `
-  return entry.description.startsWith(prefix) ? entry.description.slice(prefix.length) : null
-}
-
 // The member as a link to the profile, or the buyer for a sale.
 export function EntryParty({ entry }) {
   if (entry.memberId) {
@@ -65,7 +46,7 @@ export function EntryParty({ entry }) {
       </Link>
     )
   }
-  return saleBuyer(entry) ?? <span className="text-muted">–</span>
+  return entry.buyerName ?? <span className="text-muted">–</span>
 }
 
 // The text after "Loss from LOT-…: " is the stored loss reason (ROT, DRYING, ...).
