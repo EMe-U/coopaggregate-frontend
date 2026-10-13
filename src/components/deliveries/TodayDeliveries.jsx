@@ -113,7 +113,7 @@ export default function TodayDeliveries({ reloadKey }) {
     <section className="min-w-0 rounded-xl bg-surface p-5 shadow-sm print:hidden">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
         <h2 className="text-lg font-semibold text-text">{t('deliveries.today.title')}</h2>
-        {result && totalKg !== null && (
+        {result && totalKg !== null && !loadError && (
           <p className="text-sm text-muted">
             {t('deliveries.today.total', { kg: formatKg(totalKg), count: result.totalElements })}
           </p>
