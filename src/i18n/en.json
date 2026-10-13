@@ -796,5 +796,78 @@
       "payment": "Payment {{code}} by {{method}}",
       "reversal": "Reversal of entry #{{id}}: {{reason}}"
     }
+  },
+  "dashboard": {
+    "title": "{{cooperative}} – Overview",
+    "subtitle": "Today's deliveries, stock, sales and payments.",
+    "quick": {
+      "recordDelivery": "Record delivery",
+      "recordSale": "Record sale",
+      "payment": "Payment"
+    },
+    "error": "Could not load the overview. Please try again.",
+    "retry": "Try again",
+    "cards": {
+      "members": "Total members",
+      "joinedThisMonth_one": "+{{count}} this month",
+      "joinedThisMonth_other": "+{{count}} this month",
+      "active_one": "{{count}} active",
+      "active_other": "{{count}} active",
+      "stock": "Available stock",
+      "deliveriesToday": "Deliveries today",
+      "openLots": "Open lots",
+      "owed": "Amount owed to members",
+      "membersWaiting_one": "{{count}} member waiting",
+      "membersWaiting_other": "{{count}} members waiting",
+      "readyToShare": "Ready to share",
+      "lots_one": "{{count}} lot",
+      "lots_other": "{{count}} lots",
+      "goToShare": "Share lot money"
+    },
+    "history": {
+      "title": "History check",
+      "valid_one": "All {{count}} entry matches - no changes detected",
+      "valid_other": "All {{count}} entries match - no changes detected",
+      "broken": "Problem found at entry #{{id}}",
+      "checkedAt": "Checked at {{time}}",
+      "view": "View history",
+      "error": "Could not check the history."
+    },
+    "attention": {
+      "title": "Needs attention",
+      "count_one": "{{count}} item",
+      "count_other": "{{count}} items",
+      "allCaughtUp": "All caught up",
+      "readyToShare_one": "{{count}} sold lot is ready to share",
+      "readyToShare_other": "{{count}} sold lots are ready to share",
+      "readyToShareAction": "Share lot money",
+      "readyToSell_one": "{{count}} closed lot is ready to sell",
+      "readyToSell_other": "{{count}} closed lots are ready to sell",
+      "readyToSellAction": "Record sale",
+      "awaitingPayment_one": "{{count}} member is waiting for payment",
+      "awaitingPayment_other": "{{count}} members are waiting for payment",
+      "awaitingPaymentAction": "Pay members"
+    },
+    "recent": {
+      "title": "Recent deliveries",
+      "subtitle": "The latest deliveries recorded",
+      "viewAll": "View all",
+      "error": "Could not load recent deliveries.",
+      "empty": "No deliveries recorded yet.",
+      "receipt": "Receipt",
+      "member": "Member",
+      "grade": "Grade",
+      "kg": "Kg",
+      "time": "Time"
+    },
+    "weekly": {
+      "title": "Weekly deliveries by grade",
+      "subtitle": "Kilograms delivered in the last 4 weeks",
+      "thisWeek": "This week",
+      "weekOf": "Week of {{date}}",
+      "empty": "No deliveries in the last 4 weeks.",
+      "peak": "Peak:",
+      "peakValue": "{{week}} ({{kg}} total)"
+    }
   }
 }

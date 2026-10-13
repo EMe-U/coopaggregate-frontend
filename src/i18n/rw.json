@@ -796,5 +796,78 @@
       "payment": "Ubwishyu {{code}} hakoreshejwe {{method}}",
       "reversal": "Ikosora ry'icyanditswe #{{id}}: {{reason}}"
     }
+  },
+  "dashboard": {
+    "title": "{{cooperative}} – Incamake",
+    "subtitle": "Ibyagemuwe uyu munsi, ibiri mu bubiko, ibyagurishijwe n'ubwishyu.",
+    "quick": {
+      "recordDelivery": "Andika ibyagemuwe",
+      "recordSale": "Andika igurisha",
+      "payment": "Kwishyura"
+    },
+    "error": "Ntibishobotse kubona incamake. Ongera ugerageze.",
+    "retry": "Ongera ugerageze",
+    "cards": {
+      "members": "Abanyamuryango bose",
+      "joinedThisMonth_one": "+{{count}} uku kwezi",
+      "joinedThisMonth_other": "+{{count}} uku kwezi",
+      "active_one": "{{count}} ukora",
+      "active_other": "{{count}} bakora",
+      "stock": "Ibiri mu bubiko",
+      "deliveriesToday": "Ibyagemuwe uyu munsi",
+      "openLots": "Ibirundo bifunguye",
+      "owed": "Amafaranga abanyamuryango babereyemo",
+      "membersWaiting_one": "Umunyamuryango {{count}} utegereje",
+      "membersWaiting_other": "Abanyamuryango {{count}} bategereje",
+      "readyToShare": "Ibiteguye kugabanywa",
+      "lots_one": "Ikirundo {{count}}",
+      "lots_other": "Ibirundo {{count}}",
+      "goToShare": "Gabanya amafaranga"
+    },
+    "history": {
+      "title": "Igenzura ry'amateka",
+      "valid_one": "Icyanditswe {{count}} ni kizima - nta cyahindutse",
+      "valid_other": "Ibyanditswe {{count}} byose ni bizima - nta cyahindutse",
+      "broken": "Ikibazo cyabonetse ku cyanditswe #{{id}}",
+      "checkedAt": "Byagenzuwe saa {{time}}",
+      "view": "Reba amateka",
+      "error": "Ntibishobotse kugenzura amateka."
+    },
+    "attention": {
+      "title": "Ibikeneye kwitabwaho",
+      "count_one": "Kimwe",
+      "count_other": "Bigera kuri {{count}}",
+      "allCaughtUp": "Byose biri ku murongo",
+      "readyToShare_one": "Ikirundo {{count}} cyagurishijwe kiteguye kugabanywa",
+      "readyToShare_other": "Ibirundo {{count}} byagurishijwe biteguye kugabanywa",
+      "readyToShareAction": "Gabanya amafaranga",
+      "readyToSell_one": "Ikirundo {{count}} gifunze kiteguye kugurishwa",
+      "readyToSell_other": "Ibirundo {{count}} bifunze biteguye kugurishwa",
+      "readyToSellAction": "Andika igurisha",
+      "awaitingPayment_one": "Umunyamuryango {{count}} ategereje kwishyurwa",
+      "awaitingPayment_other": "Abanyamuryango {{count}} bategereje kwishyurwa",
+      "awaitingPaymentAction": "Ishyura abanyamuryango"
+    },
+    "recent": {
+      "title": "Ibyagemuwe vuba",
+      "subtitle": "Ibyagemuwe biheruka kwandikwa",
+      "viewAll": "Reba byose",
+      "error": "Ntibishobotse kubona ibyagemuwe vuba.",
+      "empty": "Nta byagemuwe biranditswe.",
+      "receipt": "Inyemezabwishyu",
+      "member": "Umunyamuryango",
+      "grade": "Urwego",
+      "kg": "Kg",
+      "time": "Isaha"
+    },
+    "weekly": {
+      "title": "Ibyagemuwe buri cyumweru ku rwego",
+      "subtitle": "Ibiro byagemuwe mu byumweru 4 bishize",
+      "thisWeek": "Iki cyumweru",
+      "weekOf": "Icyumweru cya {{date}}",
+      "empty": "Nta byagemuwe mu byumweru 4 bishize.",
+      "peak": "Icyumweru cyagemuweho byinshi:",
+      "peakValue": "{{week}} ({{kg}} byose hamwe)"
+    }
   }
 }
