@@ -7,8 +7,10 @@ import DuplicateWarning from '../../components/deliveries/DuplicateWarning'
 import GradeSelector from '../../components/deliveries/GradeSelector'
 import LotAssignment from '../../components/deliveries/LotAssignment'
 import MemberPicker from '../../components/deliveries/MemberPicker'
+import PendingReceipt from '../../components/deliveries/PendingReceipt'
 import TodayDeliveries from '../../components/deliveries/TodayDeliveries'
 import useOnlineStatus from '../../hooks/useOnlineStatus'
+import { queueDelivery } from '../../offline/pending'
 import { kigaliIsoDate } from '../../utils/format'
 import { parseKg } from '../../utils/quantity'
 
@@ -29,8 +31,11 @@ function validate({ member, grade, date, quantityText }, today) {
 }
 
 // The form only asks for the day. Today means "now"; an earlier day is saved at noon Kigali time.
-function deliveredAtFor(date, today) {
-  return date === today ? undefined : new Date(`${date}T12:00:00+02:00`).toISOString()
+// Online, "now" is left to the server clock. A delivery kept on the device for later carries the
+// device time, because it may reach the server much later.
+function deliveredAtFor(date, today, { queued = false } = {}) {
+  if (date !== today) return new Date(`${date}T12:00:00+02:00`).toISOString()
+  return queued ? new Date().toISOString() : undefined
 }
 
 function emptyForm() {
@@ -61,9 +66,11 @@ export default function RecordDelivery() {
   const [errors, setErrors] = useState({})
   const [formError, setFormError] = useState('')
   const [saving, setSaving] = useState(false)
-  // The saved delivery. While it is shown the form is locked until "Record another".
+  // The saved delivery, or the one kept on this device to sync later. While either is shown the
+  // form is locked until "Record another".
   const [receipt, setReceipt] = useState(null)
-  const locked = saving || receipt !== null
+  const [pendingReceipt, setPendingReceipt] = useState(null)
+  const locked = saving || receipt !== null || pendingReceipt !== null
 
   function setField(name, value) {
     setForm((current) => ({ ...current, [name]: value }))
@@ -72,26 +79,43 @@ export default function RecordDelivery() {
 
   async function handleSubmit(event) {
     event.preventDefault()
-    if (locked || !isOnline) return
+    if (locked) return
     setFormError('')
 
     const fieldErrors = validate(form, today)
     setErrors(fieldErrors)
     if (Object.keys(fieldErrors).length > 0) return
 
+    const delivery = { memberId: form.member.id, gradeId: form.grade.id, quantityKg: parseKg(form.quantityText) }
+
+    async function saveForLater() {
+      const queued = await queueDelivery({
+        clientUuid,
+        payload: { ...delivery, deliveredAt: deliveredAtFor(form.date, today, { queued: true }) },
+        member: form.member,
+        grade: form.grade,
+      })
+      setPendingReceipt(queued)
+    }
+
     setSaving(true)
     try {
-      const saved = await recordDelivery({
-        clientUuid,
-        memberId: form.member.id,
-        gradeId: form.grade.id,
-        quantityKg: parseKg(form.quantityText),
-        deliveredAt: deliveredAtFor(form.date, today),
-      })
-      setReceipt(saved)
-    } catch (error) {
-      if (!error.response) setFormError(t('deliveries.errors.serverUnreachable'))
-      else setFormError(error.response.data?.message || t('deliveries.errors.generic'))
+      if (!isOnline) {
+        await saveForLater()
+        return
+      }
+      try {
+        setReceipt(await recordDelivery({ clientUuid, ...delivery, deliveredAt: deliveredAtFor(form.date, today) }))
+      } catch (error) {
+        if (error.response) {
+          setFormError(error.response.data?.message || t('deliveries.errors.generic'))
+          return
+        }
+        // No answer from the server: keep it on this device and let sync send it with the same clientUuid.
+        await saveForLater()
+      }
+    } catch {
+      setFormError(t('offline.saveFailed'))
     } finally {
       setSaving(false)
     }
@@ -102,6 +126,7 @@ export default function RecordDelivery() {
     setErrors({})
     setFormError('')
     setReceipt(null)
+    setPendingReceipt(null)
     setClientUuid(crypto.randomUUID())
   }
 
@@ -113,8 +138,8 @@ export default function RecordDelivery() {
         <div role="status" className="flex items-start gap-3 rounded-xl bg-text/85 p-4 text-sm text-white print:hidden">
           <WifiOff size={20} className="mt-0.5 shrink-0" />
           <div>
-            <p className="font-semibold">{t('deliveries.offline.title')}</p>
-            <p className="text-white/80">{t('deliveries.offline.message')}</p>
+            <p className="font-semibold">{t('offline.banner.title')}</p>
+            <p className="text-white/80">{t('offline.banner.message')}</p>
           </div>
         </div>
       )}
@@ -197,7 +222,7 @@ export default function RecordDelivery() {
 
           <button
             type="submit"
-            disabled={locked || !isOnline}
+            disabled={locked}
             className="flex min-h-14 w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 text-base font-semibold text-white shadow-sm hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
           >
             <Save size={18} />
@@ -207,6 +232,7 @@ export default function RecordDelivery() {
 
         <div className="min-w-0 space-y-6 lg:col-span-2">
           {receipt && <DeliveryReceipt delivery={receipt} onRecordAnother={handleRecordAnother} />}
+          {pendingReceipt && <PendingReceipt delivery={pendingReceipt} onRecordAnother={handleRecordAnother} />}
 
           <div className="rounded-xl bg-background p-4 text-sm ring-1 ring-text/5 print:hidden">
             <p className="flex items-center gap-2 font-semibold text-text">
