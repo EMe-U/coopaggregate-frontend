@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Banknote, ShoppingCart, Truck } from 'lucide-react'
 import PageTitle from '../../components/PageTitle'
 import { MoneyCards, StockCards } from '../../components/dashboard/DashboardSummaryCards'
+import HistoryCheckCard from '../../components/dashboard/HistoryCheckCard'
 import { getDashboard } from '../../api/dashboard'
 
 const quickLinks = [
@@ -56,7 +57,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {loadError ? (
+      {loadError && (
         <div
           role="alert"
           className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-danger/10 px-4 py-3 text-sm text-danger"
@@ -70,14 +71,13 @@ export default function Dashboard() {
             {t('dashboard.retry')}
           </button>
         </div>
-      ) : (
-        <>
-          <StockCards summary={summary} />
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            <MoneyCards summary={summary} />
-          </div>
-        </>
       )}
+      {!loadError && <StockCards summary={summary} />}
+      {/* The history check has its own request, so it still shows when the summary fails. */}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        {!loadError && <MoneyCards summary={summary} />}
+        <HistoryCheckCard />
+      </div>
     </div>
   )
 }
