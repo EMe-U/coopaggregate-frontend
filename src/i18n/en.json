@@ -381,6 +381,7 @@
       "chooseReason": "Choose a reason",
       "reasons": {
         "ROT": "Rot",
+        "DRYING": "Drying",
         "DAMAGE": "Damage",
         "THEFT": "Theft",
         "OTHER": "Other"
@@ -797,6 +798,14 @@
       "cancel": "Cancel",
       "done": "Entry #{{id}} reversed by #{{reversalId}}",
       "error": "Could not reverse the entry. Please try again."
+    },
+    "describe": {
+      "delivery": "Delivery {{code}} · fee {{fee}}",
+      "loss": "Loss from {{lot}}: {{reason}}",
+      "sale": "Sale {{code}} from {{lot}}",
+      "share": "Share of {{lot}} for {{member}}",
+      "payment": "Payment {{code}} by {{method}}",
+      "reversal": "Reversal of entry #{{id}}: {{reason}}"
     }
   }
 }

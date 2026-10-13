@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Link2, X } from 'lucide-react'
 import LedgerTypeBadge from './LedgerTypeBadge'
-import { signed } from './LedgerTable'
-import { formatDateTime, formatKg, formatMoney } from '../../utils/format'
+import { EntryAmount, EntryKg, useEntryDescription } from './ledgerDisplay'
+import { formatDateTime } from '../../utils/format'
 
 function Detail({ label, children }) {
   return (
@@ -17,6 +17,7 @@ function Detail({ label, children }) {
 
 export default function EntryDetailsPanel({ entry, onClose, onOpenEntry }) {
   const { t } = useTranslation()
+  const describe = useEntryDescription()
   const closeRef = useRef(null)
   const none = t('ledger.details.none')
 
@@ -67,7 +68,7 @@ export default function EntryDetailsPanel({ entry, onClose, onOpenEntry }) {
         <div className="flex-1 overflow-y-auto px-5 py-4">
           <dl className="divide-y divide-text/5">
             <Detail label={t('ledger.details.date')}>{formatDateTime(entry.entryDate)}</Detail>
-            <Detail label={t('ledger.details.description')}>{entry.description}</Detail>
+            <Detail label={t('ledger.details.description')}>{describe(entry)}</Detail>
             <Detail label={t('ledger.details.reference')}>
               <span className="font-mono">{entry.referenceCode ?? none}</span>
             </Detail>
@@ -89,8 +90,12 @@ export default function EntryDetailsPanel({ entry, onClose, onOpenEntry }) {
                 none
               )}
             </Detail>
-            <Detail label={t('ledger.details.kg')}>{signed(entry.quantityKg, formatKg)}</Detail>
-            <Detail label={t('ledger.details.amount')}>{signed(entry.amountRwf, formatMoney)}</Detail>
+            <Detail label={t('ledger.details.kg')}>
+              <EntryKg entry={entry} />
+            </Detail>
+            <Detail label={t('ledger.details.amount')}>
+              <EntryAmount entry={entry} />
+            </Detail>
             {entry.reversesEntryId != null && (
               <Detail label={t('ledger.details.reverses')}>{entryLink(entry.reversesEntryId)}</Detail>
             )}

@@ -2,9 +2,11 @@ import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Undo2 } from 'lucide-react'
 import { reverseEntry } from '../../api/ledger'
+import { useEntryDescription } from './ledgerDisplay'
 
 export default function ReverseEntryDialog({ entry, onClose, onReversed }) {
   const { t } = useTranslation()
+  const describe = useEntryDescription()
   const reasonRef = useRef(null)
   const [reason, setReason] = useState('')
   const [reasonError, setReasonError] = useState('')
@@ -55,7 +57,7 @@ export default function ReverseEntryDialog({ entry, onClose, onReversed }) {
         <h2 id="reverse-title" className="text-lg font-semibold text-text">
           {t('ledger.reverse.title', { id: entry.id })}
         </h2>
-        <p className="mt-1 text-sm text-muted">{entry.description}</p>
+        <p className="mt-1 text-sm text-muted">{describe(entry)}</p>
         <p id="reverse-explanation" className="mt-3 rounded-lg bg-warning/15 p-3 text-sm text-amber-800">
           {t('ledger.reverse.explanation')}
         </p>

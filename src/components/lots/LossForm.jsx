@@ -5,7 +5,7 @@ import { recordLoss } from '../../api/lots'
 import { formatKg } from '../../utils/format'
 import { parseKg } from '../../utils/quantity'
 
-const REASONS = ['ROT', 'DAMAGE', 'THEFT', 'OTHER']
+const REASONS = ['ROT', 'DRYING', 'DAMAGE', 'THEFT', 'OTHER']
 
 const fieldClass =
   'min-h-12 w-full rounded-lg border border-transparent bg-background px-3 text-base outline-none focus:border-primary focus:ring-2 focus:ring-primary/20'

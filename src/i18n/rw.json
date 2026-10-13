@@ -381,6 +381,7 @@
       "chooseReason": "Hitamo impamvu",
       "reasons": {
         "ROT": "Byaboze",
+        "DRYING": "Byumye",
         "DAMAGE": "Byangiritse",
         "THEFT": "Byibwe",
         "OTHER": "Ibindi"
@@ -797,6 +798,14 @@
       "cancel": "Hagarika",
       "done": "Icyanditswe #{{id}} cyakosowe na #{{reversalId}}",
       "error": "Ntibishobotse gukosora icyanditswe. Ongera ugerageze."
+    },
+    "describe": {
+      "delivery": "Ibyagemuwe {{code}} · amafaranga akurwaho {{fee}}",
+      "loss": "Ibyangiritse muri {{lot}}: {{reason}}",
+      "sale": "Igurisha {{code}} rivuye muri {{lot}}",
+      "share": "Umugabane wa {{lot}} wa {{member}}",
+      "payment": "Ubwishyu {{code}} hakoreshejwe {{method}}",
+      "reversal": "Ikosora ry'icyanditswe #{{id}}: {{reason}}"
     }
   }
 }

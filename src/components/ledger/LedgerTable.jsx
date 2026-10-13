@@ -7,15 +7,10 @@ import ActionsMenu from '../ActionsMenu'
 import EmptyState from '../EmptyState'
 import Pagination from '../Pagination'
 import LedgerTypeBadge from './LedgerTypeBadge'
-import { formatDate, formatKg, formatMoney, formatTime, kigaliIsoDate } from '../../utils/format'
+import { EntryAmount, EntryKg, useEntryDescription } from './ledgerDisplay'
+import { formatDate, formatTime, kigaliIsoDate } from '../../utils/format'
 
 const PAGE_SIZE = 20
-
-// Reversals store negative amounts, so every number shows its sign.
-export function signed(value, format) {
-  if (value == null || Number(value) === 0) return '–'
-  return Number(value) > 0 ? `+${format(value)}` : `−${format(Math.abs(Number(value)))}`
-}
 
 export function canReverse(entry) {
   return entry.type !== 'REVERSAL' && entry.reversedByEntryId == null
@@ -45,6 +40,7 @@ function EntryMenu({ entry, onView, onReverse }) {
 
 export default function LedgerTable({ filters = {}, reloadKey, onView, onReverse }) {
   const { t } = useTranslation()
+  const describe = useEntryDescription()
 
   const [page, setPage] = useState(0)
   const [result, setResult] = useState(null)
@@ -144,7 +140,7 @@ export default function LedgerTable({ filters = {}, reloadKey, onView, onReverse
                   <LedgerTypeBadge type={entry.type} />
                 </td>
                 <td className={`${cell} min-w-48`}>
-                  <p className="text-text">{entry.description}</p>
+                  <p className="text-text">{describe(entry)}</p>
                   <EntryNote entry={entry} />
                 </td>
                 <td className={`${cell} whitespace-nowrap font-mono text-xs`}>{entry.referenceCode ?? '–'}</td>
@@ -166,8 +162,12 @@ export default function LedgerTable({ filters = {}, reloadKey, onView, onReverse
                     '–'
                   )}
                 </td>
-                <td className={`${cell} whitespace-nowrap text-right`}>{signed(entry.quantityKg, formatKg)}</td>
-                <td className={`${cell} whitespace-nowrap text-right font-medium`}>{signed(entry.amountRwf, formatMoney)}</td>
+                <td className={`${cell} whitespace-nowrap text-right`}>
+                  <EntryKg entry={entry} />
+                </td>
+                <td className={`${cell} whitespace-nowrap text-right font-medium`}>
+                  <EntryAmount entry={entry} />
+                </td>
                 <td className={`${cell} font-mono text-xs text-muted`}>
                   <span title={entry.hash}>{entry.shortHash}</span>
                 </td>
@@ -192,16 +192,20 @@ export default function LedgerTable({ filters = {}, reloadKey, onView, onReverse
                 <EntryMenu entry={entry} onView={onView} onReverse={onReverse} />
               </div>
             </div>
-            <p className="mt-2 text-sm text-text">{entry.description}</p>
+            <p className="mt-2 text-sm text-text">{describe(entry)}</p>
             <EntryNote entry={entry} />
             <dl className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
               <div className="flex justify-between gap-2">
                 <dt className="text-muted">{t('ledger.table.kg')}</dt>
-                <dd>{signed(entry.quantityKg, formatKg)}</dd>
+                <dd>
+                  <EntryKg entry={entry} />
+                </dd>
               </div>
               <div className="flex justify-between gap-2">
                 <dt className="text-muted">{t('ledger.table.amount')}</dt>
-                <dd className="font-medium">{signed(entry.amountRwf, formatMoney)}</dd>
+                <dd className="font-medium">
+                  <EntryAmount entry={entry} />
+                </dd>
               </div>
               {entry.memberId && (
                 <div className="col-span-2 flex justify-between gap-2">
