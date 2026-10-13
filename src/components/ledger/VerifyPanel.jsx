@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CircleAlert, CircleCheck, ShieldCheck } from 'lucide-react'
 import { verifyLedger } from '../../api/ledger'
@@ -10,6 +10,11 @@ export default function VerifyPanel({ onViewEntry }) {
   const [checkedAt, setCheckedAt] = useState(null)
   const [checking, setChecking] = useState(false)
   const [error, setError] = useState(false)
+
+  // Check once when the page opens; the button checks again on demand.
+  useEffect(() => {
+    handleVerify()
+  }, [])
 
   async function handleVerify() {
     setChecking(true)
