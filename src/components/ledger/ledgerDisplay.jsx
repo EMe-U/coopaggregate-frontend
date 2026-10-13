@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { formatKg, formatMoney } from '../../utils/format'
 
@@ -45,6 +46,26 @@ export function EntryKg({ entry }) {
 
 export function EntryAmount({ entry }) {
   return <SignedValue value={entry.amountRwf} sign={entrySigns(entry).amount} format={formatMoney} />
+}
+
+// A sale has no member; its stored text is "Sale SAL-… from LOT-… to <buyer>". The prefix is
+// built from the entry's own codes, so a buyer name that contains " to " still reads correctly.
+export function saleBuyer(entry) {
+  if (entry.type !== 'SALE') return null
+  const prefix = `Sale ${entry.referenceCode} from ${entry.lotCode} to `
+  return entry.description.startsWith(prefix) ? entry.description.slice(prefix.length) : null
+}
+
+// The member as a link to the profile, or the buyer for a sale.
+export function EntryParty({ entry }) {
+  if (entry.memberId) {
+    return (
+      <Link to={`/members/${entry.memberId}`} className="text-primary hover:underline">
+        {entry.memberName}
+      </Link>
+    )
+  }
+  return saleBuyer(entry) ?? <span className="text-muted">–</span>
 }
 
 // The text after "Loss from LOT-…: " is the stored loss reason (ROT, DRYING, ...).

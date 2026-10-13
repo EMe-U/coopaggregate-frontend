@@ -7,7 +7,7 @@ import ActionsMenu from '../ActionsMenu'
 import EmptyState from '../EmptyState'
 import Pagination from '../Pagination'
 import LedgerTypeBadge from './LedgerTypeBadge'
-import { EntryAmount, EntryKg, useEntryDescription } from './ledgerDisplay'
+import { EntryAmount, EntryKg, EntryParty, saleBuyer, useEntryDescription } from './ledgerDisplay'
 import { formatDate, formatTime, kigaliIsoDate } from '../../utils/format'
 
 const PAGE_SIZE = 20
@@ -145,13 +145,7 @@ export default function LedgerTable({ filters = {}, reloadKey, onView, onReverse
                 </td>
                 <td className={`${cell} whitespace-nowrap font-mono text-xs`}>{entry.referenceCode ?? '–'}</td>
                 <td className={cell}>
-                  {entry.memberId ? (
-                    <Link to={`/members/${entry.memberId}`} className="text-primary hover:underline">
-                      {entry.memberName}
-                    </Link>
-                  ) : (
-                    '–'
-                  )}
+                  <EntryParty entry={entry} />
                 </td>
                 <td className={`${cell} whitespace-nowrap font-mono text-xs`}>
                   {entry.lotId ? (
@@ -207,13 +201,11 @@ export default function LedgerTable({ filters = {}, reloadKey, onView, onReverse
                   <EntryAmount entry={entry} />
                 </dd>
               </div>
-              {entry.memberId && (
+              {(entry.memberId || saleBuyer(entry)) && (
                 <div className="col-span-2 flex justify-between gap-2">
                   <dt className="text-muted">{t('ledger.table.member')}</dt>
                   <dd>
-                    <Link to={`/members/${entry.memberId}`} className="text-primary hover:underline">
-                      {entry.memberName}
-                    </Link>
+                    <EntryParty entry={entry} />
                   </dd>
                 </div>
               )}
