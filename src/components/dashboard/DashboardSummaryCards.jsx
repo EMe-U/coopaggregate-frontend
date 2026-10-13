@@ -34,7 +34,7 @@ export function StockCards({ summary }) {
             <p className={valueClass}>{formatKg(summary.stockKg)}</p>
             <ul className="mt-1 text-xs text-muted">
               {summary.stockByGrade.map((grade) => (
-                <li key={grade.gradeId}>
+                <li key={grade.gradeName}>
                   <GradeName name={grade.gradeName} />: {formatKg(grade.kg)}
                 </li>
               ))}
@@ -56,13 +56,16 @@ export function StockCards({ summary }) {
         {summary && (
           <>
             <p className={valueClass}>{formatNumber(summary.openLots.length)}</p>
-            <p className="mt-1 flex flex-wrap gap-x-2 text-xs">
+            <ul className="mt-1 space-y-0.5 text-xs text-muted">
               {summary.openLots.map((lot) => (
-                <Link key={lot.id} to={`/lots/${lot.id}`} className="font-mono text-primary hover:underline">
-                  {lot.lotCode}
-                </Link>
+                <li key={lot.id}>
+                  <Link to={`/lots/${lot.id}`} className="font-mono text-primary hover:underline">
+                    {lot.code}
+                  </Link>{' '}
+                  · <GradeName name={lot.gradeName} />
+                </li>
               ))}
-            </p>
+            </ul>
           </>
         )}
       </StatCard>
