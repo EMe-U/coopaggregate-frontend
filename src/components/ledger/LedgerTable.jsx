@@ -12,7 +12,7 @@ import { formatDate, formatKg, formatMoney, formatTime, kigaliIsoDate } from '..
 const PAGE_SIZE = 20
 
 // Reversals store negative amounts, so every number shows its sign.
-function signed(value, format) {
+export function signed(value, format) {
   if (value == null || Number(value) === 0) return '–'
   return Number(value) > 0 ? `+${format(value)}` : `−${format(Math.abs(Number(value)))}`
 }

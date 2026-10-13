@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BookOpen, CalendarClock, Hash, ListChecks } from 'lucide-react'
-import { getLedgerSummary } from '../../api/ledger'
+import { findLedgerEntry, getLedgerSummary } from '../../api/ledger'
 import PageTitle from '../../components/PageTitle'
+import EntryDetailsPanel from '../../components/ledger/EntryDetailsPanel'
 import LedgerFilters from '../../components/ledger/LedgerFilters'
 import LedgerTable from '../../components/ledger/LedgerTable'
 import VerifyPanel from '../../components/ledger/VerifyPanel'
@@ -32,6 +33,8 @@ export default function Ledger() {
   const [filterValues, setFilterValues] = useState(NO_FILTERS)
   const search = useDebouncedValue(filterValues.search.trim(), 300)
   const filters = { type: filterValues.type, from: filterValues.from, to: filterValues.to, search }
+  const [detail, setDetail] = useState(null)
+  const [lookupError, setLookupError] = useState('')
 
   useEffect(() => {
     // The cards keep showing no value if the summary cannot be loaded; the table still works.
@@ -41,6 +44,18 @@ export default function Ledger() {
   }, [reloadKey])
 
   const noValue = t('ledger.summary.noValue')
+
+  // Used for links to an entry that may be on another page of the table.
+  async function openEntryById(id) {
+    setLookupError('')
+    try {
+      const entry = await findLedgerEntry(id)
+      if (entry) setDetail(entry)
+      else setLookupError(t('ledger.verify.entryNotFound', { id }))
+    } catch {
+      setLookupError(t('ledger.table.error'))
+    }
+  }
 
   return (
     <div className="space-y-6">
@@ -71,12 +86,19 @@ export default function Ledger() {
         />
       </div>
 
-      <VerifyPanel />
+      <VerifyPanel onViewEntry={openEntryById} />
+      {lookupError && (
+        <p role="alert" className="rounded-lg bg-danger/10 px-3 py-2 text-sm text-danger">
+          {lookupError}
+        </p>
+      )}
 
       <section className="min-w-0 overflow-hidden rounded-xl bg-surface shadow-sm">
         <LedgerFilters values={filterValues} onChange={setFilterValues} onClear={() => setFilterValues(NO_FILTERS)} />
-        <LedgerTable filters={filters} reloadKey={reloadKey} />
+        <LedgerTable filters={filters} reloadKey={reloadKey} onView={setDetail} />
       </section>
+
+      {detail && <EntryDetailsPanel entry={detail} onClose={() => setDetail(null)} onOpenEntry={openEntryById} />}
     </div>
   )
 }
