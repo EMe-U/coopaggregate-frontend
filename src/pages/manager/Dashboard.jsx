@@ -82,9 +82,15 @@ export default function Dashboard() {
         <HistoryCheckCard />
       </div>
       {!loadError && <NeedsAttention summary={summary} />}
-      <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
-        <RecentDeliveries />
-        {!loadError && <WeeklyDeliveriesChart weeks={summary?.weeklyDeliveries} />}
+      <div className="grid grid-cols-1 gap-4 xl:grid-cols-5">
+        <div className="min-w-0 xl:col-span-3">
+          <RecentDeliveries />
+        </div>
+        {!loadError && (
+          <div className="min-w-0 xl:col-span-2">
+            <WeeklyDeliveriesChart weeks={summary?.weeklyDeliveries} />
+          </div>
+        )}
       </div>
     </div>
   )

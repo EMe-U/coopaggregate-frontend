@@ -4,14 +4,19 @@ import { useTranslation } from 'react-i18next'
 import { ArrowRight } from 'lucide-react'
 import { listDeliveries } from '../../api/deliveries'
 import GradeName from '../GradeName'
-import { formatDateTime, formatKg, formatTime, kigaliIsoDate } from '../../utils/format'
+import { formatDay, formatKg, formatTime, kigaliIsoDate } from '../../utils/format'
 
 const RECENT_COUNT = 5
 
 // The latest deliveries can be from an earlier day, so those also show their date.
-function deliveryTime(deliveredAt) {
-  const sameDay = kigaliIsoDate(new Date(deliveredAt)) === kigaliIsoDate()
-  return sameDay ? formatTime(deliveredAt) : formatDateTime(deliveredAt)
+function DeliveryTime({ deliveredAt }) {
+  if (kigaliIsoDate(new Date(deliveredAt)) === kigaliIsoDate()) return formatTime(deliveredAt)
+  return (
+    <>
+      <span className="block">{formatDay(deliveredAt)}</span>
+      {formatTime(deliveredAt)}
+    </>
+  )
 }
 
 export default function RecentDeliveries() {
@@ -35,10 +40,10 @@ export default function RecentDeliveries() {
     }
   }, [retryKey])
 
-  const cell = 'whitespace-nowrap px-3 py-3'
+  const cell = 'whitespace-nowrap px-2 py-3'
 
   return (
-    <section className="min-w-0 rounded-xl bg-surface p-5 shadow-sm">
+    <section className="h-full min-w-0 rounded-xl bg-surface p-5 shadow-sm">
       <div className="mb-4 flex flex-wrap items-start justify-between gap-2">
         <div>
           <h2 className="text-lg font-semibold text-text">{t('dashboard.recent.title')}</h2>
@@ -87,7 +92,7 @@ export default function RecentDeliveries() {
             <thead className="text-xs font-semibold text-muted">
               <tr className="border-b border-text/10">
                 {['receipt', 'member', 'grade', 'kg', 'time'].map((column) => (
-                  <th key={column} className={`whitespace-nowrap px-3 py-2 ${column === 'kg' ? 'text-right' : ''}`}>
+                  <th key={column} className={`whitespace-nowrap px-2 py-2 ${column === 'kg' ? 'text-right' : ''}`}>
                     {t(`dashboard.recent.${column}`)}
                   </th>
                 ))}
@@ -108,7 +113,7 @@ export default function RecentDeliveries() {
                     </span>
                   </td>
                   <td className={`${cell} text-right`}>{formatKg(delivery.quantityKg)}</td>
-                  <td className={`${cell} text-muted`}>{deliveryTime(delivery.deliveredAt)}</td>
+                  <td className={`${cell} text-muted`}><DeliveryTime deliveredAt={delivery.deliveredAt} /></td>
                 </tr>
               ))}
             </tbody>

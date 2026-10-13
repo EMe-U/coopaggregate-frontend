@@ -39,7 +39,7 @@ export default function WeeklyDeliveriesChart({ weeks }) {
   }
 
   return (
-    <section className="min-w-0 rounded-xl bg-surface p-5 shadow-sm">
+    <section className="h-full min-w-0 rounded-xl bg-surface p-5 shadow-sm">
       <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
         <div>
           <h2 className="text-lg font-semibold text-text">{t('dashboard.weekly.title')}</h2>
@@ -65,7 +65,7 @@ export default function WeeklyDeliveriesChart({ weeks }) {
         <>
           {/* Narrow screens scroll the chart inside the card; the top padding leaves room for the value label. */}
           <div className="overflow-x-auto pt-8">
-            <div className="relative" style={{ minWidth: `${weeks.length * (grades.length * 2 + 2)}rem` }}>
+            <div className="relative" style={{ minWidth: `${weeks.length * (grades.length * 1.25 + 0.75)}rem` }}>
               <div className="pointer-events-none absolute inset-x-0 top-0 h-56">
                 {GRIDLINES.map((line) => (
                   <div
@@ -75,7 +75,7 @@ export default function WeeklyDeliveriesChart({ weeks }) {
                   />
                 ))}
               </div>
-              <div className="relative flex justify-around gap-4">
+              <div className="relative flex justify-around gap-2">
                 {weeks.map((week, weekIndex) => (
                   <div key={week.weekStart} className="flex flex-col items-center">
                     <div className="flex h-56 items-end gap-1">
@@ -84,7 +84,7 @@ export default function WeeklyDeliveriesChart({ weeks }) {
                         const kg = gradeKg(week, grade.gradeId)
                         const height = `${(kg / maxKg) * 100}%`
                         return (
-                          <div key={key} className="relative flex h-full w-6 items-end">
+                          <div key={key} className="relative flex h-full w-4 items-end">
                             <button
                               type="button"
                               aria-label={`${t(`grades.${grade.gradeName}`, { defaultValue: grade.gradeName })}, ${weekLabel(weekIndex)}: ${formatKg(kg)}`}
@@ -108,7 +108,7 @@ export default function WeeklyDeliveriesChart({ weeks }) {
                         )
                       })}
                     </div>
-                    <p className="mt-2 whitespace-nowrap text-xs text-muted">{weekLabel(weekIndex)}</p>
+                    <p className="mt-2 text-center text-xs text-muted">{weekLabel(weekIndex)}</p>
                   </div>
                 ))}
               </div>
