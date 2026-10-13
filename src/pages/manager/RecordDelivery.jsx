@@ -10,7 +10,9 @@ import MemberPicker from '../../components/deliveries/MemberPicker'
 import PendingReceipt from '../../components/deliveries/PendingReceipt'
 import TodayDeliveries from '../../components/deliveries/TodayDeliveries'
 import useOnlineStatus from '../../hooks/useOnlineStatus'
+import usePendingDeliveries from '../../hooks/usePendingDeliveries'
 import { queueDelivery } from '../../offline/pending'
+import { syncedDelivery, syncNow } from '../../offline/sync'
 import { kigaliIsoDate } from '../../utils/format'
 import { parseKg } from '../../utils/quantity'
 
@@ -72,6 +74,12 @@ export default function RecordDelivery() {
   const [pendingReceipt, setPendingReceipt] = useState(null)
   const locked = saving || receipt !== null || pendingReceipt !== null
 
+  // Follow the waiting delivery in the queue: show a failure, or the real receipt once it syncs.
+  const pending = usePendingDeliveries()
+  const queued = pendingReceipt && pending?.find((delivery) => delivery.clientUuid === pendingReceipt.clientUuid)
+  const syncedReceipt = pendingReceipt && pending && !queued ? syncedDelivery(pendingReceipt.clientUuid) : null
+  const shownReceipt = receipt ?? syncedReceipt
+
   function setField(name, value) {
     setForm((current) => ({ ...current, [name]: value }))
     setErrors((current) => ({ ...current, [name]: undefined }))
@@ -89,13 +97,14 @@ export default function RecordDelivery() {
     const delivery = { memberId: form.member.id, gradeId: form.grade.id, quantityKg: parseKg(form.quantityText) }
 
     async function saveForLater() {
-      const queued = await queueDelivery({
+      const entry = await queueDelivery({
         clientUuid,
         payload: { ...delivery, deliveredAt: deliveredAtFor(form.date, today, { queued: true }) },
         member: form.member,
         grade: form.grade,
       })
-      setPendingReceipt(queued)
+      setPendingReceipt(entry)
+      syncNow()
     }
 
     setSaving(true)
@@ -231,8 +240,10 @@ export default function RecordDelivery() {
         </form>
 
         <div className="min-w-0 space-y-6 lg:col-span-2">
-          {receipt && <DeliveryReceipt delivery={receipt} onRecordAnother={handleRecordAnother} />}
-          {pendingReceipt && <PendingReceipt delivery={pendingReceipt} onRecordAnother={handleRecordAnother} />}
+          {shownReceipt && <DeliveryReceipt delivery={shownReceipt} onRecordAnother={handleRecordAnother} />}
+          {pendingReceipt && !shownReceipt && (
+            <PendingReceipt delivery={queued ?? pendingReceipt} onRecordAnother={handleRecordAnother} />
+          )}
 
           <div className="rounded-xl bg-background p-4 text-sm ring-1 ring-text/5 print:hidden">
             <p className="flex items-center gap-2 font-semibold text-text">
@@ -244,7 +255,7 @@ export default function RecordDelivery() {
         </div>
       </div>
 
-      <TodayDeliveries reloadKey={receipt?.id} />
+      <TodayDeliveries reloadKey={shownReceipt?.id} />
     </div>
   )
 }

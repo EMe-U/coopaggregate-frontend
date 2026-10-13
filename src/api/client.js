@@ -19,8 +19,9 @@ client.interceptors.response.use(
   (response) => response,
   (error) => {
     // A 401 from the login request means wrong credentials, which the login page shows itself.
+    // Background requests set skipAuthRedirect so they never send the manager away mid-task.
     const isLoginRequest = error.config?.url === LOGIN_URL
-    if (error.response?.status === 401 && !isLoginRequest) {
+    if (error.response?.status === 401 && !isLoginRequest && !error.config?.skipAuthRedirect) {
       clearToken()
       // This runs outside React, so we cannot use the router's navigate here.
       if (window.location.pathname !== '/login') {

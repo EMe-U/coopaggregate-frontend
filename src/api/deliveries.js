@@ -2,8 +2,8 @@ import client from './client'
 
 // Returns the saved delivery. The backend answers 201 for a new delivery and 200 when a
 // delivery with the same clientUuid was already saved, so a retry never records it twice.
-export async function recordDelivery(delivery) {
-  const response = await client.post('/api/deliveries', delivery)
+export async function recordDelivery(delivery, config) {
+  const response = await client.post('/api/deliveries', delivery, config)
   return response.data
 }
 

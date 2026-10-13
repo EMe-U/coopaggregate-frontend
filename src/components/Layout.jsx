@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom'
 import Sidebar from './Sidebar'
 import TopBar from './TopBar'
 import { refreshOfflineCache } from '../offline/cache'
+import { startSync } from '../offline/sync'
 
 export default function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -13,6 +14,8 @@ export default function Layout() {
     window.addEventListener('online', refreshOfflineCache)
     return () => window.removeEventListener('online', refreshOfflineCache)
   }, [])
+
+  useEffect(() => startSync(), [])
 
   return (
     <div className="flex h-screen print:block print:h-auto">
