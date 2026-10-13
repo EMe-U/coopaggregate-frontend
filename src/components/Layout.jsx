@@ -1,10 +1,18 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import Sidebar from './Sidebar'
 import TopBar from './TopBar'
+import { refreshOfflineCache } from '../offline/cache'
 
 export default function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+
+  // Keep the members and grades saved on this device fresh for recording deliveries offline.
+  useEffect(() => {
+    if (navigator.onLine) refreshOfflineCache()
+    window.addEventListener('online', refreshOfflineCache)
+    return () => window.removeEventListener('online', refreshOfflineCache)
+  }, [])
 
   return (
     <div className="flex h-screen print:block print:h-auto">

@@ -3,13 +3,27 @@ import { useTranslation } from 'react-i18next'
 import { Search } from 'lucide-react'
 import { listMembers } from '../../api/members'
 import useDebouncedValue from '../../hooks/useDebouncedValue'
+import useOnlineStatus from '../../hooks/useOnlineStatus'
+import { searchCachedMembers } from '../../offline/cache'
 import { formatPhone } from '../../utils/format'
 import Avatar from '../Avatar'
 
 const RESULT_COUNT = 8
 
+// Without internet, or when the server cannot be reached, search the members saved on this device.
+function findMembers(search, isOnline) {
+  if (!isOnline) return searchCachedMembers(search, RESULT_COUNT)
+  return listMembers({ search, active: true, size: RESULT_COUNT })
+    .then((data) => data.content)
+    .catch((error) => {
+      if (error.response) throw error
+      return searchCachedMembers(search, RESULT_COUNT)
+    })
+}
+
 export default function MemberPicker({ member, onChange, disabled, error }) {
   const { t } = useTranslation()
+  const isOnline = useOnlineStatus()
 
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebouncedValue(search.trim(), 300)
@@ -25,10 +39,10 @@ export default function MemberPicker({ member, onChange, disabled, error }) {
 
     let ignore = false
     setStatus('loading')
-    listMembers({ search: debouncedSearch, active: true, size: RESULT_COUNT })
-      .then((data) => {
+    findMembers(debouncedSearch, isOnline)
+      .then((members) => {
         if (ignore) return
-        setResults(data.content)
+        setResults(members)
         setStatus('done')
       })
       .catch(() => {
@@ -38,7 +52,7 @@ export default function MemberPicker({ member, onChange, disabled, error }) {
     return () => {
       ignore = true
     }
-  }, [debouncedSearch, member])
+  }, [debouncedSearch, member, isOnline])
 
   function choose(selected) {
     setSearch('')

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { listGrades } from '../../api/grades'
+import { loadGrades } from '../../offline/cache'
 import GradeName from '../GradeName'
 
 export default function GradeSelector({ gradeId, onChange, disabled }) {
@@ -13,7 +13,7 @@ export default function GradeSelector({ gradeId, onChange, disabled }) {
   useEffect(() => {
     let ignore = false
     setLoadError(false)
-    listGrades()
+    loadGrades()
       .then((data) => {
         if (!ignore) setGrades(data)
       })
