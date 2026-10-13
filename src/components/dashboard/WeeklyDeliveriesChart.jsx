@@ -11,25 +11,24 @@ function gradeColor(index, count) {
   return `color-mix(in srgb, var(--color-primary) ${strength}%, white)`
 }
 
-// Weeks only list the grades delivered in them, so collect every grade that appears.
-function collectGrades(weeks) {
-  const grades = new Map()
-  weeks.forEach((week) => week.grades.forEach((grade) => grades.set(grade.gradeId, grade.gradeName)))
-  return [...grades].sort(([a], [b]) => a - b).map(([gradeId, gradeName]) => ({ gradeId, gradeName }))
+// Every week lists every grade (0 kg when nothing was delivered), in grade code order.
+// Grade names are collected across all weeks anyway, so a grade added mid-month still shows.
+function collectGradeNames(weeks) {
+  return [...new Set(weeks.flatMap((week) => week.grades.map((grade) => grade.gradeName)))]
 }
 
-function gradeKg(week, gradeId) {
-  return Number(week.grades.find((grade) => grade.gradeId === gradeId)?.kg ?? 0)
+function gradeKg(week, gradeName) {
+  return Number(week.grades.find((grade) => grade.gradeName === gradeName)?.kg ?? 0)
 }
 
 export default function WeeklyDeliveriesChart({ weeks }) {
   const { t } = useTranslation()
   const [active, setActive] = useState(null)
 
-  const grades = weeks ? collectGrades(weeks) : []
+  const gradeNames = weeks ? collectGradeNames(weeks) : []
   // Totals are added for display only.
   const totals = weeks ? weeks.map((week) => week.grades.reduce((sum, grade) => sum + Number(grade.kg), 0)) : []
-  const maxKg = Math.max(0, ...(weeks ?? []).flatMap((week) => grades.map((grade) => gradeKg(week, grade.gradeId))))
+  const maxKg = Math.max(0, ...(weeks ?? []).flatMap((week) => gradeNames.map((name) => gradeKg(week, name))))
   const peakIndex = totals.indexOf(Math.max(...totals))
 
   function weekLabel(index) {
@@ -45,12 +44,12 @@ export default function WeeklyDeliveriesChart({ weeks }) {
           <h2 className="text-lg font-semibold text-text">{t('dashboard.weekly.title')}</h2>
           <p className="text-sm text-muted">{t('dashboard.weekly.subtitle')}</p>
         </div>
-        {grades.length > 0 && maxKg > 0 && (
+        {gradeNames.length > 0 && maxKg > 0 && (
           <ul className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-text">
-            {grades.map((grade, index) => (
-              <li key={grade.gradeId} className="flex items-center gap-1.5">
-                <span className="h-3 w-3 rounded-sm" style={{ background: gradeColor(index, grades.length) }} />
-                <GradeName name={grade.gradeName} />
+            {gradeNames.map((name, index) => (
+              <li key={name} className="flex items-center gap-1.5">
+                <span className="h-3 w-3 rounded-sm" style={{ background: gradeColor(index, gradeNames.length) }} />
+                <GradeName name={name} />
               </li>
             ))}
           </ul>
@@ -65,7 +64,7 @@ export default function WeeklyDeliveriesChart({ weeks }) {
         <>
           {/* Narrow screens scroll the chart inside the card; the top padding leaves room for the value label. */}
           <div className="overflow-x-auto pt-8">
-            <div className="relative" style={{ minWidth: `${weeks.length * (grades.length * 1.25 + 0.75)}rem` }}>
+            <div className="relative" style={{ minWidth: `${weeks.length * (gradeNames.length * 1.25 + 0.75)}rem` }}>
               <div className="pointer-events-none absolute inset-x-0 top-0 h-56">
                 {GRIDLINES.map((line) => (
                   <div
@@ -79,22 +78,22 @@ export default function WeeklyDeliveriesChart({ weeks }) {
                 {weeks.map((week, weekIndex) => (
                   <div key={week.weekStart} className="flex flex-col items-center">
                     <div className="flex h-56 items-end gap-1">
-                      {grades.map((grade, gradeIndex) => {
-                        const key = `${week.weekStart}-${grade.gradeId}`
-                        const kg = gradeKg(week, grade.gradeId)
+                      {gradeNames.map((name, gradeIndex) => {
+                        const key = `${week.weekStart}-${name}`
+                        const kg = gradeKg(week, name)
                         const height = `${(kg / maxKg) * 100}%`
                         return (
                           <div key={key} className="relative flex h-full w-4 items-end">
                             <button
                               type="button"
-                              aria-label={`${t(`grades.${grade.gradeName}`, { defaultValue: grade.gradeName })}, ${weekLabel(weekIndex)}: ${formatKg(kg)}`}
+                              aria-label={`${t(`grades.${name}`, { defaultValue: name })}, ${weekLabel(weekIndex)}: ${formatKg(kg)}`}
                               onMouseEnter={() => setActive(key)}
                               onMouseLeave={() => setActive(null)}
                               onFocus={() => setActive(key)}
                               onBlur={() => setActive(null)}
                               onClick={() => setActive(key)}
                               className="min-h-0.5 w-full rounded-t focus:outline-2 focus:outline-offset-2 focus:outline-primary"
-                              style={{ height, background: gradeColor(gradeIndex, grades.length) }}
+                              style={{ height, background: gradeColor(gradeIndex, gradeNames.length) }}
                             />
                             {active === key && (
                               <span
