@@ -773,15 +773,9 @@
     },
     "reverse": {
       "title": "Ukosora icyanditswe #{{id}}?",
-      "explanation": "Hazongerwaho icyanditswe gishya gikuraho iki. Icyanditswe cy'umwimerere kiguma mu gitabo, kigaragazwa ko cyakosowe.",
-      "reason": "Impamvu",
-      "reasonPlaceholder": "Sobanura impamvu iki cyanditswe kitari cyo",
-      "reasonRequired": "Andika impamvu",
+      "explanation": "Hazongerwaho icyanditswe gikosora gihagarika iki, kandi ibyagemuwe cyangwa ubwishyu cyanditseho nabyo bigahagarikwa. Icyanditswe cya mbere kigumye mu gitabo, cyanditseho ko cyahagaritswe.",
       "confirm": "Kosora icyanditswe",
-      "reversing": "Birakosorwa...",
-      "cancel": "Hagarika",
-      "done": "Icyanditswe #{{id}} cyakosowe na #{{reversalId}}",
-      "error": "Ntibishobotse gukosora icyanditswe. Ongera ugerageze."
+      "done": "Icyanditswe #{{id}} cyakosowe na #{{reversalId}}"
     },
     "describe": {
       "delivery": "Ibyagemuwe {{code}} · amafaranga akurwaho {{fee}}",
@@ -925,6 +919,42 @@
       "message": "Urashobora gukomeza kwandika ibyagemuwe nta interineti.",
       "recordDelivery": "Andika ibyagemuwe",
       "lost": "Nta interineti. Urashobora kureba iyi paji, ariko guhindura bisaba interineti."
+    }
+  },
+  "reversal": {
+    "actionsColumn": "Ibikorwa",
+    "reversed": "Byahagaritswe",
+    "reasonTooltip": "Impamvu: {{reason}}",
+    "reason": "Impamvu",
+    "reasonPlaceholder": "Sobanura icyari kitari cyo",
+    "reasonRequired": "Andika impamvu",
+    "cancel": "Reka",
+    "reversing": "Birabikwa...",
+    "error": "Ntibishobotse kubika impinduka. Ongera ugerageze.",
+    "delivery": {
+      "menu": "Ibikorwa ku byagemuwe {{code}}",
+      "correct": "Kosora ibyagemuwe",
+      "reverse": "Hagarika ibyagemuwe",
+      "reverseTitle": "Guhagarika ibyagemuwe {{code}}?",
+      "reverseExplanation": "Ibyagemuwe bigumye mu mateka, byanditseho ko byahagaritswe, kandi ntibikibarwa mu kirundo, mu bubiko cyangwa ku makuru y'umunyamuryango.",
+      "lotHasSales": "Iki kirundo cyamaze kugurishwaho. Bimenyekanishe nk'ikibazo aho kubihindura.",
+      "correctedBy": "Byakosowe na",
+      "corrects": "Bikosora"
+    },
+    "correct": {
+      "title": "Gukosora ibyagemuwe {{code}}",
+      "explanation": "Ibyagemuwe bitari byo bizahagarikwa hanyuma handikwe ibishya. Byombi bigumye mu mateka.",
+      "reasonPlaceholder": "Sobanura icyari kitari cyo, urugero umunyamuryango utari we",
+      "nothingChanged": "Hindura umunyamuryango, urwego cyangwa ibiro bitari byo.",
+      "save": "Bika ikosora",
+      "saving": "Birabikwa..."
+    },
+    "payment": {
+      "menu": "Ibikorwa ku bwishyu {{code}}",
+      "reverse": "Hagarika ubwishyu",
+      "reverseTitle": "Guhagarika ubwishyu {{code}}?",
+      "reverseExplanation": "Ubwishyu bugumye mu mateka, bwanditseho ko bwahagaritswe. Umunyamuryango azongera kubarirwaho aya mafaranga.",
+      "done": "Ubwishyu {{code}} bwahagaritswe"
     }
   }
 }

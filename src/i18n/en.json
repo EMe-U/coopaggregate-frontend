@@ -773,15 +773,9 @@
     },
     "reverse": {
       "title": "Reverse entry #{{id}}?",
-      "explanation": "A new correcting entry will be added that cancels this one. The original entry stays in the ledger, marked as reversed.",
-      "reason": "Reason",
-      "reasonPlaceholder": "Explain why this entry is wrong",
-      "reasonRequired": "Enter the reason",
+      "explanation": "A correcting entry will be added that cancels this one, and the delivery or payment it records is reversed too. The original entry stays in the ledger, marked as reversed.",
       "confirm": "Reverse entry",
-      "reversing": "Reversing...",
-      "cancel": "Cancel",
-      "done": "Entry #{{id}} reversed by #{{reversalId}}",
-      "error": "Could not reverse the entry. Please try again."
+      "done": "Entry #{{id}} reversed by #{{reversalId}}"
     },
     "describe": {
       "delivery": "Delivery {{code}} · fee {{fee}}",
@@ -925,6 +919,42 @@
       "message": "You can still record deliveries offline.",
       "recordDelivery": "Record delivery",
       "lost": "You are offline. You can still look at this page, but changes need internet."
+    }
+  },
+  "reversal": {
+    "actionsColumn": "Actions",
+    "reversed": "Reversed",
+    "reasonTooltip": "Reason: {{reason}}",
+    "reason": "Reason",
+    "reasonPlaceholder": "Explain what was wrong",
+    "reasonRequired": "Enter the reason",
+    "cancel": "Cancel",
+    "reversing": "Saving...",
+    "error": "Could not save the change. Please try again.",
+    "delivery": {
+      "menu": "Actions for delivery {{code}}",
+      "correct": "Correct delivery",
+      "reverse": "Reverse delivery",
+      "reverseTitle": "Reverse delivery {{code}}?",
+      "reverseExplanation": "The delivery stays in the history, marked as reversed, and is no longer counted in the lot, stock or the member's statement.",
+      "lotHasSales": "This lot already has sales. Report it as a dispute instead.",
+      "correctedBy": "Corrected by",
+      "corrects": "Corrects"
+    },
+    "correct": {
+      "title": "Correct delivery {{code}}",
+      "explanation": "The wrong delivery will be reversed and a new one recorded. Both stay in the history.",
+      "reasonPlaceholder": "Explain what was wrong, for example the wrong member",
+      "nothingChanged": "Change the member, grade or quantity that was wrong.",
+      "save": "Save correction",
+      "saving": "Saving..."
+    },
+    "payment": {
+      "menu": "Actions for payment {{code}}",
+      "reverse": "Reverse payment",
+      "reverseTitle": "Reverse payment {{code}}?",
+      "reverseExplanation": "The payment stays in the history, marked as reversed. The member will be owed this amount again.",
+      "done": "Payment {{code}} reversed"
     }
   }
 }
