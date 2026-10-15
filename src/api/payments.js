@@ -26,3 +26,9 @@ export async function listPayments({ memberId, method, page = 0, size = 20 } = {
   const response = await client.get('/api/payments', { params })
   return response.data
 }
+
+// Cancels a payment; the member is owed the amount again. Returns the reversed payment.
+export async function reversePayment(id, reason) {
+  const response = await client.post(`/api/payments/${id}/reverse`, { reason })
+  return response.data
+}

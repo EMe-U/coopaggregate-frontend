@@ -51,6 +51,11 @@ export default function Payments() {
     panelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
+  function handleReversed(payment) {
+    setNotice(t('reversal.payment.done', { code: payment.paymentCode }))
+    setReloadKey((key) => key + 1)
+  }
+
   function handleSaved() {
     setSelectedId(null)
     setNotice(t('payments.form.saved'))
@@ -92,7 +97,7 @@ export default function Payments() {
         />
       </div>
 
-      <PaymentHistory reloadKey={reloadKey} />
+      <PaymentHistory reloadKey={reloadKey} onChanged={handleReversed} />
 
       {notice && <SuccessToast message={notice} onDone={clearNotice} />}
     </div>
