@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { loadGrades } from '../../offline/cache'
 import GradeName from '../GradeName'
 
-export default function GradeSelector({ gradeId, onChange, disabled }) {
+export default function GradeSelector({ gradeId, onChange, disabled, labelId = 'grade-label' }) {
   const { t } = useTranslation()
 
   const [grades, setGrades] = useState(null)
@@ -55,7 +55,7 @@ export default function GradeSelector({ gradeId, onChange, disabled }) {
   }
 
   return (
-    <div role="radiogroup" aria-labelledby="grade-label" className="grid grid-cols-3 gap-2">
+    <div role="radiogroup" aria-labelledby={labelId} className="grid grid-cols-3 gap-2">
       {grades.map((grade) => {
         const selected = grade.id === gradeId
         return (

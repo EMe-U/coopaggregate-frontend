@@ -25,3 +25,10 @@ export async function reverseDelivery(id, reason) {
   const response = await client.post(`/api/deliveries/${id}/reverse`, { reason })
   return response.data
 }
+
+// Reverses the wrong delivery and records the corrected one in the same step. Returns the new
+// delivery, which has its own receipt code and lot.
+export async function correctDelivery(id, { reason, memberId, gradeId, quantityKg }) {
+  const response = await client.post(`/api/deliveries/${id}/correct`, { reason, memberId, gradeId, quantityKg })
+  return response.data
+}

@@ -21,7 +21,8 @@ function findMembers(search, isOnline) {
     })
 }
 
-export default function MemberPicker({ member, onChange, disabled, error }) {
+// inputId lets two pickers share a page, for example the form and the correction dialog.
+export default function MemberPicker({ member, onChange, disabled, error, inputId = 'member-search' }) {
   const { t } = useTranslation()
   const isOnline = useOnlineStatus()
 
@@ -66,7 +67,7 @@ export default function MemberPicker({ member, onChange, disabled, error }) {
         <div className="min-w-0 flex-1">
           <p className="font-medium text-text">{member.fullName}</p>
           <p className="text-xs text-muted">
-            {member.memberCode} · {formatPhone(member.phone)}
+            {[member.memberCode, formatPhone(member.phone)].filter(Boolean).join(' · ')}
           </p>
         </div>
         {!disabled && (
@@ -86,7 +87,7 @@ export default function MemberPicker({ member, onChange, disabled, error }) {
     <div className="relative">
       <Search size={18} className="pointer-events-none absolute left-3 top-3.5 text-muted" />
       <input
-        id="member-search"
+        id={inputId}
         type="search"
         autoComplete="off"
         value={search}
