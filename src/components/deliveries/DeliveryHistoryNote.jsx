@@ -29,7 +29,7 @@ export default function DeliveryHistoryNote({ delivery, linked }) {
   if (!delivery.reversed && delivery.correctsId == null) return null
 
   return (
-    <div className="mt-1 flex flex-col items-start gap-0.5 text-xs font-normal">
+    <div className="mt-1 flex flex-col items-start gap-0.5 font-sans text-xs font-normal">
       {delivery.reversed && <ReversedBadge reason={delivery.reversalReason} />}
       {delivery.correctedById != null && (
         <span className="text-muted">

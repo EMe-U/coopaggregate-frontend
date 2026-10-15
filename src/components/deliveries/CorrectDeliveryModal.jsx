@@ -94,7 +94,7 @@ export default function CorrectDeliveryModal({ delivery, onClose, onCorrected })
         </h2>
         <p className="flex items-start gap-2 rounded-lg bg-warning/15 p-3 text-sm text-amber-800">
           <Info size={16} className="mt-0.5 shrink-0" />
-          {t('reversal.correct.explanation')}
+          <span>{t('reversal.correct.explanation')}</span>
         </p>
 
         <div>
