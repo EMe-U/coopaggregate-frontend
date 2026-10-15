@@ -55,8 +55,13 @@ export async function removePending(clientUuid) {
 }
 
 export async function readCache(key) {
+  return (await readCacheEntry(key))?.value ?? null
+}
+
+// { value, savedAt }, or null when nothing was saved under this key.
+export async function readCacheEntry(key) {
   const db = await dbPromise
-  return (await db.get('cache', key))?.value ?? null
+  return (await db.get('cache', key)) ?? null
 }
 
 export async function writeCache(key, value) {

@@ -2,20 +2,27 @@ import { useCallback, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { ArrowLeft, UserX } from 'lucide-react'
-import { activateMember, deactivateMember, getMember, getMemberStatement } from '../../api/members'
+import { activateMember, deactivateMember, getMemberStatement } from '../../api/members'
 import EmptyState from '../../components/EmptyState'
+import OfflineDataNote from '../../components/OfflineDataNote'
 import SuccessToast from '../../components/SuccessToast'
 import MemberFormModal from '../../components/members/MemberFormModal'
 import MemberProfileCard from '../../components/members/MemberProfileCard'
 import PaymentFormModal from '../../components/payments/PaymentFormModal'
 import { formatDate, todayIso } from '../../utils/format'
 import { FinancialSummaryCard, StatementSections } from '../../components/members/MemberStatement'
+import useOnlineStatus from '../../hooks/useOnlineStatus'
+import { loadMember, loadWithCache } from '../../offline/cache'
 
 export default function MemberDetail() {
   const { t } = useTranslation()
   const { id } = useParams()
+  const isOnline = useOnlineStatus()
 
   const [member, setMember] = useState(null)
+  // Set when the profile or the statement comes from the copy saved on this device.
+  const [memberSavedAt, setMemberSavedAt] = useState(null)
+  const [statementSavedAt, setStatementSavedAt] = useState(null)
   const [loadState, setLoadState] = useState('loading')
   const [reloadKey, setReloadKey] = useState(0)
   const [editing, setEditing] = useState(false)
@@ -33,10 +40,11 @@ export default function MemberDetail() {
     let ignore = false
     setLoadState('loading')
 
-    getMember(id)
-      .then((data) => {
+    loadMember(id)
+      .then(({ data, savedAt }) => {
         if (ignore) return
         setMember(data)
+        setMemberSavedAt(savedAt)
         setLoadState('loaded')
       })
       .catch((error) => {
@@ -46,14 +54,16 @@ export default function MemberDetail() {
     return () => {
       ignore = true
     }
-  }, [id, reloadKey])
+  }, [id, reloadKey, isOnline])
 
   useEffect(() => {
     let ignore = false
     setStatementError(false)
-    getMemberStatement(id)
-      .then((data) => {
-        if (!ignore) setStatement(data)
+    loadWithCache(`statement:${id}`, () => getMemberStatement(id))
+      .then(({ data, savedAt }) => {
+        if (ignore) return
+        setStatement(data)
+        setStatementSavedAt(savedAt)
       })
       .catch(() => {
         if (!ignore) setStatementError(true)
@@ -61,7 +71,7 @@ export default function MemberDetail() {
     return () => {
       ignore = true
     }
-  }, [id, statementReloadKey])
+  }, [id, statementReloadKey, isOnline])
 
   function handlePaymentSaved() {
     setPaying(false)
@@ -137,9 +147,14 @@ export default function MemberDetail() {
     return <div className="h-64 animate-pulse rounded-xl bg-surface shadow-sm" />
   }
 
+  // The older of the two saved copies, so the note never makes the data look newer than it is.
+  const savedAt = [memberSavedAt, statementSavedAt].filter(Boolean).sort()[0] ?? null
+  const readOnly = !isOnline || savedAt !== null
+
   return (
     <div className="space-y-6">
       {backLink}
+      <OfflineDataNote savedAt={savedAt} />
 
       <header className="hidden border-b border-text/10 pb-4 print:block">
         <p className="text-lg font-bold text-primary">{t('app.cooperative')}</p>
@@ -158,6 +173,7 @@ export default function MemberDetail() {
             onEdit={() => setEditing(true)}
             onToggleActive={handleToggleActive}
             changingStatus={changingStatus}
+            readOnly={readOnly}
           />
           {statusError && (
             <p role="alert" className="mt-2 text-sm text-danger print:hidden">
@@ -166,7 +182,12 @@ export default function MemberDetail() {
           )}
         </div>
         <div className="min-w-0 lg:col-span-3">
-          <FinancialSummaryCard statement={statement} error={statementError} onPay={() => setPaying(true)} />
+          <FinancialSummaryCard
+            statement={statement}
+            error={statementError}
+            onPay={() => setPaying(true)}
+            readOnly={readOnly}
+          />
         </div>
       </div>
 

@@ -6,6 +6,8 @@ import { formatDate, formatDay, formatKg, formatMoney, kigaliIsoDate } from '../
 import GradeName from '../GradeName'
 import Pagination from '../Pagination'
 import usePageSize from '../../hooks/usePageSize'
+import useOnlineStatus from '../../hooks/useOnlineStatus'
+import { loadWithCache } from '../../offline/cache'
 
 // Deliveries come from the deliveries API; the summary, lot shares and payments come from the
 // member statement. Every amount is calculated by the backend, never by adding up money here.
@@ -20,7 +22,8 @@ function SummaryBox({ label, value, note }) {
   )
 }
 
-export function FinancialSummaryCard({ statement, error, onPay }) {
+// readOnly disables paying, for a statement shown without internet.
+export function FinancialSummaryCard({ statement, error, onPay, readOnly }) {
   const { t } = useTranslation()
   const money = (amount) => (statement ? formatMoney(amount) : t('members.statement.noValue'))
 
@@ -36,7 +39,9 @@ export function FinancialSummaryCard({ statement, error, onPay }) {
             <button
               type="button"
               onClick={onPay}
-              className="min-h-11 rounded-lg bg-white px-5 text-sm font-semibold text-primary hover:bg-primary-light print:hidden"
+              disabled={readOnly}
+              title={readOnly ? t('offline.needsInternet') : undefined}
+              className="min-h-11 rounded-lg bg-white px-5 text-sm font-semibold text-primary hover:bg-primary-light disabled:cursor-not-allowed disabled:opacity-60 print:hidden"
             >
               {t('members.statement.pay')}
             </button>
@@ -108,6 +113,7 @@ function StatementSection({ icon: Icon, title, subtitle, columns, rows, renderRo
 function DeliveriesSection({ memberId, totals }) {
   const { t } = useTranslation()
   const pageSize = usePageSize()
+  const isOnline = useOnlineStatus()
   const key = 'members.statement.deliveries'
   const cell = 'whitespace-nowrap px-3 py-2'
 
@@ -119,8 +125,11 @@ function DeliveriesSection({ memberId, totals }) {
   useEffect(() => {
     let ignore = false
     setStatus('loading')
-    listDeliveries({ memberId, page, size: pageSize })
-      .then((data) => {
+    // Without internet, the pages opened before on this device can still be shown.
+    loadWithCache(`memberDeliveries:${memberId}:${page}:${pageSize}`, () =>
+      listDeliveries({ memberId, page, size: pageSize }),
+    )
+      .then(({ data }) => {
         if (ignore) return
         setResult(data)
         setStatus('done')
@@ -131,7 +140,7 @@ function DeliveriesSection({ memberId, totals }) {
     return () => {
       ignore = true
     }
-  }, [memberId, page, pageSize, reloadKey])
+  }, [memberId, page, pageSize, reloadKey, isOnline])
 
   let emptyMessage = t(`${key}.empty`)
   if (status === 'loading' && !result) emptyMessage = t('deliveries.memberSection.loading')

@@ -916,6 +916,9 @@
       "message_other": "{{count}} deliveries have not synced yet. They stay on this device and sync after you log in again.",
       "confirm": "Log out",
       "cancel": "Stay logged in"
-    }
+    },
+    "cachedData": "Offline - showing data from {{time}}",
+    "readOnly": "You can look, but changes need internet.",
+    "needsInternet": "Needs internet"
   }
 }

@@ -9,7 +9,7 @@ function avatarClass(member) {
   return member.status === 'ACTIVE' ? 'bg-primary-light text-primary' : 'bg-background text-muted'
 }
 
-function MemberActions({ member, onEdit }) {
+function MemberActions({ member, onEdit, readOnly }) {
   const { t } = useTranslation()
 
   return (
@@ -25,9 +25,10 @@ function MemberActions({ member, onEdit }) {
       <button
         type="button"
         onClick={() => onEdit(member)}
-        className="rounded-md p-1.5 text-muted hover:bg-background hover:text-text"
+        disabled={readOnly}
+        className="rounded-md p-1.5 text-muted hover:bg-background hover:text-text disabled:cursor-not-allowed disabled:opacity-40"
         aria-label={t('members.table.edit')}
-        title={t('members.table.edit')}
+        title={readOnly ? t('offline.needsInternet') : t('members.table.edit')}
       >
         <Pencil size={16} />
       </button>
@@ -35,7 +36,8 @@ function MemberActions({ member, onEdit }) {
   )
 }
 
-export default function MemberTable({ members, onEdit }) {
+// readOnly disables editing, for members shown from the copy saved on this device.
+export default function MemberTable({ members, onEdit, readOnly }) {
   const { t } = useTranslation()
 
   return (
@@ -75,7 +77,7 @@ export default function MemberTable({ members, onEdit }) {
                   </StatusBadge>
                 </td>
                 <td className="px-4 py-3">
-                  <MemberActions member={member} onEdit={onEdit} />
+                  <MemberActions member={member} onEdit={onEdit} readOnly={readOnly} />
                 </td>
               </tr>
             ))}
@@ -99,7 +101,7 @@ export default function MemberTable({ members, onEdit }) {
               <p className="mt-1 text-sm">{formatPhone(member.phone)}</p>
               <div className="mt-1 flex items-center justify-between">
                 <p className="text-xs text-muted">{formatDate(member.joinDate)}</p>
-                <MemberActions member={member} onEdit={onEdit} />
+                <MemberActions member={member} onEdit={onEdit} readOnly={readOnly} />
               </div>
             </div>
           </li>

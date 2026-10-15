@@ -916,6 +916,9 @@
       "message_other": "Ibyagemuwe {{count}} ntibiroherezwa. Bigumye kuri iki gikoresho, bikoherezwa nyuma yo kongera kwinjira.",
       "confirm": "Sohoka",
       "cancel": "Guma winjiye"
-    }
+    },
+    "cachedData": "Nta interineti - amakuru yo ku wa {{time}}",
+    "readOnly": "Urashobora kureba, ariko guhindura bisaba interineti.",
+    "needsInternet": "Bisaba interineti"
   }
 }
