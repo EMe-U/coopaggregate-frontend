@@ -8,9 +8,11 @@ import SuccessToast from '../../components/SuccessToast'
 import LossModal from '../../components/lots/LossModal'
 import LotsTable from '../../components/lots/LotsTable'
 import StockOverview from '../../components/lots/StockOverview'
+import useNeedsInternet from '../../hooks/useNeedsInternet'
 
 export default function Lots() {
   const { t } = useTranslation()
+  const needsInternet = useNeedsInternet()
 
   const [stock, setStock] = useState(null)
   const [stockError, setStockError] = useState(false)
@@ -91,6 +93,8 @@ export default function Lots() {
           busy={closeBusy}
           error={closeError}
           onConfirm={confirmClose}
+          confirmDisabled={needsInternet.offline}
+          confirmTitle={needsInternet.title}
           onCancel={() => setClosing(null)}
         />
       )}

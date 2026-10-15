@@ -4,6 +4,7 @@ import { Save } from 'lucide-react'
 import { recordLoss } from '../../api/lots'
 import { formatKg } from '../../utils/format'
 import { parseKg } from '../../utils/quantity'
+import useNeedsInternet from '../../hooks/useNeedsInternet'
 
 const REASONS = ['ROT', 'DRYING', 'DAMAGE', 'THEFT', 'OTHER']
 
@@ -13,6 +14,7 @@ const fieldClass =
 // Records a loss on an open or closed lot; it cannot be more than the lot's remaining kg.
 export default function LossForm({ lot, onSaved, onCancel }) {
   const { t } = useTranslation()
+  const needsInternet = useNeedsInternet()
 
   const [quantityText, setQuantityText] = useState('')
   const [reason, setReason] = useState('')
@@ -137,7 +139,8 @@ export default function LossForm({ lot, onSaved, onCancel }) {
         </button>
         <button
           type="submit"
-          disabled={saving}
+          disabled={saving || needsInternet.offline}
+          title={needsInternet.title}
           className="flex min-h-12 flex-1 items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-semibold text-white hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
         >
           <Save size={16} />

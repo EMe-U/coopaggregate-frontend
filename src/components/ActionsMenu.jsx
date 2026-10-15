@@ -6,7 +6,8 @@ import { MoreVertical } from 'lucide-react'
 const MENU_WIDTH = 208
 
 // A ⋮ button with a menu of actions: { key, label, icon, path } to open a page, or
-// { key, label, icon, run } to call a function. danger shows the item in red.
+// { key, label, icon, run } to call a function. danger shows the item in red. disabled keeps the
+// item in the menu but greyed out, with title saying why; it stays focusable for the arrow keys.
 export default function ActionsMenu({ label, actions }) {
   const navigate = useNavigate()
   const buttonRef = useRef(null)
@@ -67,6 +68,7 @@ export default function ActionsMenu({ label, actions }) {
   }
 
   function choose(action) {
+    if (action.disabled) return
     closeMenu(false)
     if (action.path) navigate(action.path)
     else action.run()
@@ -103,10 +105,12 @@ export default function ActionsMenu({ label, actions }) {
                   key={action.key}
                   type="button"
                   role="menuitem"
+                  aria-disabled={action.disabled || undefined}
+                  title={action.title}
                   onClick={() => choose(action)}
                   className={`flex min-h-11 w-full items-center gap-2.5 px-3 text-left text-sm hover:bg-background focus:bg-background focus:outline-none ${
                     action.danger ? 'text-danger' : 'text-text'
-                  }`}
+                  } ${action.disabled ? 'cursor-not-allowed opacity-50' : ''}`}
                 >
                   <Icon size={16} />
                   {action.label}

@@ -919,6 +919,12 @@
     },
     "cachedData": "Offline - showing data from {{time}}",
     "readOnly": "You can look, but changes need internet.",
-    "needsInternet": "Needs internet"
+    "needsInternet": "Needs internet",
+    "pageNeedsInternet": {
+      "title": "This page needs internet",
+      "message": "You can still record deliveries offline.",
+      "recordDelivery": "Record delivery",
+      "lost": "You are offline. You can still look at this page, but changes need internet."
+    }
   }
 }

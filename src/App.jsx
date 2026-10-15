@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import Layout from './components/Layout'
 import PublicLayout from './components/PublicLayout'
 import ProtectedRoute from './components/ProtectedRoute'
+import RequiresInternet from './components/RequiresInternet'
 import Login from './pages/Login'
 import Dashboard from './pages/manager/Dashboard'
 import RecordDelivery from './pages/manager/RecordDelivery'
@@ -26,18 +27,20 @@ export default function App() {
 
       <Route element={<ProtectedRoute />}>
         <Route element={<Layout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/record-delivery" element={<RecordDelivery />} />
           <Route path="/members" element={<Members />} />
           <Route path="/members/:id" element={<MemberDetail />} />
-          <Route path="/lots" element={<Lots />} />
-          <Route path="/lots/:id" element={<LotDetail />} />
-          <Route path="/sales" element={<Sales />} />
-          <Route path="/share" element={<ShareLotMoney />} />
-          <Route path="/payments" element={<Payments />} />
-          <Route path="/buyer-requests" element={<BuyerRequests />} />
-          <Route path="/ledger" element={<Ledger />} />
-          <Route path="/settings" element={<Settings />} />
+          <Route element={<RequiresInternet />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/lots" element={<Lots />} />
+            <Route path="/lots/:id" element={<LotDetail />} />
+            <Route path="/sales" element={<Sales />} />
+            <Route path="/share" element={<ShareLotMoney />} />
+            <Route path="/payments" element={<Payments />} />
+            <Route path="/buyer-requests" element={<BuyerRequests />} />
+            <Route path="/ledger" element={<Ledger />} />
+            <Route path="/settings" element={<Settings />} />
+          </Route>
         </Route>
       </Route>
 

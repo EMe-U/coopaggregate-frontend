@@ -9,6 +9,7 @@ import SuccessToast from '../../components/SuccessToast'
 import LossModal from '../../components/lots/LossModal'
 import LotStatusBadge from '../../components/lots/LotStatusBadge'
 import { formatDate, formatKg, formatMoney } from '../../utils/format'
+import useNeedsInternet from '../../hooks/useNeedsInternet'
 
 function Stat({ label, value, highlight }) {
   return (
@@ -85,6 +86,7 @@ function LossesList({ lotId, reloadKey }) {
 
 export default function LotDetail() {
   const { t } = useTranslation()
+  const needsInternet = useNeedsInternet()
   const { id } = useParams()
   const navigate = useNavigate()
 
@@ -200,8 +202,9 @@ export default function LotDetail() {
             <button
               type="button"
               onClick={handleClose}
-              disabled={closing}
-              className="flex min-h-11 items-center gap-2 rounded-lg border border-text/10 bg-surface px-4 text-sm font-medium text-text hover:bg-background disabled:opacity-60"
+              disabled={closing || needsInternet.offline}
+              title={needsInternet.title}
+              className="flex min-h-11 items-center gap-2 rounded-lg border border-text/10 bg-surface px-4 text-sm font-medium text-text hover:bg-background disabled:cursor-not-allowed disabled:opacity-60"
             >
               <Lock size={16} />
               {closing ? t('lots.detail.closing') : t('lots.detail.closeLot')}
@@ -211,7 +214,9 @@ export default function LotDetail() {
             <button
               type="button"
               onClick={() => setRecordingLoss(true)}
-              className="flex min-h-11 items-center gap-2 rounded-lg border border-danger/30 bg-surface px-4 text-sm font-medium text-danger hover:bg-danger/5"
+              disabled={needsInternet.offline}
+              title={needsInternet.title}
+              className="flex min-h-11 items-center gap-2 rounded-lg border border-danger/30 bg-surface px-4 text-sm font-medium text-danger hover:bg-danger/5 disabled:cursor-not-allowed disabled:opacity-60"
             >
               <TriangleAlert size={16} />
               {t('lots.detail.recordLoss')}
@@ -221,7 +226,9 @@ export default function LotDetail() {
             <button
               type="button"
               onClick={() => navigate(`/sales?lotId=${lot.id}`)}
-              className="flex min-h-11 items-center gap-2 rounded-lg bg-primary px-4 text-sm font-semibold text-white hover:bg-primary/90"
+              disabled={needsInternet.offline}
+              title={needsInternet.title}
+              className="flex min-h-11 items-center gap-2 rounded-lg bg-primary px-4 text-sm font-semibold text-white hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
             >
               <HandCoins size={16} />
               {t('lots.detail.recordSale')}
@@ -231,7 +238,9 @@ export default function LotDetail() {
             <button
               type="button"
               onClick={() => navigate(`/share?lotId=${lot.id}`)}
-              className="flex min-h-11 items-center gap-2 rounded-lg bg-primary px-4 text-sm font-semibold text-white hover:bg-primary/90"
+              disabled={needsInternet.offline}
+              title={needsInternet.title}
+              className="flex min-h-11 items-center gap-2 rounded-lg bg-primary px-4 text-sm font-semibold text-white hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
             >
               <Split size={16} />
               {t('share.shareMoney')}

@@ -9,6 +9,7 @@ import { formatKg, formatMoney, kigaliIsoDate } from '../../utils/format'
 import { parseKg } from '../../utils/quantity'
 import BuyerPicker from './BuyerPicker'
 import SaleOrderLines from './SaleOrderLines'
+import useNeedsInternet from '../../hooks/useNeedsInternet'
 
 const PRICE_PATTERN = /^\d+$/
 
@@ -128,6 +129,7 @@ function OrderResult({ order, onRecordAnother }) {
 
 export default function SaleForm({ initialLotId, onSaved }) {
   const { t } = useTranslation()
+  const needsInternet = useNeedsInternet()
   const today = kigaliIsoDate()
 
   const [lots, setLots] = useState(null)
@@ -436,7 +438,8 @@ export default function SaleForm({ initialLotId, onSaved }) {
                 </button>
                 <button
                   type="submit"
-                  disabled={!canSave || saving}
+                  disabled={!canSave || saving || needsInternet.offline}
+                  title={needsInternet.title}
                   className="flex min-h-12 items-center gap-2 rounded-lg bg-primary px-5 text-sm font-semibold text-white hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <Save size={16} />

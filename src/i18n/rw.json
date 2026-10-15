@@ -919,6 +919,12 @@
     },
     "cachedData": "Nta interineti - amakuru yo ku wa {{time}}",
     "readOnly": "Urashobora kureba, ariko guhindura bisaba interineti.",
-    "needsInternet": "Bisaba interineti"
+    "needsInternet": "Bisaba interineti",
+    "pageNeedsInternet": {
+      "title": "Iyi paji isaba interineti",
+      "message": "Urashobora gukomeza kwandika ibyagemuwe nta interineti.",
+      "recordDelivery": "Andika ibyagemuwe",
+      "lost": "Nta interineti. Urashobora kureba iyi paji, ariko guhindura bisaba interineti."
+    }
   }
 }

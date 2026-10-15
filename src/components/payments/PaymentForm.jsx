@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Save } from 'lucide-react'
 import { recordPayment } from '../../api/payments'
 import { formatMoney, kigaliIsoDate } from '../../utils/format'
+import useNeedsInternet from '../../hooks/useNeedsInternet'
 
 const METHODS = ['CASH', 'MOMO', 'BANK']
 // Same rule as the backend: mobile money and bank payments need the transaction reference.
@@ -16,6 +17,7 @@ const fieldClass =
 // amount and the clientUuid start fresh.
 export default function PaymentForm({ member, onSaved, onCancel }) {
   const { t } = useTranslation()
+  const needsInternet = useNeedsInternet()
   const today = kigaliIsoDate()
 
   const [amountText, setAmountText] = useState(String(member.owedRwf))
@@ -173,7 +175,8 @@ export default function PaymentForm({ member, onSaved, onCancel }) {
         )}
         <button
           type="submit"
-          disabled={saving}
+          disabled={saving || needsInternet.offline}
+          title={needsInternet.title}
           className="flex min-h-12 flex-1 items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-semibold text-white hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
         >
           <Save size={16} />

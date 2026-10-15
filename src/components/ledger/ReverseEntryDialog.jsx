@@ -3,9 +3,11 @@ import { useTranslation } from 'react-i18next'
 import { Undo2 } from 'lucide-react'
 import { reverseEntry } from '../../api/ledger'
 import { useEntryDescription } from './ledgerDisplay'
+import useNeedsInternet from '../../hooks/useNeedsInternet'
 
 export default function ReverseEntryDialog({ entry, onClose, onReversed }) {
   const { t } = useTranslation()
+  const needsInternet = useNeedsInternet()
   const describe = useEntryDescription()
   const reasonRef = useRef(null)
   const [reason, setReason] = useState('')
@@ -99,7 +101,8 @@ export default function ReverseEntryDialog({ entry, onClose, onReversed }) {
           </button>
           <button
             type="submit"
-            disabled={busy}
+            disabled={busy || needsInternet.offline}
+            title={needsInternet.title}
             className="flex min-h-12 flex-1 items-center justify-center gap-2 rounded-lg bg-danger px-4 text-sm font-semibold text-white hover:bg-danger/90 disabled:cursor-not-allowed disabled:opacity-60"
           >
             <Undo2 size={16} />

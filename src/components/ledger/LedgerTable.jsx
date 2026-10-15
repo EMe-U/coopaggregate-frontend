@@ -10,6 +10,7 @@ import usePageSize from '../../hooks/usePageSize'
 import LedgerTypeBadge from './LedgerTypeBadge'
 import { EntryAmount, EntryKg, EntryParty, useEntryDescription } from './ledgerDisplay'
 import { formatDate, formatTime, kigaliIsoDate } from '../../utils/format'
+import useNeedsInternet from '../../hooks/useNeedsInternet'
 
 
 export function canReverse(entry) {
@@ -29,10 +30,19 @@ function EntryNote({ entry }) {
 
 function EntryMenu({ entry, onView, onReverse }) {
   const { t } = useTranslation()
+  const { offline, title } = useNeedsInternet()
   const actions = []
   if (onView) actions.push({ key: 'view', icon: Eye, label: t('ledger.actions.view'), run: () => onView(entry) })
   if (onReverse && canReverse(entry)) {
-    actions.push({ key: 'reverse', icon: Undo2, label: t('ledger.actions.reverse'), run: () => onReverse(entry), danger: true })
+    actions.push({
+      key: 'reverse',
+      icon: Undo2,
+      label: t('ledger.actions.reverse'),
+      run: () => onReverse(entry),
+      danger: true,
+      disabled: offline,
+      title,
+    })
   }
   if (actions.length === 0) return null
   return <ActionsMenu label={t('ledger.actions.menu', { id: entry.id })} actions={actions} />

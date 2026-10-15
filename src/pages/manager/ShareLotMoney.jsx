@@ -9,6 +9,7 @@ import EmptyState from '../../components/EmptyState'
 import PageTitle from '../../components/PageTitle'
 import SharePreviewTable from '../../components/share/SharePreviewTable'
 import { formatNumber } from '../../utils/format'
+import useNeedsInternet from '../../hooks/useNeedsInternet'
 
 // Kilograms only: delivered must equal sold plus lost once a lot is fully sold.
 function stockBalances(lot) {
@@ -30,6 +31,7 @@ function LotCard({ label, value, unit, valueClass = 'text-text', dark }) {
 
 export default function ShareLotMoney() {
   const { t } = useTranslation()
+  const needsInternet = useNeedsInternet()
   // Set when coming from a lot's "Share money" button.
   const [searchParams, setSearchParams] = useSearchParams()
   const lotId = searchParams.get('lotId') ?? ''
@@ -242,7 +244,8 @@ export default function ShareLotMoney() {
                     <button
                       type="button"
                       onClick={handleShare}
-                      disabled={sharing}
+                      disabled={sharing || needsInternet.offline}
+                      title={needsInternet.title}
                       className="flex min-h-12 items-center justify-center gap-2 rounded-lg bg-primary px-4 font-semibold text-white hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
                     >
                       <CircleCheck size={18} />
