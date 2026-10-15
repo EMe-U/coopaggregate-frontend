@@ -6,8 +6,10 @@ import { formatDate, formatDay, formatKg, formatMoney, kigaliIsoDate } from '../
 import GradeName from '../GradeName'
 import Pagination from '../Pagination'
 import usePageSize from '../../hooks/usePageSize'
+import useLinkedDeliveries from '../../hooks/useLinkedDeliveries'
 import useLotsWithSales from '../../hooks/useLotsWithSales'
 import DeliveryActionsMenu from '../deliveries/DeliveryActionsMenu'
+import DeliveryHistoryNote, { deliveryRowId } from '../deliveries/DeliveryHistoryNote'
 import useOnlineStatus from '../../hooks/useOnlineStatus'
 import { loadWithCache } from '../../offline/cache'
 
@@ -129,7 +131,7 @@ function DeliveriesSection({ memberId, totals, onChanged }) {
     setStatus('loading')
     // Without internet, the pages opened before on this device can still be shown.
     loadWithCache(`memberDeliveries:${memberId}:${page}:${pageSize}`, () =>
-      listDeliveries({ memberId, page, size: pageSize }),
+      listDeliveries({ memberId, includeReversed: true, page, size: pageSize }),
     )
       .then(({ data }) => {
         if (ignore) return
@@ -163,6 +165,7 @@ function DeliveriesSection({ memberId, totals, onChanged }) {
 
   const deliveries = status === 'error' ? [] : (result?.content ?? [])
   const lotsWithSales = useLotsWithSales(deliveries.map((delivery) => delivery.lotId), reloadKey)
+  const linked = useLinkedDeliveries(deliveries)
 
   // A reversal changes the statement too, so the page reloads it as well.
   function handleChanged() {
@@ -180,9 +183,16 @@ function DeliveriesSection({ memberId, totals, onChanged }) {
       ]}
       rows={deliveries}
       renderRow={(delivery) => (
-        <tr key={delivery.id}>
+        <tr
+          key={delivery.id}
+          id={deliveryRowId(delivery.id)}
+          className={`target:bg-warning/20 ${delivery.reversed ? 'opacity-60' : ''}`}
+        >
           <td className={cell}>{formatDate(kigaliIsoDate(new Date(delivery.deliveredAt)))}</td>
-          <td className={`${cell} font-mono text-xs`}>{delivery.receiptCode}</td>
+          <td className={`${cell} font-mono text-xs`}>
+            <span className={delivery.reversed ? 'line-through' : undefined}>{delivery.receiptCode}</span>
+            <DeliveryHistoryNote delivery={delivery} linked={linked} />
+          </td>
           <td className={cell}>
             <GradeName name={delivery.gradeName} />
           </td>

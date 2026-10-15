@@ -8,8 +8,11 @@ export async function recordDelivery(delivery, config) {
 }
 
 // from and to are whole days (YYYY-MM-DD, Kigali time), both inclusive. Newest first.
-export async function listDeliveries({ page = 0, size = 20, memberId, lotId, from, to } = {}) {
+// Reversed deliveries are left out unless includeReversed is true; lists that show the history
+// ask for them, while totals and checks never count them.
+export async function listDeliveries({ page = 0, size = 20, memberId, lotId, from, to, includeReversed } = {}) {
   const params = { page, size }
+  if (includeReversed) params.includeReversed = true
   if (memberId) params.memberId = memberId
   if (lotId) params.lotId = lotId
   if (from) params.from = from
@@ -30,5 +33,11 @@ export async function reverseDelivery(id, reason) {
 // delivery, which has its own receipt code and lot.
 export async function correctDelivery(id, { reason, memberId, gradeId, quantityKg }) {
   const response = await client.post(`/api/deliveries/${id}/correct`, { reason, memberId, gradeId, quantityKg })
+  return response.data
+}
+
+// One delivery, also when it was reversed.
+export async function getDelivery(id) {
+  const response = await client.get(`/api/deliveries/${id}`)
   return response.data
 }

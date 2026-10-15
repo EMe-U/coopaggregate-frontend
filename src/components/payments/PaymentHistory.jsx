@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { listPayments } from '../../api/payments'
 import Pagination from '../Pagination'
+import ReversedBadge from '../ReversedBadge'
 import PaymentActionsMenu from './PaymentActionsMenu'
 import usePageSize from '../../hooks/usePageSize'
 import { formatDay, formatMoney } from '../../utils/format'
@@ -113,8 +114,15 @@ export default function PaymentHistory({ reloadKey, onChanged }) {
               </thead>
               <tbody className="divide-y divide-text/5">
                 {result.content.map((payment) => (
-                  <tr key={payment.id}>
-                    <td className={`${cell} font-mono font-medium text-primary`}>{payment.paymentCode}</td>
+                  <tr key={payment.id} className={payment.reversed ? 'opacity-60' : undefined}>
+                    <td className={`${cell} font-mono font-medium text-primary`}>
+                      <span className={payment.reversed ? 'line-through' : undefined}>{payment.paymentCode}</span>
+                      {payment.reversed && (
+                        <span className="mt-1 block font-sans">
+                          <ReversedBadge reason={payment.reversalReason} />
+                        </span>
+                      )}
+                    </td>
                     <td className={cell}>{formatDay(payment.paidAt)}</td>
                     <td className={cell}>
                       <Link to={`/members/${payment.memberId}`} className="text-primary hover:underline">
