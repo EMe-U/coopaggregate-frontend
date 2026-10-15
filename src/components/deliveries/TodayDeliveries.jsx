@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { listDeliveries } from '../../api/deliveries'
 import useOnlineStatus from '../../hooks/useOnlineStatus'
+import useLotsWithSales from '../../hooks/useLotsWithSales'
 import usePageSize from '../../hooks/usePageSize'
 import usePendingDeliveries from '../../hooks/usePendingDeliveries'
 import { temporaryReference } from '../../offline/pending'
 import { syncedDelivery } from '../../offline/sync'
 import GradeName from '../GradeName'
+import DeliveryActionsMenu from './DeliveryActionsMenu'
 import Pagination from '../Pagination'
 import { formatKg, formatMoney, formatTime, kigaliIsoDate } from '../../utils/format'
 
@@ -98,6 +100,7 @@ export default function TodayDeliveries({ reloadKey }) {
   }, [reloadKey, retryKey, isOnline])
 
   const deliveries = result?.content
+  const lotsWithSales = useLotsWithSales((deliveries ?? []).map((delivery) => delivery.lotId), retryKey)
   // Deliveries waiting on this device go on top of the first page. One that has just synced can
   // be in both lists for a moment; the server row wins.
   const serverIds = new Set((deliveries ?? []).map((delivery) => delivery.id))
@@ -204,12 +207,19 @@ export default function TodayDeliveries({ reloadKey }) {
                     <SyncBadge status="SYNCED" />
                   </td>
                   <td className={cell}>
-                    <Link
-                      to={`/members/${delivery.memberId}`}
-                      className="inline-flex min-h-11 items-center font-medium text-primary hover:underline"
-                    >
-                      {t('deliveries.today.view')}
-                    </Link>
+                    <div className="flex items-center gap-3">
+                      <Link
+                        to={`/members/${delivery.memberId}`}
+                        className="inline-flex min-h-11 items-center font-medium text-primary hover:underline"
+                      >
+                        {t('deliveries.today.view')}
+                      </Link>
+                      <DeliveryActionsMenu
+                        delivery={delivery}
+                        lotHasSales={lotsWithSales.has(delivery.lotId)}
+                        onChanged={() => setRetryKey((key) => key + 1)}
+                      />
+                    </div>
                   </td>
                 </tr>
               ))}

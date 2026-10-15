@@ -191,7 +191,12 @@ export default function MemberDetail() {
         </div>
       </div>
 
-      <StatementSections memberId={member.id} statement={statement} statementError={statementError} />
+      <StatementSections
+        memberId={member.id}
+        statement={statement}
+        statementError={statementError}
+        onChanged={() => setStatementReloadKey((key) => key + 1)}
+      />
 
       {editing && (
         <MemberFormModal member={member} onClose={() => setEditing(false)} onSaved={handleSaved} />

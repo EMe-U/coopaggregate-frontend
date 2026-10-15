@@ -18,3 +18,10 @@ export async function listDeliveries({ page = 0, size = 20, memberId, lotId, fro
   const response = await client.get('/api/deliveries', { params })
   return response.data
 }
+
+// Cancels a delivery recorded by mistake. The backend answers 409 with a message when it can no
+// longer be reversed, for example because its lot already has sales.
+export async function reverseDelivery(id, reason) {
+  const response = await client.post(`/api/deliveries/${id}/reverse`, { reason })
+  return response.data
+}

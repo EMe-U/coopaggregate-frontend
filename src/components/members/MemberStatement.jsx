@@ -6,6 +6,8 @@ import { formatDate, formatDay, formatKg, formatMoney, kigaliIsoDate } from '../
 import GradeName from '../GradeName'
 import Pagination from '../Pagination'
 import usePageSize from '../../hooks/usePageSize'
+import useLotsWithSales from '../../hooks/useLotsWithSales'
+import DeliveryActionsMenu from '../deliveries/DeliveryActionsMenu'
 import useOnlineStatus from '../../hooks/useOnlineStatus'
 import { loadWithCache } from '../../offline/cache'
 
@@ -110,7 +112,7 @@ function StatementSection({ icon: Icon, title, subtitle, columns, rows, renderRo
   )
 }
 
-function DeliveriesSection({ memberId, totals }) {
+function DeliveriesSection({ memberId, totals, onChanged }) {
   const { t } = useTranslation()
   const pageSize = usePageSize()
   const isOnline = useOnlineStatus()
@@ -160,12 +162,22 @@ function DeliveriesSection({ memberId, totals }) {
   }
 
   const deliveries = status === 'error' ? [] : (result?.content ?? [])
+  const lotsWithSales = useLotsWithSales(deliveries.map((delivery) => delivery.lotId), reloadKey)
+
+  // A reversal changes the statement too, so the page reloads it as well.
+  function handleChanged() {
+    setReloadKey((current) => current + 1)
+    onChanged?.()
+  }
 
   return (
     <StatementSection
       icon={Truck}
       title={t(`${key}.title`)}
-      columns={['date', 'receiptCode', 'grade', 'lot', 'kg', 'deduction'].map((column) => t(`${key}.${column}`))}
+      columns={[
+        ...['date', 'receiptCode', 'grade', 'lot', 'kg', 'deduction'].map((column) => t(`${key}.${column}`)),
+        t('reversal.actionsColumn'),
+      ]}
       rows={deliveries}
       renderRow={(delivery) => (
         <tr key={delivery.id}>
@@ -177,6 +189,13 @@ function DeliveriesSection({ memberId, totals }) {
           <td className={cell}>{delivery.lotCode}</td>
           <td className={cell}>{formatKg(delivery.quantityKg)}</td>
           <td className={cell}>{formatMoney(delivery.deductionRwf)}</td>
+          <td className="px-3 py-1 print:hidden">
+            <DeliveryActionsMenu
+              delivery={delivery}
+              lotHasSales={lotsWithSales.has(delivery.lotId)}
+              onChanged={handleChanged}
+            />
+          </td>
         </tr>
       )}
       totalsRow={
@@ -187,6 +206,7 @@ function DeliveriesSection({ memberId, totals }) {
             </td>
             <td className={cell}>{formatKg(totals.totalKg)}</td>
             <td className={cell}>{formatMoney(totals.totalDeduction)}</td>
+            <td className="print:hidden" />
           </tr>
         )
       }
@@ -271,11 +291,12 @@ function PaymentsSection({ statement, error }) {
   )
 }
 
-export function StatementSections({ memberId, statement, statementError }) {
+// onChanged runs after a delivery was reversed or corrected, so the page can reload the statement.
+export function StatementSections({ memberId, statement, statementError, onChanged }) {
   return (
     <>
       <div className="grid gap-6 lg:grid-cols-2">
-        <DeliveriesSection memberId={memberId} />
+        <DeliveriesSection memberId={memberId} onChanged={onChanged} />
         <LotSharesSection statement={statement} error={statementError} />
       </div>
       <PaymentsSection statement={statement} error={statementError} />
