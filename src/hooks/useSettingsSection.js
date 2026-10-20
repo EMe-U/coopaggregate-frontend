@@ -44,6 +44,8 @@ export default function useSettingsSection(settings, keys, onSaved) {
       const request = Object.fromEntries(
         Object.entries({ ...pick(settings, REQUEST_KEYS), ...draft }).map(([key, value]) => [key, clean(value)]),
       )
+      // The input holds text such as "150" or "150,5"; the backend expects a number.
+      request.minOrderKg = Number(String(request.minOrderKg).replace(',', '.'))
       const saved = await saveSettings(request)
       onSaved(saved)
       setDraft(pick(saved, keys))
