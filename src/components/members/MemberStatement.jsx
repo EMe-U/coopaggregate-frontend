@@ -8,6 +8,7 @@ import Pagination from '../Pagination'
 import usePageSize from '../../hooks/usePageSize'
 import useLinkedDeliveries from '../../hooks/useLinkedDeliveries'
 import useLotsWithSales from '../../hooks/useLotsWithSales'
+import ConfirmationBadge from '../deliveries/ConfirmationBadge'
 import DeliveryActionsMenu from '../deliveries/DeliveryActionsMenu'
 import DeliveryHistoryNote, { deliveryRowId } from '../deliveries/DeliveryHistoryNote'
 import useOnlineStatus from '../../hooks/useOnlineStatus'
@@ -179,6 +180,7 @@ function DeliveriesSection({ memberId, totals, onChanged }) {
       title={t(`${key}.title`)}
       columns={[
         ...['date', 'receiptCode', 'grade', 'lot', 'kg', 'deduction'].map((column) => t(`${key}.${column}`)),
+        t('confirmation.status'),
         t('reversal.actionsColumn'),
       ]}
       rows={deliveries}
@@ -199,6 +201,7 @@ function DeliveriesSection({ memberId, totals, onChanged }) {
           <td className={cell}>{delivery.lotCode}</td>
           <td className={cell}>{formatKg(delivery.quantityKg)}</td>
           <td className={cell}>{formatMoney(delivery.deductionRwf)}</td>
+          <td className={cell}>{!delivery.reversed && <ConfirmationBadge delivery={delivery} />}</td>
           <td className="px-3 py-1 print:hidden">
             <DeliveryActionsMenu
               delivery={delivery}
@@ -216,6 +219,7 @@ function DeliveriesSection({ memberId, totals, onChanged }) {
             </td>
             <td className={cell}>{formatKg(totals.totalKg)}</td>
             <td className={cell}>{formatMoney(totals.totalDeduction)}</td>
+            <td />
             <td className="print:hidden" />
           </tr>
         )

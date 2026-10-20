@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, Boxes, HandCoins, Lock, Split, TriangleAlert, Users } from 'lucide-react'
+import { ArrowLeft, Boxes, HandCoins, Lock, Split, TriangleAlert, Truck, Users } from 'lucide-react'
 import { closeLot, getLot, listLosses } from '../../api/lots'
 import EmptyState from '../../components/EmptyState'
 import GradeName from '../../components/GradeName'
 import SuccessToast from '../../components/SuccessToast'
 import LossModal from '../../components/lots/LossModal'
+import LotDeliveries from '../../components/lots/LotDeliveries'
 import LotStatusBadge from '../../components/lots/LotStatusBadge'
 import { formatDate, formatKg, formatMoney } from '../../utils/format'
 import useNeedsInternet from '../../hooks/useNeedsInternet'
@@ -306,6 +307,10 @@ export default function LotDetail() {
           <LossesList lotId={lot.id} reloadKey={reloadKey} />
         </Section>
       </div>
+
+      <Section icon={Truck} title={t('lots.detail.deliveriesTitle')}>
+        <LotDeliveries lot={lot} reloadKey={reloadKey} onChanged={reload} />
+      </Section>
 
       {recordingLoss && (
         <LossModal lot={lot} onClose={() => setRecordingLoss(false)} onSaved={handleLossSaved} />

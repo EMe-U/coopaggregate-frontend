@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { CircleCheck } from 'lucide-react'
 
 const styles = {
   PENDING: 'bg-background text-muted ring-1 ring-text/10',
@@ -24,8 +25,9 @@ export default function ConfirmationBadge({ delivery }) {
   return (
     <span
       title={title}
-      className={`inline-block whitespace-nowrap rounded-md px-2 py-0.5 text-xs font-medium ${styles[status]} ${title ? 'cursor-help' : ''}`}
+      className={`inline-flex items-center gap-1 whitespace-nowrap rounded-md px-2 py-0.5 text-xs font-medium ${styles[status]} ${title ? 'cursor-help' : ''}`}
     >
+      {status === 'CONFIRMED' && <CircleCheck size={12} />}
       {t(`confirmation.badge.${status}`)}
     </span>
   )

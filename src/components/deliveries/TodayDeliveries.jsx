@@ -11,6 +11,7 @@ import usePendingDeliveries from '../../hooks/usePendingDeliveries'
 import { temporaryReference } from '../../offline/pending'
 import { syncedDelivery } from '../../offline/sync'
 import GradeName from '../GradeName'
+import ConfirmationBadge from './ConfirmationBadge'
 import DeliveryActionsMenu from './DeliveryActionsMenu'
 import DeliveryHistoryNote, { deliveryRowId } from './DeliveryHistoryNote'
 import Pagination from '../Pagination'
@@ -143,9 +144,13 @@ export default function TodayDeliveries({ reloadKey }) {
           <table className="w-full text-left text-sm">
             <thead className="bg-background text-xs uppercase tracking-wide text-muted">
               <tr>
-                {['code', 'member', 'grade', 'lot', 'kg', 'deduction', 'time', 'sync', 'actions'].map((column) => (
+                {['code', 'member', 'grade', 'lot', 'kg', 'deduction', 'time', 'status', 'sync', 'actions'].map((column) => (
                   <th key={column} className="whitespace-nowrap px-3 py-2 font-semibold">
-                    {column === 'sync' ? t('offline.syncColumn') : t(`deliveries.today.${column}`)}
+                    {column === 'sync'
+                      ? t('offline.syncColumn')
+                      : column === 'status'
+                        ? t('confirmation.status')
+                        : t(`deliveries.today.${column}`)}
                   </th>
                 ))}
               </tr>
@@ -164,6 +169,7 @@ export default function TodayDeliveries({ reloadKey }) {
                   <td className={cell}>{formatKg(delivery.payload.quantityKg)}</td>
                   <td className={`${cell} text-muted`}>–</td>
                   <td className={cell}>{formatTime(delivery.payload.deliveredAt)}</td>
+                  <td className={`${cell} text-muted`}>–</td>
                   <td className={cell}>
                     <SyncBadge status={delivery.status} />
                   </td>
@@ -197,6 +203,7 @@ export default function TodayDeliveries({ reloadKey }) {
                   <td className={cell}>{formatKg(delivery.quantityKg)}</td>
                   <td className={cell}>{formatMoney(delivery.deductionRwf)}</td>
                   <td className={cell}>{formatTime(delivery.deliveredAt)}</td>
+                  <td className={cell}>{!delivery.reversed && <ConfirmationBadge delivery={delivery} />}</td>
                   <td className={cell}>
                     <SyncBadge status="SYNCED" />
                   </td>
