@@ -41,3 +41,22 @@ export async function getDelivery(id) {
   const response = await client.get(`/api/deliveries/${id}`)
   return response.data
 }
+
+// Confirms a waiting delivery with the PIN the member types. A wrong PIN answers 400 with the
+// attempts left; a locked PIN answers 409.
+export async function confirmDelivery(id, pin) {
+  const response = await client.post(`/api/deliveries/${id}/confirm`, { pin })
+  return response.data
+}
+
+// reason is WRONG_KG, WRONG_GRADE, NOT_MY_DELIVERY or OTHER; note is optional.
+export async function disputeDelivery(id, { reason, note }) {
+  const response = await client.post(`/api/deliveries/${id}/dispute`, { reason, note })
+  return response.data
+}
+
+// Closes a dispute after the manager checked that the record was right.
+export async function resolveDispute(id, note) {
+  const response = await client.post(`/api/deliveries/${id}/resolve-dispute`, { note })
+  return response.data
+}

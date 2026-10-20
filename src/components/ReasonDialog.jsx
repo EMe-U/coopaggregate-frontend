@@ -1,12 +1,23 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Undo2 } from 'lucide-react'
+import { CircleCheck, Undo2 } from 'lucide-react'
 import useNeedsInternet from '../hooks/useNeedsInternet'
 
-// Asks for the required reason before reversing a record. onConfirm(reason) sends the request;
-// when it fails, the server's message is shown (for example the 409 explaining why a record
-// cannot be reversed) and the dialog stays open.
-export default function ReasonDialog({ title, summary, explanation, confirmLabel, onConfirm, onClose }) {
+// Asks for a required reason before reversing a record, or a note for other decisions (tone
+// "primary"). onConfirm(text) sends the request; when it fails, the server's message is shown (for
+// example the 409 explaining why a record cannot be reversed) and the dialog stays open.
+export default function ReasonDialog({
+  title,
+  summary,
+  explanation,
+  confirmLabel,
+  onConfirm,
+  onClose,
+  fieldLabel,
+  placeholder,
+  requiredMessage,
+  tone = 'danger',
+}) {
   const { t } = useTranslation()
   const needsInternet = useNeedsInternet()
   const reasonRef = useRef(null)
@@ -31,7 +42,7 @@ export default function ReasonDialog({ title, summary, explanation, confirmLabel
     event.preventDefault()
     if (busy) return
     if (!reason.trim()) {
-      setReasonError(t('reversal.reasonRequired'))
+      setReasonError(requiredMessage ?? t('reversal.reasonRequired'))
       return
     }
 
@@ -65,7 +76,7 @@ export default function ReasonDialog({ title, summary, explanation, confirmLabel
         </p>
 
         <label htmlFor="reason-dialog-reason" className="mt-4 mb-1.5 block text-sm font-medium text-text">
-          {t('reversal.reason')}
+          {fieldLabel ?? t('reversal.reason')}
         </label>
         <textarea
           id="reason-dialog-reason"
@@ -77,7 +88,7 @@ export default function ReasonDialog({ title, summary, explanation, confirmLabel
             setReason(event.target.value)
             setReasonError('')
           }}
-          placeholder={t('reversal.reasonPlaceholder')}
+          placeholder={placeholder ?? t('reversal.reasonPlaceholder')}
           disabled={busy}
           aria-invalid={Boolean(reasonError)}
           className="w-full rounded-lg border border-transparent bg-background px-3 py-2 text-base outline-none placeholder:text-muted/70 focus:border-primary focus:ring-2 focus:ring-primary/20"
@@ -103,9 +114,11 @@ export default function ReasonDialog({ title, summary, explanation, confirmLabel
             type="submit"
             disabled={busy || needsInternet.offline}
             title={needsInternet.title}
-            className="flex min-h-12 flex-1 items-center justify-center gap-2 rounded-lg bg-danger px-4 text-sm font-semibold text-white hover:bg-danger/90 disabled:cursor-not-allowed disabled:opacity-60"
+            className={`flex min-h-12 flex-1 items-center justify-center gap-2 rounded-lg px-4 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60 ${
+              tone === 'danger' ? 'bg-danger hover:bg-danger/90' : 'bg-primary hover:bg-primary/90'
+            }`}
           >
-            <Undo2 size={16} />
+            {tone === 'danger' ? <Undo2 size={16} /> : <CircleCheck size={16} />}
             {busy ? t('reversal.reversing') : confirmLabel}
           </button>
         </div>
