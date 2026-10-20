@@ -252,8 +252,6 @@
       "message_one": "Uyu munyamuryango yagemuye {{kg}} kg mu munota {{count}} ushize. Ese ni ibyanditswe kabiri?",
       "message_other": "Uyu munyamuryango yagemuye {{kg}} kg mu minota {{count}} ishize. Ese ni ibyanditswe kabiri?"
     },
-    "save": "Bika ibyagemuwe",
-    "saving": "Birabikwa...",
     "errors": {
       "memberRequired": "Hitamo umunyamuryango",
       "gradeRequired": "Hitamo urwego",
@@ -418,7 +416,18 @@
       "lossesError": "Ntibishobotse kubona ibyangiritse.",
       "notFound": "Ikirundo ntikiboneka",
       "notFoundMessage": "Nta kirundo gifite iyi nimero.",
-      "loadError": "Ntibishobotse kubona iki kirundo."
+      "loadError": "Ntibishobotse kubona iki kirundo.",
+      "deliveriesTitle": "Ibyagemuwe muri iki kirundo",
+      "noDeliveries": "Nta byagemuwe muri iki kirundo.",
+      "deliveriesError": "Ntibishobotse kubona ibyagemuwe.",
+      "deliveryColumns": {
+        "receipt": "Inyemezabwishyu",
+        "member": "Umunyamuryango",
+        "kg": "Kg",
+        "date": "Itariki",
+        "status": "Kwemezwa",
+        "actions": "Ibikorwa"
+      }
     },
     "actions": {
       "column": "Ibikorwa",
@@ -604,7 +613,11 @@
     "success": "Ikirundo {{code}} cyagabanyijwe. Abanyamuryango bashobora kwishyurwa.",
     "goToPayments": "Jya ku kwishyura",
     "error": "Ntibishobotse kugabanya ikirundo. Ongera ugerageze.",
-    "shareMoney": "Gabanya amafaranga"
+    "shareMoney": "Gabanya amafaranga",
+    "disputes": {
+      "title": "Ibyagemuwe bijuririwe muri iki kirundo",
+      "hint": "Fungura buri kimwe ukemure, ukosore cyangwa uhagarike, hanyuma wongere ugabanye."
+    }
   },
   "payments": {
     "eyebrow": "Ibikorwa by'imari",
@@ -835,7 +848,13 @@
       "readyToSellAction": "Andika igurisha",
       "awaitingPayment_one": "Umunyamuryango {{count}} ategereje kwishyurwa",
       "awaitingPayment_other": "Abanyamuryango {{count}} bategereje kwishyurwa",
-      "awaitingPaymentAction": "Ishyura abanyamuryango"
+      "awaitingPaymentAction": "Ishyura abanyamuryango",
+      "disputed_one": "Ibyagemuwe {{count}} bijuririwe",
+      "disputed_other": "Ibyagemuwe {{count}} bijuririwe",
+      "disputedAction": "Reba ibibazo",
+      "waitingConfirmation_one": "Ibyagemuwe {{count}} bitegereje kwemezwa amasaha arenga 48",
+      "waitingConfirmation_other": "Ibyagemuwe {{count}} bitegereje kwemezwa amasaha arenga 48",
+      "waitingConfirmationAction": "Reba ibyagemuwe"
     },
     "recent": {
       "title": "Ibyagemuwe vuba",
@@ -955,6 +974,114 @@
       "reverseTitle": "Guhagarika ubwishyu {{code}}?",
       "reverseExplanation": "Ubwishyu bugumye mu mateka, bwanditseho ko bwahagaritswe. Umunyamuryango azongera kubarirwaho aya mafaranga.",
       "done": "Ubwishyu {{code}} bwahagaritswe"
+    }
+  },
+  "pin": {
+    "handTo": "Ha {{name}} telefone",
+    "coverHint": "Pfuka ecran n'ikiganza mu gihe wandika.",
+    "entered_one": "Wanditse umubare {{count}}",
+    "entered_other": "Wanditse imibare {{count}}",
+    "clear": "Siba byose",
+    "backspace": "Siba umubare wa nyuma",
+    "close": "Funga",
+    "setButton": "Shyiraho PIN",
+    "resetButton": "Hindura PIN",
+    "badge": {
+      "set": "Afite PIN",
+      "locked": "PIN yafunzwe"
+    },
+    "set": {
+      "title": "PIN ya {{name}}",
+      "handoverHint": "Umunyamuryango ahitamo PIN y'imibare 4 yo kwemeza ibyo yagemuye. Ntureba kuri ecran.",
+      "start": "Tangira",
+      "chooseTitle": "Hitamo PIN yawe y'imibare 4",
+      "repeatTitle": "Ongera wandike PIN yawe",
+      "tooEasy": "Iyi PIN yoroshye cyane. Ntukoreshe imibare 4 isa cyangwa 1234.",
+      "noMatch": "PIN zombi ntizisa. Ongera utangire.",
+      "error": "Ntibishobotse kubika PIN. Ongera ugerageze.",
+      "saving": "Birabikwa...",
+      "done": "PIN yawe yabitswe",
+      "handBack": "Subiza umuyobozi telefone.",
+      "finish": "Byarangiye",
+      "saved": "PIN yabitswe"
+    }
+  },
+  "confirmation": {
+    "continue": "Komeza",
+    "checkHint": "Reba niba ari byo.",
+    "member": "Umunyamuryango",
+    "quantity": "Ibiro",
+    "grade": "Urwego",
+    "date": "Itariki",
+    "correct": "Ni byo - shyiramo PIN yanjye",
+    "notCorrect": "Si byo",
+    "saveWithout": "Bika utemeje",
+    "noPin": "Uyu munyamuryango nta PIN afite, ibyagemuwe bizategereza kwemezwa.",
+    "pinLocked": "PIN y'uyu munyamuryango yafunzwe. Umuyobozi agomba kuyihindura ku makuru y'umunyamuryango.",
+    "pinTitle": "Andika PIN yawe",
+    "saving": "Birabikwa...",
+    "status": "Kwemezwa",
+    "pinMismatch": "PIN ntiyahuye - bitegereje kwemezwa",
+    "pinWaitsForSync": "PIN yanditswe - bizemezwa byoherejwe",
+    "confirmed": "Ibyagemuwe byemejwe",
+    "confirmError": "Ntibishobotse kwemeza. Ongera ugerageze.",
+    "badge": {
+      "PENDING": "Bitegereje",
+      "CONFIRMED": "Byemejwe",
+      "DISPUTED": "Bijuririwe"
+    },
+    "method": {
+      "PIN": "Byemejwe n'umunyamuryango akoresheje PIN",
+      "SMS": "Byemejwe n'umunyamuryango kuri SMS",
+      "MANAGER_REVIEW": "Byagenzuwe n'umuyobozi nyuma y'ikibazo",
+      "RECORDED_BEFORE_CONFIRMATION": "Byanditswe mbere y'uko kwemeza bibaho"
+    },
+    "disputeReason": {
+      "WRONG_KG": "Ibiro si byo",
+      "WRONG_GRADE": "Urwego si rwo",
+      "NOT_MY_DELIVERY": "Si ibyanjye",
+      "OTHER": "Ibindi"
+    },
+    "menu": {
+      "confirm": "Emeza na PIN",
+      "dispute": "Andika ikibazo",
+      "resolve": "Byari ukuri"
+    },
+    "dispute": {
+      "title": "Ikibazo ku byagemuwe {{code}}",
+      "reason": "Umunyamuryango avuga ko iki ari cyo kitari cyo?",
+      "reasonRequired": "Hitamo ikitari cyo",
+      "note": "Icyitonderwa (si ngombwa)",
+      "notePlaceholder": "Ibyo umunyamuryango yavuze",
+      "save": "Andika ikibazo",
+      "error": "Ntibishobotse kwandika ikibazo. Ongera ugerageze."
+    },
+    "resolve": {
+      "title": "Kwemeza ko {{code}} ari ukuri?",
+      "explanation": "Koresha ibi iyo wagenzuye ugasanga ibyanditswe ari ukuri. Bizongera byemezwe.",
+      "note": "Wabigenzuye ute?",
+      "notePlaceholder": "Urugero: twongeye gupima turi kumwe n'umunyamuryango",
+      "noteRequired": "Vuga uko wabigenzuye"
+    }
+  },
+  "deliveriesPage": {
+    "title": "Ibyagemuwe",
+    "disputed": "Ibyagemuwe bijuririwe",
+    "waitingOver": "Bitegereje kwemezwa amasaha arenga {{count}}",
+    "withStatus": "Ibyagemuwe: {{status}}",
+    "subtitle": "Byemeze, ukemure ikibazo cyangwa ubikosore ukoresheje menu kuri buri murongo.",
+    "back": "Subira ku ncamake",
+    "empty": "Nta byagemuwe hano.",
+    "error": "Ntibishobotse kubona ibyagemuwe.",
+    "columns": {
+      "receipt": "Inyemezabwishyu",
+      "member": "Umunyamuryango",
+      "grade": "Urwego",
+      "lot": "Ikirundo",
+      "kg": "Kg",
+      "date": "Itariki",
+      "status": "Kwemezwa",
+      "actions": "Ibikorwa"
     }
   }
 }
