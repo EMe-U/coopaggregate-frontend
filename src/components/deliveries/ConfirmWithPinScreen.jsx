@@ -5,6 +5,7 @@ import { confirmDelivery } from '../../api/deliveries'
 import { formatDateTime, formatKg } from '../../utils/format'
 import FullScreen from '../pin/FullScreen'
 import PinKeypad from '../pin/PinKeypad'
+import useGradeName from '../../hooks/useGradeName'
 
 const bigButton =
   'flex min-h-14 w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 text-lg font-semibold text-white hover:bg-primary/90 disabled:opacity-60'
@@ -13,6 +14,7 @@ const bigButton =
 // the server's message with the attempts left; the PIN is cleared after every try.
 export default function ConfirmWithPinScreen({ delivery, onClose, onConfirmed }) {
   const { t } = useTranslation()
+  const gradeName = useGradeName()
   const [step, setStep] = useState('handover')
   const [pin, setPin] = useState('')
   const [error, setError] = useState('')
@@ -50,7 +52,7 @@ export default function ConfirmWithPinScreen({ delivery, onClose, onConfirmed })
             </div>
             <div className="flex justify-between gap-4 py-3">
               <dt className="text-muted">{t('confirmation.grade')}</dt>
-              <dd className="font-semibold">{t(`grades.${delivery.gradeName}`, { defaultValue: delivery.gradeName })}</dd>
+              <dd className="font-semibold">{gradeName(delivery.gradeName)}</dd>
             </div>
             <div className="flex justify-between gap-4 py-3">
               <dt className="text-muted">{t('confirmation.date')}</dt>

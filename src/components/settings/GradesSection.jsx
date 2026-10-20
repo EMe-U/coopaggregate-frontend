@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Layers } from 'lucide-react'
 import { listGrades, updateGrade } from '../../api/grades'
+import { updateGradeNames } from '../../hooks/useGradeName'
 import SettingsSection, { SaveBar } from './SettingsSection'
 import Switch from './Switch'
 import { inputClass, labelClass } from './fieldClasses'
@@ -180,6 +181,7 @@ export default function GradesSection({ onChanged }) {
 
   function handleSaved(saved) {
     setGrades((current) => current.map((grade) => (grade.id === saved.id ? saved : grade)))
+    updateGradeNames(saved)
     onChanged()
   }
 

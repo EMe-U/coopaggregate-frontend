@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { CircleCheck, CircleAlert, Package, Truck, Warehouse } from 'lucide-react'
 import { formatKg } from '../../utils/format'
+import useGradeName from '../../hooks/useGradeName'
 
 // Kilograms only; no money is calculated here.
 function roundKg(kg) {
@@ -55,6 +56,7 @@ function BalanceBanner({ stock }) {
 
 export default function StockOverview({ stock, error, onRetry }) {
   const { t } = useTranslation()
+  const gradeName = useGradeName()
 
   if (error) {
     return (
@@ -88,7 +90,7 @@ export default function StockOverview({ stock, error, onRetry }) {
           <StockCard
             key={grade.gradeName}
             label={t('lots.cards.gradeAvailable', {
-              grade: t(`grades.${grade.gradeName}`, { defaultValue: grade.gradeName }),
+              grade: gradeName(grade.gradeName),
             })}
             value={formatKg(roundKg(grade.remainingKg))}
             icon={Package}

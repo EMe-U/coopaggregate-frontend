@@ -11,6 +11,7 @@ import DisputedDeliveries from '../../components/share/DisputedDeliveries'
 import SharePreviewTable from '../../components/share/SharePreviewTable'
 import { formatNumber } from '../../utils/format'
 import useNeedsInternet from '../../hooks/useNeedsInternet'
+import useGradeName from '../../hooks/useGradeName'
 
 // Kilograms only: delivered must equal sold plus lost once a lot is fully sold.
 function stockBalances(lot) {
@@ -32,6 +33,7 @@ function LotCard({ label, value, unit, valueClass = 'text-text', dark }) {
 
 export default function ShareLotMoney() {
   const { t } = useTranslation()
+  const gradeName = useGradeName()
   const needsInternet = useNeedsInternet()
   // Set when coming from a lot's "Share money" button.
   const [searchParams, setSearchParams] = useSearchParams()
@@ -314,7 +316,7 @@ export default function ShareLotMoney() {
                   <option key={candidate.id} value={candidate.id}>
                     {t('share.lotOption', {
                       code: candidate.code,
-                      grade: t(`grades.${candidate.gradeName}`, { defaultValue: candidate.gradeName }),
+                      grade: gradeName(candidate.gradeName),
                     })}
                   </option>
                 ))}

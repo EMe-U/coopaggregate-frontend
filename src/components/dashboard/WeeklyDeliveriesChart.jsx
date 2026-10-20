@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import GradeName from '../GradeName'
 import { formatKg } from '../../utils/format'
+import useGradeName from '../../hooks/useGradeName'
 
 const GRIDLINES = [0, 25, 50, 75]
 
@@ -23,6 +24,7 @@ function gradeKg(week, gradeName) {
 
 export default function WeeklyDeliveriesChart({ weeks }) {
   const { t } = useTranslation()
+  const gradeName = useGradeName()
   const [active, setActive] = useState(null)
 
   const gradeNames = weeks ? collectGradeNames(weeks) : []
@@ -86,7 +88,7 @@ export default function WeeklyDeliveriesChart({ weeks }) {
                           <div key={key} className="relative flex h-full w-4 items-end">
                             <button
                               type="button"
-                              aria-label={`${t(`grades.${name}`, { defaultValue: name })}, ${weekLabel(weekIndex)}: ${formatKg(kg)}`}
+                              aria-label={`${gradeName(name)}, ${weekLabel(weekIndex)}: ${formatKg(kg)}`}
                               onMouseEnter={() => setActive(key)}
                               onMouseLeave={() => setActive(null)}
                               onFocus={() => setActive(key)}

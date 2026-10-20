@@ -5,6 +5,7 @@ import { Plus, Printer, ReceiptText, User } from 'lucide-react'
 import GradeName from '../GradeName'
 import ConfirmationBadge, { confirmationMethodLabel } from './ConfirmationBadge'
 import { formatDateTime, formatKg, formatMoney } from '../../utils/format'
+import useGradeName from '../../hooks/useGradeName'
 
 function Row({ label, children }) {
   return (
@@ -18,6 +19,7 @@ function Row({ label, children }) {
 // Shows the delivery exactly as the backend saved it, including the deduction it calculated.
 export default function DeliveryReceipt({ delivery, onRecordAnother }) {
   const { t } = useTranslation()
+  const gradeName = useGradeName()
   const cardRef = useRef(null)
 
   // On a phone the receipt sits below the form, so bring it into view after saving.
@@ -48,7 +50,7 @@ export default function DeliveryReceipt({ delivery, onRecordAnother }) {
         <Row label={t('deliveries.receipt.dateTime')}>{formatDateTime(delivery.deliveredAt)}</Row>
         <Row label={t('deliveries.receipt.gradeLot')}>
           {t('deliveries.receipt.gradeLotValue', {
-            grade: t(`grades.${delivery.gradeName}`, { defaultValue: delivery.gradeName }),
+            grade: gradeName(delivery.gradeName),
             lot: delivery.lotCode,
           })}
         </Row>

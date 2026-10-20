@@ -4,6 +4,7 @@ import { CloudOff, Plus, Printer } from 'lucide-react'
 import { formatDateTime, formatKg, formatMoney } from '../../utils/format'
 import { previewDeduction } from '../../utils/deduction'
 import { temporaryReference } from '../../offline/pending'
+import useGradeName from '../../hooks/useGradeName'
 
 function Row({ label, children }) {
   return (
@@ -18,6 +19,7 @@ function Row({ label, children }) {
 // receipt shows a temporary reference and the deduction preview.
 export default function PendingReceipt({ delivery, onRecordAnother }) {
   const { t } = useTranslation()
+  const gradeName = useGradeName()
   const cardRef = useRef(null)
 
   useEffect(() => {
@@ -51,7 +53,7 @@ export default function PendingReceipt({ delivery, onRecordAnother }) {
         </Row>
         <Row label={t('deliveries.receipt.dateTime')}>{formatDateTime(delivery.payload.deliveredAt)}</Row>
         <Row label={t('offline.receipt.grade')}>
-          {t(`grades.${delivery.gradeName}`, { defaultValue: delivery.gradeName })}
+          {gradeName(delivery.gradeName)}
           <span className="block text-xs font-normal text-muted">{t('offline.receipt.lotLater')}</span>
         </Row>
         <Row label={t('deliveries.receipt.quantity')}>{formatKg(delivery.payload.quantityKg)}</Row>

@@ -9,9 +9,11 @@ import LossModal from '../../components/lots/LossModal'
 import LotsTable from '../../components/lots/LotsTable'
 import StockOverview from '../../components/lots/StockOverview'
 import useNeedsInternet from '../../hooks/useNeedsInternet'
+import useGradeName from '../../hooks/useGradeName'
 
 export default function Lots() {
   const { t } = useTranslation()
+  const gradeName = useGradeName()
   const needsInternet = useNeedsInternet()
 
   const [stock, setStock] = useState(null)
@@ -86,7 +88,7 @@ export default function Lots() {
         <ConfirmDialog
           title={t('lots.close.title', { code: closing.code })}
           message={t('lots.close.message', {
-            grade: t(`grades.${closing.gradeName}`, { defaultValue: closing.gradeName }),
+            grade: gradeName(closing.gradeName),
           })}
           confirmLabel={closeBusy ? t('lots.detail.closing') : t('lots.close.confirm')}
           cancelLabel={t('lots.close.cancel')}

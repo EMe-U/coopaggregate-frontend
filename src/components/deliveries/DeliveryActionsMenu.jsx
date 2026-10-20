@@ -9,6 +9,7 @@ import ReasonDialog from '../ReasonDialog'
 import ConfirmWithPinScreen from './ConfirmWithPinScreen'
 import CorrectDeliveryModal from './CorrectDeliveryModal'
 import DisputeDialog from './DisputeDialog'
+import useGradeName from '../../hooks/useGradeName'
 
 // ⋮ menu for a saved delivery: confirm it with the member's PIN, record or settle a dispute,
 // correct or reverse it. Once its lot has sales the delivery can no longer be corrected or
@@ -16,6 +17,7 @@ import DisputeDialog from './DisputeDialog'
 // change so the page can reload its lists and totals.
 export default function DeliveryActionsMenu({ delivery, lotHasSales, onChanged }) {
   const { t } = useTranslation()
+  const gradeName = useGradeName()
   const needsInternet = useNeedsInternet()
   // Which dialog is open: confirm, dispute, resolve, correct or reverse.
   const [open, setOpen] = useState(null)
@@ -61,7 +63,7 @@ export default function DeliveryActionsMenu({ delivery, lotHasSales, onChanged }
     onChanged()
   }
 
-  const summary = `${delivery.memberName} · ${t(`grades.${delivery.gradeName}`, { defaultValue: delivery.gradeName })} · ${formatKg(delivery.quantityKg)}`
+  const summary = `${delivery.memberName} · ${gradeName(delivery.gradeName)} · ${formatKg(delivery.quantityKg)}`
   const close = () => setOpen(null)
 
   return (

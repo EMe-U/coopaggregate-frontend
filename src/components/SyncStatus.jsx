@@ -10,6 +10,7 @@ import { temporaryReference } from '../offline/pending'
 import { discardDelivery, retryDelivery, syncNow } from '../offline/sync'
 import { formatKg, formatTime } from '../utils/format'
 import ConfirmDialog from './ConfirmDialog'
+import useGradeName from '../hooks/useGradeName'
 
 const statusStyles = {
   WAITING: 'bg-warning/15 text-text',
@@ -19,6 +20,7 @@ const statusStyles = {
 
 function PendingItem({ delivery, onDiscard }) {
   const { t } = useTranslation()
+  const gradeName = useGradeName()
   const failed = delivery.status === 'FAILED'
 
   return (
@@ -30,7 +32,7 @@ function PendingItem({ delivery, onDiscard }) {
             {delivery.memberName}
           </p>
           <p className="text-xs text-muted">
-            {t(`grades.${delivery.gradeName}`, { defaultValue: delivery.gradeName })} ·{' '}
+            {gradeName(delivery.gradeName)} ·{' '}
             {formatKg(delivery.payload.quantityKg)} · {formatTime(delivery.payload.deliveredAt)}
           </p>
         </div>

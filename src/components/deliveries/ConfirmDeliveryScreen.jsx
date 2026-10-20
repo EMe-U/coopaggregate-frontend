@@ -4,6 +4,7 @@ import { CircleCheck, CircleX, Clock, HandHeart } from 'lucide-react'
 import { formatDate, formatKg } from '../../utils/format'
 import FullScreen from '../pin/FullScreen'
 import PinKeypad from '../pin/PinKeypad'
+import useGradeName from '../../hooks/useGradeName'
 
 const choiceClass = 'flex min-h-16 w-full items-center justify-center gap-3 rounded-xl px-6 text-lg font-semibold'
 
@@ -21,6 +22,7 @@ function SummaryRow({ label, children }) {
 // until it is handed to onSave.
 export default function ConfirmDeliveryScreen({ member, grade, quantityKg, date, saving, onSave, onBack }) {
   const { t } = useTranslation()
+  const gradeName = useGradeName()
   const [enteringPin, setEnteringPin] = useState(false)
   const [pin, setPin] = useState('')
   const canUsePin = member.hasPin && !member.pinLocked
@@ -51,7 +53,7 @@ export default function ConfirmDeliveryScreen({ member, grade, quantityKg, date,
         <SummaryRow label={t('confirmation.member')}>{member.fullName}</SummaryRow>
         <SummaryRow label={t('confirmation.quantity')}>{formatKg(quantityKg)}</SummaryRow>
         <SummaryRow label={t('confirmation.grade')}>
-          {t(`grades.${grade.name}`, { defaultValue: grade.name })}
+          {gradeName(grade.name)}
         </SummaryRow>
         <SummaryRow label={t('confirmation.date')}>{formatDate(date)}</SummaryRow>
       </dl>
