@@ -58,6 +58,9 @@ export default function PendingReceipt({ delivery, onRecordAnother }) {
         <Row label={t('offline.receipt.deductionPreview')}>
           {formatMoney(previewDeduction(delivery.payload.quantityKg))}
         </Row>
+        <Row label={t('confirmation.status')}>
+          {delivery.withPin ? t('confirmation.pinWaitsForSync') : t('confirmation.badge.PENDING')}
+        </Row>
       </dl>
 
       <div className="mt-5 grid grid-cols-2 gap-2 print:hidden">
