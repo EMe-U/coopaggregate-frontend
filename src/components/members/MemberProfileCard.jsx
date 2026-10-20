@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { MessageSquare, Pencil, Printer, UserCheck, UserX } from 'lucide-react'
+import { KeyRound, LockKeyhole, MessageSquare, Pencil, Printer, UserCheck, UserX } from 'lucide-react'
 import Avatar from '../Avatar'
 import StatusBadge from '../StatusBadge'
 import { formatDate, formatPhone } from '../../utils/format'
@@ -17,7 +17,7 @@ const smallButtonClass =
   'flex items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium disabled:cursor-not-allowed disabled:opacity-60'
 
 // readOnly disables the buttons that change the member, for a profile shown without internet.
-export default function MemberProfileCard({ member, onEdit, onToggleActive, changingStatus, readOnly }) {
+export default function MemberProfileCard({ member, onEdit, onToggleActive, onSetPin, changingStatus, readOnly }) {
   const { t } = useTranslation()
   const active = member.status === 'ACTIVE'
   const needsInternet = readOnly ? t('offline.needsInternet') : undefined
@@ -32,6 +32,19 @@ export default function MemberProfileCard({ member, onEdit, onToggleActive, chan
           <span className="font-mono text-xs text-muted">
             {t('members.detail.memberNumber', { code: member.memberCode })}
           </span>
+          {member.pinLocked ? (
+            <span className="flex items-center gap-1 rounded-md bg-danger/10 px-2 py-0.5 text-xs font-medium text-danger">
+              <LockKeyhole size={12} />
+              {t('pin.badge.locked')}
+            </span>
+          ) : (
+            member.hasPin && (
+              <span className="flex items-center gap-1 rounded-md bg-primary-light px-2 py-0.5 text-xs font-medium text-primary">
+                <KeyRound size={12} />
+                {t('pin.badge.set')}
+              </span>
+            )
+          )}
         </div>
 
         <div className="flex gap-1.5 print:hidden">
@@ -92,6 +105,16 @@ export default function MemberProfileCard({ member, onEdit, onToggleActive, chan
       </div>
 
       <div className="mt-5 flex flex-wrap gap-2 print:hidden">
+        <button
+          type="button"
+          onClick={onSetPin}
+          disabled={readOnly}
+          title={needsInternet}
+          className="flex min-h-11 items-center gap-2 rounded-lg bg-primary px-3 py-2 text-sm font-medium text-white hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          <KeyRound size={16} />
+          {member.hasPin ? t('pin.resetButton') : t('pin.setButton')}
+        </button>
         <button
           type="button"
           disabled

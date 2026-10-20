@@ -8,6 +8,7 @@ import OfflineDataNote from '../../components/OfflineDataNote'
 import SuccessToast from '../../components/SuccessToast'
 import MemberFormModal from '../../components/members/MemberFormModal'
 import MemberProfileCard from '../../components/members/MemberProfileCard'
+import SetPinFlow from '../../components/members/SetPinFlow'
 import PaymentFormModal from '../../components/payments/PaymentFormModal'
 import { formatDate, todayIso } from '../../utils/format'
 import { FinancialSummaryCard, StatementSections } from '../../components/members/MemberStatement'
@@ -26,6 +27,7 @@ export default function MemberDetail() {
   const [loadState, setLoadState] = useState('loading')
   const [reloadKey, setReloadKey] = useState(0)
   const [editing, setEditing] = useState(false)
+  const [settingPin, setSettingPin] = useState(false)
   const [notice, setNotice] = useState('')
   const [changingStatus, setChangingStatus] = useState(false)
   const [statusError, setStatusError] = useState('')
@@ -171,6 +173,7 @@ export default function MemberDetail() {
           <MemberProfileCard
             member={member}
             onEdit={() => setEditing(true)}
+            onSetPin={() => setSettingPin(true)}
             onToggleActive={handleToggleActive}
             changingStatus={changingStatus}
             readOnly={readOnly}
@@ -198,6 +201,18 @@ export default function MemberDetail() {
         onChanged={() => setStatementReloadKey((key) => key + 1)}
       />
 
+      {settingPin && (
+        <SetPinFlow
+          member={member}
+          onClose={() => setSettingPin(false)}
+          onSaved={() => {
+            setSettingPin(false)
+            // Setting or resetting the PIN also unlocks it.
+            setMember((current) => ({ ...current, hasPin: true, pinLocked: false }))
+            setNotice(t('pin.set.saved'))
+          }}
+        />
+      )}
       {editing && (
         <MemberFormModal member={member} onClose={() => setEditing(false)} onSaved={handleSaved} />
       )}
