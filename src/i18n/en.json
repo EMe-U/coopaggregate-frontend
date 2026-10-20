@@ -1028,7 +1028,8 @@
     "badge": {
       "PENDING": "Waiting",
       "CONFIRMED": "Confirmed",
-      "DISPUTED": "Disputed"
+      "DISPUTED": "Disputed",
+      "RECORDED_BEFORE_CONFIRMATION": "Recorded earlier"
     },
     "method": {
       "PIN": "Confirmed by member with PIN",

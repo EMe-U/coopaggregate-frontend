@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Plus, Printer, ReceiptText, User } from 'lucide-react'
 import GradeName from '../GradeName'
-import ConfirmationBadge from './ConfirmationBadge'
+import ConfirmationBadge, { confirmationMethodLabel } from './ConfirmationBadge'
 import { formatDateTime, formatKg, formatMoney } from '../../utils/format'
 
 function Row({ label, children }) {
@@ -56,6 +56,9 @@ export default function DeliveryReceipt({ delivery, onRecordAnother }) {
         <Row label={t('deliveries.receipt.deduction')}>{formatMoney(delivery.deductionRwf)}</Row>
         <Row label={t('confirmation.status')}>
           <ConfirmationBadge delivery={delivery} />
+          {delivery.confirmationStatus === 'CONFIRMED' && confirmationMethodLabel(t, delivery) && (
+            <span className="mt-1 block text-xs font-normal text-muted">{confirmationMethodLabel(t, delivery)}</span>
+          )}
           {delivery.pinMismatch && delivery.confirmationStatus === 'PENDING' && (
             <span className="mt-1 block text-xs font-normal text-danger">{t('confirmation.pinMismatch')}</span>
           )}

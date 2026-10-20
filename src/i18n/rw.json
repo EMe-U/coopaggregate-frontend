@@ -1028,7 +1028,8 @@
     "badge": {
       "PENDING": "Bitegereje",
       "CONFIRMED": "Byemejwe",
-      "DISPUTED": "Bijuririwe"
+      "DISPUTED": "Bijuririwe",
+      "RECORDED_BEFORE_CONFIRMATION": "Byanditswe mbere"
     },
     "method": {
       "PIN": "Byemejwe n'umunyamuryango akoresheje PIN",
