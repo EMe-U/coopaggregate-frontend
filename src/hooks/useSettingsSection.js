@@ -2,18 +2,8 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { saveSettings } from '../api/settings'
 
-// Every field PUT /api/settings takes. cooperativeName, cooperativePhone and an editable
-// deductionPerKg are newer than the rest; a backend without them leaves them out of its answer.
-const REQUEST_KEYS = [
-  'cooperativeName',
-  'cooperativePhone',
-  'cooperativeEmail',
-  'location',
-  'deductionPerKg',
-  'minOrderKg',
-  'smsEnabled',
-  'committeeEmails',
-]
+// Every field PUT /api/settings takes. deductionPerKg is read-only, so it is never sent.
+const REQUEST_KEYS = ['cooperativeEmail', 'location', 'minOrderKg', 'smsEnabled', 'committeeEmails']
 
 function clean(value) {
   if (typeof value !== 'string') return value
@@ -32,7 +22,8 @@ function pick(source, keys) {
 
 // One settings section: its own draft of a few fields and its own Save. The backend replaces all
 // settings at once, so saving sends the last saved values of every other section with this
-// section's draft; unsaved edits in other sections are not sent.
+// section's draft; unsaved edits in other sections are not sent. A 400 shows the backend's message
+// in this section.
 export default function useSettingsSection(settings, keys, onSaved) {
   const { t } = useTranslation()
   const [draft, setDraft] = useState(() => pick(settings, keys))
@@ -54,17 +45,9 @@ export default function useSettingsSection(settings, keys, onSaved) {
         Object.entries({ ...pick(settings, REQUEST_KEYS), ...draft }).map(([key, value]) => [key, clean(value)]),
       )
       const saved = await saveSettings(request)
-      // A field the backend does not know yet is missing from its answer, so it was not saved.
-      const ignored = keys.filter(
-        (key) => saved[key] === undefined || (key === 'deductionPerKg' && Number(saved[key]) !== Number(request[key])),
-      )
       onSaved(saved)
-      if (ignored.length > 0) {
-        setMessage({ error: t('settings.notSupported') })
-      } else {
-        setDraft(pick(saved, keys))
-        setMessage({ ok: t('settings.saved') })
-      }
+      setDraft(pick(saved, keys))
+      setMessage({ ok: t('settings.saved') })
     } catch (error) {
       setMessage({ error: error.response?.data?.message || t('settings.saveError') })
     } finally {

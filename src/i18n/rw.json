@@ -1094,33 +1094,24 @@
     "saving": "Birabikwa...",
     "saved": "Byabitswe",
     "saveError": "Ntibishobotse kubika. Ongera ugerageze.",
-    "notSupported": "Seriveri ntirabika ibi. Bisaba kuvugurura backend.",
-    "cancel": "Reka",
     "errors": {
-      "phone": "Andika nimero ya telefone yo mu Rwanda, urugero 0788123456",
       "email": "Andika email nyayo",
       "positive": "Andika umubare urenze 0 ufite ibice 2 by'inyuma y'akitso nibura",
       "wholeNumber": "Andika umubare wuzuye wa RWF, 0 cyangwa urenga"
     },
     "cooperative": {
       "title": "Koperative",
-      "subtitle": "Bigaragara ku nyemezabwishyu no ku makuru y'abanyamuryango",
-      "cooperativeName": "Izina",
-      "cooperativePhone": "Telefone",
+      "subtitle": "Aho koperative ibarizwa",
       "cooperativeEmail": "Email",
       "location": "Aho iherereye"
     },
     "deduction": {
       "title": "Ibiciro n'amafaranga akurwaho",
       "subtitle": "Amafaranga akurwaho kuri buri kilo cyagemuwe",
-      "badge": "Bikorwa byonyine",
       "label": "Amafaranga asanzwe akurwaho",
       "unit": "RWF / kg",
       "kept": "Abikwa na koperative ku mafaranga y'imikorere.",
-      "newOnly": "Bireba ibyagemuwe bishya gusa. Ibyamaze kwandikwa ntibihinduka.",
-      "confirmTitle": "Guhindura amafaranga akurwaho?",
-      "confirmMessage": "Ibyagemuwe bishya bizakurwaho RWF {{amount}} kuri buri kilo. Ibyamaze kwandikwa ntibihinduka.",
-      "confirm": "Hindura"
+      "readOnly": "Aya mafaranga ashyirwaho n'ubuyobozi bwa koperative, ntashobora guhindurirwa hano."
     },
     "grades": {
       "title": "Inzego",
@@ -1138,11 +1129,6 @@
       "description": "Ibisobanuro",
       "nameRequired": "Andika izina mu Cyongereza",
       "loadError": "Ntibishobotse kubona inzego."
-    },
-    "buyerPage": {
-      "title": "Paji y'abaguzi",
-      "subtitle": "Ibyo abaguzi babona iyo bohereje ubusabe",
-      "minOrderKg": "Ibiro bike bishoboka"
     },
     "sms": {
       "title": "Ubutumwa bwa SMS",
@@ -1202,6 +1188,11 @@
         "GRADE_UPDATED": "Urwego rwahinduwe",
         "PASSWORD_CHANGED": "Ijambo ry'ibanga ryahinduwe"
       }
+    },
+    "orders": {
+      "title": "Ibyo abaguzi basaba",
+      "subtitle": "Ibiro bike umuguzi ashobora gusaba",
+      "minOrderKg": "Ibiro bike bishoboka"
     }
   }
 }

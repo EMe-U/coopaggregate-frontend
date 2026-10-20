@@ -2,8 +2,6 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Building2, Coins, Mail, MessageSquare, ShoppingBag, X } from 'lucide-react'
 import useSettingsSection from '../../hooks/useSettingsSection'
-import { cleanPhone, RWANDAN_PHONE_PATTERN } from '../../utils/phone'
-import ConfirmDialog from '../ConfirmDialog'
 import SettingsSection, { SaveBar } from './SettingsSection'
 import Switch from './Switch'
 import { inputClass, labelClass } from './fieldClasses'
@@ -32,18 +30,12 @@ function parseAmount(text) {
 
 export function CooperativeSection({ settings, onSaved }) {
   const { t } = useTranslation()
-  const section = useSettingsSection(
-    settings,
-    ['cooperativeName', 'cooperativePhone', 'cooperativeEmail', 'location'],
-    onSaved,
-  )
+  const section = useSettingsSection(settings, ['cooperativeEmail', 'location'], onSaved)
   const [errors, setErrors] = useState({})
   const { draft } = section
 
   function handleSave() {
     const found = {}
-    const phone = draft.cooperativePhone ? cleanPhone(draft.cooperativePhone) : ''
-    if (phone && !RWANDAN_PHONE_PATTERN.test(phone)) found.cooperativePhone = t('settings.errors.phone')
     if (draft.cooperativeEmail?.trim() && !EMAIL_PATTERN.test(draft.cooperativeEmail.trim())) {
       found.cooperativeEmail = t('settings.errors.email')
     }
@@ -52,8 +44,6 @@ export function CooperativeSection({ settings, onSaved }) {
   }
 
   const fields = [
-    { key: 'cooperativeName', type: 'text' },
-    { key: 'cooperativePhone', type: 'tel' },
     { key: 'cooperativeEmail', type: 'email' },
     { key: 'location', type: 'text' },
   ]
@@ -82,77 +72,25 @@ export function CooperativeSection({ settings, onSaved }) {
   )
 }
 
-export function DeductionSection({ settings, onSaved }) {
+// The deduction is set on the backend and only shown here.
+export function DeductionSection({ settings }) {
   const { t } = useTranslation()
-  const section = useSettingsSection(settings, ['deductionPerKg'], onSaved)
-  const [error, setError] = useState('')
-  const [confirming, setConfirming] = useState(false)
-  const value = section.draft.deductionPerKg ?? ''
-
-  function handleSave() {
-    if (!/^\d+$/.test(String(value).trim())) {
-      setError(t('settings.errors.wholeNumber'))
-      return
-    }
-    setConfirming(true)
-  }
-
-  async function handleConfirm() {
-    setConfirming(false)
-    await section.save()
-  }
 
   return (
-    <SettingsSection
-      icon={Coins}
-      title={t('settings.deduction.title')}
-      subtitle={t('settings.deduction.subtitle')}
-      badge={
-        <span className="rounded-md bg-primary-light px-2 py-0.5 text-xs font-medium text-primary">
-          {t('settings.deduction.badge')}
-        </span>
-      }
-    >
-      <div className="max-w-xs rounded-lg bg-background p-4">
-        <label htmlFor="settings-deduction" className={labelClass}>
-          {t('settings.deduction.label')}
-        </label>
-        <div className="relative">
-          <input
-            id="settings-deduction"
-            type="text"
-            inputMode="numeric"
-            value={value}
-            onChange={(event) => {
-              section.setField('deductionPerKg', event.target.value)
-              setError('')
-            }}
-            className={`${inputClass} bg-surface pr-20`}
-          />
-          <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted">
-            {t('settings.deduction.unit')}
-          </span>
-        </div>
-        {error && <p className="mt-1 text-sm text-danger">{error}</p>}
-        <p className="mt-2 text-xs text-muted">{t('settings.deduction.kept')}</p>
+    <SettingsSection icon={Coins} title={t('settings.deduction.title')} subtitle={t('settings.deduction.subtitle')}>
+      <div className="rounded-lg bg-background p-4">
+        <p className={labelClass}>{t('settings.deduction.label')}</p>
+        <p className="text-2xl font-semibold text-text">
+          {settings.deductionPerKg} <span className="text-sm font-normal text-muted">{t('settings.deduction.unit')}</span>
+        </p>
+        <p className="mt-1 text-xs text-muted">{t('settings.deduction.kept')}</p>
       </div>
-      <p className="mt-3 text-sm text-amber-800">{t('settings.deduction.newOnly')}</p>
-      <SaveBar dirty={section.dirty} saving={section.saving} message={section.message} onSave={handleSave} />
-      {confirming && (
-        <ConfirmDialog
-          title={t('settings.deduction.confirmTitle')}
-          message={t('settings.deduction.confirmMessage', { amount: String(value).trim() })}
-          confirmLabel={t('settings.deduction.confirm')}
-          cancelLabel={t('settings.cancel')}
-          onConfirm={handleConfirm}
-          onCancel={() => setConfirming(false)}
-        />
-      )}
+      <p className="mt-3 text-xs text-muted">{t('settings.deduction.readOnly')}</p>
     </SettingsSection>
   )
 }
 
-export function BuyerPageSection({ settings, onSaved }) {
+export function OrdersSection({ settings, onSaved }) {
   const { t } = useTranslation()
   const section = useSettingsSection(settings, ['minOrderKg'], onSaved)
   const [error, setError] = useState('')
@@ -166,8 +104,8 @@ export function BuyerPageSection({ settings, onSaved }) {
   }
 
   return (
-    <SettingsSection icon={ShoppingBag} title={t('settings.buyerPage.title')} subtitle={t('settings.buyerPage.subtitle')}>
-      <Field id="settings-min-order" label={t('settings.buyerPage.minOrderKg')} error={error}>
+    <SettingsSection icon={ShoppingBag} title={t('settings.orders.title')} subtitle={t('settings.orders.subtitle')}>
+      <Field id="settings-min-order" label={t('settings.orders.minOrderKg')} error={error}>
         <div className="relative max-w-xs">
           <input
             id="settings-min-order"

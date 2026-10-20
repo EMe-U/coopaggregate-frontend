@@ -5,10 +5,10 @@ import { getSettings } from '../../api/settings'
 import PageTitle from '../../components/PageTitle'
 import { LedgerIntegritySection, ManagerAccountSection } from '../../components/settings/AccountSections'
 import {
-  BuyerPageSection,
   CommitteeEmailsSection,
   CooperativeSection,
   DeductionSection,
+  OrdersSection,
   SmsSection,
 } from '../../components/settings/GeneralSections'
 import GradesSection from '../../components/settings/GradesSection'
@@ -75,7 +75,7 @@ export default function Settings() {
           {settings ? (
             <>
               <CooperativeSection {...sectionProps} />
-              <DeductionSection {...sectionProps} />
+              <DeductionSection settings={settings} />
             </>
           ) : (
             !loadError && <div className="h-64 animate-pulse rounded-xl bg-surface shadow-sm" />
@@ -87,7 +87,7 @@ export default function Settings() {
           {settings && (
             <>
               <SmsSection {...sectionProps} />
-              <BuyerPageSection {...sectionProps} />
+              <OrdersSection {...sectionProps} />
             </>
           )}
           <LedgerIntegritySection />

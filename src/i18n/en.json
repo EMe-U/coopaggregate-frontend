@@ -1094,33 +1094,24 @@
     "saving": "Saving...",
     "saved": "Saved",
     "saveError": "Could not save. Please try again.",
-    "notSupported": "The server did not save this yet. It needs a backend update.",
-    "cancel": "Cancel",
     "errors": {
-      "phone": "Enter a Rwandan phone number, for example 0788123456",
       "email": "Enter a valid email address",
       "positive": "Enter a number above 0 with at most 2 decimals",
       "wholeNumber": "Enter a whole number of RWF, 0 or more"
     },
     "cooperative": {
       "title": "Cooperative",
-      "subtitle": "Shown on receipts and statements",
-      "cooperativeName": "Name",
-      "cooperativePhone": "Phone",
+      "subtitle": "Contact details of the cooperative",
       "cooperativeEmail": "Email",
       "location": "Location"
     },
     "deduction": {
       "title": "Pricing & deductions",
       "subtitle": "Deduction per kg delivered",
-      "badge": "Auto-applied",
       "label": "Standard deduction",
       "unit": "RWF / kg",
       "kept": "Kept by the cooperative for its costs.",
-      "newOnly": "Applies to new deliveries only. Deliveries already recorded keep their deduction.",
-      "confirmTitle": "Change the deduction?",
-      "confirmMessage": "New deliveries will have {{amount}} RWF per kg deducted. Deliveries already recorded do not change.",
-      "confirm": "Change deduction"
+      "readOnly": "The deduction is set by the cooperative's administrator and cannot be changed here."
     },
     "grades": {
       "title": "Grades",
@@ -1138,11 +1129,6 @@
       "description": "Description",
       "nameRequired": "Enter the English name",
       "loadError": "Could not load the grades."
-    },
-    "buyerPage": {
-      "title": "Buyer page",
-      "subtitle": "What buyers see when they send a request",
-      "minOrderKg": "Minimum order"
     },
     "sms": {
       "title": "SMS notifications",
@@ -1202,6 +1188,11 @@
         "GRADE_UPDATED": "Grade changed",
         "PASSWORD_CHANGED": "Password changed"
       }
+    },
+    "orders": {
+      "title": "Orders",
+      "subtitle": "The smallest order a buyer can request",
+      "minOrderKg": "Minimum order"
     }
   }
 }

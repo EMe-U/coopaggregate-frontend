@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CircleAlert, CircleCheck, KeyRound, ShieldCheck, UserCog } from 'lucide-react'
 import { changePassword } from '../../api/auth'
@@ -6,6 +6,7 @@ import { verifyLedger } from '../../api/ledger'
 import { useAuth } from '../../context/AuthContext'
 import useNeedsInternet from '../../hooks/useNeedsInternet'
 import { formatTime } from '../../utils/format'
+import SuccessToast from '../SuccessToast'
 import SettingsSection from './SettingsSection'
 import { inputClass, labelClass } from './fieldClasses'
 
@@ -85,12 +86,12 @@ export function ManagerAccountSection({ onChanged }) {
   const [form, setForm] = useState({ current: '', next: '', repeat: '' })
   const [error, setError] = useState('')
   const [done, setDone] = useState(false)
+  const hideToast = useCallback(() => setDone(false), [])
   const [saving, setSaving] = useState(false)
 
   function setField(field, value) {
     setForm((current) => ({ ...current, [field]: value }))
     setError('')
-    setDone(false)
   }
 
   async function handleSubmit(event) {
@@ -151,12 +152,6 @@ export function ManagerAccountSection({ onChanged }) {
             {error}
           </p>
         )}
-        {done && (
-          <p role="status" className="flex items-center gap-1.5 text-sm text-primary">
-            <CircleCheck size={16} />
-            {t('settings.account.done')}
-          </p>
-        )}
         <button
           type="submit"
           disabled={saving || needsInternet.offline}
@@ -167,6 +162,7 @@ export function ManagerAccountSection({ onChanged }) {
           {saving ? t('settings.saving') : t('settings.account.submit')}
         </button>
       </form>
+      {done && <SuccessToast message={t('settings.account.done')} onDone={hideToast} />}
     </SettingsSection>
   )
 }
