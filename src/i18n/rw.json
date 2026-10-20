@@ -1083,5 +1083,125 @@
       "status": "Kwemezwa",
       "actions": "Ibikorwa"
     }
+  },
+  "settings": {
+    "eyebrow": "Igenamiterere rya koperative",
+    "title": "Igenamiterere rya Koperative",
+    "subtitle": "Amakuru ya koperative, amafaranga akurwaho, inzego, ubutumwa n'igenzura ry'igitabo.",
+    "loadError": "Ntibishobotse kubona igenamiterere.",
+    "retry": "Ongera ugerageze",
+    "save": "Bika",
+    "saving": "Birabikwa...",
+    "saved": "Byabitswe",
+    "saveError": "Ntibishobotse kubika. Ongera ugerageze.",
+    "notSupported": "Seriveri ntirabika ibi. Bisaba kuvugurura backend.",
+    "cancel": "Reka",
+    "errors": {
+      "phone": "Andika nimero ya telefone yo mu Rwanda, urugero 0788123456",
+      "email": "Andika email nyayo",
+      "positive": "Andika umubare urenze 0 ufite ibice 2 by'inyuma y'akitso nibura",
+      "wholeNumber": "Andika umubare wuzuye wa RWF, 0 cyangwa urenga"
+    },
+    "cooperative": {
+      "title": "Koperative",
+      "subtitle": "Bigaragara ku nyemezabwishyu no ku makuru y'abanyamuryango",
+      "cooperativeName": "Izina",
+      "cooperativePhone": "Telefone",
+      "cooperativeEmail": "Email",
+      "location": "Aho iherereye"
+    },
+    "deduction": {
+      "title": "Ibiciro n'amafaranga akurwaho",
+      "subtitle": "Amafaranga akurwaho kuri buri kilo cyagemuwe",
+      "badge": "Bikorwa byonyine",
+      "label": "Amafaranga asanzwe akurwaho",
+      "unit": "RWF / kg",
+      "kept": "Abikwa na koperative ku mafaranga y'imikorere.",
+      "newOnly": "Bireba ibyagemuwe bishya gusa. Ibyamaze kwandikwa ntibihinduka.",
+      "confirmTitle": "Guhindura amafaranga akurwaho?",
+      "confirmMessage": "Ibyagemuwe bishya bizakurwaho RWF {{amount}} kuri buri kilo. Ibyamaze kwandikwa ntibihinduka.",
+      "confirm": "Hindura"
+    },
+    "grades": {
+      "title": "Inzego",
+      "subtitle": "Amazina, ibiciro fatizo n'amakuru ya buri rwego",
+      "code": "Kode {{code}} (ntihinduka)",
+      "active": "Irakora",
+      "inactive": "Ntikora",
+      "activeLabel": "Urwego {{code}} rurakora",
+      "name": "Izina mu Cyongereza",
+      "nameRw": "Izina mu Kinyarwanda",
+      "sizeInfo": "Ingano",
+      "packaging": "Ipaki",
+      "floorPrice": "Igiciro fatizo",
+      "noMinimum": "Nta giciro fatizo",
+      "description": "Ibisobanuro",
+      "nameRequired": "Andika izina mu Cyongereza",
+      "loadError": "Ntibishobotse kubona inzego."
+    },
+    "buyerPage": {
+      "title": "Paji y'abaguzi",
+      "subtitle": "Ibyo abaguzi babona iyo bohereje ubusabe",
+      "minOrderKg": "Ibiro bike bishoboka"
+    },
+    "sms": {
+      "title": "Ubutumwa bwa SMS",
+      "subtitle": "Inyemezabwishyu zoherezwa abanyamuryango",
+      "on": "Abanyamuryango babona SMS irimo ibiro, urwego na nimero y'inyemezabwishyu nyuma ya buri gagemura, kandi bashobora gusubiza bemeza cyangwa banenga.",
+      "off": "Nta SMS zoherezwa abanyamuryango."
+    },
+    "committee": {
+      "title": "Email za komite",
+      "subtitle": "Abohererezwa raporo ya buri cyumweru",
+      "empty": "Nta bantu barashyirwamo.",
+      "newEmail": "Email nshya",
+      "placeholder": "izina@example.com",
+      "add": "Ongeramo",
+      "remove": "Kuramo {{email}}",
+      "duplicate": "Iyi email isanzwe irimo",
+      "tooMany": "Ntibarenga {{count}}",
+      "note": "Izakoreshwa kuri raporo ya buri cyumweru - vuba aha."
+    },
+    "ledger": {
+      "title": "Igenzura ry'igitabo",
+      "subtitle": "Igenzura ry'urunigi rwa hash",
+      "status": "Uko igitabo kimeze",
+      "lastCheck": "Igenzura riheruka",
+      "checking": "Biragenzurwa...",
+      "verify": "Genzura igitabo",
+      "valid_one": "Icyanditswe {{count}} ni kizima",
+      "valid_other": "Ibyanditswe {{count}} byose ni bizima",
+      "broken": "Ikibazo ku cyanditswe #{{id}}",
+      "error": "Ntibishobotse kugenzura"
+    },
+    "account": {
+      "title": "Konti y'umuyobozi",
+      "subtitle": "{{name}} (Umuyobozi)",
+      "current": "Ijambo ry'ibanga risanzwe",
+      "next": "Ijambo ry'ibanga rishya",
+      "repeat": "Ongera wandike irishya",
+      "hint": "Nibura inyuguti {{count}}",
+      "submit": "Hindura ijambo ry'ibanga",
+      "allRequired": "Andika ijambo ry'ibanga risanzwe n'irishya",
+      "tooShort": "Ijambo ry'ibanga rishya rigomba kugira nibura inyuguti {{count}}",
+      "tooLong": "Ijambo ry'ibanga rishya ntirigomba kurenza inyuguti {{count}}",
+      "noMatch": "Amagambo y'ibanga mashya ntasa",
+      "same": "Ijambo ry'ibanga rishya rigomba gutandukana n'irisanzwe",
+      "done": "Ijambo ry'ibanga ryahinduwe",
+      "error": "Ntibishobotse guhindura ijambo ry'ibanga. Ongera ugerageze."
+    },
+    "history": {
+      "title": "Impinduka ziheruka",
+      "subtitle": "Uwahinduye, icyo yahinduye n'igihe. Amagambo y'ibanga na PIN ntibigaragara.",
+      "empty": "Nta mpinduka zirabaho.",
+      "error": "Ntibishobotse kubona amateka y'impinduka.",
+      "actions": {
+        "PIN_SET": "PIN y'umunyamuryango yashyizweho",
+        "PIN_RESET": "PIN y'umunyamuryango yahinduwe",
+        "SETTINGS_UPDATED": "Igenamiterere ryahinduwe",
+        "GRADE_UPDATED": "Urwego rwahinduwe",
+        "PASSWORD_CHANGED": "Ijambo ry'ibanga ryahinduwe"
+      }
+    }
   }
 }

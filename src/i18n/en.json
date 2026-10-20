@@ -1083,5 +1083,125 @@
       "status": "Confirmation",
       "actions": "Actions"
     }
+  },
+  "settings": {
+    "eyebrow": "Cooperative configuration",
+    "title": "Cooperative Settings",
+    "subtitle": "Cooperative details, deductions, grades, notifications and ledger integrity.",
+    "loadError": "Could not load the settings.",
+    "retry": "Try again",
+    "save": "Save",
+    "saving": "Saving...",
+    "saved": "Saved",
+    "saveError": "Could not save. Please try again.",
+    "notSupported": "The server did not save this yet. It needs a backend update.",
+    "cancel": "Cancel",
+    "errors": {
+      "phone": "Enter a Rwandan phone number, for example 0788123456",
+      "email": "Enter a valid email address",
+      "positive": "Enter a number above 0 with at most 2 decimals",
+      "wholeNumber": "Enter a whole number of RWF, 0 or more"
+    },
+    "cooperative": {
+      "title": "Cooperative",
+      "subtitle": "Shown on receipts and statements",
+      "cooperativeName": "Name",
+      "cooperativePhone": "Phone",
+      "cooperativeEmail": "Email",
+      "location": "Location"
+    },
+    "deduction": {
+      "title": "Pricing & deductions",
+      "subtitle": "Deduction per kg delivered",
+      "badge": "Auto-applied",
+      "label": "Standard deduction",
+      "unit": "RWF / kg",
+      "kept": "Kept by the cooperative for its costs.",
+      "newOnly": "Applies to new deliveries only. Deliveries already recorded keep their deduction.",
+      "confirmTitle": "Change the deduction?",
+      "confirmMessage": "New deliveries will have {{amount}} RWF per kg deducted. Deliveries already recorded do not change.",
+      "confirm": "Change deduction"
+    },
+    "grades": {
+      "title": "Grades",
+      "subtitle": "Names, floor prices and details of each grade",
+      "code": "Code {{code}} (fixed)",
+      "active": "Active",
+      "inactive": "Inactive",
+      "activeLabel": "Grade {{code}} active",
+      "name": "English name",
+      "nameRw": "Kinyarwanda name",
+      "sizeInfo": "Size",
+      "packaging": "Packaging",
+      "floorPrice": "Floor price",
+      "noMinimum": "No minimum",
+      "description": "Description",
+      "nameRequired": "Enter the English name",
+      "loadError": "Could not load the grades."
+    },
+    "buyerPage": {
+      "title": "Buyer page",
+      "subtitle": "What buyers see when they send a request",
+      "minOrderKg": "Minimum order"
+    },
+    "sms": {
+      "title": "SMS notifications",
+      "subtitle": "Receipts sent to members",
+      "on": "Members get an SMS with the kg, grade and receipt code after each delivery, and can reply to confirm or dispute it.",
+      "off": "No SMS are sent to members."
+    },
+    "committee": {
+      "title": "Committee email recipients",
+      "subtitle": "Weekly report recipients",
+      "empty": "No recipients yet.",
+      "newEmail": "New recipient email",
+      "placeholder": "name@example.com",
+      "add": "Add recipient",
+      "remove": "Remove {{email}}",
+      "duplicate": "This email is already in the list",
+      "tooMany": "At most {{count}} recipients",
+      "note": "Used for the weekly report - coming soon."
+    },
+    "ledger": {
+      "title": "Ledger integrity",
+      "subtitle": "Hash chain check",
+      "status": "Ledger status",
+      "lastCheck": "Last check",
+      "checking": "Checking...",
+      "verify": "Verify ledger",
+      "valid_one": "{{count}} entry matches",
+      "valid_other": "All {{count}} entries match",
+      "broken": "Problem at entry #{{id}}",
+      "error": "Could not check"
+    },
+    "account": {
+      "title": "Manager account",
+      "subtitle": "{{name}} (Manager)",
+      "current": "Current password",
+      "next": "New password",
+      "repeat": "Confirm new password",
+      "hint": "At least {{count}} characters",
+      "submit": "Change password",
+      "allRequired": "Enter the current and the new password",
+      "tooShort": "The new password must have at least {{count}} characters",
+      "tooLong": "The new password must have at most {{count}} characters",
+      "noMatch": "The two new passwords are not the same",
+      "same": "The new password must be different from the current one",
+      "done": "Password changed",
+      "error": "Could not change the password. Please try again."
+    },
+    "history": {
+      "title": "Recent changes",
+      "subtitle": "Who changed what and when. Passwords and PINs are never shown.",
+      "empty": "No changes yet.",
+      "error": "Could not load the change history.",
+      "actions": {
+        "PIN_SET": "Member PIN set",
+        "PIN_RESET": "Member PIN reset",
+        "SETTINGS_UPDATED": "Settings changed",
+        "GRADE_UPDATED": "Grade changed",
+        "PASSWORD_CHANGED": "Password changed"
+      }
+    }
   }
 }
