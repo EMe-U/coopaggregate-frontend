@@ -5,6 +5,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import RequiresInternet from './components/RequiresInternet'
 import Login from './pages/Login'
 import Dashboard from './pages/manager/Dashboard'
+import Deliveries from './pages/manager/Deliveries'
 import RecordDelivery from './pages/manager/RecordDelivery'
 import Members from './pages/manager/Members'
 import MemberDetail from './pages/manager/MemberDetail'
@@ -32,6 +33,7 @@ export default function App() {
           <Route path="/members/:id" element={<MemberDetail />} />
           <Route element={<RequiresInternet />}>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/deliveries" element={<Deliveries />} />
             <Route path="/lots" element={<Lots />} />
             <Route path="/lots/:id" element={<LotDetail />} />
             <Route path="/sales" element={<Sales />} />

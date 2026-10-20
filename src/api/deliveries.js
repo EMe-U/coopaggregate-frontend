@@ -9,10 +9,23 @@ export async function recordDelivery(delivery, config) {
 
 // from and to are whole days (YYYY-MM-DD, Kigali time), both inclusive. Newest first.
 // Reversed deliveries are left out unless includeReversed is true; lists that show the history
-// ask for them, while totals and checks never count them.
-export async function listDeliveries({ page = 0, size = 20, memberId, lotId, from, to, includeReversed } = {}) {
+// ask for them, while totals and checks never count them. confirmationStatus (PENDING, CONFIRMED,
+// DISPUTED) and deliveredBefore (a timestamp) narrow the list for the dashboard's follow-ups.
+export async function listDeliveries({
+  page = 0,
+  size = 20,
+  memberId,
+  lotId,
+  from,
+  to,
+  includeReversed,
+  confirmationStatus,
+  deliveredBefore,
+} = {}) {
   const params = { page, size }
   if (includeReversed) params.includeReversed = true
+  if (confirmationStatus) params.confirmationStatus = confirmationStatus
+  if (deliveredBefore) params.deliveredBefore = deliveredBefore
   if (memberId) params.memberId = memberId
   if (lotId) params.lotId = lotId
   if (from) params.from = from
