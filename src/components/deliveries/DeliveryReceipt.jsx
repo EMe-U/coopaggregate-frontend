@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Plus, Printer, ReceiptText, User } from 'lucide-react'
 import GradeName from '../GradeName'
+import ConfirmationBadge from './ConfirmationBadge'
 import { formatDateTime, formatKg, formatMoney } from '../../utils/format'
 
 function Row({ label, children }) {
@@ -53,6 +54,12 @@ export default function DeliveryReceipt({ delivery, onRecordAnother }) {
         </Row>
         <Row label={t('deliveries.receipt.quantity')}>{formatKg(delivery.quantityKg)}</Row>
         <Row label={t('deliveries.receipt.deduction')}>{formatMoney(delivery.deductionRwf)}</Row>
+        <Row label={t('confirmation.status')}>
+          <ConfirmationBadge delivery={delivery} />
+          {delivery.pinMismatch && delivery.confirmationStatus === 'PENDING' && (
+            <span className="mt-1 block text-xs font-normal text-danger">{t('confirmation.pinMismatch')}</span>
+          )}
+        </Row>
       </dl>
 
       <div className="mt-5 grid gap-2 print:hidden">
