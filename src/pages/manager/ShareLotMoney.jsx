@@ -7,6 +7,7 @@ import { listSales } from '../../api/sales'
 import { getSharePreview, shareLot } from '../../api/shares'
 import EmptyState from '../../components/EmptyState'
 import PageTitle from '../../components/PageTitle'
+import DisputedDeliveries from '../../components/share/DisputedDeliveries'
 import SharePreviewTable from '../../components/share/SharePreviewTable'
 import { formatNumber } from '../../utils/format'
 import useNeedsInternet from '../../hooks/useNeedsInternet'
@@ -47,6 +48,8 @@ export default function ShareLotMoney() {
 
   const [sharing, setSharing] = useState(false)
   const [shareError, setShareError] = useState('')
+  // Set when sharing was refused with a 409, which is how the server reports open disputes.
+  const [shareConflict, setShareConflict] = useState(false)
   // The lot as it was when it was shared; it is no longer in the list of sold lots.
   const [sharedLot, setSharedLot] = useState(null)
 
@@ -69,6 +72,7 @@ export default function ShareLotMoney() {
     setPreview(null)
     setSaleCount(null)
     setShareError('')
+    setShareConflict(false)
     setSharedLot(null)
     if (!lotId) {
       setPreviewState('idle')
@@ -108,6 +112,7 @@ export default function ShareLotMoney() {
 
     setSharing(true)
     setShareError('')
+    setShareConflict(false)
     try {
       // The answer holds the saved shares, which replace the preview.
       const saved = await shareLot(lotId)
@@ -116,6 +121,7 @@ export default function ShareLotMoney() {
       setLotsReloadKey((key) => key + 1)
     } catch (error) {
       setShareError(error.response?.data?.message || t('share.error'))
+      setShareConflict(error.response?.status === 409)
     } finally {
       setSharing(false)
     }
@@ -240,6 +246,7 @@ export default function ShareLotMoney() {
                       {shareError}
                     </p>
                   )}
+                  {shareConflict && <DisputedDeliveries lotId={lotId} />}
                   <div className="mt-4 grid gap-2">
                     <button
                       type="button"
