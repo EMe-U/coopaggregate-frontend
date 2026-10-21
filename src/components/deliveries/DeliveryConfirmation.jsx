@@ -11,6 +11,9 @@ import CorrectDeliveryModal from './CorrectDeliveryModal'
 import DisputeDialog from './DisputeDialog'
 
 const CODE_LENGTH = 6
+// The backend lets the manager check a delivery once it has waited this long since it reached
+// the server (syncedAt).
+const REVIEW_AFTER_MS = 48 * 60 * 60 * 1000
 
 // Confirms a PENDING delivery: the member received a code by SMS and gives it to the manager when
 // the details are right. Used right after saving a delivery and on the delivery page.
@@ -43,7 +46,8 @@ export default function DeliveryConfirmation({ delivery, onChanged, onClose, sho
   }, [])
 
   const codeCanArrive = smsEnabled !== false
-  const canReview = smsEnabled === false || delivery.codeResendsLeft === 0
+  const overdue = Boolean(delivery.syncedAt) && Date.now() - new Date(delivery.syncedAt).getTime() > REVIEW_AFTER_MS
+  const canReview = smsEnabled === false || delivery.codeResendsLeft === 0 || overdue
 
   async function run(request) {
     setBusy(true)
