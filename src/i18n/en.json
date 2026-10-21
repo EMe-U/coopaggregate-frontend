@@ -893,7 +893,8 @@
       "explanation": "Saved on this device. The receipt code, lot and deduction are given when it syncs.",
       "grade": "Grade",
       "lotLater": "Lot assigned when it syncs",
-      "deductionPreview": "Deduction (preview)"
+      "deductionPreview": "Deduction (preview)",
+      "smsAfterSync": "After it syncs, the member gets an SMS and replies to confirm it."
     },
     "status": {
       "WAITING": "Waiting",

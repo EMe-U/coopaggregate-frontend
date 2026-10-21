@@ -893,7 +893,8 @@
       "explanation": "Byabitswe kuri iki gikoresho. Nimero y'inyemezabwishyu, ikirundo n'amafaranga akurwaho bitangwa byoherejwe.",
       "grade": "Urwego",
       "lotLater": "Ikirundo kigenwa byoherejwe",
-      "deductionPreview": "Amafaranga akurwaho (agereranyo)"
+      "deductionPreview": "Amafaranga akurwaho (agereranyo)",
+      "smsAfterSync": "Nibimara koherezwa, umunyamuryango azabona SMS asubize abyemeza."
     },
     "status": {
       "WAITING": "Bitegereje",

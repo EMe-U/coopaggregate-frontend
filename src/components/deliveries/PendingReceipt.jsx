@@ -61,7 +61,8 @@ export default function PendingReceipt({ delivery, onRecordAnother }) {
           {formatMoney(previewDeduction(delivery.payload.quantityKg))}
         </Row>
         <Row label={t('confirmation.status')}>
-          {t('confirmation.badge.PENDING')}
+          {t('codeConfirmation.waitingForMember')}
+          <span className="block text-xs font-normal text-muted">{t('offline.receipt.smsAfterSync')}</span>
         </Row>
       </dl>
 
