@@ -1001,7 +1001,8 @@
     },
     "menu": {
       "dispute": "Andika ikibazo",
-      "resolve": "Byari ukuri"
+      "resolve": "Byari ukuri",
+      "confirm": "Emeza na kode"
     },
     "dispute": {
       "title": "Ikibazo ku byagemuwe {{code}}",
@@ -1177,5 +1178,19 @@
       "grade": "Urwego",
       "date": "Itariki"
     }
+  },
+  "deliveryDetail": {
+    "back": "Subira ku byagemuwe",
+    "notFound": "Ibi byagemuwe ntibibaho.",
+    "error": "Ntibishobotse kubona ibyagemuwe.",
+    "member": "Umunyamuryango",
+    "grade": "Urwego",
+    "lot": "Ikirundo",
+    "quantity": "Ibiro",
+    "deduction": "Ibikurwaho",
+    "deliveredAt": "Byagemuwe",
+    "dispute": "Ikibazo",
+    "resolution": "Icyo umuyobozi yanditse",
+    "confirmTitle": "Emeza hamwe n'umunyamuryango"
   }
 }

@@ -104,7 +104,9 @@ export default function Deliveries() {
                 <tbody className="divide-y divide-text/5">
                   {deliveries.map((delivery) => (
                     <tr key={delivery.id}>
-                      <td className={`${cell} font-mono text-primary`}>{delivery.receiptCode}</td>
+                      <td className={`${cell} font-mono text-primary`}>
+                        <Link to={`/deliveries/${delivery.id}`} className="hover:underline">{delivery.receiptCode}</Link>
+                      </td>
                       <td className={cell}>
                         <Link to={`/members/${delivery.memberId}`} className="text-primary hover:underline">
                           {delivery.memberName}

@@ -190,7 +190,9 @@ export default function TodayDeliveries({ reloadKey }) {
                   className={`target:bg-warning/20 ${delivery.reversed ? 'opacity-60' : ''}`}
                 >
                   <td className={`${cell} font-mono text-primary`}>
-                    <span className={delivery.reversed ? 'line-through' : undefined}>{delivery.receiptCode}</span>
+                    <Link to={`/deliveries/${delivery.id}`} className={`hover:underline ${delivery.reversed ? 'line-through' : ''}`}>
+                      {delivery.receiptCode}
+                    </Link>
                     <DeliveryHistoryNote delivery={delivery} linked={linked} />
                   </td>
                   <td className={cell}>{delivery.memberName}</td>

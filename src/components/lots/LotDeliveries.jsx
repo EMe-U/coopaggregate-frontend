@@ -63,7 +63,12 @@ export default function LotDeliveries({ lot, reloadKey, onChanged }) {
                 className={`target:bg-warning/20 ${delivery.reversed ? 'opacity-60' : ''}`}
               >
                 <td className={`${cell} font-mono text-xs`}>
-                  <span className={delivery.reversed ? 'line-through' : undefined}>{delivery.receiptCode}</span>
+                  <Link
+                    to={`/deliveries/${delivery.id}`}
+                    className={`text-primary hover:underline ${delivery.reversed ? 'line-through' : ''}`}
+                  >
+                    {delivery.receiptCode}
+                  </Link>
                   <DeliveryHistoryNote delivery={delivery} linked={linked} />
                 </td>
                 <td className={cell}>

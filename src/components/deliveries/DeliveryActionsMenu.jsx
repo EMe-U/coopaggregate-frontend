@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { CircleCheck, MessageSquareWarning, PencilLine, Undo2 } from 'lucide-react'
+import { CircleCheck, MessageSquareWarning, PencilLine, Smartphone, Undo2 } from 'lucide-react'
 import { resolveDispute, reverseDelivery } from '../../api/deliveries'
 import useNeedsInternet from '../../hooks/useNeedsInternet'
 import { formatKg } from '../../utils/format'
@@ -10,11 +10,13 @@ import CorrectDeliveryModal from './CorrectDeliveryModal'
 import DisputeDialog from './DisputeDialog'
 import useGradeName from '../../hooks/useGradeName'
 
-// ⋮ menu for a saved delivery: record or settle a dispute,
+// ⋮ menu for a saved delivery: confirm it with the member's SMS code (on the delivery page), record
+// or settle a dispute,
 // correct or reverse it. Once its lot has sales the delivery can no longer be corrected or
 // reversed, so those actions stay visible but disabled with the reason. onChanged runs after any
 // change so the page can reload its lists and totals.
-export default function DeliveryActionsMenu({ delivery, lotHasSales, onChanged }) {
+// onDetailPage leaves out "Confirm with code", which that page already shows.
+export default function DeliveryActionsMenu({ delivery, lotHasSales, onChanged, onDetailPage }) {
   const { t } = useTranslation()
   const gradeName = useGradeName()
   const needsInternet = useNeedsInternet()
@@ -31,6 +33,15 @@ export default function DeliveryActionsMenu({ delivery, lotHasSales, onChanged }
 
   const status = delivery.confirmationStatus
   const actions = []
+  if (status === 'PENDING' && !onDetailPage) {
+    actions.push({
+      key: 'confirm',
+      icon: Smartphone,
+      label: t('confirmation.menu.confirm'),
+      path: `/deliveries/${delivery.id}`,
+      ...offline,
+    })
+  }
   if (status === 'DISPUTED') {
     actions.push({ key: 'resolve', icon: CircleCheck, label: t('confirmation.menu.resolve'), run: () => setOpen('resolve'), ...offline })
   } else {

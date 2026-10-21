@@ -7,7 +7,7 @@ export function deliveryRowId(id) {
   return `delivery-${id}`
 }
 
-// Jumps to the delivery when it is on this page, otherwise opens its member's profile.
+// Jumps to the delivery when it is on this page, otherwise opens its delivery page.
 function DeliveryLink({ target }) {
   if (!target) return <span className="text-muted">…</span>
   const className = 'font-mono text-primary hover:underline'
@@ -16,7 +16,7 @@ function DeliveryLink({ target }) {
       {target.receiptCode}
     </a>
   ) : (
-    <Link to={`/members/${target.memberId}`} className={className}>
+    <Link to={`/deliveries/${target.id}`} className={className}>
       {target.receiptCode}
     </Link>
   )

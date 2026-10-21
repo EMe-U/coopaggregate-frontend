@@ -1001,7 +1001,8 @@
     },
     "menu": {
       "dispute": "Record dispute",
-      "resolve": "Record was correct"
+      "resolve": "Record was correct",
+      "confirm": "Confirm with code"
     },
     "dispute": {
       "title": "Dispute delivery {{code}}",
@@ -1177,5 +1178,19 @@
       "grade": "Grade",
       "date": "Date"
     }
+  },
+  "deliveryDetail": {
+    "back": "Back to deliveries",
+    "notFound": "This delivery does not exist.",
+    "error": "Could not load the delivery.",
+    "member": "Member",
+    "grade": "Grade",
+    "lot": "Lot",
+    "quantity": "Weight",
+    "deduction": "Deduction",
+    "deliveredAt": "Delivered",
+    "dispute": "Dispute",
+    "resolution": "Manager's note",
+    "confirmTitle": "Confirm with the member"
   }
 }

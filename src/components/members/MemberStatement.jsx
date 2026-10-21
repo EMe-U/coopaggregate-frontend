@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Banknote, ReceiptText, Truck } from 'lucide-react'
 import { listDeliveries } from '../../api/deliveries'
@@ -192,7 +193,12 @@ function DeliveriesSection({ memberId, totals, onChanged }) {
         >
           <td className={cell}>{formatDate(kigaliIsoDate(new Date(delivery.deliveredAt)))}</td>
           <td className={`${cell} font-mono text-xs`}>
-            <span className={delivery.reversed ? 'line-through' : undefined}>{delivery.receiptCode}</span>
+            <Link
+              to={`/deliveries/${delivery.id}`}
+              className={`text-primary hover:underline ${delivery.reversed ? 'line-through' : ''}`}
+            >
+              {delivery.receiptCode}
+            </Link>
             <DeliveryHistoryNote delivery={delivery} linked={linked} />
           </td>
           <td className={cell}>
