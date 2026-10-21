@@ -988,9 +988,10 @@
       "RECORDED_BEFORE_CONFIRMATION": "Recorded earlier"
     },
     "method": {
-      "PIN": "Confirmed by member with PIN",
+      "OTP": "Confirmed by member with SMS code",
       "SMS": "Confirmed by member by SMS",
-      "MANAGER_REVIEW": "Checked by the manager after a dispute",
+      "MANAGER_REVIEW": "Checked by the manager",
+      "PIN": "Confirmed by member with PIN",
       "RECORDED_BEFORE_CONFIRMATION": "Recorded before confirmation existed"
     },
     "disputeReason": {
@@ -1143,7 +1144,9 @@
         "PIN_RESET": "Member PIN reset",
         "SETTINGS_UPDATED": "Settings changed",
         "GRADE_UPDATED": "Grade changed",
-        "PASSWORD_CHANGED": "Password changed"
+        "PASSWORD_CHANGED": "Password changed",
+        "CONFIRMATION_CODE_RESENT": "New confirmation code sent",
+        "DELIVERY_REVIEWED": "Delivery checked by the manager"
       }
     },
     "orders": {

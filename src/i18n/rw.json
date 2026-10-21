@@ -988,9 +988,10 @@
       "RECORDED_BEFORE_CONFIRMATION": "Byanditswe mbere"
     },
     "method": {
-      "PIN": "Byemejwe n'umunyamuryango akoresheje PIN",
+      "OTP": "Byemejwe n'umunyamuryango akoresheje kode ya SMS",
       "SMS": "Byemejwe n'umunyamuryango kuri SMS",
-      "MANAGER_REVIEW": "Byagenzuwe n'umuyobozi nyuma y'ikibazo",
+      "MANAGER_REVIEW": "Byagenzuwe n'umuyobozi",
+      "PIN": "Byemejwe n'umunyamuryango akoresheje PIN",
       "RECORDED_BEFORE_CONFIRMATION": "Byanditswe mbere y'uko kwemeza bibaho"
     },
     "disputeReason": {
@@ -1143,7 +1144,9 @@
         "PIN_RESET": "PIN y'umunyamuryango yahinduwe",
         "SETTINGS_UPDATED": "Igenamiterere ryahinduwe",
         "GRADE_UPDATED": "Urwego rwahinduwe",
-        "PASSWORD_CHANGED": "Ijambo ry'ibanga ryahinduwe"
+        "PASSWORD_CHANGED": "Ijambo ry'ibanga ryahinduwe",
+        "CONFIRMATION_CODE_RESENT": "Kode nshya yo kwemeza yoherejwe",
+        "DELIVERY_REVIEWED": "Ibyagemuwe byagenzuwe n'umuyobozi"
       }
     },
     "orders": {
@@ -1192,5 +1195,18 @@
     "dispute": "Ikibazo",
     "resolution": "Icyo umuyobozi yanditse",
     "confirmTitle": "Emeza hamwe n'umunyamuryango"
+  },
+  "_nativeSpeakerReview": {
+    "note": "Written without a native speaker. Please check these texts, then remove this block.",
+    "keys": [
+      "confirmation.method.OTP",
+      "confirmation.method.MANAGER_REVIEW",
+      "confirmation.menu.confirm",
+      "codeConfirmation",
+      "deliveryDetail",
+      "offline.receipt.smsAfterSync",
+      "settings.history.actions.CONFIRMATION_CODE_RESENT",
+      "settings.history.actions.DELIVERY_REVIEWED"
+    ]
   }
 }

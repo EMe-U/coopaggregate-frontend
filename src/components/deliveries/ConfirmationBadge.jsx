@@ -20,17 +20,18 @@ function isRecordedBefore(delivery) {
   return delivery.confirmationStatus === 'CONFIRMED' && delivery.confirmationMethod === 'RECORDED_BEFORE_CONFIRMATION'
 }
 
-// Waiting, Confirmed, Recorded earlier or Disputed. Hovering shows how it was confirmed, or why it is
-// disputed.
+// Waiting, Confirmed, Recorded earlier or "Disputed: <reason>". Hovering shows how it was confirmed,
+// or the dispute's note.
 export default function ConfirmationBadge({ delivery }) {
   const { t } = useTranslation()
   const status = delivery.confirmationStatus
   if (!status) return null
 
   let title
+  let reason
   if (status === 'CONFIRMED') title = confirmationMethodLabel(t, delivery)
-  if (status === 'DISPUTED') {
-    const reason = t(`confirmation.disputeReason.${delivery.disputeReason}`, { defaultValue: delivery.disputeReason })
+  if (status === 'DISPUTED' && delivery.disputeReason) {
+    reason = t(`confirmation.disputeReason.${delivery.disputeReason}`, { defaultValue: delivery.disputeReason })
     title = delivery.disputeNote ? `${reason}: ${delivery.disputeNote}` : reason
   }
   const recordedBefore = isRecordedBefore(delivery)
@@ -44,6 +45,7 @@ export default function ConfirmationBadge({ delivery }) {
     >
       {status === 'CONFIRMED' && !recordedBefore && <CircleCheck size={12} />}
       {recordedBefore ? t('confirmation.badge.RECORDED_BEFORE_CONFIRMATION') : t(`confirmation.badge.${status}`)}
+      {reason && `: ${reason}`}
     </span>
   )
 }
