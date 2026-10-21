@@ -453,7 +453,8 @@
       "CLOSED": "Gifunze: nta bindi bigemurwa; cyiteguye kugurishwa.",
       "SOLD": "Cyagurishijwe: cyagurishijwe cyose; amafaranga ategereje kugabanywa.",
       "SHARED": "Cyagabanyijwe: amafaranga yagabanyijwe abanyamuryango."
-    }
+    },
+    "pendingConfirmation": "muri byo {{kg}} bitegereje kwemezwa"
   },
   "sales": {
     "title": "Igurisha n'Abaguzi",
@@ -1207,7 +1208,8 @@
       "offline.receipt.smsAfterSync",
       "settings.history.actions.CONFIRMATION_CODE_RESENT",
       "settings.history.actions.DELIVERY_REVIEWED",
-      "share.unconfirmed"
+      "share.unconfirmed",
+      "lots.pendingConfirmation"
     ]
   }
 }

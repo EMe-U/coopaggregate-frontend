@@ -12,11 +12,12 @@ import LotStatusBadge from '../../components/lots/LotStatusBadge'
 import { formatDate, formatKg, formatMoney } from '../../utils/format'
 import useNeedsInternet from '../../hooks/useNeedsInternet'
 
-function Stat({ label, value, highlight }) {
+function Stat({ label, value, highlight, note }) {
   return (
     <div className="min-w-0 rounded-xl bg-surface p-4 shadow-sm">
       <p className="text-xs font-medium uppercase tracking-wide text-muted">{label}</p>
       <p className={`mt-1 text-xl font-semibold ${highlight ?? 'text-text'}`}>{value}</p>
+      {note && <p className="mt-1 text-xs text-amber-800">{note}</p>}
     </div>
   )
 }
@@ -257,7 +258,15 @@ export default function LotDetail() {
       )}
 
       <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-6">
-        <Stat label={t('lots.detail.delivered')} value={formatKg(lot.deliveredKg)} />
+        <Stat
+          label={t('lots.detail.delivered')}
+          value={formatKg(lot.deliveredKg)}
+          note={
+            Number(lot.pendingConfirmationKg) > 0
+              ? t('lots.pendingConfirmation', { kg: formatKg(lot.pendingConfirmationKg) })
+              : null
+          }
+        />
         <Stat label={t('lots.detail.sold')} value={formatKg(lot.soldKg)} />
         <Stat
           label={t('lots.detail.lost')}

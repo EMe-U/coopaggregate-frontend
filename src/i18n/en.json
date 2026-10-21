@@ -453,7 +453,8 @@
       "CLOSED": "Closed: no more deliveries; ready to be sold.",
       "SOLD": "Sold: fully sold; the money is waiting to be shared.",
       "SHARED": "Shared: the money has been shared with the members."
-    }
+    },
+    "pendingConfirmation": "of which {{kg}} waiting for confirmation"
   },
   "sales": {
     "title": "Sales & Buyer Transactions",
