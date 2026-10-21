@@ -58,6 +58,9 @@ export default function DeliveryReceipt({ delivery, onRecordAnother }) {
         <Row label={t('deliveries.receipt.deduction')}>{formatMoney(delivery.deductionRwf)}</Row>
         <Row label={t('confirmation.status')}>
           <ConfirmationBadge delivery={delivery} />
+          {delivery.confirmationStatus === 'PENDING' && (
+            <span className="mt-1 block text-xs font-normal text-muted">{t('codeConfirmation.waitingForMember')}</span>
+          )}
           {delivery.confirmationStatus === 'CONFIRMED' && confirmationMethodLabel(t, delivery) && (
             <span className="mt-1 block text-xs font-normal text-muted">{confirmationMethodLabel(t, delivery)}</span>
           )}

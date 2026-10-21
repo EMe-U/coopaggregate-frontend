@@ -6,8 +6,8 @@ import { formatKg } from '../../utils/format'
 
 const REASONS = ['WRONG_KG', 'WRONG_GRADE', 'NOT_MY_DELIVERY', 'OTHER']
 
-// Records that the member says the delivery is wrong. The manager then corrects or reverses it, or
-// marks it as checked when the record was right.
+// Records that the member says the delivery is wrong; onDisputed receives the updated delivery.
+// The manager then corrects or reverses it, or marks it as checked when the record was right.
 export default function DisputeDialog({ delivery, onClose, onDisputed }) {
   const { t } = useTranslation()
   const needsInternet = useNeedsInternet()
@@ -34,8 +34,7 @@ export default function DisputeDialog({ delivery, onClose, onDisputed }) {
     setSaving(true)
     setError('')
     try {
-      await disputeDelivery(delivery.id, { reason, note: note.trim() || null })
-      onDisputed()
+      onDisputed(await disputeDelivery(delivery.id, { reason, note: note.trim() || null }))
     } catch (requestError) {
       setError(requestError.response?.data?.message || t('confirmation.dispute.error'))
       setSaving(false)

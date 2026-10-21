@@ -1149,5 +1149,32 @@
       "subtitle": "Ibiro bike umuguzi ashobora gusaba",
       "minOrderKg": "Ibiro bike bishoboka"
     }
+  },
+  "codeConfirmation": {
+    "title": "Emeza ibyagemuwe {{code}} hamwe n'umunyamuryango",
+    "hint": "Umunyamuryango yabonye kode kuri SMS. Niba ibyanditswe ari ukuri, akubwira iyo kode.",
+    "confirm": "Emeza",
+    "codeLength": "Kode igira imibare {{count}}",
+    "error": "Ntibishobotse kubika. Ongera ugerageze.",
+    "resend": "Ohereza indi kode",
+    "resent": "Kode nshya yoherejwe. Iya mbere ntigikora.",
+    "resendsLeft_one": "Hasigaye kohereza {{count}}",
+    "resendsLeft_other": "Hasigaye kohereza {{count}}",
+    "smsOff": "SMS zarahagaritswe, nta kode yoherejwe. Genzura ibyagemuwe uri kumwe n'umunyamuryango, hanyuma ubyandike nk'ibyagenzuwe.",
+    "notCorrect": "Si byo",
+    "notCorrectHint": "Banza ukosore ibiro cyangwa urwego. Niba umunyamuryango akomeje kutemera, andika ikibazo.",
+    "fixDelivery": "Kosora ibiro cyangwa urwego",
+    "stillDisagrees": "Umunyamuryango akomeje kutemera",
+    "memberNotHere": "Umunyamuryango ntahari",
+    "review": "Byagenzuwe n'umuyobozi",
+    "reviewTitle": "Kwandika {{code}} nk'ibyagenzuwe n'umuyobozi?",
+    "reviewExplanation": "Koresha ibi gusa iyo umunyamuryango adashobora kubona kode. Vuga uko wagenzuye ibyagemuwe.",
+    "waitingForMember": "Bitegereje kwemezwa n'umunyamuryango",
+    "details": {
+      "member": "Umunyamuryango",
+      "quantity": "Ibiro",
+      "grade": "Urwego",
+      "date": "Itariki"
+    }
   }
 }

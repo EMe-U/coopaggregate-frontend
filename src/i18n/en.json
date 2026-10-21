@@ -1149,5 +1149,32 @@
       "subtitle": "The smallest order a buyer can request",
       "minOrderKg": "Minimum order"
     }
+  },
+  "codeConfirmation": {
+    "title": "Confirm delivery {{code}} with the member",
+    "hint": "The member received a code by SMS. If the details are correct, they tell you the code.",
+    "confirm": "Confirm",
+    "codeLength": "The code has {{count}} digits",
+    "error": "Could not save. Please try again.",
+    "resend": "Resend code",
+    "resent": "A new code was sent. The old one no longer works.",
+    "resendsLeft_one": "{{count}} resend left",
+    "resendsLeft_other": "{{count}} resends left",
+    "smsOff": "SMS are turned off, so no code was sent. Check the delivery with the member, then record it as checked.",
+    "notCorrect": "Not correct",
+    "notCorrectHint": "First fix the weight or grade. If the member still disagrees, record a dispute.",
+    "fixDelivery": "Fix weight or grade",
+    "stillDisagrees": "The member still disagrees",
+    "memberNotHere": "Member not here",
+    "review": "Checked by the manager",
+    "reviewTitle": "Record {{code}} as checked by the manager?",
+    "reviewExplanation": "Use this only when the member cannot get a code. Say how you checked the delivery.",
+    "waitingForMember": "Waiting for the member's confirmation",
+    "details": {
+      "member": "Member",
+      "quantity": "Weight",
+      "grade": "Grade",
+      "date": "Date"
+    }
   }
 }

@@ -66,3 +66,23 @@ export async function resolveDispute(id, note) {
   const response = await client.post(`/api/deliveries/${id}/resolve-dispute`, { note })
   return response.data
 }
+
+// Confirms a waiting delivery with the 6-digit code the member received by SMS. A wrong code
+// answers 400 with the tries left; an expired or used-up code answers 409.
+export async function confirmDelivery(id, code) {
+  const response = await client.post(`/api/deliveries/${id}/confirm`, { code })
+  return response.data
+}
+
+// Sends the member a new code; the old one stops working. The answer has codeResendsLeft.
+export async function resendConfirmationCode(id) {
+  const response = await client.post(`/api/deliveries/${id}/resend-code`)
+  return response.data
+}
+
+// Confirms a waiting delivery after the manager checked it. Only allowed while SMS are off or
+// once no new code can be sent (409 otherwise).
+export async function reviewDelivery(id, note) {
+  const response = await client.post(`/api/deliveries/${id}/review`, { note })
+  return response.data
+}

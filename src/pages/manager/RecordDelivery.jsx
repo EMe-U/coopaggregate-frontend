@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Lightbulb, Save, WifiOff } from 'lucide-react'
 import { recordDelivery } from '../../api/deliveries'
+import DeliveryConfirmation from '../../components/deliveries/DeliveryConfirmation'
 import DeliveryReceipt from '../../components/deliveries/DeliveryReceipt'
 import DuplicateWarning from '../../components/deliveries/DuplicateWarning'
 import GradeSelector from '../../components/deliveries/GradeSelector'
@@ -72,6 +73,11 @@ export default function RecordDelivery() {
   // form is locked until "Record another".
   const [receipt, setReceipt] = useState(null)
   const [pendingReceipt, setPendingReceipt] = useState(null)
+  // After an online save the member confirms with the code they received by SMS. Offline
+  // deliveries skip this step: once synced, the member replies to the SMS instead.
+  const [askingCode, setAskingCode] = useState(false)
+  // Bumped when the saved delivery changes, so today's list shows its new status.
+  const [listKey, setListKey] = useState(0)
   const locked = saving || receipt !== null || pendingReceipt !== null
 
   // Follow the waiting delivery in the queue: show a failure, or the real receipt once it syncs.
@@ -114,7 +120,9 @@ export default function RecordDelivery() {
         return
       }
       try {
-        setReceipt(await recordDelivery({ clientUuid, ...delivery, deliveredAt: deliveredAtFor(form.date, today) }))
+        const saved = await recordDelivery({ clientUuid, ...delivery, deliveredAt: deliveredAtFor(form.date, today) })
+        setReceipt(saved)
+        setAskingCode(saved.confirmationStatus === 'PENDING')
       } catch (error) {
         if (error.response) {
           setFormError(error.response.data?.message || t('deliveries.errors.generic'))
@@ -130,12 +138,20 @@ export default function RecordDelivery() {
     }
   }
 
+  // Confirmed, disputed or reviewed ends the step; a correction keeps it open for the new delivery.
+  function handleConfirmationChanged(updated) {
+    setReceipt(updated)
+    setListKey((key) => key + 1)
+    if (updated.confirmationStatus !== 'PENDING') setAskingCode(false)
+  }
+
   function handleRecordAnother() {
     setForm(emptyForm())
     setErrors({})
     setFormError('')
     setReceipt(null)
     setPendingReceipt(null)
+    setAskingCode(false)
     setClientUuid(crypto.randomUUID())
   }
 
@@ -255,7 +271,28 @@ export default function RecordDelivery() {
         </div>
       </div>
 
-      <TodayDeliveries reloadKey={shownReceipt?.id} />
+      <TodayDeliveries reloadKey={`${shownReceipt?.id}-${listKey}`} />
+
+      {askingCode && receipt && (
+        <div className="fixed inset-0 z-40 flex items-center justify-center overflow-y-auto bg-black/40 p-4 print:hidden">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="code-step-title"
+            className="my-auto w-full max-w-lg rounded-xl bg-surface p-5 shadow-lg"
+          >
+            <h2 id="code-step-title" className="mb-4 text-lg font-semibold text-text">
+              {t('codeConfirmation.title', { code: receipt.receiptCode })}
+            </h2>
+            <DeliveryConfirmation
+              delivery={receipt}
+              showDetails
+              onChanged={handleConfirmationChanged}
+              onClose={() => setAskingCode(false)}
+            />
+          </div>
+        </div>
+      )}
 
     </div>
   )
