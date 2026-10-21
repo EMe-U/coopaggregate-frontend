@@ -7,7 +7,7 @@ import { listSales } from '../../api/sales'
 import { getSharePreview, shareLot } from '../../api/shares'
 import EmptyState from '../../components/EmptyState'
 import PageTitle from '../../components/PageTitle'
-import DisputedDeliveries from '../../components/share/DisputedDeliveries'
+import UnconfirmedDeliveries from '../../components/share/UnconfirmedDeliveries'
 import SharePreviewTable from '../../components/share/SharePreviewTable'
 import { formatNumber } from '../../utils/format'
 import useNeedsInternet from '../../hooks/useNeedsInternet'
@@ -50,8 +50,8 @@ export default function ShareLotMoney() {
 
   const [sharing, setSharing] = useState(false)
   const [shareError, setShareError] = useState('')
-  // Set when sharing was refused with a 409, which is how the server reports open disputes.
-  const [shareConflict, setShareConflict] = useState(false)
+  // The deliveries that kept the lot from being shared: pending or disputed, from the 409 answer.
+  const [unconfirmed, setUnconfirmed] = useState(null)
   // The lot as it was when it was shared; it is no longer in the list of sold lots.
   const [sharedLot, setSharedLot] = useState(null)
 
@@ -74,7 +74,7 @@ export default function ShareLotMoney() {
     setPreview(null)
     setSaleCount(null)
     setShareError('')
-    setShareConflict(false)
+    setUnconfirmed(null)
     setSharedLot(null)
     if (!lotId) {
       setPreviewState('idle')
@@ -114,7 +114,7 @@ export default function ShareLotMoney() {
 
     setSharing(true)
     setShareError('')
-    setShareConflict(false)
+    setUnconfirmed(null)
     try {
       // The answer holds the saved shares, which replace the preview.
       const saved = await shareLot(lotId)
@@ -123,7 +123,7 @@ export default function ShareLotMoney() {
       setLotsReloadKey((key) => key + 1)
     } catch (error) {
       setShareError(error.response?.data?.message || t('share.error'))
-      setShareConflict(error.response?.status === 409)
+      if (error.response?.status === 409) setUnconfirmed(error.response.data?.deliveries ?? null)
     } finally {
       setSharing(false)
     }
@@ -248,7 +248,7 @@ export default function ShareLotMoney() {
                       {shareError}
                     </p>
                   )}
-                  {shareConflict && <DisputedDeliveries lotId={lotId} />}
+                  <UnconfirmedDeliveries deliveries={unconfirmed} />
                   <div className="mt-4 grid gap-2">
                     <button
                       type="button"

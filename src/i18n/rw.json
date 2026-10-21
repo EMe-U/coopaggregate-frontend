@@ -616,9 +616,9 @@
     "goToPayments": "Jya ku kwishyura",
     "error": "Ntibishobotse kugabanya ikirundo. Ongera ugerageze.",
     "shareMoney": "Gabanya amafaranga",
-    "disputes": {
-      "title": "Ibyagemuwe bijuririwe muri iki kirundo",
-      "hint": "Fungura buri kimwe ukemure, ukosore cyangwa uhagarike, hanyuma wongere ugabanye."
+    "unconfirmed": {
+      "title": "Ibyagemuwe bitaremezwa",
+      "hint": "Ikirundo kizagabanywa buri kimwe muri ibi nikimara kwemezwa n'umunyamuryango cyangwa kugenzurwa n'umuyobozi. Fungura kimwe ucyemeze, ucyigenzure cyangwa ukemure ikibazo."
     }
   },
   "payments": {
@@ -1206,7 +1206,8 @@
       "deliveryDetail",
       "offline.receipt.smsAfterSync",
       "settings.history.actions.CONFIRMATION_CODE_RESENT",
-      "settings.history.actions.DELIVERY_REVIEWED"
+      "settings.history.actions.DELIVERY_REVIEWED",
+      "share.unconfirmed"
     ]
   }
 }

@@ -616,9 +616,9 @@
     "goToPayments": "Go to payments",
     "error": "Could not share the lot. Please try again.",
     "shareMoney": "Share money",
-    "disputes": {
-      "title": "Disputed deliveries in this lot",
-      "hint": "Open each one to settle, correct or reverse it, then share again."
+    "unconfirmed": {
+      "title": "Deliveries not confirmed yet",
+      "hint": "The lot can be shared once each of these is confirmed by the member or checked by the manager. Open one to confirm, check or settle it."
     }
   },
   "payments": {
