@@ -45,8 +45,3 @@ export async function activateMember(id) {
   const response = await client.patch(`/api/members/${id}/activate`)
   return response.data
 }
-
-// Sets or resets the member's 4-digit PIN; a reset also unlocks it. The PIN is never returned.
-export async function setMemberPin(id, pin) {
-  await client.post(`/api/members/${id}/pin`, { pin })
-}

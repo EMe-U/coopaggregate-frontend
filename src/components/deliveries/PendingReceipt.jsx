@@ -61,7 +61,7 @@ export default function PendingReceipt({ delivery, onRecordAnother }) {
           {formatMoney(previewDeduction(delivery.payload.quantityKg))}
         </Row>
         <Row label={t('confirmation.status')}>
-          {delivery.withPin ? t('confirmation.pinWaitsForSync') : t('confirmation.badge.PENDING')}
+          {t('confirmation.badge.PENDING')}
         </Row>
       </dl>
 

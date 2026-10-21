@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
 import { listPending, onPendingChange } from '../offline/db'
-import { withoutPin } from '../offline/pending'
 
-// Deliveries saved on this device and not yet confirmed by the server, oldest first, without
-// the member's PIN (only the sync engine reads that). null until IndexedDB has been read.
+// Deliveries saved on this device and not yet confirmed by the server, oldest first.
+// null until IndexedDB has been read.
 export default function usePendingDeliveries() {
   const [deliveries, setDeliveries] = useState(null)
 
@@ -12,7 +11,7 @@ export default function usePendingDeliveries() {
     function load() {
       listPending()
         .then((list) => {
-          if (!ignore) setDeliveries(list.map(withoutPin))
+          if (!ignore) setDeliveries(list)
         })
         .catch(() => {
           if (!ignore) setDeliveries([])

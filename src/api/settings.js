@@ -11,7 +11,8 @@ export async function saveSettings(settings) {
   return response.data
 }
 
-// Changes to the settings, grades, the password and member PINs, newest first.
+// Changes to the settings, grades and the password, new confirmation codes and manager reviews,
+// newest first.
 export async function listSettingsHistory({ page = 0, size = 20 } = {}) {
   const response = await client.get('/api/settings/history', { params: { page, size } })
   return response.data

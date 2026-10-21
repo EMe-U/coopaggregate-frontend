@@ -298,7 +298,9 @@
     "memberSection": {
       "loading": "Loading deliveries...",
       "error": "Could not load deliveries."
-    }
+    },
+    "save": "Save delivery",
+    "saving": "Saving..."
   },
   "grades": {
     "Big": "Big",
@@ -976,55 +978,8 @@
       "done": "Payment {{code}} reversed"
     }
   },
-  "pin": {
-    "handTo": "Hand the phone to {{name}}",
-    "coverHint": "Cover the screen with your hand while you type.",
-    "entered_one": "{{count}} digit entered",
-    "entered_other": "{{count}} digits entered",
-    "clear": "Clear",
-    "backspace": "Delete last digit",
-    "close": "Close",
-    "setButton": "Set PIN",
-    "resetButton": "Reset PIN",
-    "badge": {
-      "set": "PIN set",
-      "locked": "PIN locked"
-    },
-    "set": {
-      "title": "PIN for {{name}}",
-      "handoverHint": "The member chooses a 4-digit PIN to confirm their deliveries. Do not look at the screen.",
-      "start": "Start",
-      "chooseTitle": "Choose your 4-digit PIN",
-      "repeatTitle": "Type your PIN again",
-      "tooEasy": "This PIN is too easy. Do not use 4 equal digits or 1234.",
-      "noMatch": "The two PINs are not the same. Start again.",
-      "error": "Could not save the PIN. Try again.",
-      "saving": "Saving...",
-      "done": "Your PIN is saved",
-      "handBack": "Give the phone back to the manager.",
-      "finish": "Done",
-      "saved": "PIN saved"
-    }
-  },
   "confirmation": {
-    "continue": "Continue",
-    "checkHint": "Check that this is right.",
-    "member": "Member",
-    "quantity": "Weight",
-    "grade": "Grade",
-    "date": "Date",
-    "correct": "Correct - enter my PIN",
-    "notCorrect": "Not correct",
-    "saveWithout": "Save without confirmation",
-    "noPin": "This member has no PIN yet, so the delivery will wait for confirmation.",
-    "pinLocked": "This member's PIN is locked. The manager must reset it on the member's profile.",
-    "pinTitle": "Type your PIN",
-    "saving": "Saving...",
     "status": "Confirmation",
-    "pinMismatch": "PIN did not match - waiting for confirmation",
-    "pinWaitsForSync": "PIN entered - confirmed when it syncs",
-    "confirmed": "Delivery confirmed",
-    "confirmError": "Could not confirm the delivery. Try again.",
     "badge": {
       "PENDING": "Waiting",
       "CONFIRMED": "Confirmed",
@@ -1044,7 +999,6 @@
       "OTHER": "Other"
     },
     "menu": {
-      "confirm": "Confirm with PIN",
       "dispute": "Record dispute",
       "resolve": "Record was correct"
     },

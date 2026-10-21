@@ -1,7 +1,6 @@
 import { recordDelivery } from '../api/deliveries'
 import { getToken } from '../utils/auth'
 import { listPending, removePending, updatePending } from './db'
-import { withoutPin } from './pending'
 
 const SYNC_INTERVAL_MS = 30 * 1000
 const FIRST_RETRY_MS = 5 * 1000
@@ -79,11 +78,8 @@ async function send(delivery) {
       return false
     }
     // The server rejected the data (400, 404, 409). Sending it again would fail the same way,
-    // so it waits for the manager to retry or discard it. The PIN is not kept on the device for
-    // that: a retry saves the delivery as waiting for confirmation.
+    // so it waits for the manager to retry or discard it.
     await updatePending(clientUuid, {
-      payload: withoutPin(delivery).payload,
-      withPin: false,
       status: 'FAILED',
       attempts,
       lastError: error.response.data?.message || `HTTP ${status}`,

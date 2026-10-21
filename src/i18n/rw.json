@@ -298,7 +298,9 @@
     "memberSection": {
       "loading": "Ibyagemuwe biraza...",
       "error": "Ntibishobotse kubona ibyagemuwe."
-    }
+    },
+    "save": "Bika ibyagemuwe",
+    "saving": "Birabikwa..."
   },
   "grades": {
     "Big": "Binini",
@@ -976,55 +978,8 @@
       "done": "Ubwishyu {{code}} bwahagaritswe"
     }
   },
-  "pin": {
-    "handTo": "Ha {{name}} telefone",
-    "coverHint": "Pfuka ecran n'ikiganza mu gihe wandika.",
-    "entered_one": "Wanditse umubare {{count}}",
-    "entered_other": "Wanditse imibare {{count}}",
-    "clear": "Siba byose",
-    "backspace": "Siba umubare wa nyuma",
-    "close": "Funga",
-    "setButton": "Shyiraho PIN",
-    "resetButton": "Hindura PIN",
-    "badge": {
-      "set": "Afite PIN",
-      "locked": "PIN yafunzwe"
-    },
-    "set": {
-      "title": "PIN ya {{name}}",
-      "handoverHint": "Umunyamuryango ahitamo PIN y'imibare 4 yo kwemeza ibyo yagemuye. Ntureba kuri ecran.",
-      "start": "Tangira",
-      "chooseTitle": "Hitamo PIN yawe y'imibare 4",
-      "repeatTitle": "Ongera wandike PIN yawe",
-      "tooEasy": "Iyi PIN yoroshye cyane. Ntukoreshe imibare 4 isa cyangwa 1234.",
-      "noMatch": "PIN zombi ntizisa. Ongera utangire.",
-      "error": "Ntibishobotse kubika PIN. Ongera ugerageze.",
-      "saving": "Birabikwa...",
-      "done": "PIN yawe yabitswe",
-      "handBack": "Subiza umuyobozi telefone.",
-      "finish": "Byarangiye",
-      "saved": "PIN yabitswe"
-    }
-  },
   "confirmation": {
-    "continue": "Komeza",
-    "checkHint": "Reba niba ari byo.",
-    "member": "Umunyamuryango",
-    "quantity": "Ibiro",
-    "grade": "Urwego",
-    "date": "Itariki",
-    "correct": "Ni byo - shyiramo PIN yanjye",
-    "notCorrect": "Si byo",
-    "saveWithout": "Bika utemeje",
-    "noPin": "Uyu munyamuryango nta PIN afite, ibyagemuwe bizategereza kwemezwa.",
-    "pinLocked": "PIN y'uyu munyamuryango yafunzwe. Umuyobozi agomba kuyihindura ku makuru y'umunyamuryango.",
-    "pinTitle": "Andika PIN yawe",
-    "saving": "Birabikwa...",
     "status": "Kwemezwa",
-    "pinMismatch": "PIN ntiyahuye - bitegereje kwemezwa",
-    "pinWaitsForSync": "PIN yanditswe - bizemezwa byoherejwe",
-    "confirmed": "Ibyagemuwe byemejwe",
-    "confirmError": "Ntibishobotse kwemeza. Ongera ugerageze.",
     "badge": {
       "PENDING": "Bitegereje",
       "CONFIRMED": "Byemejwe",
@@ -1044,7 +999,6 @@
       "OTHER": "Ibindi"
     },
     "menu": {
-      "confirm": "Emeza na PIN",
       "dispute": "Andika ikibazo",
       "resolve": "Byari ukuri"
     },

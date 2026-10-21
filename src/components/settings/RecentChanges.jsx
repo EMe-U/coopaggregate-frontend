@@ -8,7 +8,8 @@ import { formatDateTime } from '../../utils/format'
 import Pagination from '../Pagination'
 import SettingsSection from './SettingsSection'
 
-// Changes to settings, grades, the password and member PINs. Passwords and PINs are never in it.
+// Changes to settings, grades and the password, new confirmation codes and manager reviews.
+// Passwords and codes are never in it.
 export default function RecentChanges({ reloadKey }) {
   const { t } = useTranslation()
   const pageSize = usePageSize()

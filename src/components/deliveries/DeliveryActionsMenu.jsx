@@ -1,17 +1,16 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { CircleCheck, KeyRound, MessageSquareWarning, PencilLine, Undo2 } from 'lucide-react'
+import { CircleCheck, MessageSquareWarning, PencilLine, Undo2 } from 'lucide-react'
 import { resolveDispute, reverseDelivery } from '../../api/deliveries'
 import useNeedsInternet from '../../hooks/useNeedsInternet'
 import { formatKg } from '../../utils/format'
 import ActionsMenu from '../ActionsMenu'
 import ReasonDialog from '../ReasonDialog'
-import ConfirmWithPinScreen from './ConfirmWithPinScreen'
 import CorrectDeliveryModal from './CorrectDeliveryModal'
 import DisputeDialog from './DisputeDialog'
 import useGradeName from '../../hooks/useGradeName'
 
-// ⋮ menu for a saved delivery: confirm it with the member's PIN, record or settle a dispute,
+// ⋮ menu for a saved delivery: record or settle a dispute,
 // correct or reverse it. Once its lot has sales the delivery can no longer be corrected or
 // reversed, so those actions stay visible but disabled with the reason. onChanged runs after any
 // change so the page can reload its lists and totals.
@@ -19,7 +18,7 @@ export default function DeliveryActionsMenu({ delivery, lotHasSales, onChanged }
   const { t } = useTranslation()
   const gradeName = useGradeName()
   const needsInternet = useNeedsInternet()
-  // Which dialog is open: confirm, dispute, resolve, correct or reverse.
+  // Which dialog is open: dispute, resolve, correct or reverse.
   const [open, setOpen] = useState(null)
 
   if (delivery.reversed) return null
@@ -32,9 +31,6 @@ export default function DeliveryActionsMenu({ delivery, lotHasSales, onChanged }
 
   const status = delivery.confirmationStatus
   const actions = []
-  if (status === 'PENDING') {
-    actions.push({ key: 'confirm', icon: KeyRound, label: t('confirmation.menu.confirm'), run: () => setOpen('confirm'), ...offline })
-  }
   if (status === 'DISPUTED') {
     actions.push({ key: 'resolve', icon: CircleCheck, label: t('confirmation.menu.resolve'), run: () => setOpen('resolve'), ...offline })
   } else {
@@ -69,7 +65,6 @@ export default function DeliveryActionsMenu({ delivery, lotHasSales, onChanged }
   return (
     <>
       <ActionsMenu label={t('reversal.delivery.menu', { code: delivery.receiptCode })} actions={actions} />
-      {open === 'confirm' && <ConfirmWithPinScreen delivery={delivery} onClose={close} onConfirmed={done} />}
       {open === 'dispute' && <DisputeDialog delivery={delivery} onClose={close} onDisputed={done} />}
       {open === 'resolve' && (
         <ReasonDialog

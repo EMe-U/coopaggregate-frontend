@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ArrowRight, Lightbulb, WifiOff } from 'lucide-react'
+import { Lightbulb, Save, WifiOff } from 'lucide-react'
 import { recordDelivery } from '../../api/deliveries'
-import ConfirmDeliveryScreen from '../../components/deliveries/ConfirmDeliveryScreen'
 import DeliveryReceipt from '../../components/deliveries/DeliveryReceipt'
 import DuplicateWarning from '../../components/deliveries/DuplicateWarning'
 import GradeSelector from '../../components/deliveries/GradeSelector'
@@ -69,8 +68,6 @@ export default function RecordDelivery() {
   const [errors, setErrors] = useState({})
   const [formError, setFormError] = useState('')
   const [saving, setSaving] = useState(false)
-  // The member checks the delivery on a full screen before it is saved.
-  const [confirming, setConfirming] = useState(false)
   // The saved delivery, or the one kept on this device to sync later. While either is shown the
   // form is locked until "Record another".
   const [receipt, setReceipt] = useState(null)
@@ -88,7 +85,7 @@ export default function RecordDelivery() {
     setErrors((current) => ({ ...current, [name]: undefined }))
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault()
     if (locked) return
     setFormError('')
@@ -96,14 +93,8 @@ export default function RecordDelivery() {
     const fieldErrors = validate(form, today)
     setErrors(fieldErrors)
     if (Object.keys(fieldErrors).length > 0) return
-    setConfirming(true)
-  }
 
-  // confirmationPin is the PIN the member typed, or null to save the delivery as waiting for
-  // confirmation. A wrong PIN still saves the delivery; the server marks it pinMismatch.
-  async function save(confirmationPin) {
     const delivery = { memberId: form.member.id, gradeId: form.grade.id, quantityKg: parseKg(form.quantityText) }
-    if (confirmationPin) delivery.confirmationPin = confirmationPin
 
     async function saveForLater() {
       const entry = await queueDelivery({
@@ -136,7 +127,6 @@ export default function RecordDelivery() {
       setFormError(t('offline.saveFailed'))
     } finally {
       setSaving(false)
-      setConfirming(false)
     }
   }
 
@@ -244,8 +234,8 @@ export default function RecordDelivery() {
             disabled={locked}
             className="flex min-h-14 w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 text-base font-semibold text-white shadow-sm hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {t('confirmation.continue')}
-            <ArrowRight size={18} />
+            <Save size={18} />
+            {saving ? t('deliveries.saving') : t('deliveries.save')}
           </button>
         </form>
 
@@ -267,17 +257,6 @@ export default function RecordDelivery() {
 
       <TodayDeliveries reloadKey={shownReceipt?.id} />
 
-      {confirming && (
-        <ConfirmDeliveryScreen
-          member={form.member}
-          grade={form.grade}
-          quantityKg={parseKg(form.quantityText)}
-          date={form.date}
-          saving={saving}
-          onSave={save}
-          onBack={() => setConfirming(false)}
-        />
-      )}
     </div>
   )
 }

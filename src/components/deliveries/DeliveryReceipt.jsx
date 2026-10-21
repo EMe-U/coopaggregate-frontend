@@ -61,9 +61,6 @@ export default function DeliveryReceipt({ delivery, onRecordAnother }) {
           {delivery.confirmationStatus === 'CONFIRMED' && confirmationMethodLabel(t, delivery) && (
             <span className="mt-1 block text-xs font-normal text-muted">{confirmationMethodLabel(t, delivery)}</span>
           )}
-          {delivery.pinMismatch && delivery.confirmationStatus === 'PENDING' && (
-            <span className="mt-1 block text-xs font-normal text-danger">{t('confirmation.pinMismatch')}</span>
-          )}
         </Row>
       </dl>
 
