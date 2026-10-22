@@ -1279,11 +1279,10 @@
     "contact": {
       "title": "Contact {{name}}"
     },
-    "gallery": {
-      "title": "Photos",
-      "workers": "Two farmers working in a potato field",
-      "bucket": "A bucket of small potatoes, held by two women",
-      "sack": "Red-skinned potatoes in a sack"
+    "photos": {
+      "A": "Large potatoes in a field",
+      "B": "Red-skinned potatoes in a sack",
+      "C": "A bucket of small potatoes, held by two women"
     }
   },
   "publicRequest": {

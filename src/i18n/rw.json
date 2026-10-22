@@ -1310,11 +1310,10 @@
     "contact": {
       "title": "Vugana na {{name}}"
     },
-    "gallery": {
-      "title": "Amafoto",
-      "workers": "Abahinzi babiri bakorera mu murima w'ibirayi",
-      "bucket": "Indobo irimo ibirayi bito, ifashwe n'abagore babiri",
-      "sack": "Ibirayi bifite igishishwa gitukura mu gafuka"
+    "photos": {
+      "A": "Ibirayi binini mu murima",
+      "B": "Ibirayi bifite igishishwa gitukura mu gafuka",
+      "C": "Indobo irimo ibirayi bito, ifashwe n'abagore babiri"
     }
   },
   "publicRequest": {

@@ -7,12 +7,13 @@ import { publicGradeName } from './publicGrade'
 
 const sectionClass = 'mx-auto max-w-6xl px-4'
 
-// The cooperative's own photos, in public/images. alt texts are under publicHome.gallery.
-const PHOTOS = [
-  { key: 'workers', src: '/images/field-workers.jpg', width: 847, height: 491 },
-  { key: 'bucket', src: '/images/potatoes-bucket.jpg', width: 638, height: 480 },
-  { key: 'sack', src: '/images/potatoes-sack.jpg', width: 597, height: 335 },
-]
+// The cooperative's own photos, in public/images. Grade photos are matched by grade code (A, B, C
+// are the fixed grades); a grade without a photo shows no picture. alt texts: publicHome.photos.
+const GRADE_PHOTOS = {
+  A: { src: '/images/big-potatoes.jpg', width: 1200, height: 743 },
+  B: { src: '/images/potatoes-sack.jpg', width: 597, height: 335 },
+  C: { src: '/images/potatoes-bucket.jpg', width: 638, height: 480 },
+}
 
 function InfoCard({ icon: Icon, label, children }) {
   return (
@@ -30,38 +31,51 @@ function InfoCard({ icon: Icon, label, children }) {
 
 function GradeCard({ grade }) {
   const { t, i18n } = useTranslation()
+  const photo = GRADE_PHOTOS[grade.code]
   const details = [
     { key: 'sizeInfo', value: grade.sizeInfo },
     { key: 'packaging', value: grade.packaging },
   ].filter((detail) => detail.value)
 
   return (
-    <article className="flex min-w-0 flex-col rounded-xl bg-surface p-5 shadow-sm">
-      <div className="flex items-start gap-3">
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary text-sm font-bold text-white">
-          {grade.code}
-        </span>
-        <h3 className="min-w-0 wrap-break-word text-lg font-semibold text-text">{publicGradeName(grade, i18n.language)}</h3>
-      </div>
-      {grade.description && <p className="mt-3 text-sm text-muted">{grade.description}</p>}
-      {details.length > 0 && (
-        <dl className="mt-4 grid grid-cols-2 gap-3 rounded-lg bg-background p-3 text-sm">
-          {details.map(({ key, value }) => (
-            <div key={key} className="min-w-0">
-              <dt className="text-xs text-muted">{t(`publicHome.grades.${key}`)}</dt>
-              <dd className="wrap-break-word font-medium text-text">{value}</dd>
-            </div>
-          ))}
-        </dl>
+    <article className="flex min-w-0 flex-col overflow-hidden rounded-xl bg-surface shadow-sm">
+      {photo && (
+        <img
+          src={photo.src}
+          alt={t(`publicHome.photos.${grade.code}`)}
+          width={photo.width}
+          height={photo.height}
+          loading="lazy"
+          className="aspect-video w-full object-cover"
+        />
       )}
-      <div className="mt-auto pt-5">
-        <Link
-          to={`/request?grade=${encodeURIComponent(grade.code)}`}
-          className="flex min-h-12 items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-semibold text-white hover:bg-primary/90"
-        >
-          <ShoppingCart size={16} />
-          {t('publicHome.sendRequest')}
-        </Link>
+      <div className="flex min-w-0 flex-1 flex-col p-5">
+        <div className="flex items-start gap-3">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary text-sm font-bold text-white">
+            {grade.code}
+          </span>
+          <h3 className="min-w-0 wrap-break-word text-lg font-semibold text-text">{publicGradeName(grade, i18n.language)}</h3>
+        </div>
+        {grade.description && <p className="mt-3 text-sm text-muted">{grade.description}</p>}
+        {details.length > 0 && (
+          <dl className="mt-4 grid grid-cols-2 gap-3 rounded-lg bg-background p-3 text-sm">
+            {details.map(({ key, value }) => (
+              <div key={key} className="min-w-0">
+                <dt className="text-xs text-muted">{t(`publicHome.grades.${key}`)}</dt>
+                <dd className="wrap-break-word font-medium text-text">{value}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+        <div className="mt-auto pt-5">
+          <Link
+            to={`/request?grade=${encodeURIComponent(grade.code)}`}
+            className="flex min-h-12 items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-semibold text-white hover:bg-primary/90"
+          >
+            <ShoppingCart size={16} />
+            {t('publicHome.sendRequest')}
+          </Link>
+        </div>
       </div>
     </article>
   )
@@ -79,7 +93,7 @@ export default function Home() {
     <>
       <section className="relative overflow-hidden bg-primary py-14 text-white sm:py-20">
         {/* Decorative: the text next to it says everything, so it has an empty alt. */}
-        <img src="/images/big-potatoes.jpg" alt="" width="1200" height="743" className="absolute inset-0 h-full w-full object-cover" />
+        <img src="/images/field-workers.jpg" alt="" width="847" height="491" className="absolute inset-0 h-full w-full object-cover object-[50%_28%]" />
         <div className="absolute inset-0 bg-linear-to-r from-primary/95 via-primary/80 to-primary/50" />
         <div className={`${sectionClass} relative`}>
           <h1 className="max-w-3xl text-3xl font-bold leading-tight sm:text-4xl">
@@ -166,24 +180,7 @@ export default function Home() {
         </section>
       )}
 
-      <section className={`${sectionClass} py-4`}>
-        <h2 className="text-xl font-semibold text-text">{t('publicHome.gallery.title')}</h2>
-        <div className="mt-5 grid gap-4 sm:grid-cols-3">
-          {PHOTOS.map(({ key, src, width, height }) => (
-            <img
-              key={key}
-              src={src}
-              alt={t(`publicHome.gallery.${key}`)}
-              width={width}
-              height={height}
-              loading="lazy"
-              className="aspect-4/3 w-full rounded-xl object-cover shadow-sm"
-            />
-          ))}
-        </div>
-      </section>
-
-      <section className="mt-6 bg-surface py-10">
+      <section className="bg-surface py-10">
         <div className={sectionClass}>
           <h2 className="text-xl font-semibold text-text">{t('publicHome.steps.title')}</h2>
           <ol className="mt-5 grid gap-4 md:grid-cols-3">
