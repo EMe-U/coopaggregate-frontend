@@ -1150,13 +1150,22 @@
         "GRADE_UPDATED": "Urwego rwahinduwe",
         "PASSWORD_CHANGED": "Ijambo ry'ibanga ryahinduwe",
         "CONFIRMATION_CODE_RESENT": "Kode nshya yo kwemeza yoherejwe",
-        "DELIVERY_REVIEWED": "Ibyagemuwe byagenzuwe n'umuyobozi"
+        "DELIVERY_REVIEWED": "Ibyagemuwe byagenzuwe n'umuyobozi",
+        "IDENTITY_VERIFIED": "Umwirondoro wagenzuwe",
+        "IDENTITY_DUPLICATE": "Igenzura: asanzwe ari umunyamuryango",
+        "IDENTITY_VERIFICATION_FAILED": "Igenzura ry'umwirondoro ryanze"
       }
     },
     "orders": {
       "title": "Ibyo abaguzi basaba",
       "subtitle": "Ibiro bike umuguzi ashobora gusaba",
       "minOrderKg": "Ibiro bike bishoboka"
+    },
+    "identity": {
+      "title": "Igenzura ry'umwirondoro",
+      "subtitle": "Iyo handikwa umunyamuryango mushya",
+      "on": "Umunyamuryango mushya abikwa gusa umwirondoro we umaze kugenzurwa.",
+      "off": "Kugenzura umwirondoro w'umunyamuryango mushya ntibiri ngombwa."
     }
   },
   "codeConfirmation": {
@@ -1214,7 +1223,11 @@
       "share.unconfirmed",
       "lots.pendingConfirmation",
       "memberVerification",
-      "members.verified.badge"
+      "members.verified.badge",
+      "settings.identity",
+      "settings.history.actions.IDENTITY_VERIFIED",
+      "settings.history.actions.IDENTITY_DUPLICATE",
+      "settings.history.actions.IDENTITY_VERIFICATION_FAILED"
     ]
   },
   "memberVerification": {

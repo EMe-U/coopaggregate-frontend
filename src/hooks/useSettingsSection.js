@@ -3,7 +3,14 @@ import { useTranslation } from 'react-i18next'
 import { saveSettings } from '../api/settings'
 
 // Every field PUT /api/settings takes. deductionPerKg is read-only, so it is never sent.
-const REQUEST_KEYS = ['cooperativeEmail', 'location', 'minOrderKg', 'smsEnabled', 'committeeEmails']
+const REQUEST_KEYS = [
+  'cooperativeEmail',
+  'location',
+  'minOrderKg',
+  'smsEnabled',
+  'committeeEmails',
+  'requireIdentityVerification',
+]
 
 function clean(value) {
   if (typeof value !== 'string') return value

@@ -1150,13 +1150,22 @@
         "GRADE_UPDATED": "Grade changed",
         "PASSWORD_CHANGED": "Password changed",
         "CONFIRMATION_CODE_RESENT": "New confirmation code sent",
-        "DELIVERY_REVIEWED": "Delivery checked by the manager"
+        "DELIVERY_REVIEWED": "Delivery checked by the manager",
+        "IDENTITY_VERIFIED": "Identity verified",
+        "IDENTITY_DUPLICATE": "Identity check: already a member",
+        "IDENTITY_VERIFICATION_FAILED": "Identity check failed"
       }
     },
     "orders": {
       "title": "Orders",
       "subtitle": "The smallest order a buyer can request",
       "minOrderKg": "Minimum order"
+    },
+    "identity": {
+      "title": "Identity verification",
+      "subtitle": "When registering a new member",
+      "on": "A new member can only be saved after their identity is verified.",
+      "off": "Verifying a new member's identity is optional."
     }
   },
   "codeConfirmation": {
