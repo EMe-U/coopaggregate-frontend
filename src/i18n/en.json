@@ -1321,5 +1321,29 @@
       "checkStatus": "Check request status",
       "another": "Send another request"
     }
+  },
+  "requestStatus": {
+    "eyebrow": "Buyer portal",
+    "title": "Check request status",
+    "subtitle": "Enter the code you received when you sent your request, and the phone number you used.",
+    "code": "Request code",
+    "phone": "Phone number",
+    "phoneHint": "The phone number you gave in your request",
+    "check": "Check status",
+    "checking": "Checking...",
+    "reference": "Request code",
+    "notice": "Message from the cooperative",
+    "status": {
+      "PENDING": "Waiting for review",
+      "ACCEPTED": "Accepted",
+      "REJECTED": "Rejected"
+    },
+    "errors": {
+      "code": "Enter the request code",
+      "phone": "Enter a Rwandan mobile number, for example 0788123456",
+      "notFound": "Request not found. Check the code and the phone number.",
+      "generic": "Could not check the request. Please try again.",
+      "network": "Cannot reach the server. Check your connection and try again."
+    }
   }
 }

@@ -15,7 +15,7 @@ function InfoCard({ icon: Icon, label, children }) {
       </div>
       <div className="min-w-0">
         <p className="text-[11px] font-medium uppercase tracking-wide text-muted">{label}</p>
-        <p className="break-words text-sm font-semibold text-text">{children}</p>
+        <p className="wrap-break-word text-sm font-semibold text-text">{children}</p>
       </div>
     </div>
   )
@@ -34,7 +34,7 @@ function GradeCard({ grade }) {
         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary text-sm font-bold text-white">
           {grade.code}
         </span>
-        <h3 className="min-w-0 break-words text-lg font-semibold text-text">{publicGradeName(grade, i18n.language)}</h3>
+        <h3 className="min-w-0 wrap-break-word text-lg font-semibold text-text">{publicGradeName(grade, i18n.language)}</h3>
       </div>
       {grade.description && <p className="mt-3 text-sm text-muted">{grade.description}</p>}
       {details.length > 0 && (
@@ -42,7 +42,7 @@ function GradeCard({ grade }) {
           {details.map(({ key, value }) => (
             <div key={key} className="min-w-0">
               <dt className="text-xs text-muted">{t(`publicHome.grades.${key}`)}</dt>
-              <dd className="break-words font-medium text-text">{value}</dd>
+              <dd className="wrap-break-word font-medium text-text">{value}</dd>
             </div>
           ))}
         </dl>
@@ -70,7 +70,7 @@ export default function Home() {
 
   return (
     <>
-      <section className="bg-gradient-to-br from-primary to-[#0b3a1f] py-14 text-white sm:py-20">
+      <section className="bg-linear-to-br from-primary to-[#0b3a1f] py-14 text-white sm:py-20">
         <div className={sectionClass}>
           <h1 className="max-w-3xl text-3xl font-bold leading-tight sm:text-4xl">
             {cooperative?.cooperativeName ?? t('app.cooperative')}

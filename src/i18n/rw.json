@@ -1239,7 +1239,8 @@
       "publicHome",
       "publicNav.grades",
       "publicNav.contact",
-      "publicRequest"
+      "publicRequest",
+      "requestStatus"
     ]
   },
   "memberVerification": {
@@ -1349,6 +1350,30 @@
       "howToCheck": "Kureba igisubizo, fungura \"Reba Uko Icyifuzo Gihagaze\" wandike iyi kode na nimero ya telefone wakoresheje.",
       "checkStatus": "Reba uko icyifuzo gihagaze",
       "another": "Ohereza ikindi cyifuzo"
+    }
+  },
+  "requestStatus": {
+    "eyebrow": "Ahagenewe abaguzi",
+    "title": "Reba uko icyifuzo gihagaze",
+    "subtitle": "Andika kode wabonye ubwo wohererezaga icyifuzo, na nimero ya telefone wakoresheje.",
+    "code": "Kode y'icyifuzo",
+    "phone": "Nimero ya telefone",
+    "phoneHint": "Nimero ya telefone watanze mu cyifuzo cyawe",
+    "check": "Reba uko gihagaze",
+    "checking": "Biragenzurwa...",
+    "reference": "Kode y'icyifuzo",
+    "notice": "Ubutumwa buvuye kuri koperative",
+    "status": {
+      "PENDING": "Gitegereje kurebwa",
+      "ACCEPTED": "Cyemewe",
+      "REJECTED": "Cyanzwe"
+    },
+    "errors": {
+      "code": "Andika kode y'icyifuzo",
+      "phone": "Andika nimero ya telefone yo mu Rwanda, urugero 0788123456",
+      "notFound": "Icyifuzo ntikibonetse. Reba kode na nimero ya telefone.",
+      "generic": "Ntibishobotse kureba icyifuzo. Ongera ugerageze.",
+      "network": "Ntibishobotse kugera kuri seriveri. Reba interineti wongere ugerageze."
     }
   }
 }
