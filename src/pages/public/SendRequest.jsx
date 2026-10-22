@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useOutletContext, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { CircleCheck, SendHorizonal, Truck } from 'lucide-react'
+import { ArrowLeft, CircleCheck, SendHorizonal, Truck } from 'lucide-react'
 import { sendPurchaseRequest } from '../../api/public'
 import { formatKg } from '../../utils/format'
 import { cleanPhone, RWANDAN_PHONE_PATTERN } from '../../utils/phone'
@@ -40,6 +40,15 @@ export default function SendRequest() {
 
   const gradeList = grades.data ?? []
   const selected = gradeList.find((grade) => grade.code === values.gradeCode)
+  // The hint under the grade list: what the backend says about the chosen grade, when it says anything.
+  const gradeDetails = selected
+    ? [
+        selected.description,
+        selected.sizeInfo && `${t('publicHome.grades.sizeInfo')}: ${selected.sizeInfo}`,
+        selected.packaging && `${t('publicHome.grades.packaging')}: ${selected.packaging}`,
+      ].filter(Boolean)
+    : []
+  const cameFromGrades = searchParams.has('grade')
 
   function setValue(name, value) {
     setValues((current) => ({ ...current, [name]: value }))
@@ -99,6 +108,13 @@ export default function SendRequest() {
     <>
       <section className="bg-background py-8">
         <div className="mx-auto max-w-3xl px-4">
+          <Link
+            to={cameFromGrades ? '/#grades' : '/'}
+            className="mb-3 inline-flex min-h-11 items-center gap-1.5 text-sm text-muted hover:text-primary"
+          >
+            <ArrowLeft size={16} />
+            {cameFromGrades ? t('publicRequest.back.grades') : t('publicRequest.back.home')}
+          </Link>
           <p className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-primary">
             <Truck size={14} />
             {t('publicRequest.eyebrow')}
@@ -161,7 +177,7 @@ export default function SendRequest() {
                 id="request-grade"
                 label={t('publicRequest.grade')}
                 error={errors.gradeCode}
-                hint={selected?.description}
+                hint={selected ? gradeDetails.join(' · ') || undefined : t('publicRequest.gradeHint')}
               >
                 <select
                   id="request-grade"

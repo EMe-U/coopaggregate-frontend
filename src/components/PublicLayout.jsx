@@ -39,7 +39,7 @@ export default function PublicLayout() {
             <Logo size={32} />
             {t('app.name')}
           </Link>
-          <nav className="flex flex-wrap gap-x-5">
+          <nav className="flex flex-wrap gap-x-6 md:flex-1 md:justify-center">
             {hasGrades && (
               <Link to="/#grades" className={`${linkClass} text-muted hover:text-text`}>
                 {t('publicNav.grades')}
@@ -57,7 +57,7 @@ export default function PublicLayout() {
               </Link>
             )}
           </nav>
-          <div className="ml-auto">
+          <div className="ml-auto md:ml-0">
             <LanguageSwitch />
           </div>
         </div>

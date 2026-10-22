@@ -1351,7 +1351,12 @@
       "howToCheck": "Kureba igisubizo, fungura \"Reba Uko Icyifuzo Gihagaze\" wandike iyi kode na nimero ya telefone wakoresheje.",
       "checkStatus": "Reba uko icyifuzo gihagaze",
       "another": "Ohereza ikindi cyifuzo"
-    }
+    },
+    "back": {
+      "grades": "Subira ku byiciro",
+      "home": "Subira ku ntangiriro"
+    },
+    "gradeHint": "Hitamo icyiciro urebe ibisobanuro byacyo hano."
   },
   "requestStatus": {
     "eyebrow": "Ahagenewe abaguzi",

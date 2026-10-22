@@ -1320,7 +1320,12 @@
       "howToCheck": "To see the answer, open \"Check Request Status\" and enter this code with the phone number you used.",
       "checkStatus": "Check request status",
       "another": "Send another request"
-    }
+    },
+    "back": {
+      "grades": "Back to the grades",
+      "home": "Back to the home page"
+    },
+    "gradeHint": "Choose a grade to see its details here."
   },
   "requestStatus": {
     "eyebrow": "Buyer portal",

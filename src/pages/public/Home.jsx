@@ -19,6 +19,20 @@ function Photo({ file, className, fallbackClassName }) {
   return <img src={`${PHOTOS}/${file}`} alt="" loading="lazy" onError={() => setMissing(true)} className={className} />
 }
 
+function ContactRow({ icon: Icon, label, children }) {
+  return (
+    <div className="flex items-center gap-4">
+      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-white/10">
+        <Icon size={18} />
+      </div>
+      <div className="min-w-0">
+        <dt className="text-xs uppercase tracking-wide text-white/60">{label}</dt>
+        <dd className="font-medium">{children}</dd>
+      </div>
+    </div>
+  )
+}
+
 function InfoCard({ icon: Icon, label, children }) {
   return (
     <div className="flex min-w-0 items-center gap-3 rounded-xl bg-surface p-4 shadow-sm">
@@ -89,15 +103,15 @@ export default function Home() {
 
   return (
     <>
-      <section className="relative overflow-hidden bg-primary py-14 text-white sm:py-20">
+      <section className="relative overflow-hidden bg-primary py-16 text-white sm:py-24">
         {/* Decorative: the text next to it says everything, so it has an empty alt. */}
         <Photo file="hero.jpg" className="absolute inset-0 h-full w-full object-cover object-[50%_28%]" />
         <div className="absolute inset-0 bg-linear-to-r from-primary/95 via-primary/80 to-primary/50" />
         <div className={`${sectionClass} relative`}>
-          <h1 className="max-w-3xl text-3xl font-bold leading-tight sm:text-4xl">
+          <h1 className="max-w-3xl text-3xl font-bold leading-tight sm:text-5xl">
             {cooperative?.cooperativeName ?? t('app.cooperative')}
           </h1>
-          <p className="mt-4 max-w-2xl text-base text-white/85">
+          <p className="mt-5 max-w-2xl text-base text-white/85 sm:text-lg">
             {cooperative?.location
               ? t('publicHome.heroWithLocation', { location: cooperative.location })
               : t('publicHome.hero')}
@@ -110,7 +124,7 @@ export default function Home() {
                   event.preventDefault()
                   document.getElementById('grades')?.scrollIntoView({ behavior: 'smooth' })
                 }}
-                className="flex min-h-12 items-center gap-2 rounded-lg bg-white px-5 text-sm font-semibold text-primary hover:bg-primary-light"
+                className="flex min-h-12 items-center gap-2 rounded-lg bg-[color-mix(in_srgb,var(--color-primary)_80%,white)] px-5 text-sm font-semibold text-white hover:bg-[color-mix(in_srgb,var(--color-primary)_70%,white)]"
               >
                 {t('publicHome.viewGrades')}
                 <ArrowDown size={16} />
@@ -118,7 +132,7 @@ export default function Home() {
             )}
             <Link
               to="/request"
-              className="flex min-h-12 items-center gap-2 rounded-lg border border-white/40 px-5 text-sm font-semibold text-white hover:bg-white/10"
+              className="flex min-h-12 items-center gap-2 rounded-lg bg-white/10 px-5 text-sm font-semibold text-white hover:bg-white/20"
             >
               {t('publicHome.sendRequest')}
             </Link>
@@ -138,8 +152,8 @@ export default function Home() {
       )}
 
       {cooperative && (
-        <section className={`${sectionClass} -mt-6 relative`}>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <section className="bg-text/[0.04] py-6">
+          <div className={`${sectionClass} grid gap-3 sm:grid-cols-2 lg:grid-cols-3`}>
             {cooperative.location && (
               <InfoCard icon={MapPin} label={t('publicHome.info.location')}>
                 {cooperative.location}
@@ -180,12 +194,12 @@ export default function Home() {
         </section>
       )}
 
-      <section className="bg-surface py-10">
+      <section className="bg-text/[0.05] py-12">
         <div className={sectionClass}>
-          <h2 className="text-xl font-semibold text-text">{t('publicHome.steps.title')}</h2>
-          <ol className="mt-5 grid gap-4 md:grid-cols-3">
+          <h2 className="text-center text-xl font-semibold text-text">{t('publicHome.steps.title')}</h2>
+          <ol className="mt-6 grid gap-4 md:grid-cols-3">
             {['send', 'review', 'status'].map((step, index) => (
-              <li key={step} className="rounded-xl bg-background p-5">
+              <li key={step} className="rounded-xl bg-surface p-5 shadow-sm">
                 <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary-light text-sm font-bold text-primary">
                   {index + 1}
                 </span>
@@ -194,42 +208,37 @@ export default function Home() {
               </li>
             ))}
           </ol>
-          <Link
-            to="/request"
-            className="mt-6 inline-flex min-h-12 items-center gap-2 rounded-lg bg-primary px-5 text-sm font-semibold text-white hover:bg-primary/90"
-          >
-            <SendHorizonal size={16} />
-            {t('publicHome.sendRequest')}
-          </Link>
+          <div className="mt-8 text-center">
+            <Link
+              to="/request"
+              className="inline-flex min-h-12 items-center gap-2 rounded-lg bg-primary px-6 text-sm font-semibold text-white hover:bg-primary/90"
+            >
+              <SendHorizonal size={16} />
+              {t('publicHome.sendRequest')}
+            </Link>
+          </div>
         </div>
       </section>
 
       {cooperative && (cooperative.location || cooperative.cooperativeEmail) && (
-        <section id="contact" className={`${sectionClass} scroll-mt-4 py-10`}>
-          <div className="rounded-xl bg-primary p-6 text-white sm:p-8">
-            <h2 className="text-xl font-semibold">{t('publicHome.contact.title', { name: cooperative.cooperativeName ?? t('app.cooperative') })}</h2>
-            <dl className="mt-5 space-y-4 text-sm">
+        <section id="contact" className={`${sectionClass} scroll-mt-4 py-12`}>
+          <div className="rounded-2xl bg-[#0b3a1f] p-6 text-white sm:p-10">
+            <p className="text-xs font-medium uppercase tracking-wide text-white/70">{t('publicNav.contact')}</p>
+            <h2 className="mt-1 text-xl font-semibold">
+              {t('publicHome.contact.title', { name: cooperative.cooperativeName ?? t('app.cooperative') })}
+            </h2>
+            <dl className="mt-8 space-y-5 text-sm">
               {cooperative.location && (
-                <div className="flex items-start gap-3">
-                  <MapPin size={18} className="mt-0.5 shrink-0 text-white/70" />
-                  <div>
-                    <dt className="text-xs uppercase tracking-wide text-white/70">{t('publicHome.info.location')}</dt>
-                    <dd className="font-medium">{cooperative.location}</dd>
-                  </div>
-                </div>
+                <ContactRow icon={MapPin} label={t('publicHome.info.location')}>
+                  {cooperative.location}
+                </ContactRow>
               )}
               {cooperative.cooperativeEmail && (
-                <div className="flex items-start gap-3">
-                  <Mail size={18} className="mt-0.5 shrink-0 text-white/70" />
-                  <div>
-                    <dt className="text-xs uppercase tracking-wide text-white/70">{t('publicHome.info.email')}</dt>
-                    <dd className="break-all font-medium">
-                      <a href={`mailto:${cooperative.cooperativeEmail}`} className="underline">
-                        {cooperative.cooperativeEmail}
-                      </a>
-                    </dd>
-                  </div>
-                </div>
+                <ContactRow icon={Mail} label={t('publicHome.info.email')}>
+                  <a href={`mailto:${cooperative.cooperativeEmail}`} className="break-all underline">
+                    {cooperative.cooperativeEmail}
+                  </a>
+                </ContactRow>
               )}
             </dl>
           </div>
