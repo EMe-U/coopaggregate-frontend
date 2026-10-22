@@ -4,7 +4,7 @@ import { CircleCheck, Undo2 } from 'lucide-react'
 import useNeedsInternet from '../hooks/useNeedsInternet'
 
 // Asks for a required reason before reversing a record, or a note for other decisions (tone
-// "primary"). onConfirm(text) sends the request; when it fails, the server's message is shown (for
+// "primary"; optional lets the text stay empty). onConfirm(text) sends the request; when it fails, the server's message is shown (for
 // example the 409 explaining why a record cannot be reversed) and the dialog stays open.
 export default function ReasonDialog({
   title,
@@ -16,6 +16,7 @@ export default function ReasonDialog({
   fieldLabel,
   placeholder,
   requiredMessage,
+  optional,
   tone = 'danger',
 }) {
   const { t } = useTranslation()
@@ -41,7 +42,7 @@ export default function ReasonDialog({
   async function handleSubmit(event) {
     event.preventDefault()
     if (busy) return
-    if (!reason.trim()) {
+    if (!optional && !reason.trim()) {
       setReasonError(requiredMessage ?? t('reversal.reasonRequired'))
       return
     }

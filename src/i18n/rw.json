@@ -1240,7 +1240,8 @@
       "publicNav.grades",
       "publicNav.contact",
       "publicRequest",
-      "requestStatus"
+      "requestStatus",
+      "buyerRequests"
     ]
   },
   "memberVerification": {
@@ -1375,5 +1376,73 @@
       "generic": "Ntibishobotse kureba icyifuzo. Ongera ugerageze.",
       "network": "Ntibishobotse kugera kuri seriveri. Reba interineti wongere ugerageze."
     }
+  },
+  "buyerRequests": {
+    "title": "Ibisabwa n'Abaguzi",
+    "subtitle": "Ibyifuzo byo kugura byoherejwe ku rubuga rusange. Ubyemere cyangwa ubyange, ushyireho ubutumwa umuguzi ashobora gusoma.",
+    "summary": {
+      "pending": "Ibyifuzo bitegereje",
+      "needsReview": "Bitegereje kurebwa",
+      "pendingKg": "Ingano itegereje",
+      "fromPending": "Mu byifuzo bitegereje",
+      "stock": "Ibiri mu bubiko"
+    },
+    "search": {
+      "placeholder": "Shakisha ukoresheje kode, izina cyangwa telefone y'umuguzi...",
+      "label": "Shakisha ibyifuzo"
+    },
+    "filter": {
+      "label": "Uko bihagaze:",
+      "all": "Byose"
+    },
+    "status": {
+      "PENDING": "Bitegereje",
+      "ACCEPTED": "Byemewe",
+      "REJECTED": "Byanzwe"
+    },
+    "columns": {
+      "reference": "Kode",
+      "buyer": "Umuguzi",
+      "grade": "Urwego",
+      "quantity": "Ingano",
+      "date": "Itariki",
+      "status": "Uko bihagaze",
+      "actions": "Ibikorwa"
+    },
+    "actions": {
+      "menu": "Ibikorwa ku cyifuzo {{code}}",
+      "view": "Reba ibisobanuro",
+      "ACCEPTED": "Emera",
+      "REJECTED": "Anga",
+      "PENDING": "Subiza gitegereje"
+    },
+    "change": {
+      "title": {
+        "ACCEPTED": "Kwemera icyifuzo {{code}}?",
+        "REJECTED": "Kwanga icyifuzo {{code}}?",
+        "PENDING": "Gusubiza {{code}} ku bitegereje?"
+      },
+      "explanation": "Umuguzi abona uko gihagaze n'ubutumwa bwawe iyo arebesheje kode na telefone ye.",
+      "message": "Ubutumwa bw'umuguzi (si ngombwa)",
+      "placeholder": "Urugero: hamagara umuyobozi mutegure uko mufata ibirayi"
+    },
+    "changed": "{{code}}: {{status}}",
+    "details": {
+      "title": "Icyifuzo",
+      "close": "Funga",
+      "error": "Ntibishobotse kubona icyifuzo.",
+      "name": "Umuguzi",
+      "phone": "Telefone",
+      "email": "Email",
+      "note": "Ubutumwa bw'umuguzi",
+      "publicMessage": "Ubutumwa bwawe ku muguzi"
+    },
+    "empty": {
+      "title": "Nta byifuzo biraboneka",
+      "message": "Ibyifuzo byoherejwe ku rubuga rusange bigaragara hano.",
+      "noResults": "Nta byifuzo bihuye n'ibyo washatse."
+    },
+    "error": "Ntibishobotse kubona ibyifuzo.",
+    "retry": "Ongera ugerageze"
   }
 }

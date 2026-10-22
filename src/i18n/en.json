@@ -1345,5 +1345,73 @@
       "generic": "Could not check the request. Please try again.",
       "network": "Cannot reach the server. Check your connection and try again."
     }
+  },
+  "buyerRequests": {
+    "title": "Buyer Requests",
+    "subtitle": "Purchase requests sent from the public page. Accept or reject them, and leave a message the buyer can read.",
+    "summary": {
+      "pending": "Pending requests",
+      "needsReview": "Waiting for your review",
+      "pendingKg": "Pending quantity",
+      "fromPending": "From the pending requests",
+      "stock": "Stock available"
+    },
+    "search": {
+      "placeholder": "Search by code, buyer name or phone...",
+      "label": "Search requests"
+    },
+    "filter": {
+      "label": "Status:",
+      "all": "All"
+    },
+    "status": {
+      "PENDING": "Pending",
+      "ACCEPTED": "Accepted",
+      "REJECTED": "Rejected"
+    },
+    "columns": {
+      "reference": "Code",
+      "buyer": "Buyer",
+      "grade": "Grade",
+      "quantity": "Quantity",
+      "date": "Date",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "actions": {
+      "menu": "Actions for request {{code}}",
+      "view": "View details",
+      "ACCEPTED": "Accept",
+      "REJECTED": "Reject",
+      "PENDING": "Set back to pending"
+    },
+    "change": {
+      "title": {
+        "ACCEPTED": "Accept request {{code}}?",
+        "REJECTED": "Reject request {{code}}?",
+        "PENDING": "Set {{code}} back to pending?"
+      },
+      "explanation": "The buyer sees the new status, and your message, when they check the request with their code and phone number.",
+      "message": "Message for the buyer (optional)",
+      "placeholder": "For example: please call the manager to arrange collection"
+    },
+    "changed": "{{code}}: {{status}}",
+    "details": {
+      "title": "Request",
+      "close": "Close",
+      "error": "Could not load the request.",
+      "name": "Buyer",
+      "phone": "Phone",
+      "email": "Email",
+      "note": "Buyer's message",
+      "publicMessage": "Your message to the buyer"
+    },
+    "empty": {
+      "title": "No requests yet",
+      "message": "Requests sent from the public page appear here.",
+      "noResults": "No requests match your search."
+    },
+    "error": "Could not load the requests.",
+    "retry": "Try again"
   }
 }
