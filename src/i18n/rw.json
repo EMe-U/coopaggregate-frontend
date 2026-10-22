@@ -1278,7 +1278,7 @@
   "publicHome": {
     "hero": "Ibirayi bigurishwa na koperative.",
     "heroWithLocation": "Ibirayi bivuye {{location}}.",
-    "viewGrades": "Reba inzego",
+    "viewGrades": "Reba ibyiciro",
     "sendRequest": "Ohereza icyifuzo cyo kugura",
     "error": "Ntibishobotse kubona amakuru. Ongera ugerageze.",
     "retry": "Ongera ugerageze",
@@ -1288,7 +1288,7 @@
       "email": "Email"
     },
     "grades": {
-      "title": "Inzego zihari",
+      "title": "Ibyiciro bihari",
       "sizeInfo": "Ingano",
       "packaging": "Ipaki"
     },
@@ -1296,7 +1296,7 @@
       "title": "Uko bigenda",
       "send": {
         "title": "Ohereza icyifuzo",
-        "text": "Hitamo urwego, andika ibiro ukeneye n'nimero yawe ya telefone."
+        "text": "Hitamo icyiciro, andika ibiro ukeneye n'nimero yawe ya telefone."
       },
       "review": {
         "title": "Koperative irakireba",
@@ -1310,18 +1310,14 @@
     "contact": {
       "title": "Vugana na {{name}}"
     },
-    "photos": {
-      "A": "Ibirayi binini mu murima",
-      "B": "Ibirayi bifite igishishwa gitukura mu gafuka",
-      "C": "Indobo irimo ibirayi bito, ifashwe n'abagore babiri"
-    }
+    "requestGrade": "Saba iki cyiciro"
   },
   "publicRequest": {
     "eyebrow": "Ahagenewe abaguzi",
     "title": "Ohereza icyifuzo cyo kugura",
     "subtitle": "Ohereza icyifuzo. Umuyobozi azakireba akuvugishe.",
-    "grade": "Urwego rw'ibirayi",
-    "chooseGrade": "Hitamo urwego",
+    "grade": "Icyiciro cy'ibirayi",
+    "chooseGrade": "Hitamo icyiciro",
     "loading": "Birimo gufungura...",
     "quantity": "Ingano (kg)",
     "quantityPlaceholder": "urugero 1500",
@@ -1336,10 +1332,10 @@
     "honeypot": "Reka iyi nyandiko ituzuye",
     "send": "Ohereza icyifuzo",
     "sending": "Kirohereza...",
-    "loadError": "Ntibishobotse kubona inzego. Ongera ugerageze.",
+    "loadError": "Ntibishobotse kubona ibyiciro. Ongera ugerageze.",
     "retry": "Ongera ugerageze",
     "errors": {
-      "grade": "Hitamo urwego",
+      "grade": "Hitamo icyiciro",
       "quantityRequired": "Andika ingano",
       "quantityInvalid": "Andika umubare urenze 0 ufite nibura imibare 2 inyuma y'akitso",
       "minOrder": "Ibiro bike bishoboka ni {{kg}}",

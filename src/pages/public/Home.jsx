@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { ArrowDown, Mail, MapPin, PackageCheck, SendHorizonal, ShoppingCart } from 'lucide-react'
@@ -7,12 +8,16 @@ import { publicGradeName } from './publicGrade'
 
 const sectionClass = 'mx-auto max-w-6xl px-4'
 
-// The cooperative's own photos, in public/images. Grade photos are matched by grade code (A, B, C
-// are the fixed grades); a grade without a photo shows no picture. alt texts: publicHome.photos.
-const GRADE_PHOTOS = {
-  A: { src: '/images/big-potatoes.jpg', width: 1200, height: 743 },
-  B: { src: '/images/potatoes-sack.jpg', width: 597, height: 335 },
-  C: { src: '/images/potatoes-bucket.jpg', width: 638, height: 480 },
+// Temporary placeholder photos: public/images/placeholders/hero.jpg and grade-<code>.jpg. To use
+// the cooperative's own photos, replace a file with one of the same name. A missing file shows a
+// plain green block, never a broken image. The photos are decorative (empty alt): the grade name
+// beside them says what the card is about.
+const PHOTOS = '/images/placeholders'
+
+function Photo({ file, className, fallbackClassName }) {
+  const [missing, setMissing] = useState(false)
+  if (missing) return fallbackClassName ? <div className={fallbackClassName} /> : null
+  return <img src={`${PHOTOS}/${file}`} alt="" loading="lazy" onError={() => setMissing(true)} className={className} />
 }
 
 function InfoCard({ icon: Icon, label, children }) {
@@ -31,7 +36,6 @@ function InfoCard({ icon: Icon, label, children }) {
 
 function GradeCard({ grade }) {
   const { t, i18n } = useTranslation()
-  const photo = GRADE_PHOTOS[grade.code]
   const details = [
     { key: 'sizeInfo', value: grade.sizeInfo },
     { key: 'packaging', value: grade.packaging },
@@ -39,16 +43,11 @@ function GradeCard({ grade }) {
 
   return (
     <article className="flex min-w-0 flex-col overflow-hidden rounded-xl bg-surface shadow-sm">
-      {photo && (
-        <img
-          src={photo.src}
-          alt={t(`publicHome.photos.${grade.code}`)}
-          width={photo.width}
-          height={photo.height}
-          loading="lazy"
-          className="aspect-video w-full object-cover"
-        />
-      )}
+      <Photo
+        file={`grade-${grade.code}.jpg`}
+        className="aspect-video w-full object-cover"
+        fallbackClassName="aspect-video w-full bg-primary"
+      />
       <div className="flex min-w-0 flex-1 flex-col p-5">
         <div className="flex items-start gap-3">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary text-sm font-bold text-white">
@@ -70,10 +69,10 @@ function GradeCard({ grade }) {
         <div className="mt-auto pt-5">
           <Link
             to={`/request?grade=${encodeURIComponent(grade.code)}`}
-            className="flex min-h-12 items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-semibold text-white hover:bg-primary/90"
+            className="flex min-h-12 items-center justify-center gap-2 rounded-lg border border-primary/40 px-4 text-sm font-semibold text-primary hover:bg-primary-light"
           >
             <ShoppingCart size={16} />
-            {t('publicHome.sendRequest')}
+            {t('publicHome.requestGrade')}
           </Link>
         </div>
       </div>
@@ -93,7 +92,7 @@ export default function Home() {
     <>
       <section className="relative overflow-hidden bg-primary py-14 text-white sm:py-20">
         {/* Decorative: the text next to it says everything, so it has an empty alt. */}
-        <img src="/images/field-workers.jpg" alt="" width="847" height="491" className="absolute inset-0 h-full w-full object-cover object-[50%_28%]" />
+        <Photo file="hero.jpg" className="absolute inset-0 h-full w-full object-cover object-[50%_28%]" />
         <div className="absolute inset-0 bg-linear-to-r from-primary/95 via-primary/80 to-primary/50" />
         <div className={`${sectionClass} relative`}>
           <h1 className="max-w-3xl text-3xl font-bold leading-tight sm:text-4xl">
@@ -161,8 +160,8 @@ export default function Home() {
 
       {!grades.data && !grades.error && (
         <section className={`${sectionClass} py-10`}>
-          <div className="grid gap-5 md:grid-cols-2">
-            {[0, 1].map((index) => (
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {[0, 1, 2].map((index) => (
               <div key={index} className="h-64 animate-pulse rounded-xl bg-surface shadow-sm" />
             ))}
           </div>
@@ -172,7 +171,7 @@ export default function Home() {
       {gradeList.length > 0 && (
         <section id="grades" className={`${sectionClass} scroll-mt-4 py-10`}>
           <h2 className="text-xl font-semibold text-text">{t('publicHome.grades.title')}</h2>
-          <div className="mt-5 grid gap-5 md:grid-cols-2">
+          <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {gradeList.map((grade) => (
               <GradeCard key={grade.code} grade={grade} />
             ))}

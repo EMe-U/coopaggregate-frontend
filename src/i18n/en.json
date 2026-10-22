@@ -1279,11 +1279,7 @@
     "contact": {
       "title": "Contact {{name}}"
     },
-    "photos": {
-      "A": "Large potatoes in a field",
-      "B": "Red-skinned potatoes in a sack",
-      "C": "A bucket of small potatoes, held by two women"
-    }
+    "requestGrade": "Request this grade"
   },
   "publicRequest": {
     "eyebrow": "Buyer portal",
