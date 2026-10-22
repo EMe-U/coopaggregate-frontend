@@ -1238,7 +1238,8 @@
       "memberVerification.testVerified",
       "publicHome",
       "publicNav.grades",
-      "publicNav.contact"
+      "publicNav.contact",
+      "publicRequest"
     ]
   },
   "memberVerification": {
@@ -1306,6 +1307,48 @@
     },
     "contact": {
       "title": "Vugana na {{name}}"
+    }
+  },
+  "publicRequest": {
+    "eyebrow": "Ahagenewe abaguzi",
+    "title": "Ohereza icyifuzo cyo kugura",
+    "subtitle": "Ohereza icyifuzo. Umuyobozi azakireba akuvugishe.",
+    "grade": "Urwego rw'ibirayi",
+    "chooseGrade": "Hitamo urwego",
+    "loading": "Birimo gufungura...",
+    "quantity": "Ingano (kg)",
+    "quantityPlaceholder": "urugero 1500",
+    "minOrderHint": "Ibiro bike bishoboka: {{kg}}",
+    "name": "Amazina yawe yombi",
+    "phone": "Nimero ya telefone",
+    "phoneHint": "Urugero 0788123456 cyangwa +250788123456",
+    "email": "Email",
+    "optional": "(si ngombwa)",
+    "note": "Ubutumwa",
+    "notePlaceholder": "Icyo koperative yagombye kumenya",
+    "honeypot": "Reka iyi nyandiko ituzuye",
+    "send": "Ohereza icyifuzo",
+    "sending": "Kirohereza...",
+    "loadError": "Ntibishobotse kubona inzego. Ongera ugerageze.",
+    "retry": "Ongera ugerageze",
+    "errors": {
+      "grade": "Hitamo urwego",
+      "quantityRequired": "Andika ingano",
+      "quantityInvalid": "Andika umubare urenze 0 ufite nibura imibare 2 inyuma y'akitso",
+      "minOrder": "Ibiro bike bishoboka ni {{kg}}",
+      "quantityTooLarge": "Ibiro byinshi bishoboka ni {{kg}}",
+      "name": "Andika amazina yawe",
+      "phone": "Andika nimero ya telefone yo mu Rwanda, urugero 0788123456",
+      "email": "Andika email nyayo",
+      "generic": "Ntibishobotse kohereza icyifuzo. Ongera ugerageze.",
+      "network": "Ntibishobotse kugera kuri seriveri. Reba interineti wongere ugerageze."
+    },
+    "sent": {
+      "title": "Icyifuzo cyoherejwe",
+      "keepCode": "Bika iyi kode kugira ngo urebe uko icyifuzo cyawe gihagaze.",
+      "howToCheck": "Kureba igisubizo, fungura \"Reba Uko Icyifuzo Gihagaze\" wandike iyi kode na nimero ya telefone wakoresheje.",
+      "checkStatus": "Reba uko icyifuzo gihagaze",
+      "another": "Ohereza ikindi cyifuzo"
     }
   }
 }

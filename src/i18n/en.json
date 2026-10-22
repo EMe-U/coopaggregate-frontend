@@ -1279,5 +1279,47 @@
     "contact": {
       "title": "Contact {{name}}"
     }
+  },
+  "publicRequest": {
+    "eyebrow": "Buyer portal",
+    "title": "Send a purchase request",
+    "subtitle": "Send a request. The manager will review it and contact you.",
+    "grade": "Potato grade",
+    "chooseGrade": "Choose a grade",
+    "loading": "Loading...",
+    "quantity": "Quantity (kg)",
+    "quantityPlaceholder": "e.g. 1500",
+    "minOrderHint": "Smallest order: {{kg}}",
+    "name": "Your full name",
+    "phone": "Phone number",
+    "phoneHint": "For example 0788123456 or +250788123456",
+    "email": "Email address",
+    "optional": "(optional)",
+    "note": "Message",
+    "notePlaceholder": "Anything the cooperative should know",
+    "honeypot": "Leave this field empty",
+    "send": "Send request",
+    "sending": "Sending...",
+    "loadError": "Could not load the grades. Please try again.",
+    "retry": "Try again",
+    "errors": {
+      "grade": "Choose a grade",
+      "quantityRequired": "Enter the quantity",
+      "quantityInvalid": "Enter a number above 0 with at most 2 decimals",
+      "minOrder": "The smallest order is {{kg}}",
+      "quantityTooLarge": "The largest order is {{kg}}",
+      "name": "Enter your name",
+      "phone": "Enter a Rwandan mobile number, for example 0788123456",
+      "email": "Enter a valid email address",
+      "generic": "Could not send the request. Please try again.",
+      "network": "Cannot reach the server. Check your connection and try again."
+    },
+    "sent": {
+      "title": "Request sent",
+      "keepCode": "Keep this code to check your request.",
+      "howToCheck": "To see the answer, open \"Check Request Status\" and enter this code with the phone number you used.",
+      "checkStatus": "Check request status",
+      "another": "Send another request"
+    }
   }
 }
