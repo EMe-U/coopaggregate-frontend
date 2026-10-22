@@ -1289,27 +1289,32 @@
     "grades": {
       "title": "Ibyiciro bihari",
       "sizeInfo": "Ingano",
-      "packaging": "Ipaki"
+      "packaging": "Ipaki",
+      "subtitle": "Hitamo icyiciro hepfo, ucyoherezeho icyifuzo cyo kugura. Ingano n'ipaki bigaragara ni ibyo koperative itanga ku cyiciro cyose."
     },
     "steps": {
-      "title": "Uko bigenda",
+      "title": "Uko dukemura ibyifuzo byanyu",
       "send": {
         "title": "Ohereza icyifuzo",
-        "text": "Hitamo icyiciro, andika ibiro ukeneye n'nimero yawe ya telefone."
+        "text": "Hitamo icyiciro cy'ibirayi n'ingano ukeneye, usige amazina yawe na nimero ya telefone ukoresheje iyi fishi yo kuri interineti."
       },
       "review": {
-        "title": "Koperative irakireba",
-        "text": "Umuyobozi areba icyifuzo cyawe, akakemera cyangwa akakanga."
+        "title": "Isuzuma ry'ubuyobozi",
+        "text": "Umuyobozi wa koperative areba icyifuzo cyawe, akakemera cyangwa akakanga, kandi ashobora kukwandikira ubutumwa."
       },
       "status": {
         "title": "Reba igisubizo",
-        "text": "Koresha kode y'icyifuzo na telefone yawe urebe uko gihagaze n'ubutumwa niba buhari."
-      }
+        "text": "Koresha kode y'icyifuzo na telefone yawe ku rupapuro rwa «Reba Uko Icyifuzo Gihagaze» urebe igisubizo n'ubutumwa buvuye kuri koperative."
+      },
+      "subtitle": "Icyifuzo cyawe gishyikirizwa ibiro bya koperative, kandi ushobora gukurikirana igisubizo kuri interineti."
     },
     "contact": {
-      "title": "Vugana na {{name}}"
+      "title": "Vugana na {{name}}",
+      "eyebrow": "Twandikire",
+      "intro": "Ufite ibibazo ku bijyanye no kugura ibirayi byinshi, gutwara ibicuruzwa, cyangwa ibyiciro byihariye? Andikira ibiro bya koperative mu buryo butaziguye."
     },
-    "requestGrade": "Saba iki cyiciro"
+    "requestGrade": "Saba iki cyiciro",
+    "heroIntro": "Ohereza icyifuzo cyo kugura kuri interineti: hitamo icyiciro n'ingano ukeneye, koperative izakireba ikuhe igisubizo."
   },
   "publicRequest": {
     "eyebrow": "Ahagenewe abaguzi",

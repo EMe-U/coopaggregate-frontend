@@ -116,6 +116,7 @@ export default function Home() {
               ? t('publicHome.heroWithLocation', { location: cooperative.location })
               : t('publicHome.hero')}
           </p>
+          <p className="mt-3 max-w-2xl text-sm text-white/75 sm:text-base">{t('publicHome.heroIntro')}</p>
           <div className="mt-8 flex flex-wrap gap-3">
             {gradeList.length > 0 && (
               <a
@@ -186,6 +187,7 @@ export default function Home() {
       {gradeList.length > 0 && (
         <section id="grades" className={`${sectionClass} scroll-mt-4 py-10`}>
           <h2 className="text-xl font-semibold text-text">{t('publicHome.grades.title')}</h2>
+          <p className="mt-1 max-w-2xl text-sm text-muted">{t('publicHome.grades.subtitle')}</p>
           <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {gradeList.map((grade) => (
               <GradeCard key={grade.code} grade={grade} />
@@ -197,6 +199,7 @@ export default function Home() {
       <section className="bg-text/[0.05] py-12">
         <div className={sectionClass}>
           <h2 className="text-center text-xl font-semibold text-text">{t('publicHome.steps.title')}</h2>
+          <p className="mx-auto mt-1 max-w-2xl text-center text-sm text-muted">{t('publicHome.steps.subtitle')}</p>
           <ol className="mt-6 grid gap-4 md:grid-cols-3">
             {['send', 'review', 'status'].map((step, index) => (
               <li key={step} className="rounded-xl bg-surface p-5 shadow-sm">
@@ -223,10 +226,11 @@ export default function Home() {
       {cooperative && (cooperative.location || cooperative.cooperativeEmail) && (
         <section id="contact" className={`${sectionClass} scroll-mt-4 py-12`}>
           <div className="rounded-2xl bg-[#0b3a1f] p-6 text-white sm:p-10">
-            <p className="text-xs font-medium uppercase tracking-wide text-white/70">{t('publicNav.contact')}</p>
+            <p className="text-xs font-medium uppercase tracking-wide text-white/70">{t('publicHome.contact.eyebrow')}</p>
             <h2 className="mt-1 text-xl font-semibold">
               {t('publicHome.contact.title', { name: cooperative.cooperativeName ?? t('app.cooperative') })}
             </h2>
+            <p className="mt-3 max-w-xl text-sm text-white/85">{t('publicHome.contact.intro')}</p>
             <dl className="mt-8 space-y-5 text-sm">
               {cooperative.location && (
                 <ContactRow icon={MapPin} label={t('publicHome.info.location')}>

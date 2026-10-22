@@ -1258,27 +1258,32 @@
     "grades": {
       "title": "Available grades",
       "sizeInfo": "Size",
-      "packaging": "Packaging"
+      "packaging": "Packaging",
+      "subtitle": "Choose a grade below and send a purchase request for it. The size and packaging shown are those the cooperative gives for each grade."
     },
     "steps": {
-      "title": "How to order",
+      "title": "How we handle your orders",
       "send": {
         "title": "Send a request",
-        "text": "Choose a grade, enter the weight you need and your phone number."
+        "text": "Choose the potato grade and the quantity you need, and leave your name and phone number, using our online request form."
       },
       "review": {
-        "title": "The cooperative reviews it",
-        "text": "The manager looks at your request and accepts or rejects it."
+        "title": "Administrative review",
+        "text": "The cooperative's manager reviews your request and accepts or rejects it, and may leave you a message."
       },
       "status": {
         "title": "Check the answer",
-        "text": "Use your request code and phone number to see the status and any message."
-      }
+        "text": "Use your request code and phone number on the Check Request Status page to see the answer and any message from the cooperative."
+      },
+      "subtitle": "Your request goes to the cooperative office, and you can follow the answer online."
     },
     "contact": {
-      "title": "Contact {{name}}"
+      "title": "Contact {{name}}",
+      "eyebrow": "Get in touch",
+      "intro": "Have questions regarding bulk orders, logistics, or custom grading specifications? Reach out to our cooperative office directly."
     },
-    "requestGrade": "Request this grade"
+    "requestGrade": "Request this grade",
+    "heroIntro": "Send a purchase request online: choose the grade and the quantity you need, and the cooperative will review it and give you an answer."
   },
   "publicRequest": {
     "eyebrow": "Buyer portal",
