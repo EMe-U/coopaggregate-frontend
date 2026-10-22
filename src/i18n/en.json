@@ -93,7 +93,6 @@
       "memberId": "Member ID",
       "fullName": "Full name",
       "phone": "Phone",
-      "nationalId": "National ID",
       "joinDate": "Join date",
       "status": "Status",
       "actions": "Actions",

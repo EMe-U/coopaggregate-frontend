@@ -4,7 +4,7 @@ import { Eye, Pencil } from 'lucide-react'
 import Avatar from '../Avatar'
 import StatusBadge from '../StatusBadge'
 import VerifiedBadge from './VerifiedBadge'
-import { formatDate, formatPhone, maskNationalId } from '../../utils/format'
+import { formatDate, formatPhone } from '../../utils/format'
 
 function avatarClass(member) {
   return member.status === 'ACTIVE' ? 'bg-primary-light text-primary' : 'bg-background text-muted'
@@ -50,7 +50,6 @@ export default function MemberTable({ members, onEdit, readOnly }) {
               <th className="px-4 py-3 font-semibold">{t('members.table.memberId')}</th>
               <th className="px-4 py-3 font-semibold">{t('members.table.fullName')}</th>
               <th className="px-4 py-3 font-semibold">{t('members.table.phone')}</th>
-              <th className="px-4 py-3 font-semibold">{t('members.table.nationalId')}</th>
               <th className="px-4 py-3 font-semibold">{t('members.table.joinDate')}</th>
               <th className="px-4 py-3 font-semibold">{t('members.table.status')}</th>
               <th className="px-4 py-3 font-semibold">{t('members.table.actions')}</th>
@@ -73,7 +72,6 @@ export default function MemberTable({ members, onEdit, readOnly }) {
                   </div>
                 </td>
                 <td className="whitespace-nowrap px-4 py-3">{formatPhone(member.phone)}</td>
-                <td className="whitespace-nowrap px-4 py-3 font-mono text-xs">{maskNationalId(member.nationalId)}</td>
                 <td className="whitespace-nowrap px-4 py-3">{formatDate(member.joinDate)}</td>
                 <td className="px-4 py-3">
                   <StatusBadge active={member.status === 'ACTIVE'}>
