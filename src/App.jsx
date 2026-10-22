@@ -10,6 +10,7 @@ import DeliveryDetail from './pages/manager/DeliveryDetail'
 import RecordDelivery from './pages/manager/RecordDelivery'
 import Members from './pages/manager/Members'
 import MemberDetail from './pages/manager/MemberDetail'
+import MemberVerifyCallback from './pages/manager/MemberVerifyCallback'
 import Lots from './pages/manager/Lots'
 import LotDetail from './pages/manager/LotDetail'
 import Sales from './pages/manager/Sales'
@@ -33,6 +34,7 @@ export default function App() {
           <Route path="/members" element={<Members />} />
           <Route path="/members/:id" element={<MemberDetail />} />
           <Route element={<RequiresInternet />}>
+            <Route path="/members/verify/callback" element={<MemberVerifyCallback />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/deliveries" element={<Deliveries />} />
             <Route path="/deliveries/:id" element={<DeliveryDetail />} />

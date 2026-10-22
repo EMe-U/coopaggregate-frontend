@@ -1196,5 +1196,35 @@
     "dispute": "Dispute",
     "resolution": "Manager's note",
     "confirmTitle": "Confirm with the member"
+  },
+  "memberVerification": {
+    "title": "Verify identity",
+    "subtitle": "Confirms that this person is who they say and is not already a member.",
+    "start": "Verify identity",
+    "starting": "Starting...",
+    "verified": "Identity verified ({{method}})",
+    "saveWithin": "Save the member within {{time}}, or verify again.",
+    "method": {
+      "OTP": "SMS code",
+      "FACE": "face check",
+      "MOCK": "test mode"
+    },
+    "mock": {
+      "title": "Test mode",
+      "explanation": "No real identity check is made. Type any code: the same code means the same person.",
+      "code": "Any code",
+      "check": "Check code"
+    },
+    "failedTitle": "Identity not verified",
+    "backToForm": "Back to the registration form",
+    "errors": {
+      "startAgain": "The identity check expired or is not valid. Start it again.",
+      "used": "This identity check was already used. Start it again.",
+      "unavailable": "Identity verification is not available yet.",
+      "network": "Cannot reach the server. Check your connection and try again.",
+      "generic": "The identity could not be verified. Please try again.",
+      "expired": "The identity check is older than 30 minutes. Verify again before saving.",
+      "required": "Verify the member's identity before saving."
+    }
   }
 }

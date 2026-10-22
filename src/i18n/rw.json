@@ -1209,7 +1209,38 @@
       "settings.history.actions.CONFIRMATION_CODE_RESENT",
       "settings.history.actions.DELIVERY_REVIEWED",
       "share.unconfirmed",
-      "lots.pendingConfirmation"
+      "lots.pendingConfirmation",
+      "memberVerification"
     ]
+  },
+  "memberVerification": {
+    "title": "Genzura umwirondoro",
+    "subtitle": "Byemeza ko uyu muntu ari we uwo avuga kandi atari umunyamuryango usanzwe.",
+    "start": "Genzura umwirondoro",
+    "starting": "Biratangira...",
+    "verified": "Umwirondoro wagenzuwe ({{method}})",
+    "saveWithin": "Bika umunyamuryango mbere y'iminota {{time}}, cyangwa wongere ugenzure.",
+    "method": {
+      "OTP": "kode ya SMS",
+      "FACE": "isura",
+      "MOCK": "igerageza"
+    },
+    "mock": {
+      "title": "Igerageza",
+      "explanation": "Nta genzura nyaryo rikorwa. Andika kode iyo ari yo yose: kode imwe ivuga umuntu umwe.",
+      "code": "Kode iyo ari yo yose",
+      "check": "Genzura kode"
+    },
+    "failedTitle": "Umwirondoro ntiwagenzuwe",
+    "backToForm": "Subira ku ifishi yo kwandika",
+    "errors": {
+      "startAgain": "Igenzura ryarangiye cyangwa ntiriri ryo. Ongera uritangire.",
+      "used": "Iri genzura ryamaze gukoreshwa. Ongera uritangire.",
+      "unavailable": "Igenzura ry'umwirondoro ntiriraboneka.",
+      "network": "Ntibishobotse kugera kuri seriveri. Reba interineti wongere ugerageze.",
+      "generic": "Umwirondoro ntiwashoboye kugenzurwa. Ongera ugerageze.",
+      "expired": "Igenzura rirengeje iminota 30. Ongera ugenzure mbere yo kubika.",
+      "required": "Genzura umwirondoro w'umunyamuryango mbere yo kubika."
+    }
   }
 }
