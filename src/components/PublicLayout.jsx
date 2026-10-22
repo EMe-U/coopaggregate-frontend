@@ -15,7 +15,7 @@ export default function PublicLayout() {
   const publicInfo = usePublicInfo()
   const cooperative = publicInfo.info.data
   const hasGrades = (publicInfo.grades.data?.length ?? 0) > 0
-  const hasContact = Boolean(cooperative?.location || cooperative?.cooperativeEmail)
+  const hasContact = Boolean(cooperative?.location || cooperative?.cooperativeEmail || cooperative?.cooperativePhone)
 
   // A link to /#grades from another page opens the home page and scrolls to the section.
   useEffect(() => {

@@ -1062,13 +1062,16 @@
     "errors": {
       "email": "Enter a valid email address",
       "positive": "Enter a number above 0 with at most 2 decimals",
-      "wholeNumber": "Enter a whole number of RWF, 0 or more"
+      "wholeNumber": "Enter a whole number of RWF, 0 or more",
+      "phone": "Enter a Rwandan mobile number, for example 0788123456"
     },
     "cooperative": {
       "title": "Cooperative",
       "subtitle": "Contact details of the cooperative",
       "cooperativeEmail": "Email",
-      "location": "Location"
+      "location": "Location",
+      "cooperativePhone": "Phone",
+      "phoneHint": "Shown to buyers. For example 0788123456"
     },
     "deduction": {
       "title": "Pricing & deductions",
@@ -1253,7 +1256,8 @@
     "info": {
       "location": "Location",
       "minOrder": "Smallest order",
-      "email": "Email"
+      "email": "Email",
+      "phone": "Phone"
     },
     "grades": {
       "title": "Available grades",

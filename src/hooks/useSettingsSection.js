@@ -1,10 +1,13 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { saveSettings } from '../api/settings'
+import { cleanPhone } from '../utils/phone'
 
-// Every field PUT /api/settings takes. deductionPerKg is read-only, so it is never sent.
+// Every field PUT /api/settings takes. deductionPerKg is read-only, so it is never sent. The
+// backend clears the email, location and phone when they are left out, so every save sends them.
 const REQUEST_KEYS = [
   'cooperativeEmail',
+  'cooperativePhone',
   'location',
   'minOrderKg',
   'smsEnabled',
@@ -53,6 +56,8 @@ export default function useSettingsSection(settings, keys, onSaved) {
       )
       // The input holds text such as "150" or "150,5"; the backend expects a number.
       request.minOrderKg = Number(String(request.minOrderKg).replace(',', '.'))
+      // A phone may be typed with spaces ("0788 123 456"); the backend wants it without.
+      if (request.cooperativePhone) request.cooperativePhone = cleanPhone(request.cooperativePhone)
       const saved = await saveSettings(request)
       onSaved(saved)
       setDraft(pick(saved, keys))

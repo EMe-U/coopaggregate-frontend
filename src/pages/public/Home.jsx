@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Link, useOutletContext } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ArrowDown, Mail, MapPin, PackageCheck, SendHorizonal, ShoppingCart } from 'lucide-react'
-import { formatKg } from '../../utils/format'
+import { ArrowDown, Mail, MapPin, PackageCheck, Phone, SendHorizonal, ShoppingCart } from 'lucide-react'
+import { formatKg, formatPhone } from '../../utils/format'
 import { publicGradeName } from './publicGrade'
 
 const sectionClass = 'mx-auto max-w-6xl px-4'
@@ -154,7 +154,7 @@ export default function Home() {
 
       {cooperative && (
         <section className="bg-text/[0.04] py-6">
-          <div className={`${sectionClass} grid gap-3 sm:grid-cols-2 lg:grid-cols-3`}>
+          <div className={`${sectionClass} grid gap-3 sm:grid-cols-2 lg:grid-cols-[repeat(auto-fit,minmax(14rem,1fr))]`}>
             {cooperative.location && (
               <InfoCard icon={MapPin} label={t('publicHome.info.location')}>
                 {cooperative.location}
@@ -163,6 +163,11 @@ export default function Home() {
             {Number(cooperative.minOrderKg) > 0 && (
               <InfoCard icon={PackageCheck} label={t('publicHome.info.minOrder')}>
                 {formatKg(Number(cooperative.minOrderKg))}
+              </InfoCard>
+            )}
+            {cooperative.cooperativePhone && (
+              <InfoCard icon={Phone} label={t('publicHome.info.phone')}>
+                {formatPhone(cooperative.cooperativePhone)}
               </InfoCard>
             )}
             {cooperative.cooperativeEmail && (
@@ -223,7 +228,7 @@ export default function Home() {
         </div>
       </section>
 
-      {cooperative && (cooperative.location || cooperative.cooperativeEmail) && (
+      {cooperative && (cooperative.location || cooperative.cooperativePhone || cooperative.cooperativeEmail) && (
         <section id="contact" className={`${sectionClass} scroll-mt-4 py-12`}>
           <div className="rounded-2xl bg-[#0b3a1f] p-6 text-white sm:p-10">
             <p className="text-xs font-medium uppercase tracking-wide text-white/70">{t('publicHome.contact.eyebrow')}</p>
@@ -235,6 +240,13 @@ export default function Home() {
               {cooperative.location && (
                 <ContactRow icon={MapPin} label={t('publicHome.info.location')}>
                   {cooperative.location}
+                </ContactRow>
+              )}
+              {cooperative.cooperativePhone && (
+                <ContactRow icon={Phone} label={t('publicHome.info.phone')}>
+                  <a href={`tel:${cooperative.cooperativePhone}`} className="underline">
+                    {formatPhone(cooperative.cooperativePhone)}
+                  </a>
                 </ContactRow>
               )}
               {cooperative.cooperativeEmail && (

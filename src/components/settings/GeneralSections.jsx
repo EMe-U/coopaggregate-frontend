@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Building2, Coins, Mail, MessageSquare, ShieldCheck, ShoppingBag, X } from 'lucide-react'
 import useSettingsSection from '../../hooks/useSettingsSection'
+import { cleanPhone, RWANDAN_PHONE_PATTERN } from '../../utils/phone'
 import SettingsSection, { SaveBar } from './SettingsSection'
 import Switch from './Switch'
 import { inputClass, labelClass } from './fieldClasses'
@@ -10,14 +11,14 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 // The backend keeps at most 10 committee emails.
 const MAX_EMAILS = 10
 
-function Field({ id, label, error, children }) {
+function Field({ id, label, error, hint, children }) {
   return (
     <div>
       <label htmlFor={id} className={labelClass}>
         {label}
       </label>
       {children}
-      {error && <p className="mt-1 text-sm text-danger">{error}</p>}
+      {error ? <p className="mt-1 text-sm text-danger">{error}</p> : hint && <p className="mt-1 text-xs text-muted">{hint}</p>}
     </div>
   )
 }
@@ -30,7 +31,7 @@ function parseAmount(text) {
 
 export function CooperativeSection({ settings, onSaved }) {
   const { t } = useTranslation()
-  const section = useSettingsSection(settings, ['cooperativeEmail', 'location'], onSaved)
+  const section = useSettingsSection(settings, ['cooperativeEmail', 'cooperativePhone', 'location'], onSaved)
   const [errors, setErrors] = useState({})
   const { draft } = section
 
@@ -39,11 +40,15 @@ export function CooperativeSection({ settings, onSaved }) {
     if (draft.cooperativeEmail?.trim() && !EMAIL_PATTERN.test(draft.cooperativeEmail.trim())) {
       found.cooperativeEmail = t('settings.errors.email')
     }
+    if (draft.cooperativePhone?.trim() && !RWANDAN_PHONE_PATTERN.test(cleanPhone(draft.cooperativePhone))) {
+      found.cooperativePhone = t('settings.errors.phone')
+    }
     setErrors(found)
     if (Object.keys(found).length === 0) section.save()
   }
 
   const fields = [
+    { key: 'cooperativePhone', type: 'tel', hint: t('settings.cooperative.phoneHint') },
     { key: 'cooperativeEmail', type: 'email' },
     { key: 'location', type: 'text' },
   ]
@@ -51,8 +56,8 @@ export function CooperativeSection({ settings, onSaved }) {
   return (
     <SettingsSection icon={Building2} title={t('settings.cooperative.title')} subtitle={t('settings.cooperative.subtitle')}>
       <div className="grid gap-4 sm:grid-cols-2">
-        {fields.map(({ key, type }) => (
-          <Field key={key} id={`settings-${key}`} label={t(`settings.cooperative.${key}`)} error={errors[key]}>
+        {fields.map(({ key, type, hint }) => (
+          <Field key={key} id={`settings-${key}`} label={t(`settings.cooperative.${key}`)} error={errors[key]} hint={hint}>
             <input
               id={`settings-${key}`}
               type={type}

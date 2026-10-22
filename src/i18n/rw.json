@@ -1062,13 +1062,16 @@
     "errors": {
       "email": "Andika email nyayo",
       "positive": "Andika umubare urenze 0 ufite ibice 2 by'inyuma y'akitso nibura",
-      "wholeNumber": "Andika umubare wuzuye wa RWF, 0 cyangwa urenga"
+      "wholeNumber": "Andika umubare wuzuye wa RWF, 0 cyangwa urenga",
+      "phone": "Andika nimero ya telefone yo mu Rwanda, urugero 0788123456"
     },
     "cooperative": {
       "title": "Koperative",
       "subtitle": "Aho koperative ibarizwa",
       "cooperativeEmail": "Email",
-      "location": "Aho iherereye"
+      "location": "Aho iherereye",
+      "cooperativePhone": "Telefone",
+      "phoneHint": "Abaguzi barayibona. Urugero 0788123456"
     },
     "deduction": {
       "title": "Ibiciro n'amafaranga akurwaho",
@@ -1240,7 +1243,10 @@
       "publicNav.contact",
       "publicRequest",
       "requestStatus",
-      "buyerRequests"
+      "buyerRequests",
+      "settings.cooperative.cooperativePhone",
+      "settings.cooperative.phoneHint",
+      "settings.errors.phone"
     ]
   },
   "memberVerification": {
@@ -1284,7 +1290,8 @@
     "info": {
       "location": "Aho iherereye",
       "minOrder": "Ibiro bike bishoboka",
-      "email": "Email"
+      "email": "Email",
+      "phone": "Telefone"
     },
     "grades": {
       "title": "Ibyiciro bihari",
