@@ -1,8 +1,15 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { CircleCheck, Split, TriangleAlert, Truck, Wallet } from 'lucide-react'
+import { CircleCheck, Clock, MessageSquareWarning, Split, TriangleAlert, Truck, Wallet } from 'lucide-react'
 
 const items = [
+  { key: 'disputed', field: 'disputedDeliveries', to: '/deliveries?status=DISPUTED', icon: MessageSquareWarning },
+  {
+    key: 'waitingConfirmation',
+    field: 'pendingConfirmationsOver48h',
+    to: '/deliveries?status=PENDING&olderThanHours=48',
+    icon: Clock,
+  },
   { key: 'readyToShare', field: 'lotsReadyToShare', to: '/share', icon: Split },
   { key: 'readyToSell', field: 'lotsReadyToSell', to: '/sales', icon: Truck },
   { key: 'awaitingPayment', field: 'membersAwaitingPayment', to: '/payments', icon: Wallet },

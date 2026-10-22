@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Banknote, ReceiptText, Truck } from 'lucide-react'
 import { listDeliveries } from '../../api/deliveries'
@@ -6,6 +7,13 @@ import { formatDate, formatDay, formatKg, formatMoney, kigaliIsoDate } from '../
 import GradeName from '../GradeName'
 import Pagination from '../Pagination'
 import usePageSize from '../../hooks/usePageSize'
+import useLinkedDeliveries from '../../hooks/useLinkedDeliveries'
+import useLotsWithSales from '../../hooks/useLotsWithSales'
+import ConfirmationBadge from '../deliveries/ConfirmationBadge'
+import DeliveryActionsMenu from '../deliveries/DeliveryActionsMenu'
+import DeliveryHistoryNote, { deliveryRowId } from '../deliveries/DeliveryHistoryNote'
+import useOnlineStatus from '../../hooks/useOnlineStatus'
+import { loadWithCache } from '../../offline/cache'
 
 // Deliveries come from the deliveries API; the summary, lot shares and payments come from the
 // member statement. Every amount is calculated by the backend, never by adding up money here.
@@ -20,7 +28,8 @@ function SummaryBox({ label, value, note }) {
   )
 }
 
-export function FinancialSummaryCard({ statement, error, onPay }) {
+// readOnly disables paying, for a statement shown without internet.
+export function FinancialSummaryCard({ statement, error, onPay, readOnly }) {
   const { t } = useTranslation()
   const money = (amount) => (statement ? formatMoney(amount) : t('members.statement.noValue'))
 
@@ -36,7 +45,9 @@ export function FinancialSummaryCard({ statement, error, onPay }) {
             <button
               type="button"
               onClick={onPay}
-              className="min-h-11 rounded-lg bg-white px-5 text-sm font-semibold text-primary hover:bg-primary-light print:hidden"
+              disabled={readOnly}
+              title={readOnly ? t('offline.needsInternet') : undefined}
+              className="min-h-11 rounded-lg bg-white px-5 text-sm font-semibold text-primary hover:bg-primary-light disabled:cursor-not-allowed disabled:opacity-60 print:hidden"
             >
               {t('members.statement.pay')}
             </button>
@@ -105,9 +116,10 @@ function StatementSection({ icon: Icon, title, subtitle, columns, rows, renderRo
   )
 }
 
-function DeliveriesSection({ memberId, totals }) {
+function DeliveriesSection({ memberId, totals, onChanged }) {
   const { t } = useTranslation()
   const pageSize = usePageSize()
+  const isOnline = useOnlineStatus()
   const key = 'members.statement.deliveries'
   const cell = 'whitespace-nowrap px-3 py-2'
 
@@ -119,8 +131,11 @@ function DeliveriesSection({ memberId, totals }) {
   useEffect(() => {
     let ignore = false
     setStatus('loading')
-    listDeliveries({ memberId, page, size: pageSize })
-      .then((data) => {
+    // Without internet, the pages opened before on this device can still be shown.
+    loadWithCache(`memberDeliveries:${memberId}:${page}:${pageSize}`, () =>
+      listDeliveries({ memberId, includeReversed: true, page, size: pageSize }),
+    )
+      .then(({ data }) => {
         if (ignore) return
         setResult(data)
         setStatus('done')
@@ -131,7 +146,7 @@ function DeliveriesSection({ memberId, totals }) {
     return () => {
       ignore = true
     }
-  }, [memberId, page, pageSize, reloadKey])
+  }, [memberId, page, pageSize, reloadKey, isOnline])
 
   let emptyMessage = t(`${key}.empty`)
   if (status === 'loading' && !result) emptyMessage = t('deliveries.memberSection.loading')
@@ -151,23 +166,55 @@ function DeliveriesSection({ memberId, totals }) {
   }
 
   const deliveries = status === 'error' ? [] : (result?.content ?? [])
+  const lotsWithSales = useLotsWithSales(deliveries.map((delivery) => delivery.lotId), reloadKey)
+  const linked = useLinkedDeliveries(deliveries)
+
+  // A reversal changes the statement too, so the page reloads it as well.
+  function handleChanged() {
+    setReloadKey((current) => current + 1)
+    onChanged?.()
+  }
 
   return (
     <StatementSection
       icon={Truck}
       title={t(`${key}.title`)}
-      columns={['date', 'receiptCode', 'grade', 'lot', 'kg', 'deduction'].map((column) => t(`${key}.${column}`))}
+      columns={[
+        ...['date', 'receiptCode', 'grade', 'lot', 'kg', 'deduction'].map((column) => t(`${key}.${column}`)),
+        t('confirmation.status'),
+        t('reversal.actionsColumn'),
+      ]}
       rows={deliveries}
       renderRow={(delivery) => (
-        <tr key={delivery.id}>
+        <tr
+          key={delivery.id}
+          id={deliveryRowId(delivery.id)}
+          className={`target:bg-warning/20 ${delivery.reversed ? 'opacity-60' : ''}`}
+        >
           <td className={cell}>{formatDate(kigaliIsoDate(new Date(delivery.deliveredAt)))}</td>
-          <td className={`${cell} font-mono text-xs`}>{delivery.receiptCode}</td>
+          <td className={`${cell} font-mono text-xs`}>
+            <Link
+              to={`/deliveries/${delivery.id}`}
+              className={`text-primary hover:underline ${delivery.reversed ? 'line-through' : ''}`}
+            >
+              {delivery.receiptCode}
+            </Link>
+            <DeliveryHistoryNote delivery={delivery} linked={linked} />
+          </td>
           <td className={cell}>
             <GradeName name={delivery.gradeName} />
           </td>
           <td className={cell}>{delivery.lotCode}</td>
           <td className={cell}>{formatKg(delivery.quantityKg)}</td>
           <td className={cell}>{formatMoney(delivery.deductionRwf)}</td>
+          <td className={cell}>{!delivery.reversed && <ConfirmationBadge delivery={delivery} />}</td>
+          <td className="px-3 py-1 print:hidden">
+            <DeliveryActionsMenu
+              delivery={delivery}
+              lotHasSales={lotsWithSales.has(delivery.lotId)}
+              onChanged={handleChanged}
+            />
+          </td>
         </tr>
       )}
       totalsRow={
@@ -178,6 +225,8 @@ function DeliveriesSection({ memberId, totals }) {
             </td>
             <td className={cell}>{formatKg(totals.totalKg)}</td>
             <td className={cell}>{formatMoney(totals.totalDeduction)}</td>
+            <td />
+            <td className="print:hidden" />
           </tr>
         )
       }
@@ -262,11 +311,12 @@ function PaymentsSection({ statement, error }) {
   )
 }
 
-export function StatementSections({ memberId, statement, statementError }) {
+// onChanged runs after a delivery was reversed or corrected, so the page can reload the statement.
+export function StatementSections({ memberId, statement, statementError, onChanged }) {
   return (
     <>
       <div className="grid gap-6 lg:grid-cols-2">
-        <DeliveriesSection memberId={memberId} />
+        <DeliveriesSection memberId={memberId} onChanged={onChanged} />
         <LotSharesSection statement={statement} error={statementError} />
       </div>
       <PaymentsSection statement={statement} error={statementError} />

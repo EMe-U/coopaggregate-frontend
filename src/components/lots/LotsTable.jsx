@@ -10,6 +10,7 @@ import usePageSize from '../../hooks/usePageSize'
 import LotActionsMenu from './LotActionsMenu'
 import LotStatusBadge from './LotStatusBadge'
 import { formatDate, formatKg, formatMoney } from '../../utils/format'
+import useGradeName from '../../hooks/useGradeName'
 
 const STATUSES = ['OPEN', 'CLOSED', 'SOLD', 'SHARED']
 
@@ -42,6 +43,7 @@ function SaleAmount({ amount }) {
 
 export default function LotsTable({ reloadKey, onClose, onRecordLoss }) {
   const { t } = useTranslation()
+  const gradeName = useGradeName()
   const pageSize = usePageSize()
 
   const [grades, setGrades] = useState([])
@@ -260,7 +262,7 @@ export default function LotsTable({ reloadKey, onClose, onRecordLoss }) {
             </option>
             {grades.map((grade) => (
               <option key={grade.id} value={grade.id}>
-                {t(`grades.${grade.name}`, { defaultValue: grade.name })}
+                {gradeName(grade.name)}
               </option>
             ))}
           </select>

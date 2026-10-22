@@ -3,13 +3,14 @@ import { useTranslation } from 'react-i18next'
 import { Eye, Pencil } from 'lucide-react'
 import Avatar from '../Avatar'
 import StatusBadge from '../StatusBadge'
-import { formatDate, formatPhone, maskNationalId } from '../../utils/format'
+import VerifiedBadge from './VerifiedBadge'
+import { formatDate, formatPhone } from '../../utils/format'
 
 function avatarClass(member) {
   return member.status === 'ACTIVE' ? 'bg-primary-light text-primary' : 'bg-background text-muted'
 }
 
-function MemberActions({ member, onEdit }) {
+function MemberActions({ member, onEdit, readOnly }) {
   const { t } = useTranslation()
 
   return (
@@ -25,9 +26,10 @@ function MemberActions({ member, onEdit }) {
       <button
         type="button"
         onClick={() => onEdit(member)}
-        className="rounded-md p-1.5 text-muted hover:bg-background hover:text-text"
+        disabled={readOnly}
+        className="rounded-md p-1.5 text-muted hover:bg-background hover:text-text disabled:cursor-not-allowed disabled:opacity-40"
         aria-label={t('members.table.edit')}
-        title={t('members.table.edit')}
+        title={readOnly ? t('offline.needsInternet') : t('members.table.edit')}
       >
         <Pencil size={16} />
       </button>
@@ -35,7 +37,8 @@ function MemberActions({ member, onEdit }) {
   )
 }
 
-export default function MemberTable({ members, onEdit }) {
+// readOnly disables editing, for members shown from the copy saved on this device.
+export default function MemberTable({ members, onEdit, readOnly }) {
   const { t } = useTranslation()
 
   return (
@@ -47,7 +50,6 @@ export default function MemberTable({ members, onEdit }) {
               <th className="px-4 py-3 font-semibold">{t('members.table.memberId')}</th>
               <th className="px-4 py-3 font-semibold">{t('members.table.fullName')}</th>
               <th className="px-4 py-3 font-semibold">{t('members.table.phone')}</th>
-              <th className="px-4 py-3 font-semibold">{t('members.table.nationalId')}</th>
               <th className="px-4 py-3 font-semibold">{t('members.table.joinDate')}</th>
               <th className="px-4 py-3 font-semibold">{t('members.table.status')}</th>
               <th className="px-4 py-3 font-semibold">{t('members.table.actions')}</th>
@@ -61,13 +63,15 @@ export default function MemberTable({ members, onEdit }) {
                   <div className="flex items-center gap-3">
                     <Avatar name={member.fullName} className={avatarClass(member)} />
                     <div>
-                      <p className="font-medium text-text">{member.fullName}</p>
+                      <p className="flex flex-wrap items-center gap-1.5 font-medium text-text">
+                        {member.fullName}
+                        <VerifiedBadge member={member} />
+                      </p>
                       {member.address && <p className="text-xs text-muted">{member.address}</p>}
                     </div>
                   </div>
                 </td>
                 <td className="whitespace-nowrap px-4 py-3">{formatPhone(member.phone)}</td>
-                <td className="whitespace-nowrap px-4 py-3 font-mono text-xs">{maskNationalId(member.nationalId)}</td>
                 <td className="whitespace-nowrap px-4 py-3">{formatDate(member.joinDate)}</td>
                 <td className="px-4 py-3">
                   <StatusBadge active={member.status === 'ACTIVE'}>
@@ -75,7 +79,7 @@ export default function MemberTable({ members, onEdit }) {
                   </StatusBadge>
                 </td>
                 <td className="px-4 py-3">
-                  <MemberActions member={member} onEdit={onEdit} />
+                  <MemberActions member={member} onEdit={onEdit} readOnly={readOnly} />
                 </td>
               </tr>
             ))}
@@ -89,7 +93,10 @@ export default function MemberTable({ members, onEdit }) {
             <Avatar name={member.fullName} className={avatarClass(member)} />
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <p className="font-medium text-text">{member.fullName}</p>
+                <p className="flex flex-wrap items-center gap-1.5 font-medium text-text">
+                  {member.fullName}
+                  <VerifiedBadge member={member} />
+                </p>
                 <StatusBadge active={member.status === 'ACTIVE'}>
                   {t(`members.status.${member.status}`)}
                 </StatusBadge>
@@ -99,7 +106,7 @@ export default function MemberTable({ members, onEdit }) {
               <p className="mt-1 text-sm">{formatPhone(member.phone)}</p>
               <div className="mt-1 flex items-center justify-between">
                 <p className="text-xs text-muted">{formatDate(member.joinDate)}</p>
-                <MemberActions member={member} onEdit={onEdit} />
+                <MemberActions member={member} onEdit={onEdit} readOnly={readOnly} />
               </div>
             </div>
           </li>

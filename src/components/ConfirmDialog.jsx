@@ -1,6 +1,18 @@
 import { useEffect, useRef } from 'react'
 
-export default function ConfirmDialog({ title, message, confirmLabel, cancelLabel, busy, error, onConfirm, onCancel }) {
+// confirmDisabled turns off only the confirm button, with confirmTitle saying why.
+export default function ConfirmDialog({
+  title,
+  message,
+  confirmLabel,
+  cancelLabel,
+  busy,
+  error,
+  onConfirm,
+  onCancel,
+  confirmDisabled,
+  confirmTitle,
+}) {
   const cancelRef = useRef(null)
 
   // Start on Cancel so pressing Enter by accident does not confirm.
@@ -49,7 +61,8 @@ export default function ConfirmDialog({ title, message, confirmLabel, cancelLabe
           <button
             type="button"
             onClick={onConfirm}
-            disabled={busy}
+            disabled={busy || confirmDisabled}
+            title={confirmTitle}
             className="min-h-12 flex-1 rounded-lg bg-primary px-4 text-sm font-semibold text-white hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {confirmLabel}

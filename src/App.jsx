@@ -2,11 +2,15 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import Layout from './components/Layout'
 import PublicLayout from './components/PublicLayout'
 import ProtectedRoute from './components/ProtectedRoute'
+import RequiresInternet from './components/RequiresInternet'
 import Login from './pages/Login'
 import Dashboard from './pages/manager/Dashboard'
+import Deliveries from './pages/manager/Deliveries'
+import DeliveryDetail from './pages/manager/DeliveryDetail'
 import RecordDelivery from './pages/manager/RecordDelivery'
 import Members from './pages/manager/Members'
 import MemberDetail from './pages/manager/MemberDetail'
+import MemberVerifyCallback from './pages/manager/MemberVerifyCallback'
 import Lots from './pages/manager/Lots'
 import LotDetail from './pages/manager/LotDetail'
 import Sales from './pages/manager/Sales'
@@ -26,18 +30,23 @@ export default function App() {
 
       <Route element={<ProtectedRoute />}>
         <Route element={<Layout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/record-delivery" element={<RecordDelivery />} />
           <Route path="/members" element={<Members />} />
           <Route path="/members/:id" element={<MemberDetail />} />
-          <Route path="/lots" element={<Lots />} />
-          <Route path="/lots/:id" element={<LotDetail />} />
-          <Route path="/sales" element={<Sales />} />
-          <Route path="/share" element={<ShareLotMoney />} />
-          <Route path="/payments" element={<Payments />} />
-          <Route path="/buyer-requests" element={<BuyerRequests />} />
-          <Route path="/ledger" element={<Ledger />} />
-          <Route path="/settings" element={<Settings />} />
+          <Route element={<RequiresInternet />}>
+            <Route path="/members/verify/callback" element={<MemberVerifyCallback />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/deliveries" element={<Deliveries />} />
+            <Route path="/deliveries/:id" element={<DeliveryDetail />} />
+            <Route path="/lots" element={<Lots />} />
+            <Route path="/lots/:id" element={<LotDetail />} />
+            <Route path="/sales" element={<Sales />} />
+            <Route path="/share" element={<ShareLotMoney />} />
+            <Route path="/payments" element={<Payments />} />
+            <Route path="/buyer-requests" element={<BuyerRequests />} />
+            <Route path="/ledger" element={<Ledger />} />
+            <Route path="/settings" element={<Settings />} />
+          </Route>
         </Route>
       </Route>
 

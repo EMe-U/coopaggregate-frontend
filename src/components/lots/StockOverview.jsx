@@ -1,18 +1,24 @@
 import { useTranslation } from 'react-i18next'
 import { CircleCheck, CircleAlert, Package, Truck, Warehouse } from 'lucide-react'
 import { formatKg } from '../../utils/format'
+import useGradeName from '../../hooks/useGradeName'
 
 // Kilograms only; no money is calculated here.
 function roundKg(kg) {
   return Math.round(Number(kg) * 100) / 100
 }
 
-function StockCard({ label, value, note, icon: Icon }) {
+// pending is the part of the value that members have not confirmed yet, shown when there is some.
+function StockCard({ label, value, note, pending, icon: Icon }) {
+  const { t } = useTranslation()
   return (
     <div className="flex min-w-0 items-start justify-between gap-3 rounded-xl bg-surface p-5 shadow-sm">
       <div className="min-w-0">
         <p className="text-xs font-medium uppercase tracking-wide text-muted">{label}</p>
         <p className="mt-1 text-2xl font-semibold text-text">{value}</p>
+        {Number(pending) > 0 && (
+          <p className="mt-1 text-xs text-amber-800">{t('lots.pendingConfirmation', { kg: formatKg(roundKg(pending)) })}</p>
+        )}
         {note && <p className="mt-1 text-sm text-muted">{note}</p>}
       </div>
       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary-light text-primary">
@@ -55,6 +61,7 @@ function BalanceBanner({ stock }) {
 
 export default function StockOverview({ stock, error, onRetry }) {
   const { t } = useTranslation()
+  const gradeName = useGradeName()
 
   if (error) {
     return (
@@ -88,7 +95,7 @@ export default function StockOverview({ stock, error, onRetry }) {
           <StockCard
             key={grade.gradeName}
             label={t('lots.cards.gradeAvailable', {
-              grade: t(`grades.${grade.gradeName}`, { defaultValue: grade.gradeName }),
+              grade: gradeName(grade.gradeName),
             })}
             value={formatKg(roundKg(grade.remainingKg))}
             icon={Package}
@@ -97,6 +104,7 @@ export default function StockOverview({ stock, error, onRetry }) {
         <StockCard
           label={t('lots.cards.totalInStock')}
           value={formatKg(roundKg(stock.totalRemainingKg))}
+          pending={stock.pendingConfirmationKg}
           note={t('lots.cards.lotCounts', { open: stock.openLots, closed: stock.closedLots })}
           icon={Warehouse}
         />

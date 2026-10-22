@@ -20,9 +20,13 @@
     "soon": "vuba"
   },
   "publicNav": {
-    "home": "Ahabanza",
     "sendRequest": "Ohereza Icyifuzo",
-    "checkStatus": "Reba Uko Icyifuzo Gihagaze"
+    "checkStatus": "Reba Uko Icyifuzo Gihagaze",
+    "grades": "Ibyiciro",
+    "contact": "Twandikire",
+    "copyright": "© {{year}} {{name}}",
+    "openMenu": "Fungura menu",
+    "closeMenu": "Funga menu"
   },
   "topbar": {
     "online": "Kuri murandasi",
@@ -93,7 +97,6 @@
       "memberId": "Nimero",
       "fullName": "Amazina yose",
       "phone": "Telefoni",
-      "nationalId": "Indangamuntu",
       "joinDate": "Itariki yinjiriyeho",
       "status": "Uko ahagaze",
       "actions": "Ibikorwa",
@@ -211,6 +214,11 @@
     },
     "print": {
       "statementAsOf": "Raporo yo ku itariki ya {{date}}"
+    },
+    "verified": {
+      "badge": "Yagenzuwe",
+      "test": "Igenzura ry'igerageza",
+      "testHint": "Igenzura ry'igerageza: nta mwirondoro nyawo wagenzuwe."
     }
   },
   "deliveries": {
@@ -252,12 +260,6 @@
       "message_one": "Uyu munyamuryango yagemuye {{kg}} kg mu munota {{count}} ushize. Ese ni ibyanditswe kabiri?",
       "message_other": "Uyu munyamuryango yagemuye {{kg}} kg mu minota {{count}} ishize. Ese ni ibyanditswe kabiri?"
     },
-    "offline": {
-      "title": "Nta murandasi",
-      "message": "Kubika nta murandasi biraza vuba. Fungura murandasi kugira ngo ubike ibi byagemuwe."
-    },
-    "save": "Bika ibyagemuwe",
-    "saving": "Birabikwa...",
     "errors": {
       "memberRequired": "Hitamo umunyamuryango",
       "gradeRequired": "Hitamo urwego",
@@ -266,8 +268,7 @@
       "quantityTooLarge": "Ingano ntishobora kurenza kg 5,000",
       "dateRequired": "Hitamo itariki yagemuriyeho",
       "dateFuture": "Itariki ntishobora kuba iri imbere",
-      "generic": "Ntibishobotse kubika ibyagemuwe. Ongera ugerageze.",
-      "serverUnreachable": "Ntibishoboka kugera kuri seriveri. Reba murandasi yawe wongere ugerageze."
+      "generic": "Ntibishobotse kubika ibyagemuwe. Ongera ugerageze."
     },
     "receipt": {
       "title": "Inyemezabuguzi y'ibyagemuwe",
@@ -305,7 +306,9 @@
     "memberSection": {
       "loading": "Ibyagemuwe biraza...",
       "error": "Ntibishobotse kubona ibyagemuwe."
-    }
+    },
+    "save": "Bika ibyagemuwe",
+    "saving": "Birabikwa..."
   },
   "grades": {
     "Big": "Binini",
@@ -423,7 +426,18 @@
       "lossesError": "Ntibishobotse kubona ibyangiritse.",
       "notFound": "Ikirundo ntikiboneka",
       "notFoundMessage": "Nta kirundo gifite iyi nimero.",
-      "loadError": "Ntibishobotse kubona iki kirundo."
+      "loadError": "Ntibishobotse kubona iki kirundo.",
+      "deliveriesTitle": "Ibyagemuwe muri iki kirundo",
+      "noDeliveries": "Nta byagemuwe muri iki kirundo.",
+      "deliveriesError": "Ntibishobotse kubona ibyagemuwe.",
+      "deliveryColumns": {
+        "receipt": "Inyemezabwishyu",
+        "member": "Umunyamuryango",
+        "kg": "Kg",
+        "date": "Itariki",
+        "status": "Kwemezwa",
+        "actions": "Ibikorwa"
+      }
     },
     "actions": {
       "column": "Ibikorwa",
@@ -447,7 +461,8 @@
       "CLOSED": "Gifunze: nta bindi bigemurwa; cyiteguye kugurishwa.",
       "SOLD": "Cyagurishijwe: cyagurishijwe cyose; amafaranga ategereje kugabanywa.",
       "SHARED": "Cyagabanyijwe: amafaranga yagabanyijwe abanyamuryango."
-    }
+    },
+    "pendingConfirmation": "muri byo {{kg}} bitegereje kwemezwa"
   },
   "sales": {
     "title": "Igurisha n'Abaguzi",
@@ -609,7 +624,11 @@
     "success": "Ikirundo {{code}} cyagabanyijwe. Abanyamuryango bashobora kwishyurwa.",
     "goToPayments": "Jya ku kwishyura",
     "error": "Ntibishobotse kugabanya ikirundo. Ongera ugerageze.",
-    "shareMoney": "Gabanya amafaranga"
+    "shareMoney": "Gabanya amafaranga",
+    "unconfirmed": {
+      "title": "Ibyagemuwe bitaremezwa",
+      "hint": "Ikirundo kizagabanywa buri kimwe muri ibi nikimara kwemezwa n'umunyamuryango cyangwa kugenzurwa n'umuyobozi. Fungura kimwe ucyemeze, ucyigenzure cyangwa ukemure ikibazo."
+    }
   },
   "payments": {
     "eyebrow": "Ibikorwa by'imari",
@@ -778,15 +797,9 @@
     },
     "reverse": {
       "title": "Ukosora icyanditswe #{{id}}?",
-      "explanation": "Hazongerwaho icyanditswe gishya gikuraho iki. Icyanditswe cy'umwimerere kiguma mu gitabo, kigaragazwa ko cyakosowe.",
-      "reason": "Impamvu",
-      "reasonPlaceholder": "Sobanura impamvu iki cyanditswe kitari cyo",
-      "reasonRequired": "Andika impamvu",
+      "explanation": "Hazongerwaho icyanditswe gikosora gihagarika iki, kandi ibyagemuwe cyangwa ubwishyu cyanditseho nabyo bigahagarikwa. Icyanditswe cya mbere kigumye mu gitabo, cyanditseho ko cyahagaritswe.",
       "confirm": "Kosora icyanditswe",
-      "reversing": "Birakosorwa...",
-      "cancel": "Hagarika",
-      "done": "Icyanditswe #{{id}} cyakosowe na #{{reversalId}}",
-      "error": "Ntibishobotse gukosora icyanditswe. Ongera ugerageze."
+      "done": "Icyanditswe #{{id}} cyakosowe na #{{reversalId}}"
     },
     "describe": {
       "delivery": "Ibyagemuwe {{code}} · amafaranga akurwaho {{fee}}",
@@ -846,7 +859,13 @@
       "readyToSellAction": "Andika igurisha",
       "awaitingPayment_one": "Umunyamuryango {{count}} ategereje kwishyurwa",
       "awaitingPayment_other": "Abanyamuryango {{count}} bategereje kwishyurwa",
-      "awaitingPaymentAction": "Ishyura abanyamuryango"
+      "awaitingPaymentAction": "Ishyura abanyamuryango",
+      "disputed_one": "Ibyagemuwe {{count}} bijuririwe",
+      "disputed_other": "Ibyagemuwe {{count}} bijuririwe",
+      "disputedAction": "Reba ibibazo",
+      "waitingConfirmation_one": "Ibyagemuwe {{count}} bitegereje kwemezwa amasaha arenga 48",
+      "waitingConfirmation_other": "Ibyagemuwe {{count}} bitegereje kwemezwa amasaha arenga 48",
+      "waitingConfirmationAction": "Reba ibyagemuwe"
     },
     "recent": {
       "title": "Ibyagemuwe vuba",
@@ -869,5 +888,581 @@
       "peak": "Icyumweru cyagemuweho byinshi:",
       "peakValue": "{{week}} ({{kg}} byose hamwe)"
     }
+  },
+  "offline": {
+    "banner": {
+      "title": "Nta interineti",
+      "message": "Urashobora gukomeza kwandika ibyagemuwe. Bibikwa kuri iki gikoresho, bikoherezwa interineti igarutse."
+    },
+    "saveFailed": "Ntibishobotse kubika ibyagemuwe kuri iki gikoresho. Ongera ugerageze.",
+    "lotLater": "Ikirundo kizagenwa igihe ibyagemuwe byoherejwe.",
+    "receipt": {
+      "waiting": "Bitegereje koherezwa",
+      "failed": "Kohereza byanze",
+      "explanation": "Byabitswe kuri iki gikoresho. Nimero y'inyemezabwishyu, ikirundo n'amafaranga akurwaho bitangwa byoherejwe.",
+      "grade": "Urwego",
+      "lotLater": "Ikirundo kigenwa byoherejwe",
+      "deductionPreview": "Amafaranga akurwaho (agereranyo)",
+      "smsAfterSync": "Nibimara koherezwa, umunyamuryango azabona SMS asubize abyemeza."
+    },
+    "status": {
+      "WAITING": "Bitegereje",
+      "SYNCING": "Biroherezwa",
+      "FAILED": "Byanze",
+      "SYNCED": "Byoherejwe"
+    },
+    "syncColumn": "Kohereza",
+    "todayOffline": "Nta interineti. Ibyabitswe kuri seriveri biragaragara interineti igarutse.",
+    "needsLogin": "Ongera winjire kugira ngo byoherezwe",
+    "waitingCount_one": "{{count}} bitegereje koherezwa",
+    "waitingCount_other": "{{count}} bitegereje koherezwa",
+    "failedCount_one": "{{count}} byanze",
+    "failedCount_other": "{{count}} byanze",
+    "panel": {
+      "title": "Ibyagemuwe biri kuri iki gikoresho",
+      "syncNow": "Ohereza ubu",
+      "syncing": "Biroherezwa...",
+      "offline": "Bizoherezwa interineti igarutse.",
+      "needsLogin": "Igihe cyawe cyarangiye. Ongera winjire kugira ngo byoherezwe. Ibyagemuwe bigumye kuri iki gikoresho.",
+      "logIn": "Ongera winjire",
+      "empty": "Nta bitegereje koherezwa.",
+      "retry": "Ongera ugerageze",
+      "discard": "Siba"
+    },
+    "discard": {
+      "title": "Gusiba ibi byagemuwe?",
+      "message": "{{reference}} – {{member}}, {{kg}} bizakurwa kuri iki gikoresho kandi ntibizoherezwa.",
+      "confirm": "Siba",
+      "cancel": "Bigumane"
+    },
+    "logout": {
+      "title": "Hari ibyagemuwe bitaroherezwa",
+      "message_one": "Ibyagemuwe {{count}} ntibiroherezwa. Bigumye kuri iki gikoresho, bikoherezwa nyuma yo kongera kwinjira.",
+      "message_other": "Ibyagemuwe {{count}} ntibiroherezwa. Bigumye kuri iki gikoresho, bikoherezwa nyuma yo kongera kwinjira.",
+      "confirm": "Sohoka",
+      "cancel": "Guma winjiye"
+    },
+    "cachedData": "Nta interineti - amakuru yo ku wa {{time}}",
+    "readOnly": "Urashobora kureba, ariko guhindura bisaba interineti.",
+    "needsInternet": "Bisaba interineti",
+    "pageNeedsInternet": {
+      "title": "Iyi paji isaba interineti",
+      "message": "Urashobora gukomeza kwandika ibyagemuwe nta interineti.",
+      "recordDelivery": "Andika ibyagemuwe",
+      "lost": "Nta interineti. Urashobora kureba iyi paji, ariko guhindura bisaba interineti."
+    }
+  },
+  "reversal": {
+    "actionsColumn": "Ibikorwa",
+    "reversed": "Byahagaritswe",
+    "reasonTooltip": "Impamvu: {{reason}}",
+    "reason": "Impamvu",
+    "reasonPlaceholder": "Sobanura icyari kitari cyo",
+    "reasonRequired": "Andika impamvu",
+    "cancel": "Reka",
+    "reversing": "Birabikwa...",
+    "error": "Ntibishobotse kubika impinduka. Ongera ugerageze.",
+    "delivery": {
+      "menu": "Ibikorwa ku byagemuwe {{code}}",
+      "correct": "Kosora ibyagemuwe",
+      "reverse": "Hagarika ibyagemuwe",
+      "reverseTitle": "Guhagarika ibyagemuwe {{code}}?",
+      "reverseExplanation": "Ibyagemuwe bigumye mu mateka, byanditseho ko byahagaritswe, kandi ntibikibarwa mu kirundo, mu bubiko cyangwa ku makuru y'umunyamuryango.",
+      "lotHasSales": "Iki kirundo cyamaze kugurishwaho. Bimenyekanishe nk'ikibazo aho kubihindura.",
+      "correctedBy": "Byakosowe na",
+      "corrects": "Bikosora"
+    },
+    "correct": {
+      "title": "Gukosora ibyagemuwe {{code}}",
+      "explanation": "Ibyagemuwe bitari byo bizahagarikwa hanyuma handikwe ibishya. Byombi bigumye mu mateka.",
+      "reasonPlaceholder": "Sobanura icyari kitari cyo, urugero umunyamuryango utari we",
+      "nothingChanged": "Hindura umunyamuryango, urwego cyangwa ibiro bitari byo.",
+      "save": "Bika ikosora",
+      "saving": "Birabikwa..."
+    },
+    "payment": {
+      "menu": "Ibikorwa ku bwishyu {{code}}",
+      "reverse": "Hagarika ubwishyu",
+      "reverseTitle": "Guhagarika ubwishyu {{code}}?",
+      "reverseExplanation": "Ubwishyu bugumye mu mateka, bwanditseho ko bwahagaritswe. Umunyamuryango azongera kubarirwaho aya mafaranga.",
+      "done": "Ubwishyu {{code}} bwahagaritswe"
+    }
+  },
+  "confirmation": {
+    "status": "Kwemezwa",
+    "badge": {
+      "PENDING": "Bitegereje",
+      "CONFIRMED": "Byemejwe",
+      "DISPUTED": "Bijuririwe",
+      "RECORDED_BEFORE_CONFIRMATION": "Byanditswe mbere"
+    },
+    "method": {
+      "OTP": "Byemejwe n'umunyamuryango akoresheje kode ya SMS",
+      "SMS": "Byemejwe n'umunyamuryango kuri SMS",
+      "MANAGER_REVIEW": "Byagenzuwe n'umuyobozi",
+      "PIN": "Byemejwe n'umunyamuryango akoresheje PIN",
+      "RECORDED_BEFORE_CONFIRMATION": "Byanditswe mbere y'uko kwemeza bibaho"
+    },
+    "disputeReason": {
+      "WRONG_KG": "Ibiro si byo",
+      "WRONG_GRADE": "Urwego si rwo",
+      "NOT_MY_DELIVERY": "Si ibyanjye",
+      "OTHER": "Ibindi"
+    },
+    "menu": {
+      "dispute": "Andika ikibazo",
+      "resolve": "Byari ukuri",
+      "confirm": "Emeza na kode"
+    },
+    "dispute": {
+      "title": "Ikibazo ku byagemuwe {{code}}",
+      "reason": "Umunyamuryango avuga ko iki ari cyo kitari cyo?",
+      "reasonRequired": "Hitamo ikitari cyo",
+      "note": "Icyitonderwa (si ngombwa)",
+      "notePlaceholder": "Ibyo umunyamuryango yavuze",
+      "save": "Andika ikibazo",
+      "error": "Ntibishobotse kwandika ikibazo. Ongera ugerageze."
+    },
+    "resolve": {
+      "title": "Kwemeza ko {{code}} ari ukuri?",
+      "explanation": "Koresha ibi iyo wagenzuye ugasanga ibyanditswe ari ukuri. Bizongera byemezwe.",
+      "note": "Wabigenzuye ute?",
+      "notePlaceholder": "Urugero: twongeye gupima turi kumwe n'umunyamuryango",
+      "noteRequired": "Vuga uko wabigenzuye"
+    }
+  },
+  "deliveriesPage": {
+    "title": "Ibyagemuwe",
+    "disputed": "Ibyagemuwe bijuririwe",
+    "waitingOver": "Bitegereje kwemezwa amasaha arenga {{count}}",
+    "withStatus": "Ibyagemuwe: {{status}}",
+    "subtitle": "Byemeze, ukemure ikibazo cyangwa ubikosore ukoresheje menu kuri buri murongo.",
+    "back": "Subira ku ncamake",
+    "empty": "Nta byagemuwe hano.",
+    "error": "Ntibishobotse kubona ibyagemuwe.",
+    "columns": {
+      "receipt": "Inyemezabwishyu",
+      "member": "Umunyamuryango",
+      "grade": "Urwego",
+      "lot": "Ikirundo",
+      "kg": "Kg",
+      "date": "Itariki",
+      "status": "Kwemezwa",
+      "actions": "Ibikorwa"
+    }
+  },
+  "settings": {
+    "eyebrow": "Igenamiterere rya koperative",
+    "title": "Igenamiterere rya Koperative",
+    "subtitle": "Amakuru ya koperative, amafaranga akurwaho, inzego, ubutumwa n'igenzura ry'igitabo.",
+    "loadError": "Ntibishobotse kubona igenamiterere.",
+    "retry": "Ongera ugerageze",
+    "save": "Bika",
+    "saving": "Birabikwa...",
+    "saved": "Byabitswe",
+    "saveError": "Ntibishobotse kubika. Ongera ugerageze.",
+    "errors": {
+      "email": "Andika email nyayo",
+      "positive": "Andika umubare urenze 0 ufite ibice 2 by'inyuma y'akitso nibura",
+      "wholeNumber": "Andika umubare wuzuye wa RWF, 0 cyangwa urenga",
+      "phone": "Andika nimero ya telefone yo mu Rwanda, urugero 0788123456"
+    },
+    "cooperative": {
+      "title": "Koperative",
+      "subtitle": "Aho koperative ibarizwa",
+      "cooperativeEmail": "Email",
+      "location": "Aho iherereye",
+      "cooperativePhone": "Telefone",
+      "phoneHint": "Abaguzi barayibona. Urugero 0788123456"
+    },
+    "deduction": {
+      "title": "Ibiciro n'amafaranga akurwaho",
+      "subtitle": "Amafaranga akurwaho kuri buri kilo cyagemuwe",
+      "label": "Amafaranga asanzwe akurwaho",
+      "unit": "RWF / kg",
+      "kept": "Abikwa na koperative ku mafaranga y'imikorere.",
+      "readOnly": "Aya mafaranga ashyirwaho n'ubuyobozi bwa koperative, ntashobora guhindurirwa hano."
+    },
+    "grades": {
+      "title": "Inzego",
+      "subtitle": "Amazina, ibiciro fatizo n'amakuru ya buri rwego",
+      "code": "Kode {{code}} (ntihinduka)",
+      "active": "Irakora",
+      "inactive": "Ntikora",
+      "activeLabel": "Urwego {{code}} rurakora",
+      "name": "Izina mu Cyongereza",
+      "nameRw": "Izina mu Kinyarwanda",
+      "sizeInfo": "Ingano",
+      "packaging": "Ipaki",
+      "floorPrice": "Igiciro fatizo",
+      "noMinimum": "Nta giciro fatizo",
+      "description": "Ibisobanuro",
+      "nameRequired": "Andika izina mu Cyongereza",
+      "loadError": "Ntibishobotse kubona inzego."
+    },
+    "sms": {
+      "title": "Ubutumwa bwa SMS",
+      "subtitle": "Inyemezabwishyu zoherezwa abanyamuryango",
+      "on": "Abanyamuryango babona SMS irimo ibiro, urwego na nimero y'inyemezabwishyu nyuma ya buri gagemura, kandi bashobora gusubiza bemeza cyangwa banenga.",
+      "off": "Nta SMS zoherezwa abanyamuryango."
+    },
+    "committee": {
+      "title": "Email za komite",
+      "subtitle": "Abohererezwa raporo ya buri cyumweru",
+      "empty": "Nta bantu barashyirwamo.",
+      "newEmail": "Email nshya",
+      "placeholder": "izina@example.com",
+      "add": "Ongeramo",
+      "remove": "Kuramo {{email}}",
+      "duplicate": "Iyi email isanzwe irimo",
+      "tooMany": "Ntibarenga {{count}}",
+      "note": "Izakoreshwa kuri raporo ya buri cyumweru - vuba aha."
+    },
+    "ledger": {
+      "title": "Igenzura ry'igitabo",
+      "subtitle": "Igenzura ry'urunigi rwa hash",
+      "status": "Uko igitabo kimeze",
+      "lastCheck": "Igenzura riheruka",
+      "checking": "Biragenzurwa...",
+      "verify": "Genzura igitabo",
+      "valid_one": "Icyanditswe {{count}} ni kizima",
+      "valid_other": "Ibyanditswe {{count}} byose ni bizima",
+      "broken": "Ikibazo ku cyanditswe #{{id}}",
+      "error": "Ntibishobotse kugenzura"
+    },
+    "account": {
+      "title": "Konti y'umuyobozi",
+      "subtitle": "{{name}} (Umuyobozi)",
+      "current": "Ijambo ry'ibanga risanzwe",
+      "next": "Ijambo ry'ibanga rishya",
+      "repeat": "Ongera wandike irishya",
+      "hint": "Nibura inyuguti {{count}}",
+      "submit": "Hindura ijambo ry'ibanga",
+      "allRequired": "Andika ijambo ry'ibanga risanzwe n'irishya",
+      "tooShort": "Ijambo ry'ibanga rishya rigomba kugira nibura inyuguti {{count}}",
+      "tooLong": "Ijambo ry'ibanga rishya ntirigomba kurenza inyuguti {{count}}",
+      "noMatch": "Amagambo y'ibanga mashya ntasa",
+      "same": "Ijambo ry'ibanga rishya rigomba gutandukana n'irisanzwe",
+      "done": "Ijambo ry'ibanga ryahinduwe",
+      "error": "Ntibishobotse guhindura ijambo ry'ibanga. Ongera ugerageze."
+    },
+    "history": {
+      "title": "Impinduka ziheruka",
+      "subtitle": "Uwahinduye, icyo yahinduye n'igihe. Amagambo y'ibanga na PIN ntibigaragara.",
+      "empty": "Nta mpinduka zirabaho.",
+      "error": "Ntibishobotse kubona amateka y'impinduka.",
+      "actions": {
+        "PIN_SET": "PIN y'umunyamuryango yashyizweho",
+        "PIN_RESET": "PIN y'umunyamuryango yahinduwe",
+        "SETTINGS_UPDATED": "Igenamiterere ryahinduwe",
+        "GRADE_UPDATED": "Urwego rwahinduwe",
+        "PASSWORD_CHANGED": "Ijambo ry'ibanga ryahinduwe",
+        "CONFIRMATION_CODE_RESENT": "Kode nshya yo kwemeza yoherejwe",
+        "DELIVERY_REVIEWED": "Ibyagemuwe byagenzuwe n'umuyobozi",
+        "IDENTITY_VERIFIED": "Umwirondoro wagenzuwe",
+        "IDENTITY_DUPLICATE": "Igenzura: asanzwe ari umunyamuryango",
+        "IDENTITY_VERIFICATION_FAILED": "Igenzura ry'umwirondoro ryanze"
+      }
+    },
+    "orders": {
+      "title": "Ibyo abaguzi basaba",
+      "subtitle": "Ibiro bike umuguzi ashobora gusaba",
+      "minOrderKg": "Ibiro bike bishoboka"
+    },
+    "identity": {
+      "title": "Igenzura ry'umwirondoro",
+      "subtitle": "Iyo handikwa umunyamuryango mushya",
+      "on": "Umunyamuryango mushya abikwa gusa umwirondoro we umaze kugenzurwa.",
+      "off": "Kugenzura umwirondoro w'umunyamuryango mushya ntibiri ngombwa."
+    }
+  },
+  "codeConfirmation": {
+    "title": "Emeza ibyagemuwe {{code}} hamwe n'umunyamuryango",
+    "hint": "Umunyamuryango yabonye kode kuri SMS. Niba ibyanditswe ari ukuri, akubwira iyo kode.",
+    "confirm": "Emeza",
+    "codeLength": "Kode igira imibare {{count}}",
+    "error": "Ntibishobotse kubika. Ongera ugerageze.",
+    "resend": "Ohereza indi kode",
+    "resent": "Kode nshya yoherejwe. Iya mbere ntigikora.",
+    "resendsLeft_one": "Hasigaye kohereza {{count}}",
+    "resendsLeft_other": "Hasigaye kohereza {{count}}",
+    "smsOff": "SMS zarahagaritswe, nta kode yoherejwe. Genzura ibyagemuwe uri kumwe n'umunyamuryango, hanyuma ubyandike nk'ibyagenzuwe.",
+    "notCorrect": "Si byo",
+    "notCorrectHint": "Banza ukosore ibiro cyangwa urwego. Niba umunyamuryango akomeje kutemera, andika ikibazo.",
+    "fixDelivery": "Kosora ibiro cyangwa urwego",
+    "stillDisagrees": "Umunyamuryango akomeje kutemera",
+    "memberNotHere": "Umunyamuryango ntahari",
+    "review": "Byagenzuwe n'umuyobozi",
+    "reviewTitle": "Kwandika {{code}} nk'ibyagenzuwe n'umuyobozi?",
+    "reviewExplanation": "Koresha ibi gusa iyo umunyamuryango adashobora kubona kode. Vuga uko wagenzuye ibyagemuwe.",
+    "waitingForMember": "Bitegereje kwemezwa n'umunyamuryango",
+    "details": {
+      "member": "Umunyamuryango",
+      "quantity": "Ibiro",
+      "grade": "Urwego",
+      "date": "Itariki"
+    }
+  },
+  "deliveryDetail": {
+    "back": "Subira ku byagemuwe",
+    "notFound": "Ibi byagemuwe ntibibaho.",
+    "error": "Ntibishobotse kubona ibyagemuwe.",
+    "member": "Umunyamuryango",
+    "grade": "Urwego",
+    "lot": "Ikirundo",
+    "quantity": "Ibiro",
+    "deduction": "Ibikurwaho",
+    "deliveredAt": "Byagemuwe",
+    "dispute": "Ikibazo",
+    "resolution": "Icyo umuyobozi yanditse",
+    "confirmTitle": "Emeza hamwe n'umunyamuryango"
+  },
+  "_nativeSpeakerReview": {
+    "note": "Written without a native speaker. Please check these texts, then remove this block.",
+    "keys": [
+      "confirmation.method.OTP",
+      "confirmation.method.MANAGER_REVIEW",
+      "confirmation.menu.confirm",
+      "codeConfirmation",
+      "deliveryDetail",
+      "offline.receipt.smsAfterSync",
+      "settings.history.actions.CONFIRMATION_CODE_RESENT",
+      "settings.history.actions.DELIVERY_REVIEWED",
+      "share.unconfirmed",
+      "lots.pendingConfirmation",
+      "memberVerification",
+      "members.verified.badge",
+      "settings.identity",
+      "settings.history.actions.IDENTITY_VERIFIED",
+      "settings.history.actions.IDENTITY_DUPLICATE",
+      "settings.history.actions.IDENTITY_VERIFICATION_FAILED",
+      "members.verified.test",
+      "members.verified.testHint",
+      "memberVerification.mock.title",
+      "memberVerification.testVerified",
+      "publicHome",
+      "publicNav.grades",
+      "publicNav.contact",
+      "publicRequest",
+      "requestStatus",
+      "buyerRequests",
+      "settings.cooperative.cooperativePhone",
+      "settings.cooperative.phoneHint",
+      "settings.errors.phone",
+      "publicNav.openMenu"
+    ]
+  },
+  "memberVerification": {
+    "title": "Genzura umwirondoro",
+    "subtitle": "Byemeza ko uyu muntu ari we uwo avuga kandi atari umunyamuryango usanzwe.",
+    "start": "Genzura umwirondoro",
+    "starting": "Biratangira...",
+    "verified": "Umwirondoro wagenzuwe ({{method}})",
+    "saveWithin": "Bika umunyamuryango mu gihe gisigaye: {{time}}, cyangwa wongere ugenzure.",
+    "method": {
+      "OTP": "kode ya SMS",
+      "FACE": "isura",
+      "MOCK": "igerageza"
+    },
+    "mock": {
+      "title": "Igerageza: ibi ntibigenzura umwirondoro nyawo",
+      "explanation": "Nta genzura nyaryo rikorwa. Andika kode iyo ari yo yose: kode imwe ivuga umuntu umwe.",
+      "code": "Kode iyo ari yo yose",
+      "check": "Genzura kode"
+    },
+    "failedTitle": "Umwirondoro ntiwagenzuwe",
+    "backToForm": "Subira ku ifishi yo kwandika",
+    "errors": {
+      "startAgain": "Igenzura ryarangiye cyangwa ntiriri ryo. Ongera uritangire.",
+      "used": "Iri genzura ryamaze gukoreshwa. Ongera uritangire.",
+      "unavailable": "Igenzura ry'umwirondoro ntiriraboneka.",
+      "network": "Ntibishobotse kugera kuri seriveri. Reba interineti wongere ugerageze.",
+      "generic": "Umwirondoro ntiwashoboye kugenzurwa. Ongera ugerageze.",
+      "expired": "Igenzura rirengeje iminota 30. Ongera ugenzure mbere yo kubika.",
+      "required": "Genzura umwirondoro w'umunyamuryango mbere yo kubika."
+    },
+    "testVerified": "Igenzura ry'igerageza (nta mwirondoro nyawo wagenzuwe)"
+  },
+  "publicHome": {
+    "hero": "Ibirayi bigurishwa na koperative.",
+    "heroWithLocation": "Ibirayi bivuye {{location}}.",
+    "viewGrades": "Reba ibyiciro",
+    "sendRequest": "Ohereza icyifuzo cyo kugura",
+    "error": "Ntibishobotse kubona amakuru. Ongera ugerageze.",
+    "retry": "Ongera ugerageze",
+    "info": {
+      "location": "Aho iherereye",
+      "minOrder": "Ibiro bike bishoboka",
+      "email": "Email",
+      "phone": "Telefone"
+    },
+    "grades": {
+      "title": "Ibyiciro bihari",
+      "sizeInfo": "Ingano",
+      "packaging": "Ipaki",
+      "subtitle": "Hitamo icyiciro hepfo, ucyoherezeho icyifuzo cyo kugura. Ingano n'ipaki bigaragara ni ibyo koperative itanga ku cyiciro cyose."
+    },
+    "steps": {
+      "title": "Uko dukemura ibyifuzo byanyu",
+      "send": {
+        "title": "Ohereza icyifuzo",
+        "text": "Hitamo icyiciro cy'ibirayi n'ingano ukeneye, usige amazina yawe na nimero ya telefone ukoresheje iyi fishi yo kuri interineti."
+      },
+      "review": {
+        "title": "Isuzuma ry'ubuyobozi",
+        "text": "Umuyobozi wa koperative areba icyifuzo cyawe, akakemera cyangwa akakanga, kandi ashobora kukwandikira ubutumwa."
+      },
+      "status": {
+        "title": "Reba igisubizo",
+        "text": "Koresha kode y'icyifuzo na telefone yawe ku rupapuro rwa «Reba Uko Icyifuzo Gihagaze» urebe igisubizo n'ubutumwa buvuye kuri koperative."
+      },
+      "subtitle": "Icyifuzo cyawe gishyikirizwa ibiro bya koperative, kandi ushobora gukurikirana igisubizo kuri interineti."
+    },
+    "contact": {
+      "title": "Vugana na {{name}}",
+      "eyebrow": "Twandikire",
+      "intro": "Ufite ibibazo ku bijyanye no kugura ibirayi byinshi, gutwara ibicuruzwa, cyangwa ibyiciro byihariye? Andikira ibiro bya koperative mu buryo butaziguye."
+    },
+    "requestGrade": "Saba iki cyiciro",
+    "heroIntro": "Ohereza icyifuzo cyo kugura kuri interineti: hitamo icyiciro n'ingano ukeneye, koperative izakireba ikuhe igisubizo."
+  },
+  "publicRequest": {
+    "eyebrow": "Ahagenewe abaguzi",
+    "title": "Ohereza icyifuzo cyo kugura",
+    "subtitle": "Ohereza icyifuzo. Umuyobozi azakireba akuvugishe.",
+    "grade": "Icyiciro cy'ibirayi",
+    "chooseGrade": "Hitamo icyiciro",
+    "loading": "Birimo gufungura...",
+    "quantity": "Ingano (kg)",
+    "quantityPlaceholder": "urugero 1500",
+    "minOrderHint": "Ibiro bike bishoboka: {{kg}}",
+    "name": "Amazina yawe yombi",
+    "phone": "Nimero ya telefone",
+    "phoneHint": "Urugero 0788123456 cyangwa +250788123456",
+    "email": "Email",
+    "optional": "(si ngombwa)",
+    "note": "Ubutumwa",
+    "notePlaceholder": "Icyo koperative yagombye kumenya",
+    "honeypot": "Reka iyi nyandiko ituzuye",
+    "send": "Ohereza icyifuzo",
+    "sending": "Kirohereza...",
+    "loadError": "Ntibishobotse kubona ibyiciro. Ongera ugerageze.",
+    "retry": "Ongera ugerageze",
+    "errors": {
+      "grade": "Hitamo icyiciro",
+      "quantityRequired": "Andika ingano",
+      "quantityInvalid": "Andika umubare urenze 0 ufite nibura imibare 2 inyuma y'akitso",
+      "minOrder": "Ibiro bike bishoboka ni {{kg}}",
+      "quantityTooLarge": "Ibiro byinshi bishoboka ni {{kg}}",
+      "name": "Andika amazina yawe",
+      "phone": "Andika nimero ya telefone yo mu Rwanda, urugero 0788123456",
+      "email": "Andika email nyayo",
+      "generic": "Ntibishobotse kohereza icyifuzo. Ongera ugerageze.",
+      "network": "Ntibishobotse kugera kuri seriveri. Reba interineti wongere ugerageze."
+    },
+    "sent": {
+      "title": "Icyifuzo cyoherejwe",
+      "keepCode": "Bika iyi kode kugira ngo urebe uko icyifuzo cyawe gihagaze.",
+      "howToCheck": "Kureba igisubizo, fungura \"Reba Uko Icyifuzo Gihagaze\" wandike iyi kode na nimero ya telefone wakoresheje.",
+      "checkStatus": "Reba uko icyifuzo gihagaze",
+      "another": "Ohereza ikindi cyifuzo"
+    },
+    "back": {
+      "grades": "Subira ku byiciro",
+      "home": "Subira ku ntangiriro"
+    },
+    "gradeHint": "Hitamo icyiciro urebe ibisobanuro byacyo hano."
+  },
+  "requestStatus": {
+    "eyebrow": "Ahagenewe abaguzi",
+    "title": "Reba uko icyifuzo gihagaze",
+    "subtitle": "Andika kode wabonye ubwo wohererezaga icyifuzo, na nimero ya telefone wakoresheje.",
+    "code": "Kode y'icyifuzo",
+    "phone": "Nimero ya telefone",
+    "phoneHint": "Nimero ya telefone watanze mu cyifuzo cyawe",
+    "check": "Reba uko gihagaze",
+    "checking": "Biragenzurwa...",
+    "reference": "Kode y'icyifuzo",
+    "notice": "Ubutumwa buvuye kuri koperative",
+    "status": {
+      "PENDING": "Gitegereje kurebwa",
+      "ACCEPTED": "Cyemewe",
+      "REJECTED": "Cyanzwe"
+    },
+    "errors": {
+      "code": "Andika kode y'icyifuzo",
+      "phone": "Andika nimero ya telefone yo mu Rwanda, urugero 0788123456",
+      "notFound": "Icyifuzo ntikibonetse. Reba kode na nimero ya telefone.",
+      "generic": "Ntibishobotse kureba icyifuzo. Ongera ugerageze.",
+      "network": "Ntibishobotse kugera kuri seriveri. Reba interineti wongere ugerageze."
+    }
+  },
+  "buyerRequests": {
+    "title": "Ibisabwa n'Abaguzi",
+    "subtitle": "Ibyifuzo byo kugura byoherejwe ku rubuga rusange. Ubyemere cyangwa ubyange, ushyireho ubutumwa umuguzi ashobora gusoma.",
+    "summary": {
+      "pending": "Ibyifuzo bitegereje",
+      "needsReview": "Bitegereje kurebwa",
+      "pendingKg": "Ingano itegereje",
+      "fromPending": "Mu byifuzo bitegereje",
+      "stock": "Ibiri mu bubiko"
+    },
+    "search": {
+      "placeholder": "Shakisha ukoresheje kode, izina cyangwa telefone y'umuguzi...",
+      "label": "Shakisha ibyifuzo"
+    },
+    "filter": {
+      "label": "Uko bihagaze:",
+      "all": "Byose"
+    },
+    "status": {
+      "PENDING": "Bitegereje",
+      "ACCEPTED": "Byemewe",
+      "REJECTED": "Byanzwe"
+    },
+    "columns": {
+      "reference": "Kode",
+      "buyer": "Umuguzi",
+      "grade": "Urwego",
+      "quantity": "Ingano",
+      "date": "Itariki",
+      "status": "Uko bihagaze",
+      "actions": "Ibikorwa"
+    },
+    "actions": {
+      "menu": "Ibikorwa ku cyifuzo {{code}}",
+      "view": "Reba ibisobanuro",
+      "ACCEPTED": "Emera",
+      "REJECTED": "Anga",
+      "PENDING": "Subiza gitegereje"
+    },
+    "change": {
+      "title": {
+        "ACCEPTED": "Kwemera icyifuzo {{code}}?",
+        "REJECTED": "Kwanga icyifuzo {{code}}?",
+        "PENDING": "Gusubiza {{code}} ku bitegereje?"
+      },
+      "explanation": "Umuguzi abona uko gihagaze n'ubutumwa bwawe iyo arebesheje kode na telefone ye.",
+      "message": "Ubutumwa bw'umuguzi (si ngombwa)",
+      "placeholder": "Urugero: hamagara umuyobozi mutegure uko mufata ibirayi"
+    },
+    "changed": "{{code}}: {{status}}",
+    "details": {
+      "title": "Icyifuzo",
+      "close": "Funga",
+      "error": "Ntibishobotse kubona icyifuzo.",
+      "name": "Umuguzi",
+      "phone": "Telefone",
+      "email": "Email",
+      "note": "Ubutumwa bw'umuguzi",
+      "publicMessage": "Ubutumwa bwawe ku muguzi"
+    },
+    "empty": {
+      "title": "Nta byifuzo biraboneka",
+      "message": "Ibyifuzo byoherejwe ku rubuga rusange bigaragara hano.",
+      "noResults": "Nta byifuzo bihuye n'ibyo washatse."
+    },
+    "error": "Ntibishobotse kubona ibyifuzo.",
+    "retry": "Ongera ugerageze"
   }
 }

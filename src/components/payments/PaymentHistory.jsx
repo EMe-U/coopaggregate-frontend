@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { listPayments } from '../../api/payments'
 import Pagination from '../Pagination'
+import ReversedBadge from '../ReversedBadge'
+import PaymentActionsMenu from './PaymentActionsMenu'
 import usePageSize from '../../hooks/usePageSize'
 import { formatDay, formatMoney } from '../../utils/format'
 
@@ -14,7 +16,8 @@ const methodStyles = {
   BANK: 'bg-sky-100 text-sky-800',
 }
 
-export default function PaymentHistory({ reloadKey }) {
+// onChanged runs after a payment was reversed, so the page can reload balances and totals.
+export default function PaymentHistory({ reloadKey, onChanged }) {
   const { t } = useTranslation()
 
   const pageSize = usePageSize()
@@ -106,12 +109,20 @@ export default function PaymentHistory({ reloadKey }) {
                       {t(`payments.history.${column}`)}
                     </th>
                   ))}
+                  <th className="whitespace-nowrap px-3 py-2 font-semibold">{t('reversal.actionsColumn')}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-text/5">
                 {result.content.map((payment) => (
-                  <tr key={payment.id}>
-                    <td className={`${cell} font-mono font-medium text-primary`}>{payment.paymentCode}</td>
+                  <tr key={payment.id} className={payment.reversed ? 'opacity-60' : undefined}>
+                    <td className={`${cell} font-mono font-medium text-primary`}>
+                      <span className={payment.reversed ? 'line-through' : undefined}>{payment.paymentCode}</span>
+                      {payment.reversed && (
+                        <span className="mt-1 block font-sans">
+                          <ReversedBadge reason={payment.reversalReason} />
+                        </span>
+                      )}
+                    </td>
                     <td className={cell}>{formatDay(payment.paidAt)}</td>
                     <td className={cell}>
                       <Link to={`/members/${payment.memberId}`} className="text-primary hover:underline">
@@ -126,6 +137,9 @@ export default function PaymentHistory({ reloadKey }) {
                       </span>
                     </td>
                     <td className={`${cell} font-mono text-xs`}>{payment.reference}</td>
+                    <td className="px-3 py-1">
+                      <PaymentActionsMenu payment={payment} onChanged={onChanged} />
+                    </td>
                   </tr>
                 ))}
               </tbody>

@@ -1,9 +1,21 @@
 import { useTranslation } from 'react-i18next'
 import { Search } from 'lucide-react'
 
-const statuses = ['all', 'active', 'inactive']
+const memberStatuses = ['all', 'active', 'inactive']
 
-export default function MemberFilters({ search, onSearchChange, status, onStatusChange }) {
+// Used for members by default. Other lists pass their own statuses and texts: statusLabel(value),
+// placeholder, searchLabel and filterLabel.
+export default function MemberFilters({
+  search,
+  onSearchChange,
+  status,
+  onStatusChange,
+  statuses = memberStatuses,
+  statusLabel,
+  placeholder,
+  searchLabel,
+  filterLabel,
+}) {
   const { t } = useTranslation()
 
   return (
@@ -17,14 +29,14 @@ export default function MemberFilters({ search, onSearchChange, status, onStatus
           type="search"
           value={search}
           onChange={(event) => onSearchChange(event.target.value)}
-          placeholder={t('members.search.placeholder')}
-          aria-label={t('members.search.label')}
+          placeholder={placeholder ?? t('members.search.placeholder')}
+          aria-label={searchLabel ?? t('members.search.label')}
           className="w-full rounded-md border border-transparent bg-background py-2 pl-9 pr-3 text-sm outline-none placeholder:text-muted/70 focus:border-primary focus:ring-2 focus:ring-primary/20"
         />
       </div>
 
       <div className="flex items-center gap-2 text-sm">
-        <span className="text-muted">{t('members.filter.label')}</span>
+        <span className="text-muted">{filterLabel ?? t('members.filter.label')}</span>
         <div className="flex rounded-md bg-background p-0.5">
           {statuses.map((value) => (
             <button
@@ -36,7 +48,7 @@ export default function MemberFilters({ search, onSearchChange, status, onStatus
                 status === value ? 'bg-surface font-medium text-text shadow-sm' : 'text-muted hover:text-text'
               }`}
             >
-              {t(`members.filter.${value}`)}
+              {statusLabel ? statusLabel(value) : t(`members.filter.${value}`)}
             </button>
           ))}
         </div>

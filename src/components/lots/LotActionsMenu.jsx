@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { Eye, HandCoins, Lock, Split, TriangleAlert } from 'lucide-react'
 import ActionsMenu from '../ActionsMenu'
+import useNeedsInternet from '../../hooks/useNeedsInternet'
 
 // The only place for lot actions. "View details" comes first, then what the lot's status allows.
 // Close and loss need a handler from the page.
@@ -23,9 +24,12 @@ function actionsFor(lot, { onClose, onRecordLoss }) {
 
 export default function LotActionsMenu({ lot, onClose, onRecordLoss }) {
   const { t } = useTranslation()
+  const { offline, title } = useNeedsInternet()
+  // Everything except viewing the lot changes data or opens a page that does.
   const actions = actionsFor(lot, { onClose, onRecordLoss }).map((action) => ({
     ...action,
     label: t(`lots.actions.${action.key}`),
+    ...(offline && action.key !== 'view' && { disabled: true, title }),
   }))
 
   return <ActionsMenu label={t('lots.actions.menu', { code: lot.code })} actions={actions} />

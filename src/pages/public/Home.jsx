@@ -1,7 +1,265 @@
+import { useState } from 'react'
+import { Link, useOutletContext } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import PageTitle from '../../components/PageTitle'
+import { ArrowDown, Mail, MapPin, PackageCheck, Phone, SendHorizonal, ShoppingCart } from 'lucide-react'
+import { formatKg, formatPhone } from '../../utils/format'
+import { publicGradeName } from './publicGrade'
+
+const sectionClass = 'mx-auto max-w-6xl px-4'
+
+// Temporary placeholder photos: public/images/placeholders/hero.jpg and grade-<code>.jpg. To use
+// the cooperative's own photos, replace a file with one of the same name. A missing file shows a
+// plain green block, never a broken image. The photos are decorative (empty alt): the grade name
+// beside them says what the card is about.
+const PHOTOS = '/images/placeholders'
+
+function Photo({ file, className, fallbackClassName }) {
+  const [missing, setMissing] = useState(false)
+  if (missing) return fallbackClassName ? <div className={fallbackClassName} /> : null
+  return <img src={`${PHOTOS}/${file}`} alt="" loading="lazy" onError={() => setMissing(true)} className={className} />
+}
+
+function ContactRow({ icon: Icon, label, children }) {
+  return (
+    <div className="flex items-center gap-4">
+      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-white/10">
+        <Icon size={18} />
+      </div>
+      <div className="min-w-0">
+        <dt className="text-xs uppercase tracking-wide text-white/60">{label}</dt>
+        <dd className="font-medium">{children}</dd>
+      </div>
+    </div>
+  )
+}
+
+function InfoCard({ icon: Icon, label, children }) {
+  return (
+    <div className="flex min-w-0 items-center gap-3 rounded-xl bg-surface p-4 shadow-sm">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary text-white">
+        <Icon size={18} />
+      </div>
+      <div className="min-w-0">
+        <p className="text-[11px] font-medium uppercase tracking-wide text-muted">{label}</p>
+        <p className="wrap-break-word text-sm font-semibold text-text">{children}</p>
+      </div>
+    </div>
+  )
+}
+
+function GradeCard({ grade }) {
+  const { t, i18n } = useTranslation()
+  const details = [
+    { key: 'sizeInfo', value: grade.sizeInfo },
+    { key: 'packaging', value: grade.packaging },
+  ].filter((detail) => detail.value)
+
+  return (
+    <article className="flex min-w-0 flex-col overflow-hidden rounded-xl bg-surface shadow-sm">
+      <Photo
+        file={`grade-${grade.code}.jpg`}
+        className="aspect-video w-full object-cover"
+        fallbackClassName="aspect-video w-full bg-primary"
+      />
+      <div className="flex min-w-0 flex-1 flex-col p-5">
+        <div className="flex items-start gap-3">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary text-sm font-bold text-white">
+            {grade.code}
+          </span>
+          <h3 className="min-w-0 wrap-break-word text-lg font-semibold text-text">{publicGradeName(grade, i18n.language)}</h3>
+        </div>
+        {grade.description && <p className="mt-3 text-sm text-muted">{grade.description}</p>}
+        {details.length > 0 && (
+          <dl className="mt-4 grid grid-cols-2 gap-3 rounded-lg bg-background p-3 text-sm">
+            {details.map(({ key, value }) => (
+              <div key={key} className="min-w-0">
+                <dt className="text-xs text-muted">{t(`publicHome.grades.${key}`)}</dt>
+                <dd className="wrap-break-word font-medium text-text">{value}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+        <div className="mt-auto pt-5">
+          <Link
+            to={`/request?grade=${encodeURIComponent(grade.code)}`}
+            className="flex min-h-12 items-center justify-center gap-2 rounded-lg border border-primary/40 px-4 text-sm font-semibold text-primary hover:bg-primary-light"
+          >
+            <ShoppingCart size={16} />
+            {t('publicHome.requestGrade')}
+          </Link>
+        </div>
+      </div>
+    </article>
+  )
+}
 
 export default function Home() {
   const { t } = useTranslation()
-  return <PageTitle>{t('pages.home')}</PageTitle>
+  const { info, grades, reload } = useOutletContext()
+  const cooperative = info.data
+
+  const failed = info.error && grades.error
+  const gradeList = grades.data ?? []
+
+  return (
+    <>
+      <section className="relative overflow-hidden bg-primary py-16 text-white sm:py-24">
+        {/* Decorative: the text next to it says everything, so it has an empty alt. */}
+        <Photo file="hero.jpg" className="absolute inset-0 h-full w-full object-cover object-[50%_28%]" />
+        <div className="absolute inset-0 bg-linear-to-r from-primary/95 via-primary/80 to-primary/50" />
+        <div className={`${sectionClass} relative`}>
+          <h1 className="max-w-3xl text-3xl font-bold leading-tight sm:text-5xl">
+            {cooperative?.cooperativeName ?? t('app.cooperative')}
+          </h1>
+          <p className="mt-5 max-w-2xl text-base text-white/85 sm:text-lg">
+            {cooperative?.location
+              ? t('publicHome.heroWithLocation', { location: cooperative.location })
+              : t('publicHome.hero')}
+          </p>
+          <p className="mt-3 max-w-2xl text-sm text-white/75 sm:text-base">{t('publicHome.heroIntro')}</p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            {gradeList.length > 0 && (
+              <a
+                href="#grades"
+                onClick={(event) => {
+                  event.preventDefault()
+                  document.getElementById('grades')?.scrollIntoView({ behavior: 'smooth' })
+                }}
+                className="flex min-h-12 items-center justify-center gap-2 rounded-lg bg-[color-mix(in_srgb,var(--color-primary)_80%,white)] px-5 text-sm font-semibold text-white hover:bg-[color-mix(in_srgb,var(--color-primary)_70%,white)]"
+              >
+                {t('publicHome.viewGrades')}
+                <ArrowDown size={16} />
+              </a>
+            )}
+            <Link
+              to="/request"
+              className="flex min-h-12 items-center justify-center gap-2 rounded-lg bg-white/10 px-5 text-sm font-semibold text-white hover:bg-white/20"
+            >
+              {t('publicHome.sendRequest')}
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {failed && (
+        <div className={`${sectionClass} py-10`}>
+          <div role="alert" className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-danger/10 px-4 py-3 text-sm text-danger">
+            {t('publicHome.error')}
+            <button type="button" onClick={reload} className="min-h-11 font-medium underline">
+              {t('publicHome.retry')}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {cooperative && (
+        <section className="bg-text/[0.04] py-6">
+          <div className={`${sectionClass} grid gap-3 sm:grid-cols-2 lg:grid-cols-[repeat(auto-fit,minmax(14rem,1fr))]`}>
+            {cooperative.location && (
+              <InfoCard icon={MapPin} label={t('publicHome.info.location')}>
+                {cooperative.location}
+              </InfoCard>
+            )}
+            {Number(cooperative.minOrderKg) > 0 && (
+              <InfoCard icon={PackageCheck} label={t('publicHome.info.minOrder')}>
+                {formatKg(Number(cooperative.minOrderKg))}
+              </InfoCard>
+            )}
+            {cooperative.cooperativePhone && (
+              <InfoCard icon={Phone} label={t('publicHome.info.phone')}>
+                {formatPhone(cooperative.cooperativePhone)}
+              </InfoCard>
+            )}
+            {cooperative.cooperativeEmail && (
+              <InfoCard icon={Mail} label={t('publicHome.info.email')}>
+                {cooperative.cooperativeEmail}
+              </InfoCard>
+            )}
+          </div>
+        </section>
+      )}
+
+      {!grades.data && !grades.error && (
+        <section className={`${sectionClass} py-10`}>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {[0, 1, 2].map((index) => (
+              <div key={index} className="h-64 animate-pulse rounded-xl bg-surface shadow-sm" />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {gradeList.length > 0 && (
+        <section id="grades" className={`${sectionClass} scroll-mt-4 py-10`}>
+          <h2 className="text-xl font-semibold text-text">{t('publicHome.grades.title')}</h2>
+          <p className="mt-1 max-w-2xl text-sm text-muted">{t('publicHome.grades.subtitle')}</p>
+          <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {gradeList.map((grade) => (
+              <GradeCard key={grade.code} grade={grade} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      <section className="bg-text/[0.05] py-12">
+        <div className={sectionClass}>
+          <h2 className="text-center text-xl font-semibold text-text">{t('publicHome.steps.title')}</h2>
+          <p className="mx-auto mt-1 max-w-2xl text-center text-sm text-muted">{t('publicHome.steps.subtitle')}</p>
+          <ol className="mt-6 grid gap-4 md:grid-cols-3">
+            {['send', 'review', 'status'].map((step, index) => (
+              <li key={step} className="rounded-xl bg-surface p-5 shadow-sm">
+                <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary-light text-sm font-bold text-primary">
+                  {index + 1}
+                </span>
+                <h3 className="mt-3 font-semibold text-text">{t(`publicHome.steps.${step}.title`)}</h3>
+                <p className="mt-1 text-sm text-muted">{t(`publicHome.steps.${step}.text`)}</p>
+              </li>
+            ))}
+          </ol>
+          <div className="mt-8 text-center">
+            <Link
+              to="/request"
+              className="inline-flex min-h-12 items-center gap-2 rounded-lg bg-primary px-6 text-sm font-semibold text-white hover:bg-primary/90"
+            >
+              <SendHorizonal size={16} />
+              {t('publicHome.sendRequest')}
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {cooperative && (cooperative.location || cooperative.cooperativePhone || cooperative.cooperativeEmail) && (
+        <section id="contact" className={`${sectionClass} scroll-mt-4 py-12`}>
+          <div className="rounded-2xl bg-[#0b3a1f] p-6 text-white sm:p-10">
+            <p className="text-xs font-medium uppercase tracking-wide text-white/70">{t('publicHome.contact.eyebrow')}</p>
+            <h2 className="mt-1 text-xl font-semibold">
+              {t('publicHome.contact.title', { name: cooperative.cooperativeName ?? t('app.cooperative') })}
+            </h2>
+            <p className="mt-3 max-w-xl text-sm text-white/85">{t('publicHome.contact.intro')}</p>
+            <dl className="mt-8 space-y-5 text-sm">
+              {cooperative.location && (
+                <ContactRow icon={MapPin} label={t('publicHome.info.location')}>
+                  {cooperative.location}
+                </ContactRow>
+              )}
+              {cooperative.cooperativePhone && (
+                <ContactRow icon={Phone} label={t('publicHome.info.phone')}>
+                  <a href={`tel:${cooperative.cooperativePhone}`} className="underline">
+                    {formatPhone(cooperative.cooperativePhone)}
+                  </a>
+                </ContactRow>
+              )}
+              {cooperative.cooperativeEmail && (
+                <ContactRow icon={Mail} label={t('publicHome.info.email')}>
+                  <a href={`mailto:${cooperative.cooperativeEmail}`} className="break-all underline">
+                    {cooperative.cooperativeEmail}
+                  </a>
+                </ContactRow>
+              )}
+            </dl>
+          </div>
+        </section>
+      )}
+    </>
+  )
 }

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import {
@@ -17,6 +18,8 @@ import {
   X,
 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
+import usePendingDeliveries from '../hooks/usePendingDeliveries'
+import ConfirmDialog from './ConfirmDialog'
 
 const menuItems = [
   { to: '/dashboard', labelKey: 'nav.dashboard', icon: LayoutDashboard },
@@ -39,10 +42,18 @@ export default function Sidebar({ isOpen, onClose }) {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { signOut } = useAuth()
+  const pending = usePendingDeliveries()
+  const [confirmingLogout, setConfirmingLogout] = useState(false)
 
-  function handleLogout() {
+  function logOut() {
     signOut()
     navigate('/login', { replace: true })
+  }
+
+  // Logging out keeps the queue on this device, but nothing syncs until someone logs in again.
+  function handleLogout() {
+    if (pending?.length > 0) setConfirmingLogout(true)
+    else logOut()
   }
 
   return (
@@ -110,6 +121,17 @@ export default function Sidebar({ isOpen, onClose }) {
           </button>
         </div>
       </aside>
+
+      {confirmingLogout && (
+        <ConfirmDialog
+          title={t('offline.logout.title')}
+          message={t('offline.logout.message', { count: pending.length })}
+          confirmLabel={t('offline.logout.confirm')}
+          cancelLabel={t('offline.logout.cancel')}
+          onConfirm={logOut}
+          onCancel={() => setConfirmingLogout(false)}
+        />
+      )}
     </>
   )
 }

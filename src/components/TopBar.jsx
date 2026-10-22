@@ -3,6 +3,7 @@ import { Menu } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import useOnlineStatus from '../hooks/useOnlineStatus'
 import LanguageSwitch from './LanguageSwitch'
+import SyncStatus from './SyncStatus'
 
 export default function TopBar({ onMenuClick }) {
   const { t } = useTranslation()
@@ -27,6 +28,7 @@ export default function TopBar({ onMenuClick }) {
       >
         {isOnline ? t('topbar.online') : t('topbar.offline')}
       </span>
+      <SyncStatus />
 
       <div className="ml-auto flex items-center gap-4">
         <LanguageSwitch />

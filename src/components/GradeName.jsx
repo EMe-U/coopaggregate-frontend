@@ -1,8 +1,8 @@
-import { useTranslation } from 'react-i18next'
+import useGradeName from '../hooks/useGradeName'
 
-// Grade names come from the grade table (Big, Normal, Small). Names without a translation
-// are shown as they are, so a grade added later still displays.
+// Grade names come from the grade table. In Kinyarwanda the grade's nameRw is shown when it is set;
+// otherwise the built-in translation, or the name as it is for a grade added later.
 export default function GradeName({ name }) {
-  const { t } = useTranslation()
-  return t(`grades.${name}`, { defaultValue: name })
+  const gradeName = useGradeName()
+  return gradeName(name)
 }

@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { MessageSquare, Pencil, Printer, UserCheck, UserX } from 'lucide-react'
 import Avatar from '../Avatar'
 import StatusBadge from '../StatusBadge'
+import VerifiedBadge from './VerifiedBadge'
 import { formatDate, formatPhone } from '../../utils/format'
 
 function Detail({ label, children }) {
@@ -14,11 +15,13 @@ function Detail({ label, children }) {
 }
 
 const smallButtonClass =
-  'flex items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium disabled:opacity-60'
+  'flex items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium disabled:cursor-not-allowed disabled:opacity-60'
 
-export default function MemberProfileCard({ member, onEdit, onToggleActive, changingStatus }) {
+// readOnly disables the buttons that change the member, for a profile shown without internet.
+export default function MemberProfileCard({ member, onEdit, onToggleActive, changingStatus, readOnly }) {
   const { t } = useTranslation()
   const active = member.status === 'ACTIVE'
+  const needsInternet = readOnly ? t('offline.needsInternet') : undefined
 
   return (
     <div className="rounded-xl bg-surface p-5 shadow-sm print:break-inside-avoid">
@@ -30,12 +33,15 @@ export default function MemberProfileCard({ member, onEdit, onToggleActive, chan
           <span className="font-mono text-xs text-muted">
             {t('members.detail.memberNumber', { code: member.memberCode })}
           </span>
+          <VerifiedBadge member={member} withDetails />
         </div>
 
         <div className="flex gap-1.5 print:hidden">
           <button
             type="button"
             onClick={onEdit}
+            disabled={readOnly}
+            title={needsInternet}
             className={`${smallButtonClass} border-text/10 text-text hover:bg-background`}
           >
             <Pencil size={13} />
@@ -45,7 +51,8 @@ export default function MemberProfileCard({ member, onEdit, onToggleActive, chan
             <button
               type="button"
               onClick={onToggleActive}
-              disabled={changingStatus}
+              disabled={changingStatus || readOnly}
+              title={needsInternet}
               className={`${smallButtonClass} border-danger/30 text-danger hover:bg-danger/5`}
             >
               <UserX size={13} />
@@ -55,7 +62,8 @@ export default function MemberProfileCard({ member, onEdit, onToggleActive, chan
             <button
               type="button"
               onClick={onToggleActive}
-              disabled={changingStatus}
+              disabled={changingStatus || readOnly}
+              title={needsInternet}
               className={`${smallButtonClass} border-primary/30 text-primary hover:bg-primary-light`}
             >
               <UserCheck size={13} />

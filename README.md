@@ -65,6 +65,12 @@ src/
   index.css     Tailwind import and theme
 ```
 
+## Placeholder photos
+
+Photos in `public/images/placeholders` (`hero.jpg`, `grade-A.jpg`, `grade-B.jpg`, `grade-C.jpg`) are
+temporary. Replace them with the cooperative's own photos (with consent) before real use. To replace
+one, save the new photo under the same file name.
+
 ## Getting started
 
 Prerequisites: Node.js 20.19 or newer and npm.

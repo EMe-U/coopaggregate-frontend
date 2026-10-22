@@ -3,13 +3,28 @@ import { useTranslation } from 'react-i18next'
 import { Search } from 'lucide-react'
 import { listMembers } from '../../api/members'
 import useDebouncedValue from '../../hooks/useDebouncedValue'
+import useOnlineStatus from '../../hooks/useOnlineStatus'
+import { searchCachedMembers } from '../../offline/cache'
 import { formatPhone } from '../../utils/format'
 import Avatar from '../Avatar'
 
 const RESULT_COUNT = 8
 
-export default function MemberPicker({ member, onChange, disabled, error }) {
+// Without internet, or when the server cannot be reached, search the members saved on this device.
+function findMembers(search, isOnline) {
+  if (!isOnline) return searchCachedMembers(search, RESULT_COUNT)
+  return listMembers({ search, active: true, size: RESULT_COUNT })
+    .then((data) => data.content)
+    .catch((error) => {
+      if (error.response) throw error
+      return searchCachedMembers(search, RESULT_COUNT)
+    })
+}
+
+// inputId lets two pickers share a page, for example the form and the correction dialog.
+export default function MemberPicker({ member, onChange, disabled, error, inputId = 'member-search' }) {
   const { t } = useTranslation()
+  const isOnline = useOnlineStatus()
 
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebouncedValue(search.trim(), 300)
@@ -25,10 +40,10 @@ export default function MemberPicker({ member, onChange, disabled, error }) {
 
     let ignore = false
     setStatus('loading')
-    listMembers({ search: debouncedSearch, active: true, size: RESULT_COUNT })
-      .then((data) => {
+    findMembers(debouncedSearch, isOnline)
+      .then((members) => {
         if (ignore) return
-        setResults(data.content)
+        setResults(members)
         setStatus('done')
       })
       .catch(() => {
@@ -38,7 +53,7 @@ export default function MemberPicker({ member, onChange, disabled, error }) {
     return () => {
       ignore = true
     }
-  }, [debouncedSearch, member])
+  }, [debouncedSearch, member, isOnline])
 
   function choose(selected) {
     setSearch('')
@@ -52,7 +67,7 @@ export default function MemberPicker({ member, onChange, disabled, error }) {
         <div className="min-w-0 flex-1">
           <p className="font-medium text-text">{member.fullName}</p>
           <p className="text-xs text-muted">
-            {member.memberCode} · {formatPhone(member.phone)}
+            {[member.memberCode, formatPhone(member.phone)].filter(Boolean).join(' · ')}
           </p>
         </div>
         {!disabled && (
@@ -72,7 +87,7 @@ export default function MemberPicker({ member, onChange, disabled, error }) {
     <div className="relative">
       <Search size={18} className="pointer-events-none absolute left-3 top-3.5 text-muted" />
       <input
-        id="member-search"
+        id={inputId}
         type="search"
         autoComplete="off"
         value={search}

@@ -7,8 +7,11 @@ import { listSales } from '../../api/sales'
 import { getSharePreview, shareLot } from '../../api/shares'
 import EmptyState from '../../components/EmptyState'
 import PageTitle from '../../components/PageTitle'
+import UnconfirmedDeliveries from '../../components/share/UnconfirmedDeliveries'
 import SharePreviewTable from '../../components/share/SharePreviewTable'
 import { formatNumber } from '../../utils/format'
+import useNeedsInternet from '../../hooks/useNeedsInternet'
+import useGradeName from '../../hooks/useGradeName'
 
 // Kilograms only: delivered must equal sold plus lost once a lot is fully sold.
 function stockBalances(lot) {
@@ -30,6 +33,8 @@ function LotCard({ label, value, unit, valueClass = 'text-text', dark }) {
 
 export default function ShareLotMoney() {
   const { t } = useTranslation()
+  const gradeName = useGradeName()
+  const needsInternet = useNeedsInternet()
   // Set when coming from a lot's "Share money" button.
   const [searchParams, setSearchParams] = useSearchParams()
   const lotId = searchParams.get('lotId') ?? ''
@@ -45,6 +50,8 @@ export default function ShareLotMoney() {
 
   const [sharing, setSharing] = useState(false)
   const [shareError, setShareError] = useState('')
+  // The deliveries that kept the lot from being shared: pending or disputed, from the 409 answer.
+  const [unconfirmed, setUnconfirmed] = useState(null)
   // The lot as it was when it was shared; it is no longer in the list of sold lots.
   const [sharedLot, setSharedLot] = useState(null)
 
@@ -67,6 +74,7 @@ export default function ShareLotMoney() {
     setPreview(null)
     setSaleCount(null)
     setShareError('')
+    setUnconfirmed(null)
     setSharedLot(null)
     if (!lotId) {
       setPreviewState('idle')
@@ -106,6 +114,7 @@ export default function ShareLotMoney() {
 
     setSharing(true)
     setShareError('')
+    setUnconfirmed(null)
     try {
       // The answer holds the saved shares, which replace the preview.
       const saved = await shareLot(lotId)
@@ -114,6 +123,7 @@ export default function ShareLotMoney() {
       setLotsReloadKey((key) => key + 1)
     } catch (error) {
       setShareError(error.response?.data?.message || t('share.error'))
+      if (error.response?.status === 409) setUnconfirmed(error.response.data?.deliveries ?? null)
     } finally {
       setSharing(false)
     }
@@ -238,11 +248,13 @@ export default function ShareLotMoney() {
                       {shareError}
                     </p>
                   )}
+                  <UnconfirmedDeliveries deliveries={unconfirmed} />
                   <div className="mt-4 grid gap-2">
                     <button
                       type="button"
                       onClick={handleShare}
-                      disabled={sharing}
+                      disabled={sharing || needsInternet.offline}
+                      title={needsInternet.title}
                       className="flex min-h-12 items-center justify-center gap-2 rounded-lg bg-primary px-4 font-semibold text-white hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
                     >
                       <CircleCheck size={18} />
@@ -304,7 +316,7 @@ export default function ShareLotMoney() {
                   <option key={candidate.id} value={candidate.id}>
                     {t('share.lotOption', {
                       code: candidate.code,
-                      grade: t(`grades.${candidate.gradeName}`, { defaultValue: candidate.gradeName }),
+                      grade: gradeName(candidate.gradeName),
                     })}
                   </option>
                 ))}

@@ -2,19 +2,18 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Info } from 'lucide-react'
 import { findOpenLot } from '../../api/lots'
+import useOnlineStatus from '../../hooks/useOnlineStatus'
 import { formatMoney } from '../../utils/format'
-
-// Preview only, so the manager can tell the member before saving. The saved deduction is
-// calculated by the backend from the deduction set in Settings, and that is what the receipt
-// shows. Keep this in step with that setting until the frontend can read it from the API.
-const DEDUCTION_PER_KG_PREVIEW = 5
+import { DEDUCTION_PER_KG_PREVIEW, previewDeduction } from '../../utils/deduction'
 
 export default function LotAssignment({ gradeId, quantityKg }) {
   const { t } = useTranslation()
+  const isOnline = useOnlineStatus()
   const [lot, setLot] = useState({ status: 'idle' })
 
   useEffect(() => {
-    if (!gradeId) {
+    // Offline the server picks the lot when the delivery syncs, so there is nothing to look up.
+    if (!gradeId || !isOnline) {
       setLot({ status: 'idle' })
       return
     }
@@ -31,10 +30,11 @@ export default function LotAssignment({ gradeId, quantityKg }) {
     return () => {
       ignore = true
     }
-  }, [gradeId])
+  }, [gradeId, isOnline])
 
   let lotText
-  if (lot.status === 'idle') lotText = t('deliveries.lot.chooseGrade')
+  if (!isOnline) lotText = t('offline.lotLater')
+  else if (lot.status === 'idle') lotText = t('deliveries.lot.chooseGrade')
   else if (lot.status === 'loading') lotText = t('deliveries.lot.checking')
   else if (lot.status === 'error') lotText = t('deliveries.lot.error')
   else if (lot.openLot) lotText = t('deliveries.lot.existing', { code: lot.openLot.code })
@@ -53,7 +53,7 @@ export default function LotAssignment({ gradeId, quantityKg }) {
             ? t('deliveries.lot.deduction', {
                 kg: quantityKg,
                 rate: DEDUCTION_PER_KG_PREVIEW,
-                amount: formatMoney(Math.round(quantityKg * DEDUCTION_PER_KG_PREVIEW)),
+                amount: formatMoney(previewDeduction(quantityKg)),
               })
             : t('deliveries.lot.deductionHint')}
         </p>

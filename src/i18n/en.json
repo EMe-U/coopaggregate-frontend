@@ -20,9 +20,13 @@
     "soon": "soon"
   },
   "publicNav": {
-    "home": "Home",
     "sendRequest": "Send Request",
-    "checkStatus": "Check Request Status"
+    "checkStatus": "Check Request Status",
+    "grades": "Grades",
+    "contact": "Contact",
+    "copyright": "© {{year}} {{name}}",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
   },
   "topbar": {
     "online": "Online",
@@ -93,7 +97,6 @@
       "memberId": "Member ID",
       "fullName": "Full name",
       "phone": "Phone",
-      "nationalId": "National ID",
       "joinDate": "Join date",
       "status": "Status",
       "actions": "Actions",
@@ -211,6 +214,11 @@
     },
     "print": {
       "statementAsOf": "Statement as of {{date}}"
+    },
+    "verified": {
+      "badge": "Verified",
+      "test": "Test verification",
+      "testHint": "A test check: no real identity was verified."
     }
   },
   "deliveries": {
@@ -252,12 +260,6 @@
       "message_one": "This member delivered {{kg}} kg {{count}} minute ago. Is this a duplicate?",
       "message_other": "This member delivered {{kg}} kg {{count}} minutes ago. Is this a duplicate?"
     },
-    "offline": {
-      "title": "You are offline",
-      "message": "Offline saving is coming soon. Connect to the internet to save this delivery."
-    },
-    "save": "Save delivery",
-    "saving": "Saving...",
     "errors": {
       "memberRequired": "Choose a member",
       "gradeRequired": "Choose a grade",
@@ -266,8 +268,7 @@
       "quantityTooLarge": "The quantity must be at most 5,000 kg",
       "dateRequired": "Choose the delivery date",
       "dateFuture": "The delivery date cannot be in the future",
-      "generic": "Could not save the delivery. Please try again.",
-      "serverUnreachable": "Cannot reach the server. Check your connection and try again."
+      "generic": "Could not save the delivery. Please try again."
     },
     "receipt": {
       "title": "Delivery receipt",
@@ -305,7 +306,9 @@
     "memberSection": {
       "loading": "Loading deliveries...",
       "error": "Could not load deliveries."
-    }
+    },
+    "save": "Save delivery",
+    "saving": "Saving..."
   },
   "grades": {
     "Big": "Big",
@@ -423,7 +426,18 @@
       "lossesError": "Could not load the losses.",
       "notFound": "Lot not found",
       "notFoundMessage": "There is no lot with this ID.",
-      "loadError": "Could not load this lot."
+      "loadError": "Could not load this lot.",
+      "deliveriesTitle": "Deliveries in this lot",
+      "noDeliveries": "No deliveries in this lot.",
+      "deliveriesError": "Could not load the deliveries.",
+      "deliveryColumns": {
+        "receipt": "Receipt",
+        "member": "Member",
+        "kg": "Kg",
+        "date": "Date",
+        "status": "Confirmation",
+        "actions": "Actions"
+      }
     },
     "actions": {
       "column": "Actions",
@@ -447,7 +461,8 @@
       "CLOSED": "Closed: no more deliveries; ready to be sold.",
       "SOLD": "Sold: fully sold; the money is waiting to be shared.",
       "SHARED": "Shared: the money has been shared with the members."
-    }
+    },
+    "pendingConfirmation": "of which {{kg}} waiting for confirmation"
   },
   "sales": {
     "title": "Sales & Buyer Transactions",
@@ -609,7 +624,11 @@
     "success": "Lot {{code}} has been shared. The members can now be paid.",
     "goToPayments": "Go to payments",
     "error": "Could not share the lot. Please try again.",
-    "shareMoney": "Share money"
+    "shareMoney": "Share money",
+    "unconfirmed": {
+      "title": "Deliveries not confirmed yet",
+      "hint": "The lot can be shared once each of these is confirmed by the member or checked by the manager. Open one to confirm, check or settle it."
+    }
   },
   "payments": {
     "eyebrow": "Financial operations",
@@ -778,15 +797,9 @@
     },
     "reverse": {
       "title": "Reverse entry #{{id}}?",
-      "explanation": "A new correcting entry will be added that cancels this one. The original entry stays in the ledger, marked as reversed.",
-      "reason": "Reason",
-      "reasonPlaceholder": "Explain why this entry is wrong",
-      "reasonRequired": "Enter the reason",
+      "explanation": "A correcting entry will be added that cancels this one, and the delivery or payment it records is reversed too. The original entry stays in the ledger, marked as reversed.",
       "confirm": "Reverse entry",
-      "reversing": "Reversing...",
-      "cancel": "Cancel",
-      "done": "Entry #{{id}} reversed by #{{reversalId}}",
-      "error": "Could not reverse the entry. Please try again."
+      "done": "Entry #{{id}} reversed by #{{reversalId}}"
     },
     "describe": {
       "delivery": "Delivery {{code}} · fee {{fee}}",
@@ -846,7 +859,13 @@
       "readyToSellAction": "Record sale",
       "awaitingPayment_one": "{{count}} member is waiting for payment",
       "awaitingPayment_other": "{{count}} members are waiting for payment",
-      "awaitingPaymentAction": "Pay members"
+      "awaitingPaymentAction": "Pay members",
+      "disputed_one": "{{count}} disputed delivery",
+      "disputed_other": "{{count}} disputed deliveries",
+      "disputedAction": "Check disputes",
+      "waitingConfirmation_one": "{{count}} delivery waiting for confirmation over 48 hours",
+      "waitingConfirmation_other": "{{count}} deliveries waiting for confirmation over 48 hours",
+      "waitingConfirmationAction": "See deliveries"
     },
     "recent": {
       "title": "Recent deliveries",
@@ -869,5 +888,546 @@
       "peak": "Peak:",
       "peakValue": "{{week}} ({{kg}} total)"
     }
+  },
+  "offline": {
+    "banner": {
+      "title": "You are offline",
+      "message": "You can still record deliveries. They are saved on this device and sync when the internet is back."
+    },
+    "saveFailed": "Could not save the delivery on this device. Please try again.",
+    "lotLater": "The lot will be assigned when this delivery syncs.",
+    "receipt": {
+      "waiting": "Waiting to sync",
+      "failed": "Sync failed",
+      "explanation": "Saved on this device. The receipt code, lot and deduction are given when it syncs.",
+      "grade": "Grade",
+      "lotLater": "Lot assigned when it syncs",
+      "deductionPreview": "Deduction (preview)",
+      "smsAfterSync": "After it syncs, the member gets an SMS and replies to confirm it."
+    },
+    "status": {
+      "WAITING": "Waiting",
+      "SYNCING": "Syncing",
+      "FAILED": "Failed",
+      "SYNCED": "Synced"
+    },
+    "syncColumn": "Sync",
+    "todayOffline": "You are offline. Deliveries saved on the server show again when the internet is back.",
+    "needsLogin": "Log in again to sync",
+    "waitingCount_one": "{{count}} waiting to sync",
+    "waitingCount_other": "{{count}} waiting to sync",
+    "failedCount_one": "{{count}} failed",
+    "failedCount_other": "{{count}} failed",
+    "panel": {
+      "title": "Deliveries on this device",
+      "syncNow": "Sync now",
+      "syncing": "Syncing...",
+      "offline": "They will sync when the internet is back.",
+      "needsLogin": "Your session has ended. Log in again to sync. The deliveries stay on this device.",
+      "logIn": "Log in again",
+      "empty": "Nothing waiting to sync.",
+      "retry": "Retry",
+      "discard": "Discard"
+    },
+    "discard": {
+      "title": "Discard this delivery?",
+      "message": "{{reference}} – {{member}}, {{kg}} will be removed from this device and never sent.",
+      "confirm": "Discard",
+      "cancel": "Keep it"
+    },
+    "logout": {
+      "title": "Deliveries not synced yet",
+      "message_one": "{{count}} delivery has not synced yet. It stays on this device and syncs after you log in again.",
+      "message_other": "{{count}} deliveries have not synced yet. They stay on this device and sync after you log in again.",
+      "confirm": "Log out",
+      "cancel": "Stay logged in"
+    },
+    "cachedData": "Offline - showing data from {{time}}",
+    "readOnly": "You can look, but changes need internet.",
+    "needsInternet": "Needs internet",
+    "pageNeedsInternet": {
+      "title": "This page needs internet",
+      "message": "You can still record deliveries offline.",
+      "recordDelivery": "Record delivery",
+      "lost": "You are offline. You can still look at this page, but changes need internet."
+    }
+  },
+  "reversal": {
+    "actionsColumn": "Actions",
+    "reversed": "Reversed",
+    "reasonTooltip": "Reason: {{reason}}",
+    "reason": "Reason",
+    "reasonPlaceholder": "Explain what was wrong",
+    "reasonRequired": "Enter the reason",
+    "cancel": "Cancel",
+    "reversing": "Saving...",
+    "error": "Could not save the change. Please try again.",
+    "delivery": {
+      "menu": "Actions for delivery {{code}}",
+      "correct": "Correct delivery",
+      "reverse": "Reverse delivery",
+      "reverseTitle": "Reverse delivery {{code}}?",
+      "reverseExplanation": "The delivery stays in the history, marked as reversed, and is no longer counted in the lot, stock or the member's statement.",
+      "lotHasSales": "This lot already has sales. Report it as a dispute instead.",
+      "correctedBy": "Corrected by",
+      "corrects": "Corrects"
+    },
+    "correct": {
+      "title": "Correct delivery {{code}}",
+      "explanation": "The wrong delivery will be reversed and a new one recorded. Both stay in the history.",
+      "reasonPlaceholder": "Explain what was wrong, for example the wrong member",
+      "nothingChanged": "Change the member, grade or quantity that was wrong.",
+      "save": "Save correction",
+      "saving": "Saving..."
+    },
+    "payment": {
+      "menu": "Actions for payment {{code}}",
+      "reverse": "Reverse payment",
+      "reverseTitle": "Reverse payment {{code}}?",
+      "reverseExplanation": "The payment stays in the history, marked as reversed. The member will be owed this amount again.",
+      "done": "Payment {{code}} reversed"
+    }
+  },
+  "confirmation": {
+    "status": "Confirmation",
+    "badge": {
+      "PENDING": "Waiting",
+      "CONFIRMED": "Confirmed",
+      "DISPUTED": "Disputed",
+      "RECORDED_BEFORE_CONFIRMATION": "Recorded earlier"
+    },
+    "method": {
+      "OTP": "Confirmed by member with SMS code",
+      "SMS": "Confirmed by member by SMS",
+      "MANAGER_REVIEW": "Checked by the manager",
+      "PIN": "Confirmed by member with PIN",
+      "RECORDED_BEFORE_CONFIRMATION": "Recorded before confirmation existed"
+    },
+    "disputeReason": {
+      "WRONG_KG": "Wrong weight",
+      "WRONG_GRADE": "Wrong grade",
+      "NOT_MY_DELIVERY": "Not my delivery",
+      "OTHER": "Other"
+    },
+    "menu": {
+      "dispute": "Record dispute",
+      "resolve": "Record was correct",
+      "confirm": "Confirm with code"
+    },
+    "dispute": {
+      "title": "Dispute delivery {{code}}",
+      "reason": "What does the member say is wrong?",
+      "reasonRequired": "Choose what is wrong",
+      "note": "Note (optional)",
+      "notePlaceholder": "What the member said",
+      "save": "Record dispute",
+      "error": "Could not record the dispute. Please try again."
+    },
+    "resolve": {
+      "title": "Record {{code}} as correct?",
+      "explanation": "Use this when you checked the delivery and the record was right. It becomes confirmed again.",
+      "note": "How did you check it?",
+      "notePlaceholder": "For example: weighed again with the member",
+      "noteRequired": "Say how the delivery was checked"
+    }
+  },
+  "deliveriesPage": {
+    "title": "Deliveries",
+    "disputed": "Disputed deliveries",
+    "waitingOver": "Waiting for confirmation over {{count}} hours",
+    "withStatus": "Deliveries: {{status}}",
+    "subtitle": "Confirm, settle or correct them from the menu on each row.",
+    "back": "Back to dashboard",
+    "empty": "No deliveries here.",
+    "error": "Could not load the deliveries.",
+    "columns": {
+      "receipt": "Receipt",
+      "member": "Member",
+      "grade": "Grade",
+      "lot": "Lot",
+      "kg": "Kg",
+      "date": "Date",
+      "status": "Confirmation",
+      "actions": "Actions"
+    }
+  },
+  "settings": {
+    "eyebrow": "Cooperative configuration",
+    "title": "Cooperative Settings",
+    "subtitle": "Cooperative details, deductions, grades, notifications and ledger integrity.",
+    "loadError": "Could not load the settings.",
+    "retry": "Try again",
+    "save": "Save",
+    "saving": "Saving...",
+    "saved": "Saved",
+    "saveError": "Could not save. Please try again.",
+    "errors": {
+      "email": "Enter a valid email address",
+      "positive": "Enter a number above 0 with at most 2 decimals",
+      "wholeNumber": "Enter a whole number of RWF, 0 or more",
+      "phone": "Enter a Rwandan mobile number, for example 0788123456"
+    },
+    "cooperative": {
+      "title": "Cooperative",
+      "subtitle": "Contact details of the cooperative",
+      "cooperativeEmail": "Email",
+      "location": "Location",
+      "cooperativePhone": "Phone",
+      "phoneHint": "Shown to buyers. For example 0788123456"
+    },
+    "deduction": {
+      "title": "Pricing & deductions",
+      "subtitle": "Deduction per kg delivered",
+      "label": "Standard deduction",
+      "unit": "RWF / kg",
+      "kept": "Kept by the cooperative for its costs.",
+      "readOnly": "The deduction is set by the cooperative's administrator and cannot be changed here."
+    },
+    "grades": {
+      "title": "Grades",
+      "subtitle": "Names, floor prices and details of each grade",
+      "code": "Code {{code}} (fixed)",
+      "active": "Active",
+      "inactive": "Inactive",
+      "activeLabel": "Grade {{code}} active",
+      "name": "English name",
+      "nameRw": "Kinyarwanda name",
+      "sizeInfo": "Size",
+      "packaging": "Packaging",
+      "floorPrice": "Floor price",
+      "noMinimum": "No minimum",
+      "description": "Description",
+      "nameRequired": "Enter the English name",
+      "loadError": "Could not load the grades."
+    },
+    "sms": {
+      "title": "SMS notifications",
+      "subtitle": "Receipts sent to members",
+      "on": "Members get an SMS with the kg, grade and receipt code after each delivery, and can reply to confirm or dispute it.",
+      "off": "No SMS are sent to members."
+    },
+    "committee": {
+      "title": "Committee email recipients",
+      "subtitle": "Weekly report recipients",
+      "empty": "No recipients yet.",
+      "newEmail": "New recipient email",
+      "placeholder": "name@example.com",
+      "add": "Add recipient",
+      "remove": "Remove {{email}}",
+      "duplicate": "This email is already in the list",
+      "tooMany": "At most {{count}} recipients",
+      "note": "Used for the weekly report - coming soon."
+    },
+    "ledger": {
+      "title": "Ledger integrity",
+      "subtitle": "Hash chain check",
+      "status": "Ledger status",
+      "lastCheck": "Last check",
+      "checking": "Checking...",
+      "verify": "Verify ledger",
+      "valid_one": "{{count}} entry matches",
+      "valid_other": "All {{count}} entries match",
+      "broken": "Problem at entry #{{id}}",
+      "error": "Could not check"
+    },
+    "account": {
+      "title": "Manager account",
+      "subtitle": "{{name}} (Manager)",
+      "current": "Current password",
+      "next": "New password",
+      "repeat": "Confirm new password",
+      "hint": "At least {{count}} characters",
+      "submit": "Change password",
+      "allRequired": "Enter the current and the new password",
+      "tooShort": "The new password must have at least {{count}} characters",
+      "tooLong": "The new password must have at most {{count}} characters",
+      "noMatch": "The two new passwords are not the same",
+      "same": "The new password must be different from the current one",
+      "done": "Password changed",
+      "error": "Could not change the password. Please try again."
+    },
+    "history": {
+      "title": "Recent changes",
+      "subtitle": "Who changed what and when. Passwords and PINs are never shown.",
+      "empty": "No changes yet.",
+      "error": "Could not load the change history.",
+      "actions": {
+        "PIN_SET": "Member PIN set",
+        "PIN_RESET": "Member PIN reset",
+        "SETTINGS_UPDATED": "Settings changed",
+        "GRADE_UPDATED": "Grade changed",
+        "PASSWORD_CHANGED": "Password changed",
+        "CONFIRMATION_CODE_RESENT": "New confirmation code sent",
+        "DELIVERY_REVIEWED": "Delivery checked by the manager",
+        "IDENTITY_VERIFIED": "Identity verified",
+        "IDENTITY_DUPLICATE": "Identity check: already a member",
+        "IDENTITY_VERIFICATION_FAILED": "Identity check failed"
+      }
+    },
+    "orders": {
+      "title": "Orders",
+      "subtitle": "The smallest order a buyer can request",
+      "minOrderKg": "Minimum order"
+    },
+    "identity": {
+      "title": "Identity verification",
+      "subtitle": "When registering a new member",
+      "on": "A new member can only be saved after their identity is verified.",
+      "off": "Verifying a new member's identity is optional."
+    }
+  },
+  "codeConfirmation": {
+    "title": "Confirm delivery {{code}} with the member",
+    "hint": "The member received a code by SMS. If the details are correct, they tell you the code.",
+    "confirm": "Confirm",
+    "codeLength": "The code has {{count}} digits",
+    "error": "Could not save. Please try again.",
+    "resend": "Resend code",
+    "resent": "A new code was sent. The old one no longer works.",
+    "resendsLeft_one": "{{count}} resend left",
+    "resendsLeft_other": "{{count}} resends left",
+    "smsOff": "SMS are turned off, so no code was sent. Check the delivery with the member, then record it as checked.",
+    "notCorrect": "Not correct",
+    "notCorrectHint": "First fix the weight or grade. If the member still disagrees, record a dispute.",
+    "fixDelivery": "Fix weight or grade",
+    "stillDisagrees": "The member still disagrees",
+    "memberNotHere": "Member not here",
+    "review": "Checked by the manager",
+    "reviewTitle": "Record {{code}} as checked by the manager?",
+    "reviewExplanation": "Use this only when the member cannot get a code. Say how you checked the delivery.",
+    "waitingForMember": "Waiting for the member's confirmation",
+    "details": {
+      "member": "Member",
+      "quantity": "Weight",
+      "grade": "Grade",
+      "date": "Date"
+    }
+  },
+  "deliveryDetail": {
+    "back": "Back to deliveries",
+    "notFound": "This delivery does not exist.",
+    "error": "Could not load the delivery.",
+    "member": "Member",
+    "grade": "Grade",
+    "lot": "Lot",
+    "quantity": "Weight",
+    "deduction": "Deduction",
+    "deliveredAt": "Delivered",
+    "dispute": "Dispute",
+    "resolution": "Manager's note",
+    "confirmTitle": "Confirm with the member"
+  },
+  "memberVerification": {
+    "title": "Verify identity",
+    "subtitle": "Confirms that this person is who they say and is not already a member.",
+    "start": "Verify identity",
+    "starting": "Starting...",
+    "verified": "Identity verified ({{method}})",
+    "saveWithin": "Save the member within {{time}}, or verify again.",
+    "method": {
+      "OTP": "SMS code",
+      "FACE": "face check",
+      "MOCK": "test mode"
+    },
+    "mock": {
+      "title": "Test mode: this does not check a real identity",
+      "explanation": "No real identity check is made. Type any code: the same code means the same person.",
+      "code": "Any code",
+      "check": "Check code"
+    },
+    "failedTitle": "Identity not verified",
+    "backToForm": "Back to the registration form",
+    "errors": {
+      "startAgain": "The identity check expired or is not valid. Start it again.",
+      "used": "This identity check was already used. Start it again.",
+      "unavailable": "Identity verification is not available yet.",
+      "network": "Cannot reach the server. Check your connection and try again.",
+      "generic": "The identity could not be verified. Please try again.",
+      "expired": "The identity check is older than 30 minutes. Verify again before saving.",
+      "required": "Verify the member's identity before saving."
+    },
+    "testVerified": "Test verification (no real identity was checked)"
+  },
+  "publicHome": {
+    "hero": "Irish potatoes sold by the cooperative.",
+    "heroWithLocation": "Irish potatoes from {{location}}.",
+    "viewGrades": "View the grades",
+    "sendRequest": "Send a purchase request",
+    "error": "Could not load the information. Please try again.",
+    "retry": "Try again",
+    "info": {
+      "location": "Location",
+      "minOrder": "Smallest order",
+      "email": "Email",
+      "phone": "Phone"
+    },
+    "grades": {
+      "title": "Available grades",
+      "sizeInfo": "Size",
+      "packaging": "Packaging",
+      "subtitle": "Choose a grade below and send a purchase request for it. The size and packaging shown are those the cooperative gives for each grade."
+    },
+    "steps": {
+      "title": "How we handle your orders",
+      "send": {
+        "title": "Send a request",
+        "text": "Choose the potato grade and the quantity you need, and leave your name and phone number, using our online request form."
+      },
+      "review": {
+        "title": "Administrative review",
+        "text": "The cooperative's manager reviews your request and accepts or rejects it, and may leave you a message."
+      },
+      "status": {
+        "title": "Check the answer",
+        "text": "Use your request code and phone number on the Check Request Status page to see the answer and any message from the cooperative."
+      },
+      "subtitle": "Your request goes to the cooperative office, and you can follow the answer online."
+    },
+    "contact": {
+      "title": "Contact {{name}}",
+      "eyebrow": "Get in touch",
+      "intro": "Have questions regarding bulk orders, logistics, or custom grading specifications? Reach out to our cooperative office directly."
+    },
+    "requestGrade": "Request this grade",
+    "heroIntro": "Send a purchase request online: choose the grade and the quantity you need, and the cooperative will review it and give you an answer."
+  },
+  "publicRequest": {
+    "eyebrow": "Buyer portal",
+    "title": "Send a purchase request",
+    "subtitle": "Send a request. The manager will review it and contact you.",
+    "grade": "Potato grade",
+    "chooseGrade": "Choose a grade",
+    "loading": "Loading...",
+    "quantity": "Quantity (kg)",
+    "quantityPlaceholder": "e.g. 1500",
+    "minOrderHint": "Smallest order: {{kg}}",
+    "name": "Your full name",
+    "phone": "Phone number",
+    "phoneHint": "For example 0788123456 or +250788123456",
+    "email": "Email address",
+    "optional": "(optional)",
+    "note": "Message",
+    "notePlaceholder": "Anything the cooperative should know",
+    "honeypot": "Leave this field empty",
+    "send": "Send request",
+    "sending": "Sending...",
+    "loadError": "Could not load the grades. Please try again.",
+    "retry": "Try again",
+    "errors": {
+      "grade": "Choose a grade",
+      "quantityRequired": "Enter the quantity",
+      "quantityInvalid": "Enter a number above 0 with at most 2 decimals",
+      "minOrder": "The smallest order is {{kg}}",
+      "quantityTooLarge": "The largest order is {{kg}}",
+      "name": "Enter your name",
+      "phone": "Enter a Rwandan mobile number, for example 0788123456",
+      "email": "Enter a valid email address",
+      "generic": "Could not send the request. Please try again.",
+      "network": "Cannot reach the server. Check your connection and try again."
+    },
+    "sent": {
+      "title": "Request sent",
+      "keepCode": "Keep this code to check your request.",
+      "howToCheck": "To see the answer, open \"Check Request Status\" and enter this code with the phone number you used.",
+      "checkStatus": "Check request status",
+      "another": "Send another request"
+    },
+    "back": {
+      "grades": "Back to the grades",
+      "home": "Back to the home page"
+    },
+    "gradeHint": "Choose a grade to see its details here."
+  },
+  "requestStatus": {
+    "eyebrow": "Buyer portal",
+    "title": "Check request status",
+    "subtitle": "Enter the code you received when you sent your request, and the phone number you used.",
+    "code": "Request code",
+    "phone": "Phone number",
+    "phoneHint": "The phone number you gave in your request",
+    "check": "Check status",
+    "checking": "Checking...",
+    "reference": "Request code",
+    "notice": "Message from the cooperative",
+    "status": {
+      "PENDING": "Waiting for review",
+      "ACCEPTED": "Accepted",
+      "REJECTED": "Rejected"
+    },
+    "errors": {
+      "code": "Enter the request code",
+      "phone": "Enter a Rwandan mobile number, for example 0788123456",
+      "notFound": "Request not found. Check the code and the phone number.",
+      "generic": "Could not check the request. Please try again.",
+      "network": "Cannot reach the server. Check your connection and try again."
+    }
+  },
+  "buyerRequests": {
+    "title": "Buyer Requests",
+    "subtitle": "Purchase requests sent from the public page. Accept or reject them, and leave a message the buyer can read.",
+    "summary": {
+      "pending": "Pending requests",
+      "needsReview": "Waiting for your review",
+      "pendingKg": "Pending quantity",
+      "fromPending": "From the pending requests",
+      "stock": "Stock available"
+    },
+    "search": {
+      "placeholder": "Search by code, buyer name or phone...",
+      "label": "Search requests"
+    },
+    "filter": {
+      "label": "Status:",
+      "all": "All"
+    },
+    "status": {
+      "PENDING": "Pending",
+      "ACCEPTED": "Accepted",
+      "REJECTED": "Rejected"
+    },
+    "columns": {
+      "reference": "Code",
+      "buyer": "Buyer",
+      "grade": "Grade",
+      "quantity": "Quantity",
+      "date": "Date",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "actions": {
+      "menu": "Actions for request {{code}}",
+      "view": "View details",
+      "ACCEPTED": "Accept",
+      "REJECTED": "Reject",
+      "PENDING": "Set back to pending"
+    },
+    "change": {
+      "title": {
+        "ACCEPTED": "Accept request {{code}}?",
+        "REJECTED": "Reject request {{code}}?",
+        "PENDING": "Set {{code}} back to pending?"
+      },
+      "explanation": "The buyer sees the new status, and your message, when they check the request with their code and phone number.",
+      "message": "Message for the buyer (optional)",
+      "placeholder": "For example: please call the manager to arrange collection"
+    },
+    "changed": "{{code}}: {{status}}",
+    "details": {
+      "title": "Request",
+      "close": "Close",
+      "error": "Could not load the request.",
+      "name": "Buyer",
+      "phone": "Phone",
+      "email": "Email",
+      "note": "Buyer's message",
+      "publicMessage": "Your message to the buyer"
+    },
+    "empty": {
+      "title": "No requests yet",
+      "message": "Requests sent from the public page appear here.",
+      "noResults": "No requests match your search."
+    },
+    "error": "Could not load the requests.",
+    "retry": "Try again"
   }
 }

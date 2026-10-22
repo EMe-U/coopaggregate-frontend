@@ -2,13 +2,18 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Lightbulb, Save, WifiOff } from 'lucide-react'
 import { recordDelivery } from '../../api/deliveries'
+import DeliveryConfirmation from '../../components/deliveries/DeliveryConfirmation'
 import DeliveryReceipt from '../../components/deliveries/DeliveryReceipt'
 import DuplicateWarning from '../../components/deliveries/DuplicateWarning'
 import GradeSelector from '../../components/deliveries/GradeSelector'
 import LotAssignment from '../../components/deliveries/LotAssignment'
 import MemberPicker from '../../components/deliveries/MemberPicker'
+import PendingReceipt from '../../components/deliveries/PendingReceipt'
 import TodayDeliveries from '../../components/deliveries/TodayDeliveries'
 import useOnlineStatus from '../../hooks/useOnlineStatus'
+import usePendingDeliveries from '../../hooks/usePendingDeliveries'
+import { queueDelivery } from '../../offline/pending'
+import { syncedDelivery, syncNow } from '../../offline/sync'
 import { kigaliIsoDate } from '../../utils/format'
 import { parseKg } from '../../utils/quantity'
 
@@ -29,8 +34,11 @@ function validate({ member, grade, date, quantityText }, today) {
 }
 
 // The form only asks for the day. Today means "now"; an earlier day is saved at noon Kigali time.
-function deliveredAtFor(date, today) {
-  return date === today ? undefined : new Date(`${date}T12:00:00+02:00`).toISOString()
+// Online, "now" is left to the server clock. A delivery kept on the device for later carries the
+// device time, because it may reach the server much later.
+function deliveredAtFor(date, today, { queued = false } = {}) {
+  if (date !== today) return new Date(`${date}T12:00:00+02:00`).toISOString()
+  return queued ? new Date().toISOString() : undefined
 }
 
 function emptyForm() {
@@ -61,9 +69,22 @@ export default function RecordDelivery() {
   const [errors, setErrors] = useState({})
   const [formError, setFormError] = useState('')
   const [saving, setSaving] = useState(false)
-  // The saved delivery. While it is shown the form is locked until "Record another".
+  // The saved delivery, or the one kept on this device to sync later. While either is shown the
+  // form is locked until "Record another".
   const [receipt, setReceipt] = useState(null)
-  const locked = saving || receipt !== null
+  const [pendingReceipt, setPendingReceipt] = useState(null)
+  // After an online save the member confirms with the code they received by SMS. Offline
+  // deliveries skip this step: once synced, the member replies to the SMS instead.
+  const [askingCode, setAskingCode] = useState(false)
+  // Bumped when the saved delivery changes, so today's list shows its new status.
+  const [listKey, setListKey] = useState(0)
+  const locked = saving || receipt !== null || pendingReceipt !== null
+
+  // Follow the waiting delivery in the queue: show a failure, or the real receipt once it syncs.
+  const pending = usePendingDeliveries()
+  const queued = pendingReceipt && pending?.find((delivery) => delivery.clientUuid === pendingReceipt.clientUuid)
+  const syncedReceipt = pendingReceipt && pending && !queued ? syncedDelivery(pendingReceipt.clientUuid) : null
+  const shownReceipt = receipt ?? syncedReceipt
 
   function setField(name, value) {
     setForm((current) => ({ ...current, [name]: value }))
@@ -72,29 +93,56 @@ export default function RecordDelivery() {
 
   async function handleSubmit(event) {
     event.preventDefault()
-    if (locked || !isOnline) return
+    if (locked) return
     setFormError('')
 
     const fieldErrors = validate(form, today)
     setErrors(fieldErrors)
     if (Object.keys(fieldErrors).length > 0) return
 
+    const delivery = { memberId: form.member.id, gradeId: form.grade.id, quantityKg: parseKg(form.quantityText) }
+
+    async function saveForLater() {
+      const entry = await queueDelivery({
+        clientUuid,
+        payload: { ...delivery, deliveredAt: deliveredAtFor(form.date, today, { queued: true }) },
+        member: form.member,
+        grade: form.grade,
+      })
+      setPendingReceipt(entry)
+      syncNow()
+    }
+
     setSaving(true)
     try {
-      const saved = await recordDelivery({
-        clientUuid,
-        memberId: form.member.id,
-        gradeId: form.grade.id,
-        quantityKg: parseKg(form.quantityText),
-        deliveredAt: deliveredAtFor(form.date, today),
-      })
-      setReceipt(saved)
-    } catch (error) {
-      if (!error.response) setFormError(t('deliveries.errors.serverUnreachable'))
-      else setFormError(error.response.data?.message || t('deliveries.errors.generic'))
+      if (!isOnline) {
+        await saveForLater()
+        return
+      }
+      try {
+        const saved = await recordDelivery({ clientUuid, ...delivery, deliveredAt: deliveredAtFor(form.date, today) })
+        setReceipt(saved)
+        setAskingCode(saved.confirmationStatus === 'PENDING')
+      } catch (error) {
+        if (error.response) {
+          setFormError(error.response.data?.message || t('deliveries.errors.generic'))
+          return
+        }
+        // No answer from the server: keep it on this device and let sync send it with the same clientUuid.
+        await saveForLater()
+      }
+    } catch {
+      setFormError(t('offline.saveFailed'))
     } finally {
       setSaving(false)
     }
+  }
+
+  // Confirmed, disputed or reviewed ends the step; a correction keeps it open for the new delivery.
+  function handleConfirmationChanged(updated) {
+    setReceipt(updated)
+    setListKey((key) => key + 1)
+    if (updated.confirmationStatus !== 'PENDING') setAskingCode(false)
   }
 
   function handleRecordAnother() {
@@ -102,6 +150,8 @@ export default function RecordDelivery() {
     setErrors({})
     setFormError('')
     setReceipt(null)
+    setPendingReceipt(null)
+    setAskingCode(false)
     setClientUuid(crypto.randomUUID())
   }
 
@@ -113,8 +163,8 @@ export default function RecordDelivery() {
         <div role="status" className="flex items-start gap-3 rounded-xl bg-text/85 p-4 text-sm text-white print:hidden">
           <WifiOff size={20} className="mt-0.5 shrink-0" />
           <div>
-            <p className="font-semibold">{t('deliveries.offline.title')}</p>
-            <p className="text-white/80">{t('deliveries.offline.message')}</p>
+            <p className="font-semibold">{t('offline.banner.title')}</p>
+            <p className="text-white/80">{t('offline.banner.message')}</p>
           </div>
         </div>
       )}
@@ -197,7 +247,7 @@ export default function RecordDelivery() {
 
           <button
             type="submit"
-            disabled={locked || !isOnline}
+            disabled={locked}
             className="flex min-h-14 w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 text-base font-semibold text-white shadow-sm hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
           >
             <Save size={18} />
@@ -206,7 +256,10 @@ export default function RecordDelivery() {
         </form>
 
         <div className="min-w-0 space-y-6 lg:col-span-2">
-          {receipt && <DeliveryReceipt delivery={receipt} onRecordAnother={handleRecordAnother} />}
+          {shownReceipt && <DeliveryReceipt delivery={shownReceipt} onRecordAnother={handleRecordAnother} />}
+          {pendingReceipt && !shownReceipt && (
+            <PendingReceipt delivery={queued ?? pendingReceipt} onRecordAnother={handleRecordAnother} />
+          )}
 
           <div className="rounded-xl bg-background p-4 text-sm ring-1 ring-text/5 print:hidden">
             <p className="flex items-center gap-2 font-semibold text-text">
@@ -218,7 +271,29 @@ export default function RecordDelivery() {
         </div>
       </div>
 
-      <TodayDeliveries reloadKey={receipt?.id} />
+      <TodayDeliveries reloadKey={`${shownReceipt?.id}-${listKey}`} />
+
+      {askingCode && receipt && (
+        <div className="fixed inset-0 z-40 flex items-center justify-center overflow-y-auto bg-black/40 p-4 print:hidden">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="code-step-title"
+            className="my-auto w-full max-w-lg rounded-xl bg-surface p-5 shadow-lg"
+          >
+            <h2 id="code-step-title" className="mb-4 text-lg font-semibold text-text">
+              {t('codeConfirmation.title', { code: receipt.receiptCode })}
+            </h2>
+            <DeliveryConfirmation
+              delivery={receipt}
+              showDetails
+              onChanged={handleConfirmationChanged}
+              onClose={() => setAskingCode(false)}
+            />
+          </div>
+        </div>
+      )}
+
     </div>
   )
 }
