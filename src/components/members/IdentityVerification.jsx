@@ -49,7 +49,9 @@ export default function IdentityVerification({ verification, onVerified, onExpir
         window.location.assign(started.authorizationUrl)
         return
       }
-      setMockState(started.state)
+      // Only the MOCK provider is completed here, with any code.
+      if (started.provider === 'MOCK') setMockState(started.state)
+      else setError(t('memberVerification.errors.unavailable'))
     } catch (requestError) {
       setError(verificationErrorMessage(t, requestError))
     }
@@ -74,14 +76,21 @@ export default function IdentityVerification({ verification, onVerified, onExpir
   }
 
   if (verification && !expired) {
+    // A test verification checked no real identity, so it must not look like a real one.
+    const isTest = verification.method === 'MOCK'
     return (
-      <div role="status" className="flex items-start gap-3 rounded-lg bg-primary-light p-3 text-sm text-primary">
-        <ShieldCheck size={20} className="mt-0.5 shrink-0" />
+      <div
+        role="status"
+        className={`flex items-start gap-3 rounded-lg p-3 text-sm ${isTest ? 'bg-background text-muted' : 'bg-primary-light text-primary'}`}
+      >
+        {isTest ? <FlaskConical size={20} className="mt-0.5 shrink-0" /> : <ShieldCheck size={20} className="mt-0.5 shrink-0" />}
         <div>
           <p className="font-semibold">
-            {t('memberVerification.verified', {
-              method: t(`memberVerification.method.${verification.method}`, { defaultValue: verification.method }),
-            })}
+            {isTest
+              ? t('memberVerification.testVerified')
+              : t('memberVerification.verified', {
+                  method: t(`memberVerification.method.${verification.method}`, { defaultValue: verification.method }),
+                })}
           </p>
           <p className="text-xs">{t('memberVerification.saveWithin', { time: timeLeft(verification.useBefore, now) })}</p>
         </div>

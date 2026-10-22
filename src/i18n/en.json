@@ -212,7 +212,9 @@
       "statementAsOf": "Statement as of {{date}}"
     },
     "verified": {
-      "badge": "Verified"
+      "badge": "Verified",
+      "test": "Test verification",
+      "testHint": "A test check: no real identity was verified."
     }
   },
   "deliveries": {
@@ -1221,7 +1223,7 @@
       "MOCK": "test mode"
     },
     "mock": {
-      "title": "Test mode",
+      "title": "Test mode: this does not check a real identity",
       "explanation": "No real identity check is made. Type any code: the same code means the same person.",
       "code": "Any code",
       "check": "Check code"
@@ -1236,6 +1238,7 @@
       "generic": "The identity could not be verified. Please try again.",
       "expired": "The identity check is older than 30 minutes. Verify again before saving.",
       "required": "Verify the member's identity before saving."
-    }
+    },
+    "testVerified": "Test verification (no real identity was checked)"
   }
 }

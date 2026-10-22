@@ -35,13 +35,13 @@ export function takeVerification() {
   return result
 }
 
-// The message for a failed start or callback, by status. 409 carries the backend's own message
-// ("This person is already a member." or that the check was already used).
+// The message for a failed start or callback, by status. 409 and 503 carry the backend's own
+// message ("This person is already a member.", or why verification is not available).
 export function verificationErrorMessage(t, error) {
   const status = error.response?.status
   if (!error.response) return t('memberVerification.errors.network')
   if (status === 400) return t('memberVerification.errors.startAgain')
   if (status === 409) return error.response.data?.message || t('memberVerification.errors.used')
-  if (status === 503) return t('memberVerification.errors.unavailable')
+  if (status === 503) return error.response.data?.message || t('memberVerification.errors.unavailable')
   return error.response.data?.message || t('memberVerification.errors.generic')
 }

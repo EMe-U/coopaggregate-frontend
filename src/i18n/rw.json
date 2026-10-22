@@ -212,7 +212,9 @@
       "statementAsOf": "Raporo yo ku itariki ya {{date}}"
     },
     "verified": {
-      "badge": "Yagenzuwe"
+      "badge": "Yagenzuwe",
+      "test": "Igenzura ry'igerageza",
+      "testHint": "Igenzura ry'igerageza: nta mwirondoro nyawo wagenzuwe."
     }
   },
   "deliveries": {
@@ -1226,7 +1228,11 @@
       "settings.identity",
       "settings.history.actions.IDENTITY_VERIFIED",
       "settings.history.actions.IDENTITY_DUPLICATE",
-      "settings.history.actions.IDENTITY_VERIFICATION_FAILED"
+      "settings.history.actions.IDENTITY_VERIFICATION_FAILED",
+      "members.verified.test",
+      "members.verified.testHint",
+      "memberVerification.mock.title",
+      "memberVerification.testVerified"
     ]
   },
   "memberVerification": {
@@ -1242,7 +1248,7 @@
       "MOCK": "igerageza"
     },
     "mock": {
-      "title": "Igerageza",
+      "title": "Igerageza: ibi ntibigenzura umwirondoro nyawo",
       "explanation": "Nta genzura nyaryo rikorwa. Andika kode iyo ari yo yose: kode imwe ivuga umuntu umwe.",
       "code": "Kode iyo ari yo yose",
       "check": "Genzura kode"
@@ -1257,6 +1263,7 @@
       "generic": "Umwirondoro ntiwashoboye kugenzurwa. Ongera ugerageze.",
       "expired": "Igenzura rirengeje iminota 30. Ongera ugenzure mbere yo kubika.",
       "required": "Genzura umwirondoro w'umunyamuryango mbere yo kubika."
-    }
+    },
+    "testVerified": "Igenzura ry'igerageza (nta mwirondoro nyawo wagenzuwe)"
   }
 }
