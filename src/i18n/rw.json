@@ -22,7 +22,10 @@
   "publicNav": {
     "home": "Ahabanza",
     "sendRequest": "Ohereza Icyifuzo",
-    "checkStatus": "Reba Uko Icyifuzo Gihagaze"
+    "checkStatus": "Reba Uko Icyifuzo Gihagaze",
+    "grades": "Ibirayi Bihari",
+    "contact": "Twandikire",
+    "copyright": "© {{year}} {{name}}"
   },
   "topbar": {
     "online": "Kuri murandasi",
@@ -1232,7 +1235,10 @@
       "members.verified.test",
       "members.verified.testHint",
       "memberVerification.mock.title",
-      "memberVerification.testVerified"
+      "memberVerification.testVerified",
+      "publicHome",
+      "publicNav.grades",
+      "publicNav.contact"
     ]
   },
   "memberVerification": {
@@ -1265,5 +1271,41 @@
       "required": "Genzura umwirondoro w'umunyamuryango mbere yo kubika."
     },
     "testVerified": "Igenzura ry'igerageza (nta mwirondoro nyawo wagenzuwe)"
+  },
+  "publicHome": {
+    "hero": "Ibirayi bigurishwa na koperative.",
+    "heroWithLocation": "Ibirayi bivuye {{location}}.",
+    "viewGrades": "Reba inzego",
+    "sendRequest": "Ohereza icyifuzo cyo kugura",
+    "error": "Ntibishobotse kubona amakuru. Ongera ugerageze.",
+    "retry": "Ongera ugerageze",
+    "info": {
+      "location": "Aho iherereye",
+      "minOrder": "Ibiro bike bishoboka",
+      "email": "Email"
+    },
+    "grades": {
+      "title": "Inzego zihari",
+      "sizeInfo": "Ingano",
+      "packaging": "Ipaki"
+    },
+    "steps": {
+      "title": "Uko bigenda",
+      "send": {
+        "title": "Ohereza icyifuzo",
+        "text": "Hitamo urwego, andika ibiro ukeneye n'nimero yawe ya telefone."
+      },
+      "review": {
+        "title": "Koperative irakireba",
+        "text": "Umuyobozi areba icyifuzo cyawe, akakemera cyangwa akakanga."
+      },
+      "status": {
+        "title": "Reba igisubizo",
+        "text": "Koresha kode y'icyifuzo na telefone yawe urebe uko gihagaze n'ubutumwa niba buhari."
+      }
+    },
+    "contact": {
+      "title": "Vugana na {{name}}"
+    }
   }
 }

@@ -22,7 +22,10 @@
   "publicNav": {
     "home": "Home",
     "sendRequest": "Send Request",
-    "checkStatus": "Check Request Status"
+    "checkStatus": "Check Request Status",
+    "grades": "Available Potatoes",
+    "contact": "Contact",
+    "copyright": "© {{year}} {{name}}"
   },
   "topbar": {
     "online": "Online",
@@ -1240,5 +1243,41 @@
       "required": "Verify the member's identity before saving."
     },
     "testVerified": "Test verification (no real identity was checked)"
+  },
+  "publicHome": {
+    "hero": "Irish potatoes sold by the cooperative.",
+    "heroWithLocation": "Irish potatoes from {{location}}.",
+    "viewGrades": "View the grades",
+    "sendRequest": "Send a purchase request",
+    "error": "Could not load the information. Please try again.",
+    "retry": "Try again",
+    "info": {
+      "location": "Location",
+      "minOrder": "Smallest order",
+      "email": "Email"
+    },
+    "grades": {
+      "title": "Available grades",
+      "sizeInfo": "Size",
+      "packaging": "Packaging"
+    },
+    "steps": {
+      "title": "How to order",
+      "send": {
+        "title": "Send a request",
+        "text": "Choose a grade, enter the weight you need and your phone number."
+      },
+      "review": {
+        "title": "The cooperative reviews it",
+        "text": "The manager looks at your request and accepts or rejects it."
+      },
+      "status": {
+        "title": "Check the answer",
+        "text": "Use your request code and phone number to see the status and any message."
+      }
+    },
+    "contact": {
+      "title": "Contact {{name}}"
+    }
   }
 }
