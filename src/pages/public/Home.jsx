@@ -7,6 +7,13 @@ import { publicGradeName } from './publicGrade'
 
 const sectionClass = 'mx-auto max-w-6xl px-4'
 
+// The cooperative's own photos, in public/images. alt texts are under publicHome.gallery.
+const PHOTOS = [
+  { key: 'workers', src: '/images/field-workers.jpg', width: 847, height: 491 },
+  { key: 'bucket', src: '/images/potatoes-bucket.jpg', width: 638, height: 480 },
+  { key: 'sack', src: '/images/potatoes-sack.jpg', width: 597, height: 335 },
+]
+
 function InfoCard({ icon: Icon, label, children }) {
   return (
     <div className="flex min-w-0 items-center gap-3 rounded-xl bg-surface p-4 shadow-sm">
@@ -70,8 +77,11 @@ export default function Home() {
 
   return (
     <>
-      <section className="bg-linear-to-br from-primary to-[#0b3a1f] py-14 text-white sm:py-20">
-        <div className={sectionClass}>
+      <section className="relative overflow-hidden bg-primary py-14 text-white sm:py-20">
+        {/* Decorative: the text next to it says everything, so it has an empty alt. */}
+        <img src="/images/big-potatoes.jpg" alt="" width="1200" height="743" className="absolute inset-0 h-full w-full object-cover" />
+        <div className="absolute inset-0 bg-linear-to-r from-primary/95 via-primary/80 to-primary/50" />
+        <div className={`${sectionClass} relative`}>
           <h1 className="max-w-3xl text-3xl font-bold leading-tight sm:text-4xl">
             {cooperative?.cooperativeName ?? t('app.cooperative')}
           </h1>
@@ -156,7 +166,24 @@ export default function Home() {
         </section>
       )}
 
-      <section className="bg-surface py-10">
+      <section className={`${sectionClass} py-4`}>
+        <h2 className="text-xl font-semibold text-text">{t('publicHome.gallery.title')}</h2>
+        <div className="mt-5 grid gap-4 sm:grid-cols-3">
+          {PHOTOS.map(({ key, src, width, height }) => (
+            <img
+              key={key}
+              src={src}
+              alt={t(`publicHome.gallery.${key}`)}
+              width={width}
+              height={height}
+              loading="lazy"
+              className="aspect-4/3 w-full rounded-xl object-cover shadow-sm"
+            />
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-6 bg-surface py-10">
         <div className={sectionClass}>
           <h2 className="text-xl font-semibold text-text">{t('publicHome.steps.title')}</h2>
           <ol className="mt-5 grid gap-4 md:grid-cols-3">
