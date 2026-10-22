@@ -211,6 +211,9 @@
     },
     "print": {
       "statementAsOf": "Statement as of {{date}}"
+    },
+    "verified": {
+      "badge": "Verified"
     }
   },
   "deliveries": {

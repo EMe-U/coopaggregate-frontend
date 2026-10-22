@@ -211,6 +211,9 @@
     },
     "print": {
       "statementAsOf": "Raporo yo ku itariki ya {{date}}"
+    },
+    "verified": {
+      "badge": "Yagenzuwe"
     }
   },
   "deliveries": {
@@ -1210,7 +1213,8 @@
       "settings.history.actions.DELIVERY_REVIEWED",
       "share.unconfirmed",
       "lots.pendingConfirmation",
-      "memberVerification"
+      "memberVerification",
+      "members.verified.badge"
     ]
   },
   "memberVerification": {
