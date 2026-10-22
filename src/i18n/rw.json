@@ -1235,7 +1235,7 @@
     "start": "Genzura umwirondoro",
     "starting": "Biratangira...",
     "verified": "Umwirondoro wagenzuwe ({{method}})",
-    "saveWithin": "Bika umunyamuryango mbere y'iminota {{time}}, cyangwa wongere ugenzure.",
+    "saveWithin": "Bika umunyamuryango mu gihe gisigaye: {{time}}, cyangwa wongere ugenzure.",
     "method": {
       "OTP": "kode ya SMS",
       "FACE": "isura",

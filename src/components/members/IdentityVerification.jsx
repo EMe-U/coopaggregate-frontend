@@ -26,6 +26,7 @@ export default function IdentityVerification({ verification, onVerified, onExpir
   // The verification must be used within 30 minutes; count down and drop it when it runs out.
   useEffect(() => {
     if (!verification) return undefined
+    setNow(Date.now())
     const timer = setInterval(() => setNow(Date.now()), 1000)
     return () => clearInterval(timer)
   }, [verification])
@@ -55,8 +56,8 @@ export default function IdentityVerification({ verification, onVerified, onExpir
     setBusy(false)
   }
 
-  async function handleMockCode(event) {
-    event.preventDefault()
+  // This box sits inside the member form, so it is not a form of its own (forms cannot be nested).
+  async function handleMockCode() {
     if (!code.trim()) return
     setBusy(true)
     setError('')
@@ -110,7 +111,7 @@ export default function IdentityVerification({ verification, onVerified, onExpir
       </div>
 
       {mockState && (
-        <form onSubmit={handleMockCode} noValidate className="rounded-lg bg-warning/15 p-3">
+        <div className="rounded-lg bg-warning/15 p-3">
           <p className="flex items-center gap-1.5 text-sm font-semibold text-amber-800">
             <FlaskConical size={16} />
             {t('memberVerification.mock.title')}
@@ -124,19 +125,25 @@ export default function IdentityVerification({ verification, onVerified, onExpir
               id="mock-identity-code"
               value={code}
               onChange={(event) => setCode(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key !== 'Enter') return
+                event.preventDefault()
+                handleMockCode()
+              }}
               placeholder={t('memberVerification.mock.code')}
               disabled={busy}
               className="min-h-11 w-full min-w-0 rounded-md border border-text/10 bg-surface px-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
             />
             <button
-              type="submit"
+              type="button"
+              onClick={handleMockCode}
               disabled={busy || !code.trim()}
               className="min-h-11 shrink-0 rounded-lg bg-primary px-4 text-sm font-medium text-white hover:bg-primary/90 disabled:opacity-60"
             >
               {t('memberVerification.mock.check')}
             </button>
           </div>
-        </form>
+        </div>
       )}
 
       {error && (
