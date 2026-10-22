@@ -13,9 +13,7 @@ export default function LanguageSwitch({ fullNames = false, className = 'text-sm
           <button
             type="button"
             onClick={() => i18n.changeLanguage(language)}
-            className={
-              i18n.language === language ? 'font-semibold text-primary' : 'text-muted'
-            }
+            className={`px-1 py-2 ${i18n.language === language ? 'font-semibold text-primary' : 'text-muted'}`}
           >
             {fullNames ? t(`language.${language}`) : language.toUpperCase()}
           </button>

@@ -24,7 +24,9 @@
     "checkStatus": "Reba Uko Icyifuzo Gihagaze",
     "grades": "Ibyiciro",
     "contact": "Twandikire",
-    "copyright": "© {{year}} {{name}}"
+    "copyright": "© {{year}} {{name}}",
+    "openMenu": "Fungura menu",
+    "closeMenu": "Funga menu"
   },
   "topbar": {
     "online": "Kuri murandasi",
@@ -1246,7 +1248,8 @@
       "buyerRequests",
       "settings.cooperative.cooperativePhone",
       "settings.cooperative.phoneHint",
-      "settings.errors.phone"
+      "settings.errors.phone",
+      "publicNav.openMenu"
     ]
   },
   "memberVerification": {

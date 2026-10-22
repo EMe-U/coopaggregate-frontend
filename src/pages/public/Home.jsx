@@ -117,7 +117,7 @@ export default function Home() {
               : t('publicHome.hero')}
           </p>
           <p className="mt-3 max-w-2xl text-sm text-white/75 sm:text-base">{t('publicHome.heroIntro')}</p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             {gradeList.length > 0 && (
               <a
                 href="#grades"
@@ -125,7 +125,7 @@ export default function Home() {
                   event.preventDefault()
                   document.getElementById('grades')?.scrollIntoView({ behavior: 'smooth' })
                 }}
-                className="flex min-h-12 items-center gap-2 rounded-lg bg-[color-mix(in_srgb,var(--color-primary)_80%,white)] px-5 text-sm font-semibold text-white hover:bg-[color-mix(in_srgb,var(--color-primary)_70%,white)]"
+                className="flex min-h-12 items-center justify-center gap-2 rounded-lg bg-[color-mix(in_srgb,var(--color-primary)_80%,white)] px-5 text-sm font-semibold text-white hover:bg-[color-mix(in_srgb,var(--color-primary)_70%,white)]"
               >
                 {t('publicHome.viewGrades')}
                 <ArrowDown size={16} />
@@ -133,7 +133,7 @@ export default function Home() {
             )}
             <Link
               to="/request"
-              className="flex min-h-12 items-center gap-2 rounded-lg bg-white/10 px-5 text-sm font-semibold text-white hover:bg-white/20"
+              className="flex min-h-12 items-center justify-center gap-2 rounded-lg bg-white/10 px-5 text-sm font-semibold text-white hover:bg-white/20"
             >
               {t('publicHome.sendRequest')}
             </Link>

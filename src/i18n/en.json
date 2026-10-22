@@ -24,7 +24,9 @@
     "checkStatus": "Check Request Status",
     "grades": "Grades",
     "contact": "Contact",
-    "copyright": "© {{year}} {{name}}"
+    "copyright": "© {{year}} {{name}}",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
   },
   "topbar": {
     "online": "Online",
