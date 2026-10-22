@@ -20,10 +20,9 @@
     "soon": "soon"
   },
   "publicNav": {
-    "home": "Home",
     "sendRequest": "Send Request",
     "checkStatus": "Check Request Status",
-    "grades": "Available Potatoes",
+    "grades": "Grades",
     "contact": "Contact",
     "copyright": "© {{year}} {{name}}"
   },

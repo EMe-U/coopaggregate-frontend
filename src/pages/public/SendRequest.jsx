@@ -1,9 +1,8 @@
 import { useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useOutletContext, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { CircleCheck, SendHorizonal, Truck } from 'lucide-react'
 import { sendPurchaseRequest } from '../../api/public'
-import usePublicInfo from '../../hooks/usePublicInfo'
 import { formatKg } from '../../utils/format'
 import { cleanPhone, RWANDAN_PHONE_PATTERN } from '../../utils/phone'
 import { parseKg } from '../../utils/quantity'
@@ -30,7 +29,7 @@ function Field({ id, label, optional, hint, error, children }) {
 export default function SendRequest() {
   const { t, i18n } = useTranslation()
   const [searchParams] = useSearchParams()
-  const { info, grades, reload } = usePublicInfo()
+  const { info, grades, reload } = useOutletContext()
   const minOrderKg = Number(info.data?.minOrderKg) || null
 
   const [values, setValues] = useState({ gradeCode: searchParams.get('grade') ?? '', quantity: '', name: '', phone: '', email: '', note: '', website: '' })

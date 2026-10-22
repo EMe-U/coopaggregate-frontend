@@ -1,8 +1,7 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useOutletContext } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { ArrowDown, Mail, MapPin, PackageCheck, SendHorizonal, ShoppingCart } from 'lucide-react'
-import usePublicInfo from '../../hooks/usePublicInfo'
 import { formatKg } from '../../utils/format'
 import { publicGradeName } from './publicGrade'
 
@@ -82,7 +81,7 @@ function GradeCard({ grade }) {
 
 export default function Home() {
   const { t } = useTranslation()
-  const { info, grades, reload } = usePublicInfo()
+  const { info, grades, reload } = useOutletContext()
   const cooperative = info.data
 
   const failed = info.error && grades.error
@@ -104,17 +103,19 @@ export default function Home() {
               : t('publicHome.hero')}
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a
-              href="#grades"
-              onClick={(event) => {
-                event.preventDefault()
-                document.getElementById('grades')?.scrollIntoView({ behavior: 'smooth' })
-              }}
-              className="flex min-h-12 items-center gap-2 rounded-lg bg-white px-5 text-sm font-semibold text-primary hover:bg-primary-light"
-            >
-              {t('publicHome.viewGrades')}
-              <ArrowDown size={16} />
-            </a>
+            {gradeList.length > 0 && (
+              <a
+                href="#grades"
+                onClick={(event) => {
+                  event.preventDefault()
+                  document.getElementById('grades')?.scrollIntoView({ behavior: 'smooth' })
+                }}
+                className="flex min-h-12 items-center gap-2 rounded-lg bg-white px-5 text-sm font-semibold text-primary hover:bg-primary-light"
+              >
+                {t('publicHome.viewGrades')}
+                <ArrowDown size={16} />
+              </a>
+            )}
             <Link
               to="/request"
               className="flex min-h-12 items-center gap-2 rounded-lg border border-white/40 px-5 text-sm font-semibold text-white hover:bg-white/10"

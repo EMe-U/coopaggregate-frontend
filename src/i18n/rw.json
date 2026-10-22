@@ -20,10 +20,9 @@
     "soon": "vuba"
   },
   "publicNav": {
-    "home": "Ahabanza",
     "sendRequest": "Ohereza Icyifuzo",
     "checkStatus": "Reba Uko Icyifuzo Gihagaze",
-    "grades": "Ibirayi Bihari",
+    "grades": "Ibyiciro",
     "contact": "Twandikire",
     "copyright": "© {{year}} {{name}}"
   },
