@@ -1238,8 +1238,6 @@
       "settings.history.actions.IDENTITY_VERIFICATION_FAILED",
       "members.verified.test",
       "members.verified.testHint",
-      "memberVerification.mock.title",
-      "memberVerification.testVerified",
       "publicHome",
       "publicNav.grades",
       "publicNav.contact",
@@ -1253,35 +1251,11 @@
     ]
   },
   "memberVerification": {
-    "title": "Genzura umwirondoro",
-    "subtitle": "Byemeza ko uyu muntu ari we uwo avuga kandi atari umunyamuryango usanzwe.",
-    "start": "Genzura umwirondoro",
-    "starting": "Biratangira...",
-    "verified": "Umwirondoro wagenzuwe ({{method}})",
-    "saveWithin": "Bika umunyamuryango mu gihe gisigaye: {{time}}, cyangwa wongere ugenzure.",
     "method": {
       "OTP": "kode ya SMS",
       "FACE": "isura",
       "MOCK": "igerageza"
-    },
-    "mock": {
-      "title": "Igerageza: ibi ntibigenzura umwirondoro nyawo",
-      "explanation": "Nta genzura nyaryo rikorwa. Andika kode iyo ari yo yose: kode imwe ivuga umuntu umwe.",
-      "code": "Kode iyo ari yo yose",
-      "check": "Genzura kode"
-    },
-    "failedTitle": "Umwirondoro ntiwagenzuwe",
-    "backToForm": "Subira ku ifishi yo kwandika",
-    "errors": {
-      "startAgain": "Igenzura ryarangiye cyangwa ntiriri ryo. Ongera uritangire.",
-      "used": "Iri genzura ryamaze gukoreshwa. Ongera uritangire.",
-      "unavailable": "Igenzura ry'umwirondoro ntiriraboneka.",
-      "network": "Ntibishobotse kugera kuri seriveri. Reba interineti wongere ugerageze.",
-      "generic": "Umwirondoro ntiwashoboye kugenzurwa. Ongera ugerageze.",
-      "expired": "Igenzura rirengeje iminota 30. Ongera ugenzure mbere yo kubika.",
-      "required": "Genzura umwirondoro w'umunyamuryango mbere yo kubika."
-    },
-    "testVerified": "Igenzura ry'igerageza (nta mwirondoro nyawo wagenzuwe)"
+    }
   },
   "publicHome": {
     "hero": "Ibirayi bigurishwa na koperative.",

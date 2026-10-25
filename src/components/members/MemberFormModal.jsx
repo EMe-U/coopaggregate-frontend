@@ -1,9 +1,7 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { X } from 'lucide-react'
 import { createMember, updateMember } from '../../api/members'
-import { getSettings } from '../../api/settings'
-import IdentityVerification from './IdentityVerification'
 import { todayIso } from '../../utils/format'
 import { RWANDAN_PHONE_PATTERN, cleanPhone } from '../../utils/phone'
 
@@ -87,34 +85,14 @@ function Field({ id, label, hint, error, children }) {
   )
 }
 
-// draft and initialVerification come back from the identity provider's page (see
-// pages/manager/MemberVerifyCallback.jsx): the values typed before leaving, and the result.
-export default function MemberFormModal({ member, onClose, onSaved, draft, initialVerification }) {
+export default function MemberFormModal({ member, onClose, onSaved }) {
   const { t } = useTranslation()
   const isEdit = Boolean(member)
 
-  const [values, setValues] = useState(() => draft ?? initialValues(member))
-  // Only for a new member: the completed identity check, kept in memory until the member is saved.
-  const [verification, setVerification] = useState(initialVerification ?? null)
-  const [requireVerification, setRequireVerification] = useState(false)
-  const dropVerification = useCallback(() => setVerification(null), [])
+  const [values, setValues] = useState(() => initialValues(member))
   const [fieldErrors, setFieldErrors] = useState({})
   const [formError, setFormError] = useState('')
   const [saving, setSaving] = useState(false)
-
-  useEffect(() => {
-    if (isEdit) return undefined
-    let ignore = false
-    getSettings()
-      .then((settings) => {
-        if (!ignore) setRequireVerification(Boolean(settings.requireIdentityVerification))
-      })
-      // Unknown: the backend still refuses a member without verification when it is required.
-      .catch(() => {})
-    return () => {
-      ignore = true
-    }
-  }, [isEdit])
 
   useEffect(() => {
     function handleKeyDown(event) {
@@ -136,16 +114,10 @@ export default function MemberFormModal({ member, onClose, onSaved, draft, initi
     const errors = validate(request)
     setFieldErrors(Object.fromEntries(Object.entries(errors).map(([field, key]) => [field, t(key)])))
     if (Object.keys(errors).length > 0) return
-    if (!isEdit && requireVerification && !verification) {
-      setFormError(t('memberVerification.errors.required'))
-      return
-    }
 
     setSaving(true)
     try {
-      const saved = isEdit
-        ? await updateMember(member.id, request)
-        : await createMember({ ...request, verificationId: verification?.verificationId ?? null })
+      const saved = isEdit ? await updateMember(member.id, request) : await createMember(request)
       onSaved(saved)
     } catch (error) {
       showServerError(error, Object.keys(request))
@@ -286,18 +258,6 @@ export default function MemberFormModal({ member, onClose, onSaved, draft, initi
               </select>
             </Field>
           </div>
-
-          {!isEdit && (
-            <IdentityVerification
-              verification={verification}
-              onVerified={(result) => {
-                setVerification(result)
-                setFormError('')
-              }}
-              onExpired={dropVerification}
-              getDraft={() => values}
-            />
-          )}
 
           <div className="flex justify-end gap-2 border-t border-text/5 pt-4">
             <button
