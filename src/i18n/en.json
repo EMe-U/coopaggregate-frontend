@@ -214,11 +214,6 @@
     },
     "print": {
       "statementAsOf": "Statement as of {{date}}"
-    },
-    "verified": {
-      "badge": "Verified",
-      "test": "Test verification",
-      "testHint": "A test check: no real identity was verified."
     }
   },
   "deliveries": {
@@ -1216,13 +1211,6 @@
     "dispute": "Dispute",
     "resolution": "Manager's note",
     "confirmTitle": "Confirm with the member"
-  },
-  "memberVerification": {
-    "method": {
-      "OTP": "SMS code",
-      "FACE": "face check",
-      "MOCK": "test mode"
-    }
   },
   "publicHome": {
     "hero": "Irish potatoes sold by the cooperative.",

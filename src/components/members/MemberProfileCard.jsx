@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next'
 import { MessageSquare, Pencil, Printer, UserCheck, UserX } from 'lucide-react'
 import Avatar from '../Avatar'
 import StatusBadge from '../StatusBadge'
-import VerifiedBadge from './VerifiedBadge'
 import { formatDate, formatPhone } from '../../utils/format'
 
 function Detail({ label, children }) {
@@ -33,7 +32,6 @@ export default function MemberProfileCard({ member, onEdit, onToggleActive, chan
           <span className="font-mono text-xs text-muted">
             {t('members.detail.memberNumber', { code: member.memberCode })}
           </span>
-          <VerifiedBadge member={member} withDetails />
         </div>
 
         <div className="flex gap-1.5 print:hidden">

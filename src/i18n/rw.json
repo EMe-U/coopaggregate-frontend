@@ -214,11 +214,6 @@
     },
     "print": {
       "statementAsOf": "Raporo yo ku itariki ya {{date}}"
-    },
-    "verified": {
-      "badge": "Yagenzuwe",
-      "test": "Igenzura ry'igerageza",
-      "testHint": "Igenzura ry'igerageza: nta mwirondoro nyawo wagenzuwe."
     }
   },
   "deliveries": {
@@ -1230,14 +1225,10 @@
       "settings.history.actions.DELIVERY_REVIEWED",
       "share.unconfirmed",
       "lots.pendingConfirmation",
-      "memberVerification",
-      "members.verified.badge",
       "settings.identity",
       "settings.history.actions.IDENTITY_VERIFIED",
       "settings.history.actions.IDENTITY_DUPLICATE",
       "settings.history.actions.IDENTITY_VERIFICATION_FAILED",
-      "members.verified.test",
-      "members.verified.testHint",
       "publicHome",
       "publicNav.grades",
       "publicNav.contact",
@@ -1249,13 +1240,6 @@
       "settings.errors.phone",
       "publicNav.openMenu"
     ]
-  },
-  "memberVerification": {
-    "method": {
-      "OTP": "kode ya SMS",
-      "FACE": "isura",
-      "MOCK": "igerageza"
-    }
   },
   "publicHome": {
     "hero": "Ibirayi bigurishwa na koperative.",
