@@ -1163,12 +1163,6 @@
       "title": "Orders",
       "subtitle": "The smallest order a buyer can request",
       "minOrderKg": "Minimum order"
-    },
-    "identity": {
-      "title": "Identity verification",
-      "subtitle": "When registering a new member",
-      "on": "A new member can only be saved after their identity is verified.",
-      "off": "Verifying a new member's identity is optional."
     }
   },
   "codeConfirmation": {

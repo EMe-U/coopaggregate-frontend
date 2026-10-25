@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Building2, Coins, Mail, MessageSquare, ShieldCheck, ShoppingBag, X } from 'lucide-react'
+import { Building2, Coins, Mail, MessageSquare, ShoppingBag, X } from 'lucide-react'
 import useSettingsSection from '../../hooks/useSettingsSection'
 import { cleanPhone, RWANDAN_PHONE_PATTERN } from '../../utils/phone'
 import SettingsSection, { SaveBar } from './SettingsSection'
@@ -150,32 +150,6 @@ export function SmsSection({ settings, onSaved }) {
     >
       <p className="rounded-lg bg-background p-3 text-sm text-muted">
         {section.draft.smsEnabled ? t('settings.sms.on') : t('settings.sms.off')}
-      </p>
-      <SaveBar dirty={section.dirty} saving={section.saving} message={section.message} onSave={section.save} />
-    </SettingsSection>
-  )
-}
-
-export function IdentityVerificationSection({ settings, onSaved }) {
-  const { t } = useTranslation()
-  const section = useSettingsSection(settings, ['requireIdentityVerification'], onSaved)
-  const required = Boolean(section.draft.requireIdentityVerification)
-
-  return (
-    <SettingsSection
-      icon={ShieldCheck}
-      title={t('settings.identity.title')}
-      subtitle={t('settings.identity.subtitle')}
-      badge={
-        <Switch
-          checked={required}
-          onChange={(checked) => section.setField('requireIdentityVerification', checked)}
-          label={t('settings.identity.title')}
-        />
-      }
-    >
-      <p className="rounded-lg bg-background p-3 text-sm text-muted">
-        {required ? t('settings.identity.on') : t('settings.identity.off')}
       </p>
       <SaveBar dirty={section.dirty} saving={section.saving} message={section.message} onSave={section.save} />
     </SettingsSection>
