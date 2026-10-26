@@ -32,7 +32,7 @@ const menuItems = [
   { to: '/buyer-requests', labelKey: 'nav.buyerRequests', icon: Inbox },
   { to: '/ledger', labelKey: 'nav.ledger', icon: BookOpen },
   { to: '/disputes', labelKey: 'nav.disputes', icon: Scale },
-  { labelKey: 'nav.reports', icon: FileChartColumn, disabled: true },
+  { to: '/reports', labelKey: 'nav.reports', icon: FileChartColumn },
   { to: '/settings', labelKey: 'nav.settings', icon: Settings },
 ]
 
