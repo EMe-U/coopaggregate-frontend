@@ -1387,5 +1387,65 @@
     },
     "error": "Could not load the requests.",
     "retry": "Try again"
+  },
+  "disputes": {
+    "title": "Disputes",
+    "subtitle": "Deliveries members say are wrong. Check each one, then correct it, reverse it or record that it was correct.",
+    "summary": {
+      "open": "Open disputes",
+      "openKg": "Kg affected",
+      "settled": "Settled disputes"
+    },
+    "tabs": {
+      "label": "Show:",
+      "open": "Open",
+      "settled": "Settled"
+    },
+    "search": {
+      "placeholder": "Search by receipt code or member...",
+      "label": "Search disputes"
+    },
+    "columns": {
+      "receipt": "Receipt code",
+      "member": "Member",
+      "grade": "Grade",
+      "lot": "Lot",
+      "quantity": "Kg",
+      "reason": "Reason",
+      "note": "Note",
+      "daysOpen": "Days open",
+      "outcome": "Outcome",
+      "settledAt": "Settled on",
+      "resolution": "Manager's note",
+      "actions": "Actions"
+    },
+    "days_one": "{{count}} day",
+    "days_other": "{{count}} days",
+    "outcome": {
+      "RESOLVED": "Resolved",
+      "REVERSED": "Reversed",
+      "CORRECTED": "Corrected"
+    },
+    "replacement": "See the corrected delivery",
+    "settledOn": "settled {{date}}",
+    "menu": {
+      "openDelivery": "Open delivery"
+    },
+    "settled": "Dispute on {{code}} settled",
+    "empty": {
+      "open": {
+        "title": "No open disputes",
+        "message": "When a member says a delivery is wrong, it shows here."
+      },
+      "settled": {
+        "title": "No settled disputes yet",
+        "message": "Disputes you settle are listed here."
+      },
+      "noResults": "No disputes match your search."
+    },
+    "error": "Could not load the disputes.",
+    "retry": "Try again",
+    "loadDeliveryError": "Could not open the delivery",
+    "loadDeliveryErrorMessage": "Check your connection and try again."
   }
 }
