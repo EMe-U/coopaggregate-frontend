@@ -22,7 +22,10 @@ export default function Layout() {
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <div className="flex flex-1 flex-col overflow-hidden print:overflow-visible">
         <TopBar onMenuClick={() => setSidebarOpen(true)} />
-        <main className="flex-1 overflow-y-auto p-4 md:p-6 print:overflow-visible print:p-0">
+        {/* relative: screen-reader-only labels are absolutely positioned. Without a positioned
+            ancestor they are placed against the page instead of this scroll area, and one far
+            down a long page made the whole document scroll past the content. */}
+        <main className="relative flex-1 overflow-y-auto p-4 pb-6 md:p-6 print:overflow-visible print:p-0">
           <Outlet />
         </main>
       </div>
