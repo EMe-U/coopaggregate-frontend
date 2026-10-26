@@ -1447,5 +1447,86 @@
     "retry": "Try again",
     "loadDeliveryError": "Could not open the delivery",
     "loadDeliveryErrorMessage": "Check your connection and try again."
+  },
+  "reports": {
+    "title": "Reports",
+    "subtitle": "A summary of one week, Monday to Sunday.",
+    "nowNote": "Stock, money still owed, pending confirmations and open disputes are shown as of now, not as they were at the end of the week.",
+    "asOfNow": "As of now",
+    "print": "Print / Save as PDF",
+    "printTitle": "Weekly report - {{name}}",
+    "noActivity": "No activity this week",
+    "error": "Could not load the report.",
+    "retry": "Try again",
+    "week": {
+      "picker": "Week",
+      "label": "Mon {{start}} - Sun {{end}} {{endYear}}",
+      "labelTwoYears": "Mon {{start}} {{startYear}} - Sun {{end}} {{endYear}}",
+      "thisWeek": "{{label}} (this week)",
+      "previous": "Previous week",
+      "next": "Next week"
+    },
+    "months": [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ],
+    "deliveries": {
+      "title": "Deliveries",
+      "totalKg": "Total delivered",
+      "count_one": "{{count}} delivery",
+      "count_other": "{{count}} deliveries",
+      "byMember": "By member",
+      "columns": {
+        "number": "No.",
+        "name": "Name",
+        "total": "Total"
+      }
+    },
+    "stock": {
+      "title": "Stock",
+      "remaining": "Remaining",
+      "losses": "Losses this week",
+      "lostKg": "Lost"
+    },
+    "sales": {
+      "title": "Sales",
+      "columns": {
+        "code": "Sale code",
+        "buyer": "Buyer",
+        "lots": "Lots",
+        "kg": "Kg",
+        "amount": "Amount"
+      },
+      "totalKg": "Total sold",
+      "totalAmount": "Total amount",
+      "average": "Average price",
+      "perKg": "{{amount}} per kg"
+    },
+    "money": {
+      "title": "Money",
+      "shared": "Shared this week",
+      "sharedNote": "Deductions {{deductions}} · To members {{net}}",
+      "paid": "Paid this week",
+      "owed": "Still owed to members"
+    },
+    "confirmations": {
+      "title": "Confirmations and disputes",
+      "confirmed": "Confirmed this week",
+      "settled": "Disputes settled this week",
+      "pending": "Still pending",
+      "pendingFromWeek_one": "{{count}} delivered this week",
+      "pendingFromWeek_other": "{{count}} delivered this week",
+      "openDisputes": "Open disputes"
+    }
   }
 }

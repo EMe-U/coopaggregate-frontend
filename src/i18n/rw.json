@@ -1232,7 +1232,8 @@
       "settings.cooperative.phoneHint",
       "settings.errors.phone",
       "publicNav.openMenu",
-      "disputes"
+      "disputes",
+      "reports"
     ]
   },
   "publicHome": {
@@ -1476,5 +1477,86 @@
     "retry": "Ongera ugerageze",
     "loadDeliveryError": "Ntibishobotse gufungura ibyagemuwe",
     "loadDeliveryErrorMessage": "Reba interineti wongere ugerageze."
+  },
+  "reports": {
+    "title": "Raporo",
+    "subtitle": "Incamake y'icyumweru kimwe, kuva kuwa mbere kugeza ku cyumweru.",
+    "nowNote": "Ububiko, amafaranga abanyamuryango bakiberewemo, ibitaremezwa n'impaka zitarakemurwa bigaragazwa uko bimeze ubu, si uko byari bimeze icyumweru kirangiye.",
+    "asOfNow": "Uko bimeze ubu",
+    "print": "Capa / Bika nka PDF",
+    "printTitle": "Raporo y'icyumweru - {{name}}",
+    "noActivity": "Nta gikorwa muri iki cyumweru",
+    "error": "Ntibishobotse kubona raporo.",
+    "retry": "Ongera ugerageze",
+    "week": {
+      "picker": "Icyumweru",
+      "label": "Kuwa mbere {{start}} - Ku cyumweru {{end}} {{endYear}}",
+      "labelTwoYears": "Kuwa mbere {{start}} {{startYear}} - Ku cyumweru {{end}} {{endYear}}",
+      "thisWeek": "{{label}} (iki cyumweru)",
+      "previous": "Icyumweru gishize",
+      "next": "Icyumweru gikurikira"
+    },
+    "months": [
+      "Mutarama",
+      "Gashyantare",
+      "Werurwe",
+      "Mata",
+      "Gicurasi",
+      "Kamena",
+      "Nyakanga",
+      "Kanama",
+      "Nzeri",
+      "Ukwakira",
+      "Ugushyingo",
+      "Ukuboza"
+    ],
+    "deliveries": {
+      "title": "Ibyagemuwe",
+      "totalKg": "Byose byagemuwe",
+      "count_one": "Inshuro {{count}}",
+      "count_other": "Inshuro {{count}}",
+      "byMember": "Ku munyamuryango",
+      "columns": {
+        "number": "Nimero",
+        "name": "Izina",
+        "total": "Byose"
+      }
+    },
+    "stock": {
+      "title": "Ububiko",
+      "remaining": "Ibisigaye",
+      "losses": "Ibyangiritse muri iki cyumweru",
+      "lostKg": "Ibyatakaye"
+    },
+    "sales": {
+      "title": "Ibyagurishijwe",
+      "columns": {
+        "code": "Kode y'igurisha",
+        "buyer": "Umuguzi",
+        "lots": "Ibirundo",
+        "kg": "Ibiro",
+        "amount": "Amafaranga"
+      },
+      "totalKg": "Byose byagurishijwe",
+      "totalAmount": "Amafaranga yose",
+      "average": "Igiciro mpuzandengo",
+      "perKg": "{{amount}} ku kilo"
+    },
+    "money": {
+      "title": "Amafaranga",
+      "shared": "Ayagabanyijwe muri iki cyumweru",
+      "sharedNote": "Ibikurwaho {{deductions}} · Ku banyamuryango {{net}}",
+      "paid": "Ayishyuwe muri iki cyumweru",
+      "owed": "Abanyamuryango bakiberewemo"
+    },
+    "confirmations": {
+      "title": "Kwemeza n'impaka",
+      "confirmed": "Ibyemejwe muri iki cyumweru",
+      "settled": "Impaka zakemuwe muri iki cyumweru",
+      "pending": "Ibitaremezwa",
+      "pendingFromWeek_one": "{{count}} byagemuwe muri iki cyumweru",
+      "pendingFromWeek_other": "{{count}} byagemuwe muri iki cyumweru",
+      "openDisputes": "Impaka zitarakemurwa"
+    }
   }
 }

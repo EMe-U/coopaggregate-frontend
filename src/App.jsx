@@ -17,6 +17,7 @@ import ShareLotMoney from './pages/manager/ShareLotMoney'
 import Payments from './pages/manager/Payments'
 import BuyerRequests from './pages/manager/BuyerRequests'
 import Disputes from './pages/manager/Disputes'
+import Reports from './pages/manager/Reports'
 import Ledger from './pages/manager/Ledger'
 import Settings from './pages/manager/Settings'
 import Home from './pages/public/Home'
@@ -44,6 +45,7 @@ export default function App() {
             <Route path="/payments" element={<Payments />} />
             <Route path="/buyer-requests" element={<BuyerRequests />} />
             <Route path="/disputes" element={<Disputes />} />
+            <Route path="/reports" element={<Reports />} />
             <Route path="/ledger" element={<Ledger />} />
             <Route path="/settings" element={<Settings />} />
           </Route>
