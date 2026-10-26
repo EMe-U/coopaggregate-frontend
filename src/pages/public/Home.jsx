@@ -47,6 +47,27 @@ function InfoCard({ icon: Icon, label, children }) {
   )
 }
 
+// The backend's rough stock hint (never the kilograms). The text is always shown, so the badge does
+// not rely on colour. An unknown or missing value shows nothing.
+const AVAILABILITY_CLASS = {
+  AVAILABLE: 'bg-primary-light text-primary',
+  LIMITED: 'bg-warning/15 text-amber-800',
+  NONE: 'bg-text/10 text-muted',
+}
+
+function AvailabilityBadge({ availability }) {
+  const { t } = useTranslation()
+  if (!AVAILABILITY_CLASS[availability]) return null
+  return (
+    <span
+      data-availability={availability}
+      className={`mt-1 inline-block rounded-md px-2 py-0.5 text-xs font-medium ${AVAILABILITY_CLASS[availability]}`}
+    >
+      {t(`publicHome.availability.${availability}`)}
+    </span>
+  )
+}
+
 function GradeCard({ grade }) {
   const { t, i18n } = useTranslation()
   const details = [
@@ -66,8 +87,12 @@ function GradeCard({ grade }) {
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary text-sm font-bold text-white">
             {grade.code}
           </span>
-          <h3 className="min-w-0 wrap-break-word text-lg font-semibold text-text">{publicGradeName(grade, i18n.language)}</h3>
+          <div className="min-w-0">
+            <h3 className="wrap-break-word text-lg font-semibold text-text">{publicGradeName(grade, i18n.language)}</h3>
+            <AvailabilityBadge availability={grade.availability} />
+          </div>
         </div>
+        {grade.availability === 'NONE' && <p className="mt-3 text-sm text-muted">{t('publicHome.availability.noneHint')}</p>}
         {grade.description && <p className="mt-3 text-sm text-muted">{grade.description}</p>}
         {details.length > 0 && (
           <dl className="mt-4 grid grid-cols-2 gap-3 rounded-lg bg-background p-3 text-sm">

@@ -31,8 +31,8 @@ const menuItems = [
   { to: '/payments', labelKey: 'nav.payments', icon: Wallet },
   { to: '/buyer-requests', labelKey: 'nav.buyerRequests', icon: Inbox },
   { to: '/ledger', labelKey: 'nav.ledger', icon: BookOpen },
-  { labelKey: 'nav.disputes', icon: Scale, disabled: true },
-  { labelKey: 'nav.reports', icon: FileChartColumn, disabled: true },
+  { to: '/disputes', labelKey: 'nav.disputes', icon: Scale },
+  { to: '/reports', labelKey: 'nav.reports', icon: FileChartColumn },
   { to: '/settings', labelKey: 'nav.settings', icon: Settings },
 ]
 

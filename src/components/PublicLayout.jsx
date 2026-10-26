@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Menu, X } from 'lucide-react'
 import usePublicInfo from '../hooks/usePublicInfo'
 import LanguageSwitch from './LanguageSwitch'
 import Logo from './Logo'
-
 
 // The public pages share one load of the cooperative info and grades (outlet context), and the
 // nav uses it: Grades only when there are grades, Contact only when there is something to show.
@@ -15,6 +14,8 @@ export default function PublicLayout() {
   const publicInfo = usePublicInfo()
   // On phones and tablets the links are in a menu opened with a button.
   const [menuOpen, setMenuOpen] = useState(false)
+  const headerRef = useRef(null)
+  const [scrolled, setScrolled] = useState(false)
   const cooperative = publicInfo.info.data
   const hasGrades = (publicInfo.grades.data?.length ?? 0) > 0
   const hasContact = Boolean(cooperative?.location || cooperative?.cooperativeEmail || cooperative?.cooperativePhone)
@@ -33,6 +34,31 @@ export default function PublicLayout() {
   useEffect(() => {
     setMenuOpen(false)
   }, [pathname, hash])
+
+  // The nav stays at the top, so a section opened from a link (#grades, #contact) would end up under
+  // it. The page's scroll padding follows the nav's real height, which changes with the language and
+  // the phone menu.
+  useEffect(() => {
+    const header = headerRef.current
+    const root = document.documentElement
+    const observer = new ResizeObserver(() => {
+      root.style.scrollPaddingTop = `${header.offsetHeight}px`
+    })
+    observer.observe(header)
+    return () => {
+      observer.disconnect()
+      root.style.scrollPaddingTop = ''
+    }
+  }, [])
+
+  useEffect(() => {
+    function handleScroll() {
+      setScrolled(window.scrollY > 0)
+    }
+    handleScroll()
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   useEffect(() => {
     if (!menuOpen) return undefined
@@ -73,7 +99,7 @@ export default function PublicLayout() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="bg-surface shadow-sm">
+      <header ref={headerRef} className={`sticky top-0 z-40 bg-surface transition-shadow ${scrolled ? 'shadow-sm' : ''}`}>
         <div className="mx-auto flex max-w-6xl items-center gap-x-6 px-4 py-2">
           <Link to="/" className="flex min-w-0 items-center gap-2 py-2 text-lg font-bold text-primary">
             <Logo size={32} />

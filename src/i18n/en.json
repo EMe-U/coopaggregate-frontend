@@ -214,11 +214,6 @@
     },
     "print": {
       "statementAsOf": "Statement as of {{date}}"
-    },
-    "verified": {
-      "badge": "Verified",
-      "test": "Test verification",
-      "testHint": "A test check: no real identity was verified."
     }
   },
   "deliveries": {
@@ -1168,12 +1163,6 @@
       "title": "Orders",
       "subtitle": "The smallest order a buyer can request",
       "minOrderKg": "Minimum order"
-    },
-    "identity": {
-      "title": "Identity verification",
-      "subtitle": "When registering a new member",
-      "on": "A new member can only be saved after their identity is verified.",
-      "off": "Verifying a new member's identity is optional."
     }
   },
   "codeConfirmation": {
@@ -1217,37 +1206,6 @@
     "resolution": "Manager's note",
     "confirmTitle": "Confirm with the member"
   },
-  "memberVerification": {
-    "title": "Verify identity",
-    "subtitle": "Confirms that this person is who they say and is not already a member.",
-    "start": "Verify identity",
-    "starting": "Starting...",
-    "verified": "Identity verified ({{method}})",
-    "saveWithin": "Save the member within {{time}}, or verify again.",
-    "method": {
-      "OTP": "SMS code",
-      "FACE": "face check",
-      "MOCK": "test mode"
-    },
-    "mock": {
-      "title": "Test mode: this does not check a real identity",
-      "explanation": "No real identity check is made. Type any code: the same code means the same person.",
-      "code": "Any code",
-      "check": "Check code"
-    },
-    "failedTitle": "Identity not verified",
-    "backToForm": "Back to the registration form",
-    "errors": {
-      "startAgain": "The identity check expired or is not valid. Start it again.",
-      "used": "This identity check was already used. Start it again.",
-      "unavailable": "Identity verification is not available yet.",
-      "network": "Cannot reach the server. Check your connection and try again.",
-      "generic": "The identity could not be verified. Please try again.",
-      "expired": "The identity check is older than 30 minutes. Verify again before saving.",
-      "required": "Verify the member's identity before saving."
-    },
-    "testVerified": "Test verification (no real identity was checked)"
-  },
   "publicHome": {
     "hero": "Irish potatoes sold by the cooperative.",
     "heroWithLocation": "Irish potatoes from {{location}}.",
@@ -1289,7 +1247,13 @@
       "intro": "Have questions regarding bulk orders, logistics, or custom grading specifications? Reach out to our cooperative office directly."
     },
     "requestGrade": "Request this grade",
-    "heroIntro": "Send a purchase request online: choose the grade and the quantity you need, and the cooperative will review it and give you an answer."
+    "heroIntro": "Send a purchase request online: choose the grade and the quantity you need, and the cooperative will review it and give you an answer.",
+    "availability": {
+      "AVAILABLE": "Available",
+      "LIMITED": "Limited stock",
+      "NONE": "Not available now",
+      "noneHint": "You can still send a request. We will reply when stock is back."
+    }
   },
   "publicRequest": {
     "eyebrow": "Buyer portal",
@@ -1429,5 +1393,146 @@
     },
     "error": "Could not load the requests.",
     "retry": "Try again"
+  },
+  "disputes": {
+    "title": "Disputes",
+    "subtitle": "Deliveries members say are wrong. Check each one, then correct it, reverse it or record that it was correct.",
+    "summary": {
+      "open": "Open disputes",
+      "openKg": "Kg affected",
+      "settled": "Settled disputes"
+    },
+    "tabs": {
+      "label": "Show:",
+      "open": "Open",
+      "settled": "Settled"
+    },
+    "search": {
+      "placeholder": "Search by receipt code or member...",
+      "label": "Search disputes"
+    },
+    "columns": {
+      "receipt": "Receipt code",
+      "member": "Member",
+      "grade": "Grade",
+      "lot": "Lot",
+      "quantity": "Kg",
+      "reason": "Reason",
+      "note": "Note",
+      "daysOpen": "Days open",
+      "outcome": "Outcome",
+      "settledAt": "Settled on",
+      "resolution": "Manager's note",
+      "actions": "Actions"
+    },
+    "days_one": "{{count}} day",
+    "days_other": "{{count}} days",
+    "outcome": {
+      "RESOLVED": "Resolved",
+      "REVERSED": "Reversed",
+      "CORRECTED": "Corrected"
+    },
+    "replacement": "See the corrected delivery",
+    "settledOn": "settled {{date}}",
+    "menu": {
+      "openDelivery": "Open delivery"
+    },
+    "settled": "Dispute on {{code}} settled",
+    "empty": {
+      "open": {
+        "title": "No open disputes",
+        "message": "When a member says a delivery is wrong, it shows here."
+      },
+      "settled": {
+        "title": "No settled disputes yet",
+        "message": "Disputes you settle are listed here."
+      },
+      "noResults": "No disputes match your search."
+    },
+    "error": "Could not load the disputes.",
+    "retry": "Try again",
+    "loadDeliveryError": "Could not open the delivery",
+    "loadDeliveryErrorMessage": "Check your connection and try again."
+  },
+  "reports": {
+    "title": "Reports",
+    "subtitle": "A summary of one week, Monday to Sunday.",
+    "nowNote": "Stock, money still owed, pending confirmations and open disputes are shown as of now, not as they were at the end of the week.",
+    "asOfNow": "As of now",
+    "print": "Print / Save as PDF",
+    "printTitle": "Weekly report - {{name}}",
+    "noActivity": "No activity this week",
+    "error": "Could not load the report.",
+    "retry": "Try again",
+    "week": {
+      "picker": "Week",
+      "label": "Mon {{start}} - Sun {{end}} {{endYear}}",
+      "labelTwoYears": "Mon {{start}} {{startYear}} - Sun {{end}} {{endYear}}",
+      "thisWeek": "{{label}} (this week)",
+      "previous": "Previous week",
+      "next": "Next week"
+    },
+    "months": [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ],
+    "deliveries": {
+      "title": "Deliveries",
+      "totalKg": "Total delivered",
+      "count_one": "{{count}} delivery",
+      "count_other": "{{count}} deliveries",
+      "byMember": "By member",
+      "columns": {
+        "number": "No.",
+        "name": "Name",
+        "total": "Total"
+      }
+    },
+    "stock": {
+      "title": "Stock",
+      "remaining": "Remaining",
+      "losses": "Losses this week",
+      "lostKg": "Lost"
+    },
+    "sales": {
+      "title": "Sales",
+      "columns": {
+        "code": "Sale code",
+        "buyer": "Buyer",
+        "lots": "Lots",
+        "kg": "Kg",
+        "amount": "Amount"
+      },
+      "totalKg": "Total sold",
+      "totalAmount": "Total amount",
+      "average": "Average price",
+      "perKg": "{{amount}} per kg"
+    },
+    "money": {
+      "title": "Money",
+      "shared": "Shared this week",
+      "sharedNote": "Deductions {{deductions}} · To members {{net}}",
+      "paid": "Paid this week",
+      "owed": "Still owed to members"
+    },
+    "confirmations": {
+      "title": "Confirmations and disputes",
+      "confirmed": "Confirmed this week",
+      "settled": "Disputes settled this week",
+      "pending": "Still pending",
+      "pendingFromWeek_one": "{{count}} delivered this week",
+      "pendingFromWeek_other": "{{count}} delivered this week",
+      "openDisputes": "Open disputes"
+    }
   }
 }

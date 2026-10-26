@@ -10,13 +10,14 @@ import DeliveryDetail from './pages/manager/DeliveryDetail'
 import RecordDelivery from './pages/manager/RecordDelivery'
 import Members from './pages/manager/Members'
 import MemberDetail from './pages/manager/MemberDetail'
-import MemberVerifyCallback from './pages/manager/MemberVerifyCallback'
 import Lots from './pages/manager/Lots'
 import LotDetail from './pages/manager/LotDetail'
 import Sales from './pages/manager/Sales'
 import ShareLotMoney from './pages/manager/ShareLotMoney'
 import Payments from './pages/manager/Payments'
 import BuyerRequests from './pages/manager/BuyerRequests'
+import Disputes from './pages/manager/Disputes'
+import Reports from './pages/manager/Reports'
 import Ledger from './pages/manager/Ledger'
 import Settings from './pages/manager/Settings'
 import Home from './pages/public/Home'
@@ -34,7 +35,6 @@ export default function App() {
           <Route path="/members" element={<Members />} />
           <Route path="/members/:id" element={<MemberDetail />} />
           <Route element={<RequiresInternet />}>
-            <Route path="/members/verify/callback" element={<MemberVerifyCallback />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/deliveries" element={<Deliveries />} />
             <Route path="/deliveries/:id" element={<DeliveryDetail />} />
@@ -44,6 +44,8 @@ export default function App() {
             <Route path="/share" element={<ShareLotMoney />} />
             <Route path="/payments" element={<Payments />} />
             <Route path="/buyer-requests" element={<BuyerRequests />} />
+            <Route path="/disputes" element={<Disputes />} />
+            <Route path="/reports" element={<Reports />} />
             <Route path="/ledger" element={<Ledger />} />
             <Route path="/settings" element={<Settings />} />
           </Route>

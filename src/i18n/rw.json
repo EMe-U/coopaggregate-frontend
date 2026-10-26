@@ -214,11 +214,6 @@
     },
     "print": {
       "statementAsOf": "Raporo yo ku itariki ya {{date}}"
-    },
-    "verified": {
-      "badge": "Yagenzuwe",
-      "test": "Igenzura ry'igerageza",
-      "testHint": "Igenzura ry'igerageza: nta mwirondoro nyawo wagenzuwe."
     }
   },
   "deliveries": {
@@ -1168,12 +1163,6 @@
       "title": "Ibyo abaguzi basaba",
       "subtitle": "Ibiro bike umuguzi ashobora gusaba",
       "minOrderKg": "Ibiro bike bishoboka"
-    },
-    "identity": {
-      "title": "Igenzura ry'umwirondoro",
-      "subtitle": "Iyo handikwa umunyamuryango mushya",
-      "on": "Umunyamuryango mushya abikwa gusa umwirondoro we umaze kugenzurwa.",
-      "off": "Kugenzura umwirondoro w'umunyamuryango mushya ntibiri ngombwa."
     }
   },
   "codeConfirmation": {
@@ -1230,16 +1219,9 @@
       "settings.history.actions.DELIVERY_REVIEWED",
       "share.unconfirmed",
       "lots.pendingConfirmation",
-      "memberVerification",
-      "members.verified.badge",
-      "settings.identity",
       "settings.history.actions.IDENTITY_VERIFIED",
       "settings.history.actions.IDENTITY_DUPLICATE",
       "settings.history.actions.IDENTITY_VERIFICATION_FAILED",
-      "members.verified.test",
-      "members.verified.testHint",
-      "memberVerification.mock.title",
-      "memberVerification.testVerified",
       "publicHome",
       "publicNav.grades",
       "publicNav.contact",
@@ -1249,39 +1231,11 @@
       "settings.cooperative.cooperativePhone",
       "settings.cooperative.phoneHint",
       "settings.errors.phone",
-      "publicNav.openMenu"
+      "publicNav.openMenu",
+      "disputes",
+      "reports",
+      "publicHome.availability"
     ]
-  },
-  "memberVerification": {
-    "title": "Genzura umwirondoro",
-    "subtitle": "Byemeza ko uyu muntu ari we uwo avuga kandi atari umunyamuryango usanzwe.",
-    "start": "Genzura umwirondoro",
-    "starting": "Biratangira...",
-    "verified": "Umwirondoro wagenzuwe ({{method}})",
-    "saveWithin": "Bika umunyamuryango mu gihe gisigaye: {{time}}, cyangwa wongere ugenzure.",
-    "method": {
-      "OTP": "kode ya SMS",
-      "FACE": "isura",
-      "MOCK": "igerageza"
-    },
-    "mock": {
-      "title": "Igerageza: ibi ntibigenzura umwirondoro nyawo",
-      "explanation": "Nta genzura nyaryo rikorwa. Andika kode iyo ari yo yose: kode imwe ivuga umuntu umwe.",
-      "code": "Kode iyo ari yo yose",
-      "check": "Genzura kode"
-    },
-    "failedTitle": "Umwirondoro ntiwagenzuwe",
-    "backToForm": "Subira ku ifishi yo kwandika",
-    "errors": {
-      "startAgain": "Igenzura ryarangiye cyangwa ntiriri ryo. Ongera uritangire.",
-      "used": "Iri genzura ryamaze gukoreshwa. Ongera uritangire.",
-      "unavailable": "Igenzura ry'umwirondoro ntiriraboneka.",
-      "network": "Ntibishobotse kugera kuri seriveri. Reba interineti wongere ugerageze.",
-      "generic": "Umwirondoro ntiwashoboye kugenzurwa. Ongera ugerageze.",
-      "expired": "Igenzura rirengeje iminota 30. Ongera ugenzure mbere yo kubika.",
-      "required": "Genzura umwirondoro w'umunyamuryango mbere yo kubika."
-    },
-    "testVerified": "Igenzura ry'igerageza (nta mwirondoro nyawo wagenzuwe)"
   },
   "publicHome": {
     "hero": "Ibirayi bigurishwa na koperative.",
@@ -1324,7 +1278,13 @@
       "intro": "Ufite ibibazo ku bijyanye no kugura ibirayi byinshi, gutwara ibicuruzwa, cyangwa ibyiciro byihariye? Andikira ibiro bya koperative mu buryo butaziguye."
     },
     "requestGrade": "Saba iki cyiciro",
-    "heroIntro": "Ohereza icyifuzo cyo kugura kuri interineti: hitamo icyiciro n'ingano ukeneye, koperative izakireba ikuhe igisubizo."
+    "heroIntro": "Ohereza icyifuzo cyo kugura kuri interineti: hitamo icyiciro n'ingano ukeneye, koperative izakireba ikuhe igisubizo.",
+    "availability": {
+      "AVAILABLE": "Birahari",
+      "LIMITED": "Bisigaye bike",
+      "NONE": "Ntibihari ubu",
+      "noneHint": "Ushobora kohereza icyifuzo. Tuzagusubiza igihe bizongera kuboneka."
+    }
   },
   "publicRequest": {
     "eyebrow": "Ahagenewe abaguzi",
@@ -1464,5 +1424,146 @@
     },
     "error": "Ntibishobotse kubona ibyifuzo.",
     "retry": "Ongera ugerageze"
+  },
+  "disputes": {
+    "title": "Impaka",
+    "subtitle": "Ibyagemuwe abanyamuryango bavuga ko atari byo. Genzura buri kimwe, hanyuma ukikosore, ukihagarike cyangwa wandike ko cyari ukuri.",
+    "summary": {
+      "open": "Impaka zitarakemurwa",
+      "openKg": "Ibiro bireba impaka",
+      "settled": "Impaka zakemuwe"
+    },
+    "tabs": {
+      "label": "Erekana:",
+      "open": "Zitarakemurwa",
+      "settled": "Zakemuwe"
+    },
+    "search": {
+      "placeholder": "Shakisha ukoresheje nimero ya resi cyangwa umunyamuryango...",
+      "label": "Shakisha impaka"
+    },
+    "columns": {
+      "receipt": "Nimero ya resi",
+      "member": "Umunyamuryango",
+      "grade": "Urwego",
+      "lot": "Ikirundo",
+      "quantity": "Ibiro",
+      "reason": "Impamvu",
+      "note": "Icyo yavuze",
+      "daysOpen": "Iminsi bimaze",
+      "outcome": "Uko byarangiye",
+      "settledAt": "Byakemuwe ku wa",
+      "resolution": "Icyo umuyobozi yanditse",
+      "actions": "Ibikorwa"
+    },
+    "days_one": "Umunsi {{count}}",
+    "days_other": "Iminsi {{count}}",
+    "outcome": {
+      "RESOLVED": "Byakemuwe",
+      "REVERSED": "Byahagaritswe",
+      "CORRECTED": "Byakosowe"
+    },
+    "replacement": "Reba ibyagemuwe byakosowe",
+    "settledOn": "byakemuwe ku wa {{date}}",
+    "menu": {
+      "openDelivery": "Fungura ibyagemuwe"
+    },
+    "settled": "Ikibazo cya {{code}} cyakemuwe",
+    "empty": {
+      "open": {
+        "title": "Nta mpaka zitarakemurwa",
+        "message": "Iyo umunyamuryango avuze ko ibyagemuwe atari byo, bigaragara hano."
+      },
+      "settled": {
+        "title": "Nta mpaka zirakemurwa",
+        "message": "Impaka ukemuye zigaragara hano."
+      },
+      "noResults": "Nta mpaka zihuye n'ibyo washakishije."
+    },
+    "error": "Ntibishobotse kubona impaka.",
+    "retry": "Ongera ugerageze",
+    "loadDeliveryError": "Ntibishobotse gufungura ibyagemuwe",
+    "loadDeliveryErrorMessage": "Reba interineti wongere ugerageze."
+  },
+  "reports": {
+    "title": "Raporo",
+    "subtitle": "Incamake y'icyumweru kimwe, kuva kuwa mbere kugeza ku cyumweru.",
+    "nowNote": "Ububiko, amafaranga abanyamuryango bakiberewemo, ibitaremezwa n'impaka zitarakemurwa bigaragazwa uko bimeze ubu, si uko byari bimeze icyumweru kirangiye.",
+    "asOfNow": "Uko bimeze ubu",
+    "print": "Capa / Bika nka PDF",
+    "printTitle": "Raporo y'icyumweru - {{name}}",
+    "noActivity": "Nta gikorwa muri iki cyumweru",
+    "error": "Ntibishobotse kubona raporo.",
+    "retry": "Ongera ugerageze",
+    "week": {
+      "picker": "Icyumweru",
+      "label": "Kuwa mbere {{start}} - Ku cyumweru {{end}} {{endYear}}",
+      "labelTwoYears": "Kuwa mbere {{start}} {{startYear}} - Ku cyumweru {{end}} {{endYear}}",
+      "thisWeek": "{{label}} (iki cyumweru)",
+      "previous": "Icyumweru gishize",
+      "next": "Icyumweru gikurikira"
+    },
+    "months": [
+      "Mutarama",
+      "Gashyantare",
+      "Werurwe",
+      "Mata",
+      "Gicurasi",
+      "Kamena",
+      "Nyakanga",
+      "Kanama",
+      "Nzeri",
+      "Ukwakira",
+      "Ugushyingo",
+      "Ukuboza"
+    ],
+    "deliveries": {
+      "title": "Ibyagemuwe",
+      "totalKg": "Byose byagemuwe",
+      "count_one": "Inshuro {{count}}",
+      "count_other": "Inshuro {{count}}",
+      "byMember": "Ku munyamuryango",
+      "columns": {
+        "number": "Nimero",
+        "name": "Izina",
+        "total": "Byose"
+      }
+    },
+    "stock": {
+      "title": "Ububiko",
+      "remaining": "Ibisigaye",
+      "losses": "Ibyangiritse muri iki cyumweru",
+      "lostKg": "Ibyatakaye"
+    },
+    "sales": {
+      "title": "Ibyagurishijwe",
+      "columns": {
+        "code": "Kode y'igurisha",
+        "buyer": "Umuguzi",
+        "lots": "Ibirundo",
+        "kg": "Ibiro",
+        "amount": "Amafaranga"
+      },
+      "totalKg": "Byose byagurishijwe",
+      "totalAmount": "Amafaranga yose",
+      "average": "Igiciro mpuzandengo",
+      "perKg": "{{amount}} ku kilo"
+    },
+    "money": {
+      "title": "Amafaranga",
+      "shared": "Ayagabanyijwe muri iki cyumweru",
+      "sharedNote": "Ibikurwaho {{deductions}} · Ku banyamuryango {{net}}",
+      "paid": "Ayishyuwe muri iki cyumweru",
+      "owed": "Abanyamuryango bakiberewemo"
+    },
+    "confirmations": {
+      "title": "Kwemeza n'impaka",
+      "confirmed": "Ibyemejwe muri iki cyumweru",
+      "settled": "Impaka zakemuwe muri iki cyumweru",
+      "pending": "Ibitaremezwa",
+      "pendingFromWeek_one": "{{count}} byagemuwe muri iki cyumweru",
+      "pendingFromWeek_other": "{{count}} byagemuwe muri iki cyumweru",
+      "openDisputes": "Impaka zitarakemurwa"
+    }
   }
 }
