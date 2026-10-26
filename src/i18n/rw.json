@@ -1233,7 +1233,8 @@
       "settings.errors.phone",
       "publicNav.openMenu",
       "disputes",
-      "reports"
+      "reports",
+      "publicHome.availability"
     ]
   },
   "publicHome": {
@@ -1277,7 +1278,13 @@
       "intro": "Ufite ibibazo ku bijyanye no kugura ibirayi byinshi, gutwara ibicuruzwa, cyangwa ibyiciro byihariye? Andikira ibiro bya koperative mu buryo butaziguye."
     },
     "requestGrade": "Saba iki cyiciro",
-    "heroIntro": "Ohereza icyifuzo cyo kugura kuri interineti: hitamo icyiciro n'ingano ukeneye, koperative izakireba ikuhe igisubizo."
+    "heroIntro": "Ohereza icyifuzo cyo kugura kuri interineti: hitamo icyiciro n'ingano ukeneye, koperative izakireba ikuhe igisubizo.",
+    "availability": {
+      "AVAILABLE": "Birahari",
+      "LIMITED": "Bisigaye bike",
+      "NONE": "Ntibihari ubu",
+      "noneHint": "Ushobora kohereza icyifuzo. Tuzagusubiza igihe bizongera kuboneka."
+    }
   },
   "publicRequest": {
     "eyebrow": "Ahagenewe abaguzi",

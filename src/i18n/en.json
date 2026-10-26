@@ -1247,7 +1247,13 @@
       "intro": "Have questions regarding bulk orders, logistics, or custom grading specifications? Reach out to our cooperative office directly."
     },
     "requestGrade": "Request this grade",
-    "heroIntro": "Send a purchase request online: choose the grade and the quantity you need, and the cooperative will review it and give you an answer."
+    "heroIntro": "Send a purchase request online: choose the grade and the quantity you need, and the cooperative will review it and give you an answer.",
+    "availability": {
+      "AVAILABLE": "Available",
+      "LIMITED": "Limited stock",
+      "NONE": "Not available now",
+      "noneHint": "You can still send a request. We will reply when stock is back."
+    }
   },
   "publicRequest": {
     "eyebrow": "Buyer portal",
