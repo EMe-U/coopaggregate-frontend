@@ -8,7 +8,7 @@ import GradeName from '../GradeName'
 import Pagination from '../Pagination'
 import usePageSize from '../../hooks/usePageSize'
 import useLinkedDeliveries from '../../hooks/useLinkedDeliveries'
-import useLotsWithSales from '../../hooks/useLotsWithSales'
+import useSharedLots from '../../hooks/useSharedLots'
 import ConfirmationBadge from '../deliveries/ConfirmationBadge'
 import DeliveryActionsMenu from '../deliveries/DeliveryActionsMenu'
 import DeliveryHistoryNote, { deliveryRowId } from '../deliveries/DeliveryHistoryNote'
@@ -166,7 +166,7 @@ function DeliveriesSection({ memberId, totals, onChanged }) {
   }
 
   const deliveries = status === 'error' ? [] : (result?.content ?? [])
-  const lotsWithSales = useLotsWithSales(deliveries.map((delivery) => delivery.lotId), reloadKey)
+  const sharedLots = useSharedLots(deliveries.map((delivery) => delivery.lotId), reloadKey)
   const linked = useLinkedDeliveries(deliveries)
 
   // A reversal changes the statement too, so the page reloads it as well.
@@ -211,7 +211,7 @@ function DeliveriesSection({ memberId, totals, onChanged }) {
           <td className="px-3 py-1 print:hidden">
             <DeliveryActionsMenu
               delivery={delivery}
-              lotHasSales={lotsWithSales.has(delivery.lotId)}
+              lotShared={sharedLots.has(delivery.lotId)}
               onChanged={handleChanged}
             />
           </td>

@@ -1008,9 +1008,10 @@
       "reverse": "Hagarika ibyagemuwe",
       "reverseTitle": "Guhagarika ibyagemuwe {{code}}?",
       "reverseExplanation": "Ibyagemuwe bigumye mu mateka, byanditseho ko byahagaritswe, kandi ntibikibarwa mu kirundo, mu bubiko cyangwa ku makuru y'umunyamuryango.",
-      "lotHasSales": "Iki kirundo cyamaze kugurishwaho. Bimenyekanishe nk'ikibazo aho kubihindura.",
       "correctedBy": "Byakosowe na",
-      "corrects": "Bikosora"
+      "corrects": "Bikosora",
+      "lotShared": "Iki kirundo cyamaze kugabanywa, bityo ibyagemuwe byacyo ntibishobora guhagarikwa cyangwa gukosorwa. Andika ikibazo aho kubihindura.",
+      "batchSold": "{{kg}} z'ibi byagemuwe zamaze kugurishwa, bityo ntibishobora guhagarikwa cyangwa gukosorwa. Niba ibyanditswe atari ukuri, andika ikibazo aho kubihindura."
     },
     "correct": {
       "title": "Gukosora ibyagemuwe {{code}}",
@@ -1300,7 +1301,9 @@
       "ledger.describe.saleByGrade",
       "ledger.describe.saleCredit",
       "settings.history.actions.SALE_FIFO_SKIPPED",
-      "settings.history.details.saleFifoSkipped"
+      "settings.history.details.saleFifoSkipped",
+      "reversal.delivery.lotShared",
+      "reversal.delivery.batchSold"
     ]
   },
   "publicHome": {

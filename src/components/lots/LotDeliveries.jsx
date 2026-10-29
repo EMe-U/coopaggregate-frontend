@@ -80,7 +80,7 @@ export default function LotDeliveries({ lot, reloadKey, onChanged }) {
                 <td className={`${cell} text-muted`}>{formatDateTime(delivery.deliveredAt)}</td>
                 <td className={cell}>{!delivery.reversed && <ConfirmationBadge delivery={delivery} />}</td>
                 <td className="px-3 py-1">
-                  <DeliveryActionsMenu delivery={delivery} lotHasSales={Number(lot.soldKg) > 0} onChanged={onChanged} />
+                  <DeliveryActionsMenu delivery={delivery} lotShared={lot.status === 'SHARED'} onChanged={onChanged} />
                 </td>
               </tr>
             ))}

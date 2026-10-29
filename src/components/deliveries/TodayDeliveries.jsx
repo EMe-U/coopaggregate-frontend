@@ -5,7 +5,7 @@ import { getDashboard } from '../../api/dashboard'
 import { listDeliveries } from '../../api/deliveries'
 import useOnlineStatus from '../../hooks/useOnlineStatus'
 import useLinkedDeliveries from '../../hooks/useLinkedDeliveries'
-import useLotsWithSales from '../../hooks/useLotsWithSales'
+import useSharedLots from '../../hooks/useSharedLots'
 import usePageSize from '../../hooks/usePageSize'
 import usePendingDeliveries from '../../hooks/usePendingDeliveries'
 import { temporaryReference } from '../../offline/pending'
@@ -89,7 +89,7 @@ export default function TodayDeliveries({ reloadKey }) {
   }, [reloadKey, retryKey, isOnline])
 
   const deliveries = result?.content
-  const lotsWithSales = useLotsWithSales((deliveries ?? []).map((delivery) => delivery.lotId), retryKey)
+  const sharedLots = useSharedLots((deliveries ?? []).map((delivery) => delivery.lotId), retryKey)
   const linked = useLinkedDeliveries(deliveries ?? [])
   // Deliveries waiting on this device go on top of the first page. One that has just synced can
   // be in both lists for a moment; the server row wins.
@@ -219,7 +219,7 @@ export default function TodayDeliveries({ reloadKey }) {
                       </Link>
                       <DeliveryActionsMenu
                         delivery={delivery}
-                        lotHasSales={lotsWithSales.has(delivery.lotId)}
+                        lotShared={sharedLots.has(delivery.lotId)}
                         onChanged={() => setRetryKey((key) => key + 1)}
                       />
                     </div>

@@ -9,14 +9,15 @@ import ReasonDialog from '../ReasonDialog'
 import CorrectDeliveryModal from './CorrectDeliveryModal'
 import DisputeDialog from './DisputeDialog'
 import useGradeName from '../../hooks/useGradeName'
+import { plainReversalError } from './reversalError'
 
 // ⋮ menu for a saved delivery: confirm it with the member's SMS code (on the delivery page), record
-// or settle a dispute,
-// correct or reverse it. Once its lot has sales the delivery can no longer be corrected or
-// reversed, so those actions stay visible but disabled with the reason. onChanged runs after any
-// change so the page can reload its lists and totals.
+// or settle a dispute, correct or reverse it. Once its lot is shared the delivery can no longer be
+// corrected or reversed, so those actions stay visible but disabled with the reason. A delivery
+// with sold kg is refused by the server (409), and the dialog says so in plain words. onChanged
+// runs after any change so the page can reload its lists and totals.
 // onDetailPage leaves out "Confirm with code", which that page already shows.
-export default function DeliveryActionsMenu({ delivery, lotHasSales, onChanged, onDetailPage }) {
+export default function DeliveryActionsMenu({ delivery, lotShared, onChanged, onDetailPage }) {
   const { t } = useTranslation()
   const gradeName = useGradeName()
   const needsInternet = useNeedsInternet()
@@ -28,7 +29,7 @@ export default function DeliveryActionsMenu({ delivery, lotHasSales, onChanged, 
   const offline = { disabled: needsInternet.offline, title: needsInternet.title }
   let blockedReason
   if (needsInternet.offline) blockedReason = needsInternet.title
-  else if (lotHasSales) blockedReason = t('reversal.delivery.lotHasSales')
+  else if (lotShared) blockedReason = t('reversal.delivery.lotShared')
   const blocked = { disabled: Boolean(blockedReason), title: blockedReason }
 
   const status = delivery.confirmationStatus
@@ -101,7 +102,11 @@ export default function DeliveryActionsMenu({ delivery, lotHasSales, onChanged, 
           explanation={t('reversal.delivery.reverseExplanation')}
           confirmLabel={t('reversal.delivery.reverse')}
           onConfirm={async (reason) => {
-            await reverseDelivery(delivery.id, reason)
+            try {
+              await reverseDelivery(delivery.id, reason)
+            } catch (error) {
+              throw plainReversalError(t, error)
+            }
             done()
           }}
           onClose={close}

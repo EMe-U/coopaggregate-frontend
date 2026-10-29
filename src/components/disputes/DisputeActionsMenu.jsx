@@ -9,6 +9,7 @@ import ActionsMenu from '../ActionsMenu'
 import ConfirmDialog from '../ConfirmDialog'
 import ReasonDialog from '../ReasonDialog'
 import CorrectDeliveryModal from '../deliveries/CorrectDeliveryModal'
+import { plainReversalError } from '../deliveries/reversalError'
 
 // ⋮ menu for an open dispute, with the same dialogs as the delivery menu. The correction form
 // needs the delivery's grade id, which a dispute does not carry, so the delivery is loaded first.
@@ -97,7 +98,11 @@ export default function DisputeActionsMenu({ dispute, onChanged }) {
           explanation={t('reversal.delivery.reverseExplanation')}
           confirmLabel={t('reversal.delivery.reverse')}
           onConfirm={async (reason) => {
-            await reverseDelivery(dispute.deliveryId, reason)
+            try {
+              await reverseDelivery(dispute.deliveryId, reason)
+            } catch (error) {
+              throw plainReversalError(t, error)
+            }
             done()
           }}
           onClose={close}

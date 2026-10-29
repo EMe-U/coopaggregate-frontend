@@ -1008,9 +1008,10 @@
       "reverse": "Reverse delivery",
       "reverseTitle": "Reverse delivery {{code}}?",
       "reverseExplanation": "The delivery stays in the history, marked as reversed, and is no longer counted in the lot, stock or the member's statement.",
-      "lotHasSales": "This lot already has sales. Report it as a dispute instead.",
       "correctedBy": "Corrected by",
-      "corrects": "Corrects"
+      "corrects": "Corrects",
+      "lotShared": "This lot has already been shared, so its deliveries can no longer be reversed or corrected. Record a dispute instead.",
+      "batchSold": "{{kg}} of this delivery are already sold, so it can no longer be reversed or corrected. If the record is wrong, record a dispute instead."
     },
     "correct": {
       "title": "Correct delivery {{code}}",
