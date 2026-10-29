@@ -341,12 +341,12 @@
       "mismatch": "The stock does not balance: {{difference}} is missing or extra. Check recent deliveries, sales and losses."
     },
     "cards": {
-      "gradeAvailable": "{{grade}} available",
       "totalInStock": "Total in stock",
       "lotCounts": "{{open}} open · {{closed}} closed lots",
       "addedToday": "Added today",
       "deliveriesToday_one": "{{count}} delivery",
-      "deliveriesToday_other": "{{count}} deliveries"
+      "deliveriesToday_other": "{{count}} deliveries",
+      "gradeSellable": "{{grade}} sellable"
     },
     "stockError": "Could not load the stock summary.",
     "retry": "Try again",
@@ -472,7 +472,15 @@
       "SOLD": "Sold: nothing is left in this lot.",
       "SHARED": "Shared: the money has been shared with the members."
     },
-    "pendingConfirmation": "of which {{kg}} waiting for confirmation"
+    "pendingConfirmation": "of which {{kg}} waiting for confirmation",
+    "split": {
+      "sellable": "Sellable",
+      "waiting": "Waiting for confirmation",
+      "disputed": "Disputed",
+      "waitingShort": "Waiting {{kg}}",
+      "disputedShort": "Disputed {{kg}}",
+      "explanation": "Sellable: confirmed by the member, ready to sell. Waiting: the member has not confirmed yet. Disputed: the member says the record is wrong. Only sellable kg can be sold."
+    }
   },
   "sales": {
     "title": "Sales & Buyer Transactions",

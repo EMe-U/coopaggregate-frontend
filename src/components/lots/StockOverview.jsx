@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { CircleCheck, CircleAlert, Package, Truck, Warehouse } from 'lucide-react'
+import { CircleCheck, CircleAlert, Clock, MessageSquareWarning, Package, PackageCheck, Truck, Warehouse } from 'lucide-react'
 import { formatKg } from '../../utils/format'
 import useGradeName from '../../hooks/useGradeName'
 
@@ -8,24 +8,37 @@ function roundKg(kg) {
   return Math.round(Number(kg) * 100) / 100
 }
 
-// pending is the part of the value that members have not confirmed yet, shown when there is some.
-function StockCard({ label, value, note, pending, icon: Icon }) {
-  const { t } = useTranslation()
+const ICON_CLASS = {
+  primary: 'bg-primary-light text-primary',
+  waiting: 'bg-warning/15 text-amber-800',
+  disputed: 'bg-danger/10 text-danger',
+}
+
+// children is a quieter line under the value, for example the waiting and disputed kg of a grade.
+function StockCard({ label, value, note, icon: Icon, tone = 'primary', children }) {
   return (
     <div className="flex min-w-0 items-start justify-between gap-3 rounded-xl bg-surface p-5 shadow-sm">
       <div className="min-w-0">
         <p className="text-xs font-medium uppercase tracking-wide text-muted">{label}</p>
         <p className="mt-1 text-2xl font-semibold text-text">{value}</p>
-        {Number(pending) > 0 && (
-          <p className="mt-1 text-xs text-amber-800">{t('lots.pendingConfirmation', { kg: formatKg(roundKg(pending)) })}</p>
-        )}
+        {children}
         {note && <p className="mt-1 text-sm text-muted">{note}</p>}
       </div>
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary-light text-primary">
+      <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${ICON_CLASS[tone]}`}>
         <Icon size={18} />
       </div>
     </div>
   )
+}
+
+// The kg of a grade that cannot be sold yet, shown only when there are some.
+function NotSellable({ grade }) {
+  const { t } = useTranslation()
+  const parts = []
+  if (Number(grade.waitingKg) > 0) parts.push(t('lots.split.waitingShort', { kg: formatKg(roundKg(grade.waitingKg)) }))
+  if (Number(grade.disputedKg) > 0) parts.push(t('lots.split.disputedShort', { kg: formatKg(roundKg(grade.disputedKg)) }))
+  if (parts.length === 0) return null
+  return <p className="mt-1 text-xs text-muted">{parts.join(' · ')}</p>
 }
 
 function BalanceBanner({ stock }) {
@@ -87,24 +100,36 @@ export default function StockOverview({ stock, error, onRetry }) {
     )
   }
 
+  // The kg left are split three ways: sellable (confirmed), waiting for the member's confirmation, and
+  // disputed. Only sellable kg can be sold. byGrade lists only grades with kg left.
   return (
     <div className="space-y-4">
       <BalanceBanner stock={stock} />
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(11rem,1fr))] gap-4">
+      <div className="grid gap-4 sm:grid-cols-3">
+        <StockCard label={t('lots.split.sellable')} value={formatKg(roundKg(stock.totalSellableKg))} icon={PackageCheck} />
+        <StockCard label={t('lots.split.waiting')} value={formatKg(roundKg(stock.totalWaitingKg))} icon={Clock} tone="waiting" />
+        <StockCard
+          label={t('lots.split.disputed')}
+          value={formatKg(roundKg(stock.totalDisputedKg))}
+          icon={MessageSquareWarning}
+          tone="disputed"
+        />
+      </div>
+      <p className="text-xs text-muted">{t('lots.split.explanation')}</p>
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(15rem,1fr))] gap-4">
         {stock.byGrade.map((grade) => (
           <StockCard
             key={grade.gradeName}
-            label={t('lots.cards.gradeAvailable', {
-              grade: gradeName(grade.gradeName),
-            })}
-            value={formatKg(roundKg(grade.remainingKg))}
+            label={t('lots.cards.gradeSellable', { grade: gradeName(grade.gradeName) })}
+            value={formatKg(roundKg(grade.sellableKg))}
             icon={Package}
-          />
+          >
+            <NotSellable grade={grade} />
+          </StockCard>
         ))}
         <StockCard
           label={t('lots.cards.totalInStock')}
           value={formatKg(roundKg(stock.totalRemainingKg))}
-          pending={stock.pendingConfirmationKg}
           note={t('lots.cards.lotCounts', { open: stock.openLots, closed: stock.closedLots })}
           icon={Warehouse}
         />

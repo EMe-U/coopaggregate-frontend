@@ -341,12 +341,12 @@
       "mismatch": "Ububiko ntiburinganiye: {{difference}} irabura cyangwa irarenga. Reba ibyagemuwe, ibyagurishijwe n'ibyangiritse vuba aha."
     },
     "cards": {
-      "gradeAvailable": "{{grade}} biri mu bubiko",
       "totalInStock": "Byose biri mu bubiko",
       "lotCounts": "Ibirundo {{open}} bifunguye · {{closed}} bifunze",
       "addedToday": "Byongewe uyu munsi",
       "deliveriesToday_one": "Inshuro {{count}} yo kugemura",
-      "deliveriesToday_other": "Inshuro {{count}} zo kugemura"
+      "deliveriesToday_other": "Inshuro {{count}} zo kugemura",
+      "gradeSellable": "{{grade}} bishobora kugurishwa"
     },
     "stockError": "Ntibishobotse kubona incamake y'ububiko.",
     "retry": "Ongera ugerageze",
@@ -472,7 +472,15 @@
       "SOLD": "Cyagurishijwe: nta kintu gisigaye muri iki kirundo.",
       "SHARED": "Cyagabanyijwe: amafaranga yagabanyijwe abanyamuryango."
     },
-    "pendingConfirmation": "muri byo {{kg}} bitegereje kwemezwa"
+    "pendingConfirmation": "muri byo {{kg}} bitegereje kwemezwa",
+    "split": {
+      "sellable": "Bishobora kugurishwa",
+      "waiting": "Bitegereje kwemezwa",
+      "disputed": "Biri mu mpaka",
+      "waitingShort": "Bitegereje {{kg}}",
+      "disputedShort": "Mu mpaka {{kg}}",
+      "explanation": "Bishobora kugurishwa: byemejwe n'umunyamuryango, biteguye kugurishwa. Bitegereje: umunyamuryango ntarabyemeza. Biri mu mpaka: umunyamuryango avuga ko ibyanditswe atari byo. Ibishobora kugurishwa ni byo byonyine bigurishwa."
+    }
   },
   "sales": {
     "title": "Igurisha n'Abaguzi",
@@ -1303,7 +1311,9 @@
       "settings.history.actions.SALE_FIFO_SKIPPED",
       "settings.history.details.saleFifoSkipped",
       "reversal.delivery.lotShared",
-      "reversal.delivery.batchSold"
+      "reversal.delivery.batchSold",
+      "lots.cards.gradeSellable",
+      "lots.split"
     ]
   },
   "publicHome": {
