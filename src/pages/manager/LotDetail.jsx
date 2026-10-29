@@ -181,7 +181,10 @@ export default function LotDetail() {
 
   const hasStock = Number(lot.remainingKg) > 0
   const canRecordLoss = (lot.status === 'OPEN' || lot.status === 'CLOSED') && hasStock
-  const canSell = lot.status === 'CLOSED' && hasStock
+  // Sales are by grade and take the oldest batches whatever their lot, so a lot does not need to be
+  // closed first. A lot with sales is never shared: its members were paid by batch (sharing is 409).
+  const canSell = (lot.status === 'OPEN' || lot.status === 'CLOSED') && hasStock
+  const canShare = lot.status === 'SOLD' && !(Number(lot.soldKg) > 0)
 
   return (
     <div className="space-y-6">
@@ -227,7 +230,7 @@ export default function LotDetail() {
           {canSell && (
             <button
               type="button"
-              onClick={() => navigate(`/sales?lotId=${lot.id}`)}
+              onClick={() => navigate(`/sales?grade=${encodeURIComponent(lot.gradeName)}`)}
               disabled={needsInternet.offline}
               title={needsInternet.title}
               className="flex min-h-11 items-center gap-2 rounded-lg bg-primary px-4 text-sm font-semibold text-white hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
@@ -236,7 +239,7 @@ export default function LotDetail() {
               {t('lots.detail.recordSale')}
             </button>
           )}
-          {lot.status === 'SOLD' && (
+          {canShare && (
             <button
               type="button"
               onClick={() => navigate(`/share?lotId=${lot.id}`)}

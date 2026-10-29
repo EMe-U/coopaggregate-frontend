@@ -402,7 +402,7 @@
       "members": "Members",
       "closeLot": "Close lot",
       "closing": "Closing...",
-      "confirmClose": "Close lot {{code}}? No more deliveries will be added to it, and the next delivery of this grade starts a new lot.",
+      "confirmClose": "Close lot {{code}}? No more deliveries will be added to it, and the next delivery of this grade starts a new lot. Closing is optional: potatoes can be sold from open lots too.",
       "closedNotice": "Lot closed",
       "closeError": "Could not close the lot. Please try again.",
       "recordLoss": "Record loss",
@@ -446,15 +446,15 @@
     },
     "close": {
       "title": "Close {{code}}?",
-      "message": "No more deliveries will go into this lot. The next {{grade}} delivery will start a new lot.",
+      "message": "No more deliveries will go into this lot. The next {{grade}} delivery will start a new lot. Closing is optional: potatoes can be sold from open lots too.",
       "confirm": "Close lot",
       "cancel": "Cancel",
       "done": "Lot {{code}} closed"
     },
     "statusHelp": {
-      "OPEN": "Open: still receiving deliveries.",
-      "CLOSED": "Closed: no more deliveries; ready to be sold.",
-      "SOLD": "Sold: fully sold; the money is waiting to be shared.",
+      "OPEN": "Open: still receiving deliveries. Its potatoes can already be sold.",
+      "CLOSED": "Closed: no more deliveries go into it. Closing is optional; its potatoes can be sold either way.",
+      "SOLD": "Sold: nothing is left in this lot.",
       "SHARED": "Shared: the money has been shared with the members."
     },
     "pendingConfirmation": "of which {{kg}} waiting for confirmation"

@@ -402,7 +402,7 @@
       "members": "Abanyamuryango",
       "closeLot": "Funga ikirundo",
       "closing": "Kirafungwa...",
-      "confirmClose": "Ufunga ikirundo {{code}}? Nta byagemuwe bizongerwamo, kandi ibizagemurwa ku rwego nk'uru bizatangiza ikirundo gishya.",
+      "confirmClose": "Ufunga ikirundo {{code}}? Nta byagemuwe bizongerwamo, kandi ibizagemurwa ku rwego nk'uru bizatangiza ikirundo gishya. Gufunga si itegeko: ibirayi bishobora no kugurishwa mu birundo bifunguye.",
       "closedNotice": "Ikirundo cyafunzwe",
       "closeError": "Ntibishobotse gufunga ikirundo. Ongera ugerageze.",
       "recordLoss": "Andika ibyangiritse",
@@ -446,15 +446,15 @@
     },
     "close": {
       "title": "Ufunga {{code}}?",
-      "message": "Nta byagemuwe bizongera kujya muri iki kirundo. Ibizagemurwa bya {{grade}} bizatangiza ikirundo gishya.",
+      "message": "Nta byagemuwe bizongera kujya muri iki kirundo. Ibizagemurwa bya {{grade}} bizatangiza ikirundo gishya. Gufunga si itegeko: ibirayi bishobora no kugurishwa mu birundo bifunguye.",
       "confirm": "Funga ikirundo",
       "cancel": "Hagarika",
       "done": "Ikirundo {{code}} cyafunzwe"
     },
     "statusHelp": {
-      "OPEN": "Gifunguye: kiracyakira ibigemurwa.",
-      "CLOSED": "Gifunze: nta bindi bigemurwa; cyiteguye kugurishwa.",
-      "SOLD": "Cyagurishijwe: cyagurishijwe cyose; amafaranga ategereje kugabanywa.",
+      "OPEN": "Gifunguye: kiracyakira ibigemurwa. Ibirayi byacyo bishobora kugurishwa.",
+      "CLOSED": "Gifunze: nta bindi bigemurwa bicyinjiramo. Gufunga si itegeko; ibirayi byacyo bishobora kugurishwa uko byagenda kose.",
+      "SOLD": "Cyagurishijwe: nta kintu gisigaye muri iki kirundo.",
       "SHARED": "Cyagabanyijwe: amafaranga yagabanyijwe abanyamuryango."
     },
     "pendingConfirmation": "muri byo {{kg}} bitegereje kwemezwa"
@@ -1266,7 +1266,10 @@
       "sales.preview",
       "sales.batches",
       "sales.result",
-      "sales.history"
+      "sales.history",
+      "lots.statusHelp",
+      "lots.detail.confirmClose",
+      "lots.close.message"
     ]
   },
   "publicHome": {
