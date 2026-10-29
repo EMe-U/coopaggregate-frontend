@@ -4,6 +4,7 @@ const styles = {
   DELIVERY: 'bg-primary-light text-primary',
   LOSS: 'bg-danger/10 text-danger',
   SALE: 'bg-sky-100 text-sky-800',
+  SALE_CREDIT: 'bg-teal-100 text-teal-800',
   SHARE: 'bg-violet-100 text-violet-800',
   PAYMENT: 'bg-warning/15 text-amber-800',
   REVERSAL: 'bg-text/10 text-text',

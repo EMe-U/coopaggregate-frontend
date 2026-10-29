@@ -765,7 +765,8 @@
       "SALE": "Igurisha",
       "SHARE": "Umugabane",
       "PAYMENT": "Ubwishyu",
-      "REVERSAL": "Ikosora"
+      "REVERSAL": "Ikosora",
+      "SALE_CREDIT": "Ayahawe ku igurisha"
     },
     "verify": {
       "title": "Igenzura ry'urunigi",
@@ -844,7 +845,9 @@
       "sale": "Igurisha {{code}} rivuye muri {{lot}}",
       "share": "Umugabane wa {{lot}} wa {{member}}",
       "payment": "Ubwishyu {{code}} hakoreshejwe {{method}}",
-      "reversal": "Ikosora ry'icyanditswe #{{id}}: {{reason}}"
+      "reversal": "Ikosora ry'icyanditswe #{{id}}: {{reason}}",
+      "saleByGrade": "Igurisha {{code}} kuri {{buyer}}",
+      "saleCredit": "Igurisha {{code}}: amafaranga ahawe {{member}} ku byagemuwe {{batch}} byo mu kirundo {{lot}}"
     }
   },
   "dashboard": {
@@ -1198,7 +1201,11 @@
         "DELIVERY_REVIEWED": "Ibyagemuwe byagenzuwe n'umuyobozi",
         "IDENTITY_VERIFIED": "Umwirondoro wagenzuwe",
         "IDENTITY_DUPLICATE": "Igenzura: asanzwe ari umunyamuryango",
-        "IDENTITY_VERIFICATION_FAILED": "Igenzura ry'umwirondoro ryanze"
+        "IDENTITY_VERIFICATION_FAILED": "Igenzura ry'umwirondoro ryanze",
+        "SALE_FIFO_SKIPPED": "Ibyagemuwe byasimbutswe mu igurisha"
+      },
+      "details": {
+        "saleFifoSkipped": "Igurisha {{sale}} ryasimbutse ibyagemuwe {{batches}}. Impamvu: {{reason}}"
       }
     },
     "orders": {
@@ -1288,7 +1295,12 @@
       "members.statement.grossShareNote",
       "members.statement.saleCredits",
       "members.detail.batches",
-      "memberBatches"
+      "memberBatches",
+      "ledger.types.SALE_CREDIT",
+      "ledger.describe.saleByGrade",
+      "ledger.describe.saleCredit",
+      "settings.history.actions.SALE_FIFO_SKIPPED",
+      "settings.history.details.saleFifoSkipped"
     ]
   },
   "publicHome": {

@@ -11,6 +11,9 @@ const SIGNS = {
   SALE: { kg: -1, amount: 1 },
   SHARE: { kg: null, amount: 0 },
   PAYMENT: { kg: null, amount: -1 },
+  // What a sale pays one member for one batch: the kg of that batch and the net amount, without a
+  // sign (the SALE entry already moved the stock and brought the money in).
+  SALE_CREDIT: { kg: 0, amount: 0 },
 }
 
 export function entrySigns(entry) {
@@ -59,6 +62,11 @@ function paymentMethod(entry) {
   return /^Payment \S+ by (\S+)/.exec(entry.description)?.[1]
 }
 
+// The stored text is "Credit for sale SAL-… from <receipt code of the batch>".
+function creditedBatch(entry) {
+  return /from (\S+)$/.exec(entry.description)?.[1]
+}
+
 // The stored text is "Reversal of entry #N: <reason>".
 function reversalReason(entry) {
   const separator = entry.description.indexOf(': ')
@@ -82,7 +90,14 @@ export function useEntryDescription() {
         })
       }
       case 'SALE':
+        // A sale by grade takes its kg from several lots, so only older sales have a lot.
+        if (!entry.lotCode) return t('ledger.describe.saleByGrade', { code: entry.referenceCode, buyer: entry.buyerName })
         return t('ledger.describe.sale', { code: entry.referenceCode, lot: entry.lotCode })
+      case 'SALE_CREDIT': {
+        const batch = creditedBatch(entry)
+        if (!batch || !entry.memberName) return entry.description
+        return t('ledger.describe.saleCredit', { code: entry.referenceCode, member: entry.memberName, batch, lot: entry.lotCode })
+      }
       case 'SHARE':
         return t('ledger.describe.share', { lot: entry.lotCode, member: entry.memberName })
       case 'PAYMENT': {

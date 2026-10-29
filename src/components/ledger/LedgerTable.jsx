@@ -13,8 +13,9 @@ import { formatDate, formatTime, kigaliIsoDate } from '../../utils/format'
 import useNeedsInternet from '../../hooks/useNeedsInternet'
 
 
+// A sale credit goes with its sale, so it is never reversed on its own.
 export function canReverse(entry) {
-  return entry.type !== 'REVERSAL' && entry.reversedByEntryId == null
+  return entry.type !== 'REVERSAL' && entry.type !== 'SALE_CREDIT' && entry.reversedByEntryId == null
 }
 
 function EntryNote({ entry }) {

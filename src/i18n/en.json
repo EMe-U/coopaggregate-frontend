@@ -765,7 +765,8 @@
       "SALE": "Sale",
       "SHARE": "Share",
       "PAYMENT": "Payment",
-      "REVERSAL": "Reversal"
+      "REVERSAL": "Reversal",
+      "SALE_CREDIT": "Sale credit"
     },
     "verify": {
       "title": "Chain check",
@@ -844,7 +845,9 @@
       "sale": "Sale {{code}} from {{lot}}",
       "share": "Share of {{lot}} for {{member}}",
       "payment": "Payment {{code}} by {{method}}",
-      "reversal": "Reversal of entry #{{id}}: {{reason}}"
+      "reversal": "Reversal of entry #{{id}}: {{reason}}",
+      "saleByGrade": "Sale {{code}} to {{buyer}}",
+      "saleCredit": "Sale {{code}}: credit to {{member}} for batch {{batch}} of lot {{lot}}"
     }
   },
   "dashboard": {
@@ -1198,7 +1201,11 @@
         "DELIVERY_REVIEWED": "Delivery checked by the manager",
         "IDENTITY_VERIFIED": "Identity verified",
         "IDENTITY_DUPLICATE": "Identity check: already a member",
-        "IDENTITY_VERIFICATION_FAILED": "Identity check failed"
+        "IDENTITY_VERIFICATION_FAILED": "Identity check failed",
+        "SALE_FIFO_SKIPPED": "Batches skipped in a sale"
+      },
+      "details": {
+        "saleFifoSkipped": "Sale {{sale}} passed over batches {{batches}}. Reason: {{reason}}"
       }
     },
     "orders": {

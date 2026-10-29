@@ -8,8 +8,25 @@ import { formatDateTime } from '../../utils/format'
 import Pagination from '../Pagination'
 import SettingsSection from './SettingsSection'
 
-// Changes to settings, grades and the password, new confirmation codes and manager reviews.
-// Passwords and codes are never in it.
+// The stored details of a skipped-batches entry: "Sale SAL-…: skipped R-…, R-…. Reason: <text>".
+const SKIPPED_DETAILS = /^Sale (\S+): skipped (.+?)\. Reason: ([\s\S]*)$/
+
+// Shown in plain words when they can be read, otherwise as stored.
+function Details({ entry }) {
+  const { t } = useTranslation()
+  const skipped = entry.action === 'SALE_FIFO_SKIPPED' && SKIPPED_DETAILS.exec(entry.details)
+  if (skipped) {
+    return (
+      <p className="break-words text-xs text-muted">
+        {t('settings.history.details.saleFifoSkipped', { sale: skipped[1], batches: skipped[2], reason: skipped[3] })}
+      </p>
+    )
+  }
+  return <p className="break-words font-mono text-xs text-muted">{entry.details}</p>
+}
+
+// Changes to settings, grades and the password, new confirmation codes, manager reviews and the
+// batches a sale skipped. Passwords and codes are never in it.
 export default function RecentChanges({ reloadKey }) {
   const { t } = useTranslation()
   const pageSize = usePageSize()
@@ -60,7 +77,7 @@ export default function RecentChanges({ reloadKey }) {
                       </>
                     )}
                   </p>
-                  {entry.details && <p className="break-words font-mono text-xs text-muted">{entry.details}</p>}
+                  {entry.details && <Details entry={entry} />}
                 </div>
                 <p className="shrink-0 text-xs text-muted">
                   {entry.managerName && `${entry.managerName} · `}
