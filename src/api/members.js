@@ -26,6 +26,15 @@ export async function getMemberStatement(id) {
   return response.data
 }
 
+// The member's batches (one per delivery), newest first, with kg and money totals over all of them.
+// status is all (default) or unsold (only batches with kg left).
+export async function getMemberBatches(id, { status, page = 0, size = 20 } = {}) {
+  const params = { page, size }
+  if (status && status !== 'all') params.status = status
+  const response = await client.get(`/api/members/${id}/batches`, { params })
+  return response.data
+}
+
 export async function createMember(member) {
   const response = await client.post('/api/members', member)
   return response.data

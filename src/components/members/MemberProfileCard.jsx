@@ -1,5 +1,6 @@
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { MessageSquare, Pencil, Printer, UserCheck, UserX } from 'lucide-react'
+import { Layers, MessageSquare, Pencil, Printer, UserCheck, UserX } from 'lucide-react'
 import Avatar from '../Avatar'
 import StatusBadge from '../StatusBadge'
 import { formatDate, formatPhone } from '../../utils/format'
@@ -103,6 +104,13 @@ export default function MemberProfileCard({ member, onEdit, onToggleActive, chan
             {t('members.detail.soon')}
           </span>
         </button>
+        <Link
+          to={`/members/${member.id}/batches`}
+          className="flex items-center gap-2 rounded-lg border border-text/10 px-3 py-2 text-sm font-medium text-text hover:bg-background"
+        >
+          <Layers size={16} />
+          {t('members.detail.batches')}
+        </Link>
         <button
           type="button"
           onClick={() => window.print()}

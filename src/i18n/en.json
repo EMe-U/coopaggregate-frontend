@@ -165,7 +165,8 @@
       "print": "Print",
       "notFound": "Member not found",
       "notFoundMessage": "There is no member with this ID.",
-      "loadError": "Could not load this member."
+      "loadError": "Could not load this member.",
+      "batches": "Batches"
     },
     "statement": {
       "summaryTitle": "Financial statement summary",
@@ -1575,5 +1576,57 @@
       "pendingFromWeek_other": "{{count}} delivered this week",
       "openDisputes": "Open disputes"
     }
+  },
+  "memberBatches": {
+    "back": "Back to the member",
+    "title": "Batches of {{name}}",
+    "subtitle": "{{number}} · Each delivery is a batch: what was sold or lost from it, what is left and what it earned.",
+    "totals": {
+      "received": "Received",
+      "sold": "Sold",
+      "lost": "Lost",
+      "remaining": "Remaining"
+    },
+    "earnings": {
+      "gross": "Gross from sales",
+      "deduction": "Deductions",
+      "earned": "Earned",
+      "note": "Money credited by batch when a sale by grade used these batches. Sales from before sales by grade are paid through the lot share."
+    },
+    "listTitle": "Batches",
+    "filter": {
+      "all": "All",
+      "unsold": "With kg left"
+    },
+    "columns": {
+      "receipt": "Receipt",
+      "delivered": "Delivered",
+      "grade": "Grade",
+      "lot": "Lot",
+      "received": "Received",
+      "sold": "Sold",
+      "lost": "Lost",
+      "remaining": "Left",
+      "gross": "Gross",
+      "deduction": "Deduction",
+      "earned": "Earned",
+      "payment": "Payment"
+    },
+    "payment": {
+      "NOTHING_SOLD": "Nothing sold yet",
+      "BATCH": "Paid by batch",
+      "LOT_SHARE": "Paid through the share of lot {{lot}}",
+      "AWAITING_SETTLEMENT": "Sold before sales by grade; not paid yet"
+    },
+    "card": {
+      "kg": "Received {{received}} · Sold {{sold}} · Lost {{lost}} · Left {{remaining}}",
+      "money": "Gross {{gross}} − deduction {{deduction}} = earned {{earned}}"
+    },
+    "empty": {
+      "all": "No batches yet",
+      "unsold": "No batch has kg left"
+    },
+    "error": "Could not load the batches.",
+    "retry": "Try again"
   }
 }

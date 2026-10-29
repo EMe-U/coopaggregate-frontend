@@ -165,7 +165,8 @@
       "print": "Capa",
       "notFound": "Umunyamuryango ntiyabonetse",
       "notFoundMessage": "Nta munyamuryango ufite iyi nimero.",
-      "loadError": "Ntibishobotse kubona amakuru y'umunyamuryango."
+      "loadError": "Ntibishobotse kubona amakuru y'umunyamuryango.",
+      "batches": "Ibyagemuwe"
     },
     "statement": {
       "summaryTitle": "Incamake y'imari",
@@ -1285,7 +1286,9 @@
       "lots.detail.confirmClose",
       "lots.close.message",
       "members.statement.grossShareNote",
-      "members.statement.saleCredits"
+      "members.statement.saleCredits",
+      "members.detail.batches",
+      "memberBatches"
     ]
   },
   "publicHome": {
@@ -1616,5 +1619,57 @@
       "pendingFromWeek_other": "{{count}} byagemuwe muri iki cyumweru",
       "openDisputes": "Impaka zitarakemurwa"
     }
+  },
+  "memberBatches": {
+    "back": "Subira ku munyamuryango",
+    "title": "Ibyagemuwe na {{name}}",
+    "subtitle": "{{number}} · Buri byagemuwe ni icyiciro cyabyo: ibyagurishijwe cyangwa ibyangiritse, ibisigaye n'amafaranga byinjije.",
+    "totals": {
+      "received": "Byakiriwe",
+      "sold": "Byagurishijwe",
+      "lost": "Byangiritse",
+      "remaining": "Bisigaye"
+    },
+    "earnings": {
+      "gross": "Ayavuye ku igurisha",
+      "deduction": "Ibikurwaho",
+      "earned": "Ayo yinjije",
+      "note": "Amafaranga yishyurwa ku byagemuwe igihe igurisha ku rwego ribikoresheje. Ibyagurishijwe mbere yo kugurisha ku rwego byishyurwa binyuze mu kugabanya ikirundo."
+    },
+    "listTitle": "Ibyagemuwe",
+    "filter": {
+      "all": "Byose",
+      "unsold": "Bifite kg zisigaye"
+    },
+    "columns": {
+      "receipt": "Resi",
+      "delivered": "Byagemuwe",
+      "grade": "Urwego",
+      "lot": "Ikirundo",
+      "received": "Byakiriwe",
+      "sold": "Byagurishijwe",
+      "lost": "Byangiritse",
+      "remaining": "Bisigaye",
+      "gross": "Mbere yo gukuraho",
+      "deduction": "Ibikurwaho",
+      "earned": "Ayo yinjije",
+      "payment": "Ubwishyu"
+    },
+    "payment": {
+      "NOTHING_SOLD": "Nta kiragurishwa",
+      "BATCH": "Yishyuwe ku byagemuwe",
+      "LOT_SHARE": "Yishyuwe binyuze mu kugabanya ikirundo {{lot}}",
+      "AWAITING_SETTLEMENT": "Byagurishijwe mbere yo kugurisha ku rwego; ntibiramwishyurwa"
+    },
+    "card": {
+      "kg": "Byakiriwe {{received}} · Byagurishijwe {{sold}} · Byangiritse {{lost}} · Bisigaye {{remaining}}",
+      "money": "{{gross}} − ibikurwaho {{deduction}} = yinjije {{earned}}"
+    },
+    "empty": {
+      "all": "Nta byagemuwe biraboneka",
+      "unsold": "Nta byagemuwe bifite kg zisigaye"
+    },
+    "error": "Ntibishobotse kubona ibyagemuwe.",
+    "retry": "Ongera ugerageze"
   }
 }
