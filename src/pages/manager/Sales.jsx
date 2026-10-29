@@ -8,7 +8,7 @@ import SalesSummaryCards from '../../components/sales/SalesSummaryCards'
 
 export default function Sales() {
   const { t } = useTranslation()
-  // Set when coming from a lot's "Record sale" button.
+  // Set when coming from a lot's "Record sale" button: the lot's grade.
   const [searchParams] = useSearchParams()
   // Bumped after a sale so the summary cards and the history reload.
   const [reloadKey, setReloadKey] = useState(0)
@@ -18,7 +18,7 @@ export default function Sales() {
       <PageTitle className="mb-0">{t('sales.title')}</PageTitle>
       <SalesSummaryCards reloadKey={reloadKey} />
       <SaleForm
-        initialLotId={searchParams.get('lotId')}
+        initialGradeName={searchParams.get('grade')}
         onSaved={() => setReloadKey((key) => key + 1)}
       />
       <SalesHistory reloadKey={reloadKey} />
