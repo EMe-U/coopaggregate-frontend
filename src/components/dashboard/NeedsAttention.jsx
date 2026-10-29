@@ -11,7 +11,8 @@ const items = [
     icon: Clock,
   },
   { key: 'readyToShare', field: 'lotsReadyToShare', to: '/share', icon: Split },
-  { key: 'readyToSell', field: 'lotsReadyToSell', to: '/sales', icon: Truck },
+  // Sales are by grade and only take confirmed kg, so this counts grades with sellable kg.
+  { key: 'gradesToSell', field: 'gradesWithSellableKg', to: '/sales', icon: Truck },
   { key: 'awaitingPayment', field: 'membersAwaitingPayment', to: '/payments', icon: Wallet },
 ]
 

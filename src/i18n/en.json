@@ -883,7 +883,10 @@
       "readyToShare": "Ready to share",
       "lots_one": "{{count}} lot",
       "lots_other": "{{count}} lots",
-      "goToShare": "Share lot money"
+      "goToShare": "Share lot money",
+      "sellableWaiting": "Sellable {{sellable}} · Waiting {{waiting}}",
+      "disputed": "Disputed {{kg}}",
+      "gradeSellable": "({{kg}} sellable)"
     },
     "history": {
       "title": "History check",
@@ -902,9 +905,6 @@
       "readyToShare_one": "{{count}} sold lot is ready to share",
       "readyToShare_other": "{{count}} sold lots are ready to share",
       "readyToShareAction": "Share lot money",
-      "readyToSell_one": "{{count}} closed lot is ready to sell",
-      "readyToSell_other": "{{count}} closed lots are ready to sell",
-      "readyToSellAction": "Record sale",
       "awaitingPayment_one": "{{count}} member is waiting for payment",
       "awaitingPayment_other": "{{count}} members are waiting for payment",
       "awaitingPaymentAction": "Pay members",
@@ -913,7 +913,10 @@
       "disputedAction": "Check disputes",
       "waitingConfirmation_one": "{{count}} delivery waiting for confirmation over 48 hours",
       "waitingConfirmation_other": "{{count}} deliveries waiting for confirmation over 48 hours",
-      "waitingConfirmationAction": "See deliveries"
+      "waitingConfirmationAction": "See deliveries",
+      "gradesToSell_one": "{{count}} grade has kg ready to sell",
+      "gradesToSell_other": "{{count}} grades have kg ready to sell",
+      "gradesToSellAction": "Record sale"
     },
     "recent": {
       "title": "Recent deliveries",

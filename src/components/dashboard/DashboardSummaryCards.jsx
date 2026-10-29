@@ -32,10 +32,17 @@ export function StockCards({ summary }) {
         {summary && (
           <>
             <p className={valueClass}>{formatKg(summary.stockKg)}</p>
+            {/* Only sellable (confirmed) kg can be sold; the rest waits for the member or is disputed. */}
+            <p className="mt-1 text-xs font-medium text-primary">
+              {t('dashboard.cards.sellableWaiting', { sellable: formatKg(summary.sellableKg), waiting: formatKg(summary.waitingKg) })}
+              {Number(summary.disputedKg) > 0 && ` · ${t('dashboard.cards.disputed', { kg: formatKg(summary.disputedKg) })}`}
+            </p>
             <ul className="mt-1 text-xs text-muted">
-              {summary.stockByGrade.map((grade) => (
+              {summary.stockByGradeDetail.map((grade) => (
                 <li key={grade.gradeName}>
-                  <GradeName name={grade.gradeName} />: {formatKg(grade.kg)}
+                  <GradeName name={grade.gradeName} />: {formatKg(grade.remainingKg)}
+                  {Number(grade.sellableKg) !== Number(grade.remainingKg) &&
+                    ` ${t('dashboard.cards.gradeSellable', { kg: formatKg(grade.sellableKg) })}`}
                 </li>
               ))}
             </ul>

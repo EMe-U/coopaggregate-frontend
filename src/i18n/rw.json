@@ -883,7 +883,10 @@
       "readyToShare": "Ibiteguye kugabanywa",
       "lots_one": "Ikirundo {{count}}",
       "lots_other": "Ibirundo {{count}}",
-      "goToShare": "Gabanya amafaranga"
+      "goToShare": "Gabanya amafaranga",
+      "sellableWaiting": "Bishobora kugurishwa {{sellable}} · Bitegereje {{waiting}}",
+      "disputed": "Mu mpaka {{kg}}",
+      "gradeSellable": "({{kg}} bishobora kugurishwa)"
     },
     "history": {
       "title": "Igenzura ry'amateka",
@@ -902,9 +905,6 @@
       "readyToShare_one": "Ikirundo {{count}} cyagurishijwe kiteguye kugabanywa",
       "readyToShare_other": "Ibirundo {{count}} byagurishijwe biteguye kugabanywa",
       "readyToShareAction": "Gabanya amafaranga",
-      "readyToSell_one": "Ikirundo {{count}} gifunze kiteguye kugurishwa",
-      "readyToSell_other": "Ibirundo {{count}} bifunze biteguye kugurishwa",
-      "readyToSellAction": "Andika igurisha",
       "awaitingPayment_one": "Umunyamuryango {{count}} ategereje kwishyurwa",
       "awaitingPayment_other": "Abanyamuryango {{count}} bategereje kwishyurwa",
       "awaitingPaymentAction": "Ishyura abanyamuryango",
@@ -913,7 +913,10 @@
       "disputedAction": "Reba ibibazo",
       "waitingConfirmation_one": "Ibyagemuwe {{count}} bitegereje kwemezwa amasaha arenga 48",
       "waitingConfirmation_other": "Ibyagemuwe {{count}} bitegereje kwemezwa amasaha arenga 48",
-      "waitingConfirmationAction": "Reba ibyagemuwe"
+      "waitingConfirmationAction": "Reba ibyagemuwe",
+      "gradesToSell_one": "Urwego {{count}} rufite kg ziteguye kugurishwa",
+      "gradesToSell_other": "Inzego {{count}} zifite kg ziteguye kugurishwa",
+      "gradesToSellAction": "Andika igurisha"
     },
     "recent": {
       "title": "Ibyagemuwe vuba",
@@ -1313,7 +1316,11 @@
       "reversal.delivery.lotShared",
       "reversal.delivery.batchSold",
       "lots.cards.gradeSellable",
-      "lots.split"
+      "lots.split",
+      "dashboard.attention.gradesToSell",
+      "dashboard.cards.sellableWaiting",
+      "dashboard.cards.disputed",
+      "dashboard.cards.gradeSellable"
     ]
   },
   "publicHome": {
