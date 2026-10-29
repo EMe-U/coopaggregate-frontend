@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Banknote, ReceiptText, Truck } from 'lucide-react'
+import { Banknote, HandCoins, ReceiptText, Truck } from 'lucide-react'
 import { listDeliveries } from '../../api/deliveries'
 import { formatDate, formatDay, formatKg, formatMoney, kigaliIsoDate } from '../../utils/format'
 import GradeName from '../GradeName'
@@ -15,8 +15,8 @@ import DeliveryHistoryNote, { deliveryRowId } from '../deliveries/DeliveryHistor
 import useOnlineStatus from '../../hooks/useOnlineStatus'
 import { loadWithCache } from '../../offline/cache'
 
-// Deliveries come from the deliveries API; the summary, lot shares and payments come from the
-// member statement. Every amount is calculated by the backend, never by adding up money here.
+// Deliveries come from the deliveries API; the summary, lot shares, sale credits and payments come
+// from the member statement. Every amount is calculated by the backend, never by adding up money here.
 
 function SummaryBox({ label, value, note }) {
   return (
@@ -286,6 +286,39 @@ function LotSharesSection({ statement, error }) {
   )
 }
 
+// What each sale by grade paid the member for one of their batches, at the time of the sale.
+function SaleCreditsSection({ statement, error }) {
+  const { t } = useTranslation()
+  const key = 'members.statement.saleCredits'
+  const cell = 'whitespace-nowrap px-3 py-2'
+
+  return (
+    <StatementSection
+      icon={HandCoins}
+      title={t(`${key}.title`)}
+      subtitle={t(`${key}.subtitle`)}
+      columns={['saleCode', 'date', 'receiptCode', 'lot', 'kg', 'pricePerKg', 'gross', 'deduction', 'net'].map((column) =>
+        t(`${key}.${column}`),
+      )}
+      rows={statement?.saleCredits ?? []}
+      renderRow={(credit) => (
+        <tr key={`${credit.saleCode}-${credit.receiptCode}`}>
+          <td className={`${cell} font-mono text-xs`}>{credit.saleCode}</td>
+          <td className={cell}>{formatDay(credit.soldAt)}</td>
+          <td className={`${cell} font-mono text-xs`}>{credit.receiptCode}</td>
+          <td className={`${cell} font-mono text-xs`}>{credit.lotCode}</td>
+          <td className={cell}>{formatKg(credit.kg)}</td>
+          <td className={cell}>{formatMoney(credit.pricePerKg)}</td>
+          <td className={cell}>{formatMoney(credit.grossRwf)}</td>
+          <td className={`${cell} text-muted`}>−{formatMoney(credit.deductionRwf)}</td>
+          <td className={`${cell} font-semibold`}>{formatMoney(credit.netRwf)}</td>
+        </tr>
+      )}
+      emptyMessage={statementMessage(t, statement, error, t(`${key}.empty`))}
+    />
+  )
+}
+
 function PaymentsSection({ statement, error }) {
   const { t } = useTranslation()
   const key = 'members.statement.payments'
@@ -319,6 +352,7 @@ export function StatementSections({ memberId, statement, statementError, onChang
         <DeliveriesSection memberId={memberId} onChanged={onChanged} />
         <LotSharesSection statement={statement} error={statementError} />
       </div>
+      <SaleCreditsSection statement={statement} error={statementError} />
       <PaymentsSection statement={statement} error={statementError} />
     </>
   )

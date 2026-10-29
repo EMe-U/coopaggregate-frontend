@@ -171,7 +171,7 @@
       "summaryTitle": "Financial statement summary",
       "netAmount": "Net amount owed / balance to disburse",
       "grossShare": "Total gross share",
-      "grossShareNote": "From lot shares",
+      "grossShareNote": "From lot shares and sale credits",
       "deductions": "Total deductions",
       "deductionsNote": "Per-kg deduction",
       "paidOut": "Total paid",
@@ -210,7 +210,21 @@
       },
       "error": "Could not load the statement.",
       "pay": "Pay",
-      "loading": "Loading..."
+      "loading": "Loading...",
+      "saleCredits": {
+        "title": "Sale credits",
+        "subtitle": "Paid by batch when a sale by grade used this member's potatoes",
+        "saleCode": "Sale",
+        "date": "Date",
+        "receiptCode": "Batch (receipt)",
+        "lot": "Lot",
+        "kg": "Kg",
+        "pricePerKg": "Price/kg",
+        "gross": "Gross",
+        "deduction": "Deduction",
+        "net": "Net",
+        "empty": "No sale credits yet"
+      }
     },
     "print": {
       "statementAsOf": "Statement as of {{date}}"

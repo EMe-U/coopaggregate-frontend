@@ -171,7 +171,7 @@
       "summaryTitle": "Incamake y'imari",
       "netAmount": "Amafaranga agomba guhabwa",
       "grossShare": "Umugabane wose",
-      "grossShareNote": "Uva ku birundo",
+      "grossShareNote": "Uva ku birundo no ku igurisha",
       "deductions": "Ibikurwaho byose",
       "deductionsNote": "Bikurwa kuri buri kilo",
       "paidOut": "Ayishyuwe yose",
@@ -210,7 +210,21 @@
       },
       "error": "Ntibishobotse kubona raporo y'imari.",
       "pay": "Ishyura",
-      "loading": "Biraza..."
+      "loading": "Biraza...",
+      "saleCredits": {
+        "title": "Ayavuye ku igurisha",
+        "subtitle": "Yishyurwa ku byagemuwe igihe igurisha ku rwego ryakoresheje ibirayi by'uyu munyamuryango",
+        "saleCode": "Igurisha",
+        "date": "Itariki",
+        "receiptCode": "Ibyagemuwe (resi)",
+        "lot": "Ikirundo",
+        "kg": "Kg",
+        "pricePerKg": "Igiciro/kg",
+        "gross": "Mbere yo gukuraho",
+        "deduction": "Ibikurwaho",
+        "net": "Asigaye",
+        "empty": "Nta mafaranga aravuye ku igurisha"
+      }
     },
     "print": {
       "statementAsOf": "Raporo yo ku itariki ya {{date}}"
@@ -1269,7 +1283,9 @@
       "sales.history",
       "lots.statusHelp",
       "lots.detail.confirmClose",
-      "lots.close.message"
+      "lots.close.message",
+      "members.statement.grossShareNote",
+      "members.statement.saleCredits"
     ]
   },
   "publicHome": {
