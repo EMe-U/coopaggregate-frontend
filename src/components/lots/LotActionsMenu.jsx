@@ -26,6 +26,8 @@ export default function LotActionsMenu({ lot, onClose, onRecordLoss }) {
   const actions = actionsFor(lot, { onClose, onRecordLoss }).map((action) => ({
     ...action,
     label: t(`lots.actions.${action.key}`),
+    // Closing is often taken to decide what is sold first; it does not.
+    ...(action.key === 'close' && { title: t('lots.actions.closeHint') }),
     ...(offline && action.key !== 'view' && { disabled: true, title }),
   }))
 

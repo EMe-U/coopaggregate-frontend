@@ -416,7 +416,7 @@
       "members": "Abanyamuryango",
       "closeLot": "Funga ikirundo",
       "closing": "Kirafungwa...",
-      "confirmClose": "Ufunga ikirundo {{code}}? Nta byagemuwe bizongerwamo, kandi ibizagemurwa ku rwego nk'uru bizatangiza ikirundo gishya. Gufunga si itegeko: ibirayi bishobora no kugurishwa mu birundo bifunguye.",
+      "confirmClose": "Ufunga ikirundo {{code}}? Gufunga ikirundo bituma gusa ibizagemurwa bishya bijya mu kirundo gishya. Ntibihindura ibirayi bigurishwa mbere (ibyagemuwe kera ni byo bibanza).",
       "closedNotice": "Ikirundo cyafunzwe",
       "closeError": "Ntibishobotse gufunga ikirundo. Ongera ugerageze.",
       "recordLoss": "Andika ibyangiritse",
@@ -454,18 +454,19 @@
       "view": "Reba ibisobanuro",
       "close": "Funga ikirundo",
       "recordLoss": "Andika ibyangiritse",
-      "recordSale": "Andika igurisha"
+      "recordSale": "Andika igurisha",
+      "closeHint": "Gufunga ikirundo bituma gusa ibizagemurwa bishya bijya mu kirundo gishya. Ntibihindura ibirayi bigurishwa mbere (ibyagemuwe kera ni byo bibanza)."
     },
     "close": {
       "title": "Ufunga {{code}}?",
-      "message": "Nta byagemuwe bizongera kujya muri iki kirundo. Ibizagemurwa bya {{grade}} bizatangiza ikirundo gishya. Gufunga si itegeko: ibirayi bishobora no kugurishwa mu birundo bifunguye.",
+      "message": "Gufunga ikirundo bituma gusa ibizagemurwa bishya bya {{grade}} bijya mu kirundo gishya. Ntibihindura ibirayi bigurishwa mbere (ibyagemuwe kera ni byo bibanza).",
       "confirm": "Funga ikirundo",
       "cancel": "Hagarika",
       "done": "Ikirundo {{code}} cyafunzwe"
     },
     "statusHelp": {
-      "OPEN": "Gifunguye: kiracyakira ibigemurwa. Ibirayi byacyo bishobora kugurishwa.",
-      "CLOSED": "Gifunze: nta bindi bigemurwa bicyinjiramo. Gufunga si itegeko; ibirayi byacyo bishobora kugurishwa uko byagenda kose.",
+      "OPEN": "Gifunguye: ibigemurwa bishya by'uru rwego bijyamo. Ibirayi byacyo bishobora kugurishwa.",
+      "CLOSED": "Gifunze: ibigemurwa bishya bijya mu kirundo gishya. Ntibihindura ibirayi bigurishwa mbere (ibyagemuwe kera ni byo bibanza).",
       "SOLD": "Cyagurishijwe: nta kintu gisigaye muri iki kirundo.",
       "SHARED": "Cyagabanyijwe: amafaranga yagabanyijwe abanyamuryango."
     },
@@ -1250,7 +1251,8 @@
       "dashboard.attention.gradesToSell",
       "dashboard.cards.sellableWaiting",
       "dashboard.cards.disputed",
-      "dashboard.cards.gradeSellable"
+      "dashboard.cards.gradeSellable",
+      "lots.actions.closeHint"
     ]
   },
   "publicHome": {

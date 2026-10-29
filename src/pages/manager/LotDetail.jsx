@@ -207,7 +207,7 @@ export default function LotDetail() {
               type="button"
               onClick={handleClose}
               disabled={closing || needsInternet.offline}
-              title={needsInternet.title}
+              title={needsInternet.title ?? t('lots.actions.closeHint')}
               className="flex min-h-11 items-center gap-2 rounded-lg border border-text/10 bg-surface px-4 text-sm font-medium text-text hover:bg-background disabled:cursor-not-allowed disabled:opacity-60"
             >
               <Lock size={16} />
