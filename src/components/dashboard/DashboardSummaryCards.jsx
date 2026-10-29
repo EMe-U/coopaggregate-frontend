@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ArrowRight, FolderOpen, Package, Split, TrendingUp, Truck, Users, Wallet } from 'lucide-react'
+import { ArrowRight, FolderOpen, Package, TrendingUp, Truck, Users, Wallet } from 'lucide-react'
 import GradeName from '../GradeName'
 import StatCard from './StatCard'
 import { formatKg, formatMoney, formatNumber } from '../../utils/format'
@@ -92,18 +92,6 @@ export function MoneyCards({ summary }) {
             <p className={valueClass}>{formatMoney(summary.owedToMembersRwf)}</p>
             <Link to="/payments" className={linkClass}>
               {t('dashboard.cards.membersWaiting', { count: summary.membersAwaitingPayment })}
-              <ArrowRight size={14} />
-            </Link>
-          </>
-        )}
-      </StatCard>
-
-      <StatCard label={t('dashboard.cards.readyToShare')} icon={Split} loading={loading}>
-        {summary && (
-          <>
-            <p className={valueClass}>{t('dashboard.cards.lots', { count: summary.lotsReadyToShare })}</p>
-            <Link to="/share" className={linkClass}>
-              {t('dashboard.cards.goToShare')}
               <ArrowRight size={14} />
             </Link>
           </>

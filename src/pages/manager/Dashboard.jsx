@@ -77,7 +77,7 @@ export default function Dashboard() {
       )}
       {!loadError && <StockCards summary={summary} />}
       {/* The history check has its own request, so it still shows when the summary fails. */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {!loadError && <MoneyCards summary={summary} />}
         <HistoryCheckCard />
       </div>

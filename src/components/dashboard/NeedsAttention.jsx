@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { CircleCheck, Clock, MessageSquareWarning, Split, TriangleAlert, Truck, Wallet } from 'lucide-react'
+import { CircleCheck, Clock, MessageSquareWarning, TriangleAlert, Truck, Wallet } from 'lucide-react'
 
 const items = [
   { key: 'disputed', field: 'disputedDeliveries', to: '/deliveries?status=DISPUTED', icon: MessageSquareWarning },
@@ -10,7 +10,6 @@ const items = [
     to: '/deliveries?status=PENDING&olderThanHours=48',
     icon: Clock,
   },
-  { key: 'readyToShare', field: 'lotsReadyToShare', to: '/share', icon: Split },
   // Sales are by grade and only take confirmed kg, so this counts grades with sellable kg.
   { key: 'gradesToSell', field: 'gradesWithSellableKg', to: '/sales', icon: Truck },
   { key: 'awaitingPayment', field: 'membersAwaitingPayment', to: '/payments', icon: Wallet },

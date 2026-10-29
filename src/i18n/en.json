@@ -9,7 +9,6 @@
     "members": "Members",
     "lots": "Lots & Stock",
     "sales": "Sales",
-    "share": "Share Lot Money",
     "payments": "Payments",
     "buyerRequests": "Buyer Requests",
     "ledger": "Ledger",
@@ -455,9 +454,7 @@
       "view": "View details",
       "close": "Close lot",
       "recordLoss": "Record loss",
-      "recordSale": "Record sale",
-      "shareMoney": "Share money",
-      "viewShares": "View shares"
+      "recordSale": "Record sale"
     },
     "close": {
       "title": "Close {{code}}?",
@@ -615,65 +612,6 @@
     "next": "Next",
     "showing": "Showing {{from}}–{{to}} of {{total}}",
     "label": "Pages"
-  },
-  "share": {
-    "eyebrow": "Financial distribution & lot settlement",
-    "title": "Share Lot Money",
-    "lot": "Sold lot",
-    "chooseLot": "Choose a sold lot",
-    "noLots": "No sold lots yet. A lot can be shared once it is fully sold.",
-    "lotOption": "{{code}} ({{grade}}) – sold, ready to share",
-    "lotsError": "Could not load the lots.",
-    "previewError": "Could not load the shares for this lot.",
-    "retry": "Try again",
-    "empty": "Choose a sold lot to see how its money will be shared.",
-    "stockBalanced": "Stock check balanced",
-    "stockUnbalanced": "Stock check does not balance",
-    "cards": {
-      "delivered": "Delivered quantity",
-      "lost": "Lost",
-      "sold": "Sold",
-      "soldSales_one": "Sold ({{count}} sale)",
-      "soldSales_other": "Sold ({{count}} sales)",
-      "saleMoney": "Sale money",
-      "moneyPerKg": "Money per kg delivered"
-    },
-    "breakdown": {
-      "title": "Member allocation breakdown",
-      "contributors_one": "{{count}} contributor",
-      "contributors_other": "{{count}} contributors"
-    },
-    "table": {
-      "member": "Member",
-      "delivered": "Delivered (kg)",
-      "share": "Share",
-      "shareOfMoney": "Share of money",
-      "deduction": "Deduction",
-      "net": "Net to receive",
-      "total": "Total"
-    },
-    "rules": {
-      "title": "Calculation rules",
-      "shareLabel": "Member's share",
-      "share": "= (member's kg ÷ total kg in the lot) × sale money.",
-      "deduction": "The cooperative keeps a fixed amount for every kg delivered, set in Settings, and takes it from each share."
-    },
-    "finalize": {
-      "title": "Finalize lot distribution",
-      "text": "Confirming saves each member's share permanently in the ledger. This cannot be undone.",
-      "confirm": "Confirm sharing",
-      "sharing": "Sharing...",
-      "cancel": "Cancel"
-    },
-    "confirmQuestion": "Share the money of lot {{code}} between its members? This cannot be undone.",
-    "success": "Lot {{code}} has been shared. The members can now be paid.",
-    "goToPayments": "Go to payments",
-    "error": "Could not share the lot. Please try again.",
-    "shareMoney": "Share money",
-    "unconfirmed": {
-      "title": "Deliveries not confirmed yet",
-      "hint": "The lot can be shared once each of these is confirmed by the member or checked by the manager. Open one to confirm, check or settle it."
-    }
   },
   "payments": {
     "eyebrow": "Financial operations",
@@ -880,10 +818,6 @@
       "owed": "Amount owed to members",
       "membersWaiting_one": "{{count}} member waiting",
       "membersWaiting_other": "{{count}} members waiting",
-      "readyToShare": "Ready to share",
-      "lots_one": "{{count}} lot",
-      "lots_other": "{{count}} lots",
-      "goToShare": "Share lot money",
       "sellableWaiting": "Sellable {{sellable}} · Waiting {{waiting}}",
       "disputed": "Disputed {{kg}}",
       "gradeSellable": "({{kg}} sellable)"
@@ -902,9 +836,6 @@
       "count_one": "{{count}} item",
       "count_other": "{{count}} items",
       "allCaughtUp": "All caught up",
-      "readyToShare_one": "{{count}} sold lot is ready to share",
-      "readyToShare_other": "{{count}} sold lots are ready to share",
-      "readyToShareAction": "Share lot money",
       "awaitingPayment_one": "{{count}} member is waiting for payment",
       "awaitingPayment_other": "{{count}} members are waiting for payment",
       "awaitingPaymentAction": "Pay members",

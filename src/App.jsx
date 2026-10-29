@@ -14,7 +14,6 @@ import MemberBatches from './pages/manager/MemberBatches'
 import Lots from './pages/manager/Lots'
 import LotDetail from './pages/manager/LotDetail'
 import Sales from './pages/manager/Sales'
-import ShareLotMoney from './pages/manager/ShareLotMoney'
 import Payments from './pages/manager/Payments'
 import BuyerRequests from './pages/manager/BuyerRequests'
 import Disputes from './pages/manager/Disputes'
@@ -43,7 +42,8 @@ export default function App() {
             <Route path="/lots" element={<Lots />} />
             <Route path="/lots/:id" element={<LotDetail />} />
             <Route path="/sales" element={<Sales />} />
-            <Route path="/share" element={<ShareLotMoney />} />
+            {/* Lots are no longer shared: sales pay the members by batch. Old links land on the dashboard. */}
+            <Route path="/share" element={<Navigate to="/dashboard" replace />} />
             <Route path="/payments" element={<Payments />} />
             <Route path="/buyer-requests" element={<BuyerRequests />} />
             <Route path="/disputes" element={<Disputes />} />

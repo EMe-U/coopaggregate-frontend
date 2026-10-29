@@ -9,7 +9,6 @@
     "members": "Abanyamuryango",
     "lots": "Ibirundo n'Ububiko",
     "sales": "Ibyagurishijwe",
-    "share": "Gabanya Amafaranga y'Ikirundo",
     "payments": "Kwishyura",
     "buyerRequests": "Ibisabwa n'Abaguzi",
     "ledger": "Igitabo cy'Imari",
@@ -455,9 +454,7 @@
       "view": "Reba ibisobanuro",
       "close": "Funga ikirundo",
       "recordLoss": "Andika ibyangiritse",
-      "recordSale": "Andika igurisha",
-      "shareMoney": "Gabanya amafaranga",
-      "viewShares": "Reba imigabane"
+      "recordSale": "Andika igurisha"
     },
     "close": {
       "title": "Ufunga {{code}}?",
@@ -615,65 +612,6 @@
     "next": "Ibikurikira",
     "showing": "Herekanywe {{from}}–{{to}} kuri {{total}}",
     "label": "Amapaji"
-  },
-  "share": {
-    "eyebrow": "Kugabanya amafaranga y'ibirundo",
-    "title": "Kugabanya Amafaranga y'Ikirundo",
-    "lot": "Ikirundo cyagurishijwe",
-    "chooseLot": "Hitamo ikirundo cyagurishijwe",
-    "noLots": "Nta kirundo cyagurishijwe kiraboneka. Ikirundo kigabanywa iyo cyagurishijwe cyose.",
-    "lotOption": "{{code}} ({{grade}}) – cyagurishijwe, cyiteguye kugabanywa",
-    "lotsError": "Ntibishobotse kubona ibirundo.",
-    "previewError": "Ntibishobotse kubona imigabane y'iki kirundo.",
-    "retry": "Ongera ugerageze",
-    "empty": "Hitamo ikirundo cyagurishijwe urebe uko amafaranga yacyo azagabanywa.",
-    "stockBalanced": "Ububiko buraringaniye",
-    "stockUnbalanced": "Ububiko ntiburinganiye",
-    "cards": {
-      "delivered": "Ingano yagemuwe",
-      "lost": "Ibyangiritse",
-      "sold": "Ibyagurishijwe",
-      "soldSales_one": "Ibyagurishijwe (igurisha {{count}})",
-      "soldSales_other": "Ibyagurishijwe (amagurisha {{count}})",
-      "saleMoney": "Amafaranga y'igurisha",
-      "moneyPerKg": "Amafaranga kuri kg yagemuwe"
-    },
-    "breakdown": {
-      "title": "Uko amafaranga agabanywa ku banyamuryango",
-      "contributors_one": "Umunyamuryango {{count}}",
-      "contributors_other": "Abanyamuryango {{count}}"
-    },
-    "table": {
-      "member": "Umunyamuryango",
-      "delivered": "Yagemuye (kg)",
-      "share": "Umugabane",
-      "shareOfMoney": "Amafaranga y'umugabane",
-      "deduction": "Ibikurwaho",
-      "net": "Ayo azahabwa",
-      "total": "Igiteranyo"
-    },
-    "rules": {
-      "title": "Uko bibarwa",
-      "shareLabel": "Umugabane w'umunyamuryango",
-      "share": "= (kg z'umunyamuryango ÷ kg zose z'ikirundo) × amafaranga y'igurisha.",
-      "deduction": "Koperative ifata amafaranga angana kuri buri kg yagemuwe, ashyirwaho mu Igenamiterere, akurwa kuri buri mugabane."
-    },
-    "finalize": {
-      "title": "Rangiza kugabanya ikirundo",
-      "text": "Kwemeza bibika burundu umugabane wa buri munyamuryango mu gitabo cy'imari. Ntibishobora gusubizwa inyuma.",
-      "confirm": "Emeza kugabanya",
-      "sharing": "Biragabanywa...",
-      "cancel": "Hagarika"
-    },
-    "confirmQuestion": "Ugabanya amafaranga y'ikirundo {{code}} ku banyamuryango bacyo? Ibi ntibishobora gusubizwa inyuma.",
-    "success": "Ikirundo {{code}} cyagabanyijwe. Abanyamuryango bashobora kwishyurwa.",
-    "goToPayments": "Jya ku kwishyura",
-    "error": "Ntibishobotse kugabanya ikirundo. Ongera ugerageze.",
-    "shareMoney": "Gabanya amafaranga",
-    "unconfirmed": {
-      "title": "Ibyagemuwe bitaremezwa",
-      "hint": "Ikirundo kizagabanywa buri kimwe muri ibi nikimara kwemezwa n'umunyamuryango cyangwa kugenzurwa n'umuyobozi. Fungura kimwe ucyemeze, ucyigenzure cyangwa ukemure ikibazo."
-    }
   },
   "payments": {
     "eyebrow": "Ibikorwa by'imari",
@@ -880,10 +818,6 @@
       "owed": "Amafaranga abanyamuryango babereyemo",
       "membersWaiting_one": "Umunyamuryango {{count}} utegereje",
       "membersWaiting_other": "Abanyamuryango {{count}} bategereje",
-      "readyToShare": "Ibiteguye kugabanywa",
-      "lots_one": "Ikirundo {{count}}",
-      "lots_other": "Ibirundo {{count}}",
-      "goToShare": "Gabanya amafaranga",
       "sellableWaiting": "Bishobora kugurishwa {{sellable}} · Bitegereje {{waiting}}",
       "disputed": "Mu mpaka {{kg}}",
       "gradeSellable": "({{kg}} bishobora kugurishwa)"
@@ -902,9 +836,6 @@
       "count_one": "Kimwe",
       "count_other": "Bigera kuri {{count}}",
       "allCaughtUp": "Byose biri ku murongo",
-      "readyToShare_one": "Ikirundo {{count}} cyagurishijwe kiteguye kugabanywa",
-      "readyToShare_other": "Ibirundo {{count}} byagurishijwe biteguye kugabanywa",
-      "readyToShareAction": "Gabanya amafaranga",
       "awaitingPayment_one": "Umunyamuryango {{count}} ategereje kwishyurwa",
       "awaitingPayment_other": "Abanyamuryango {{count}} bategereje kwishyurwa",
       "awaitingPaymentAction": "Ishyura abanyamuryango",
@@ -1278,7 +1209,6 @@
       "offline.receipt.smsAfterSync",
       "settings.history.actions.CONFIRMATION_CODE_RESENT",
       "settings.history.actions.DELIVERY_REVIEWED",
-      "share.unconfirmed",
       "lots.pendingConfirmation",
       "settings.history.actions.IDENTITY_VERIFIED",
       "settings.history.actions.IDENTITY_DUPLICATE",

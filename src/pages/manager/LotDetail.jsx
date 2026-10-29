@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, Boxes, HandCoins, Lock, Split, TriangleAlert, Truck, Users } from 'lucide-react'
+import { ArrowLeft, Boxes, HandCoins, Lock, TriangleAlert, Truck, Users } from 'lucide-react'
 import { closeLot, getLot, listLosses } from '../../api/lots'
 import EmptyState from '../../components/EmptyState'
 import GradeName from '../../components/GradeName'
@@ -182,9 +182,8 @@ export default function LotDetail() {
   const hasStock = Number(lot.remainingKg) > 0
   const canRecordLoss = (lot.status === 'OPEN' || lot.status === 'CLOSED') && hasStock
   // Sales are by grade and take the oldest batches whatever their lot, so a lot does not need to be
-  // closed first. A lot with sales is never shared: its members were paid by batch (sharing is 409).
+  // closed first.
   const canSell = (lot.status === 'OPEN' || lot.status === 'CLOSED') && hasStock
-  const canShare = lot.status === 'SOLD' && !(Number(lot.soldKg) > 0)
 
   return (
     <div className="space-y-6">
@@ -237,18 +236,6 @@ export default function LotDetail() {
             >
               <HandCoins size={16} />
               {t('lots.detail.recordSale')}
-            </button>
-          )}
-          {canShare && (
-            <button
-              type="button"
-              onClick={() => navigate(`/share?lotId=${lot.id}`)}
-              disabled={needsInternet.offline}
-              title={needsInternet.title}
-              className="flex min-h-11 items-center gap-2 rounded-lg bg-primary px-4 text-sm font-semibold text-white hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              <Split size={16} />
-              {t('share.shareMoney')}
             </button>
           )}
         </div>
