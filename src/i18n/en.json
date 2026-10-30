@@ -1334,6 +1334,10 @@
       "notFound": "Request not found. Check the code and the phone number.",
       "generic": "Could not check the request. Please try again.",
       "network": "Cannot reach the server. Check your connection and try again."
+    },
+    "contactBy": {
+      "CALL": "The cooperative will contact you by call on {{number}}.",
+      "WHATSAPP": "The cooperative will contact you on WhatsApp on {{number}}."
     }
   },
   "buyerRequests": {

@@ -1390,6 +1390,10 @@
       "notFound": "Icyifuzo ntikibonetse. Reba kode na nimero ya telefone.",
       "generic": "Ntibishobotse kureba icyifuzo. Ongera ugerageze.",
       "network": "Ntibishobotse kugera kuri seriveri. Reba interineti wongere ugerageze."
+    },
+    "contactBy": {
+      "CALL": "Koperative izaguhamagara kuri {{number}}.",
+      "WHATSAPP": "Koperative izakuvugisha kuri WhatsApp kuri {{number}}."
     }
   },
   "buyerRequests": {
