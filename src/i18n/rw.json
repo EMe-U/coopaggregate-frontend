@@ -1343,7 +1343,16 @@
       "keepCode": "Bika iyi kode kugira ngo urebe uko icyifuzo cyawe gihagaze.",
       "howToCheck": "Kureba igisubizo, fungura \"Reba Uko Icyifuzo Gihagaze\" wandike iyi kode na nimero ya telefone wakoresheje.",
       "checkStatus": "Reba uko icyifuzo gihagaze",
-      "another": "Ohereza ikindi cyifuzo"
+      "another": "Ohereza ikindi cyifuzo",
+      "copy": "Koporora kode",
+      "copied": "Byakoporowe",
+      "saveLink": "Bika iyi link",
+      "linkCopied": "Link yakoporowe",
+      "copyFailed": "Ntibyakoporowe",
+      "contactBy": {
+        "CALL": "Koperative izaguhamagara kuri {{number}}.",
+        "WHATSAPP": "Koperative izakuvugisha kuri WhatsApp kuri {{number}}."
+      }
     },
     "back": {
       "grades": "Subira ku byiciro",

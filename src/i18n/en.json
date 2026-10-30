@@ -1287,7 +1287,16 @@
       "keepCode": "Keep this code to check your request.",
       "howToCheck": "To see the answer, open \"Check Request Status\" and enter this code with the phone number you used.",
       "checkStatus": "Check request status",
-      "another": "Send another request"
+      "another": "Send another request",
+      "copy": "Copy code",
+      "copied": "Copied",
+      "saveLink": "Save this link",
+      "linkCopied": "Link copied",
+      "copyFailed": "Could not copy",
+      "contactBy": {
+        "CALL": "The cooperative will contact you by call on {{number}}.",
+        "WHATSAPP": "The cooperative will contact you on WhatsApp on {{number}}."
+      }
     },
     "back": {
       "grades": "Back to the grades",

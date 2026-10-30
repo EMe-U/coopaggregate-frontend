@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useOutletContext, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, CircleCheck, MessageCircle, Phone, SendHorizonal, ShieldCheck, Truck } from 'lucide-react'
+import { ArrowLeft, Check, CircleCheck, Copy, Link2, MessageCircle, Phone, SendHorizonal, ShieldCheck, Truck } from 'lucide-react'
 import { sendPurchaseRequest } from '../../api/public'
-import { formatKg } from '../../utils/format'
-import { cleanPhone, RWANDAN_PHONE_PATTERN } from '../../utils/phone'
+import { copyText } from '../../utils/clipboard'
+import { formatKg, formatPhone } from '../../utils/format'
+import { cleanPhone, internationalPhone, RWANDAN_PHONE_PATTERN } from '../../utils/phone'
 import { parseKg } from '../../utils/quantity'
 import { publicGradeName } from './publicGrade'
 
@@ -27,6 +28,30 @@ function Field({ id, label, optional, hint, error, children }) {
       {children}
       {error ? <p className="mt-1 text-sm text-danger">{error}</p> : hint && <p className="mt-1 text-xs text-muted">{hint}</p>}
     </div>
+  )
+}
+
+// Copies text on click; the label says "Copied" (or that it failed) for 2 seconds.
+function CopyButton({ text, label, copiedLabel, icon: Icon }) {
+  const { t } = useTranslation()
+  const [state, setState] = useState(null)
+
+  useEffect(() => {
+    if (!state) return undefined
+    const timer = setTimeout(() => setState(null), 2000)
+    return () => clearTimeout(timer)
+  }, [state])
+
+  return (
+    <button
+      type="button"
+      onClick={async () => setState((await copyText(text)) ? 'copied' : 'failed')}
+      aria-live="polite"
+      className="flex min-h-12 items-center justify-center gap-2 rounded-lg border border-text/10 bg-surface px-4 text-sm font-medium text-text hover:bg-background"
+    >
+      {state === 'copied' ? <Check size={16} className="text-primary" /> : <Icon size={16} />}
+      {state === 'copied' ? copiedLabel : state === 'failed' ? t('publicRequest.sent.copyFailed') : label}
+    </button>
   )
 }
 
@@ -94,10 +119,14 @@ export default function SendRequest() {
     setErrors(found)
     if (Object.keys(found).length > 0) return
 
+    // The number the cooperative will use, shown on the confirmation: the WhatsApp number when one
+    // was given for WhatsApp, otherwise the main phone.
+    const whatsapp = values.contactMethod === 'WHATSAPP' ? cleanPhone(values.whatsapp) : ''
+    const contact = { method: values.contactMethod, number: whatsapp || cleanPhone(values.phone) }
+
     setSending(true)
     try {
-      setSent(
-        await sendPurchaseRequest({
+      const answer = await sendPurchaseRequest({
           name: values.name.trim(),
           phone: cleanPhone(values.phone),
           email: values.email.trim() || null,
@@ -108,8 +137,8 @@ export default function SendRequest() {
           // Only for WhatsApp; left out, the cooperative uses the main phone.
           whatsappNumber: values.contactMethod === 'WHATSAPP' ? cleanPhone(values.whatsapp) || null : null,
           website: values.website,
-        }),
-      )
+        })
+      setSent({ ...answer, contact })
     } catch (error) {
       setFormError(
         error.response ? error.response.data?.message || t('publicRequest.errors.generic') : t('publicRequest.errors.network'),
@@ -158,6 +187,25 @@ export default function SendRequest() {
             </div>
             <p className="mt-4 rounded-lg bg-background px-4 py-3 text-center font-mono text-xl font-bold tracking-wide text-text">
               {sent.code}
+            </p>
+            <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
+              <CopyButton text={sent.code} label={t('publicRequest.sent.copy')} copiedLabel={t('publicRequest.sent.copied')} icon={Copy} />
+              <CopyButton
+                text={`${window.location.origin}/status?code=${encodeURIComponent(sent.code)}`}
+                label={t('publicRequest.sent.saveLink')}
+                copiedLabel={t('publicRequest.sent.linkCopied')}
+                icon={Link2}
+              />
+            </div>
+            <p className="mt-4 flex items-start gap-2 rounded-lg bg-primary-light p-3 text-sm text-primary">
+              {sent.contact.method === 'WHATSAPP' ? (
+                <MessageCircle size={16} className="mt-0.5 shrink-0" />
+              ) : (
+                <Phone size={16} className="mt-0.5 shrink-0" />
+              )}
+              {t(`publicRequest.sent.contactBy.${sent.contact.method}`, {
+                number: formatPhone(internationalPhone(sent.contact.number)),
+              })}
             </p>
             <p className="mt-3 text-sm text-text">{t('publicRequest.sent.howToCheck')}</p>
             <div className="mt-4 flex flex-wrap gap-3">
