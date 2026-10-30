@@ -1426,7 +1426,8 @@
       "quantity": "Ingano",
       "date": "Itariki",
       "status": "Uko bihagaze",
-      "actions": "Ibikorwa"
+      "actions": "Ibikorwa",
+      "contact": "Kuvugisha"
     },
     "actions": {
       "menu": "Ibikorwa ku cyifuzo {{code}}",
@@ -1462,7 +1463,16 @@
       "noResults": "Nta byifuzo bihuye n'ibyo washatse."
     },
     "error": "Ntibishobotse kubona ibyifuzo.",
-    "retry": "Ongera ugerageze"
+    "retry": "Ongera ugerageze",
+    "contact": {
+      "title": "Uko yifuza kuvugishwa",
+      "CALL": "Guhamagara",
+      "WHATSAPP": "WhatsApp",
+      "call": "Hamagara",
+      "whatsapp": "WhatsApp",
+      "callLabel": "Hamagara {{name}}",
+      "whatsappLabel": "Andikira {{name}} kuri WhatsApp"
+    }
   },
   "disputes": {
     "title": "Impaka",

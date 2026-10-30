@@ -1370,7 +1370,8 @@
       "quantity": "Quantity",
       "date": "Date",
       "status": "Status",
-      "actions": "Actions"
+      "actions": "Actions",
+      "contact": "Contact"
     },
     "actions": {
       "menu": "Actions for request {{code}}",
@@ -1406,7 +1407,16 @@
       "noResults": "No requests match your search."
     },
     "error": "Could not load the requests.",
-    "retry": "Try again"
+    "retry": "Try again",
+    "contact": {
+      "title": "Contact",
+      "CALL": "Call",
+      "WHATSAPP": "WhatsApp",
+      "call": "Call",
+      "whatsapp": "WhatsApp",
+      "callLabel": "Call {{name}}",
+      "whatsappLabel": "Message {{name}} on WhatsApp"
+    }
   },
   "disputes": {
     "title": "Disputes",
