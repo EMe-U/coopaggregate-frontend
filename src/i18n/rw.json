@@ -1349,7 +1349,15 @@
       "grades": "Subira ku byiciro",
       "home": "Subira ku ntangiriro"
     },
-    "gradeHint": "Hitamo icyiciro urebe ibisobanuro byacyo hano."
+    "gradeHint": "Hitamo icyiciro urebe ibisobanuro byacyo hano.",
+    "contact": {
+      "question": "Twakuvugisha dute?",
+      "CALL": "Guhamagara",
+      "WHATSAPP": "WhatsApp",
+      "whatsappNumber": "Nimero ya WhatsApp (niba itandukanye)",
+      "whatsappHint": "Bireke ubusa kugira ngo dukoreshe nimero ya telefoni iri hejuru.",
+      "privacy": "Nimero yawe tuyikoresha gusa kukuvugisha kuri iki cyifuzo."
+    }
   },
   "requestStatus": {
     "eyebrow": "Ahagenewe abaguzi",

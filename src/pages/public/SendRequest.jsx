@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useOutletContext, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, CircleCheck, SendHorizonal, Truck } from 'lucide-react'
+import { ArrowLeft, CircleCheck, MessageCircle, Phone, SendHorizonal, ShieldCheck, Truck } from 'lucide-react'
 import { sendPurchaseRequest } from '../../api/public'
 import { formatKg } from '../../utils/format'
 import { cleanPhone, RWANDAN_PHONE_PATTERN } from '../../utils/phone'
@@ -9,6 +9,10 @@ import { parseKg } from '../../utils/quantity'
 import { publicGradeName } from './publicGrade'
 
 const MAX_QUANTITY_KG = 100000
+const CONTACT_METHODS = [
+  { value: 'CALL', icon: Phone },
+  { value: 'WHATSAPP', icon: MessageCircle },
+]
 const inputClass =
   'min-h-12 w-full rounded-lg border border-transparent bg-background px-3 text-base outline-none placeholder:text-muted/70 focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:opacity-60'
 
@@ -32,7 +36,17 @@ export default function SendRequest() {
   const { info, grades, reload } = useOutletContext()
   const minOrderKg = Number(info.data?.minOrderKg) || null
 
-  const [values, setValues] = useState({ gradeCode: searchParams.get('grade') ?? '', quantity: '', name: '', phone: '', email: '', note: '', website: '' })
+  const [values, setValues] = useState({
+    gradeCode: searchParams.get('grade') ?? '',
+    quantity: '',
+    name: '',
+    phone: '',
+    contactMethod: 'CALL',
+    whatsapp: '',
+    email: '',
+    note: '',
+    website: '',
+  })
   const [errors, setErrors] = useState({})
   const [formError, setFormError] = useState('')
   const [sending, setSending] = useState(false)
@@ -65,6 +79,9 @@ export default function SendRequest() {
     else if (quantityKg > MAX_QUANTITY_KG) found.quantity = t('publicRequest.errors.quantityTooLarge', { kg: formatKg(MAX_QUANTITY_KG) })
     if (!values.name.trim()) found.name = t('publicRequest.errors.name')
     if (!RWANDAN_PHONE_PATTERN.test(cleanPhone(values.phone))) found.phone = t('publicRequest.errors.phone')
+    if (values.contactMethod === 'WHATSAPP' && values.whatsapp.trim() && !RWANDAN_PHONE_PATTERN.test(cleanPhone(values.whatsapp))) {
+      found.whatsapp = t('publicRequest.errors.phone')
+    }
     if (values.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email.trim())) found.email = t('publicRequest.errors.email')
     return { found, quantityKg }
   }
@@ -87,6 +104,9 @@ export default function SendRequest() {
           gradeCode: values.gradeCode,
           quantityKg,
           note: values.note.trim() || null,
+          contactMethod: values.contactMethod,
+          // Only for WhatsApp; left out, the cooperative uses the main phone.
+          whatsappNumber: values.contactMethod === 'WHATSAPP' ? cleanPhone(values.whatsapp) || null : null,
           website: values.website,
         }),
       )
@@ -242,6 +262,58 @@ export default function SendRequest() {
                 />
               </Field>
             </div>
+
+            <fieldset className="min-w-0 space-y-3">
+              <legend className="mb-1.5 text-sm font-medium text-text">{t('publicRequest.contact.question')}</legend>
+              <div className="grid grid-cols-2 gap-3">
+                {CONTACT_METHODS.map(({ value, icon: Icon }) => (
+                  <label
+                    key={value}
+                    className={`flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-lg border px-3 text-sm font-medium has-focus-visible:ring-2 has-focus-visible:ring-primary/30 ${
+                      values.contactMethod === value
+                        ? 'border-primary bg-primary-light text-primary'
+                        : 'border-text/10 bg-background text-text hover:bg-primary-light/50'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="contactMethod"
+                      value={value}
+                      checked={values.contactMethod === value}
+                      onChange={() => setValue('contactMethod', value)}
+                      disabled={sending}
+                      className="sr-only"
+                    />
+                    <Icon size={16} />
+                    {t(`publicRequest.contact.${value}`)}
+                  </label>
+                ))}
+              </div>
+              {values.contactMethod === 'WHATSAPP' && (
+                <Field
+                  id="request-whatsapp"
+                  label={t('publicRequest.contact.whatsappNumber')}
+                  optional
+                  error={errors.whatsapp}
+                  hint={t('publicRequest.contact.whatsappHint')}
+                >
+                  <input
+                    id="request-whatsapp"
+                    type="tel"
+                    inputMode="tel"
+                    autoComplete="tel"
+                    value={values.whatsapp}
+                    onChange={(event) => setValue('whatsapp', event.target.value)}
+                    disabled={sending}
+                    className={inputClass}
+                  />
+                </Field>
+              )}
+              <p className="flex items-start gap-2 text-xs text-muted">
+                <ShieldCheck size={14} className="mt-0.5 shrink-0" />
+                {t('publicRequest.contact.privacy')}
+              </p>
+            </fieldset>
 
             <Field id="request-email" label={t('publicRequest.email')} optional error={errors.email}>
               <input

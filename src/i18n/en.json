@@ -1293,7 +1293,15 @@
       "grades": "Back to the grades",
       "home": "Back to the home page"
     },
-    "gradeHint": "Choose a grade to see its details here."
+    "gradeHint": "Choose a grade to see its details here.",
+    "contact": {
+      "question": "How should we contact you?",
+      "CALL": "Call",
+      "WHATSAPP": "WhatsApp",
+      "whatsappNumber": "WhatsApp number (if different)",
+      "whatsappHint": "Leave empty to use the phone number above.",
+      "privacy": "We use your number only to contact you about this request."
+    }
   },
   "requestStatus": {
     "eyebrow": "Buyer portal",
