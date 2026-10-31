@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { UserPlus, Users } from 'lucide-react'
 import { getMemberSummary } from '../../api/members'
@@ -16,6 +17,7 @@ import useNeedsInternet from '../../hooks/useNeedsInternet'
 import useOnlineStatus from '../../hooks/useOnlineStatus'
 import usePageSize from '../../hooks/usePageSize'
 import { loadMembersPage, loadWithCache } from '../../offline/cache'
+import { takeRegistrationDraft, takeVerification } from '../../members/identityVerification'
 
 const ACTIVE_PARAM = { all: undefined, active: true, inactive: false }
 
@@ -42,6 +44,17 @@ export default function Members() {
 
   // form is null when closed; form.member is null when adding a new member.
   const [form, setForm] = useState(null)
+
+  // Back from the identity check (?register=1): open the form again with what was typed and the
+  // result. Both are read once; the ref keeps a second effect run from finding them empty.
+  const [searchParams, setSearchParams] = useSearchParams()
+  const restored = useRef(false)
+  useEffect(() => {
+    if (restored.current || searchParams.get('register') !== '1') return
+    restored.current = true
+    setForm({ member: null, draft: takeRegistrationDraft(), verification: takeVerification() })
+    setSearchParams({}, { replace: true })
+  }, [searchParams, setSearchParams])
   const [notice, setNotice] = useState('')
   const clearNotice = useCallback(() => setNotice(''), [])
 
@@ -188,7 +201,13 @@ export default function Members() {
       <div className="overflow-hidden rounded-xl bg-surface shadow-sm">{renderList()}</div>
 
       {form && (
-        <MemberFormModal member={form.member} onClose={() => setForm(null)} onSaved={handleSaved} />
+        <MemberFormModal
+          member={form.member}
+          draft={form.draft}
+          initialVerification={form.verification}
+          onClose={() => setForm(null)}
+          onSaved={handleSaved}
+        />
       )}
       {notice && <SuccessToast message={notice} onDone={clearNotice} />}
     </div>

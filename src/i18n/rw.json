@@ -140,8 +140,12 @@
         "joinDateRequired": "Hitamo itariki yinjiriyeho",
         "joinDateFuture": "Itariki ntishobora kuba iri imbere",
         "generic": "Ntibishobotse kubika umunyamuryango. Ongera ugerageze.",
-        "serverUnreachable": "Ntibishoboka kugera kuri seriveri. Reba murandasi yawe."
-      }
+        "serverUnreachable": "Ntibishoboka kugera kuri seriveri. Reba murandasi yawe.",
+        "birthDateRequired": "Andika itariki y'amavuko: irakenewe iyo hari igenzura",
+        "birthDateFuture": "Itariki y'amavuko ntishobora kuba iri imbere"
+      },
+      "birthDate": "Itariki y'amavuko",
+      "birthDateHint": "Ikenewe mu igenzura ry'umwirondoro. Ntibikwa."
     },
     "detail": {
       "back": "Subira ku banyamuryango",
@@ -1253,7 +1257,11 @@
       "dashboard.cards.disputed",
       "dashboard.cards.gradeSellable",
       "lots.actions.closeHint",
-      "memberVerification"
+      "memberVerification",
+      "members.form.birthDate",
+      "members.form.birthDateHint",
+      "members.form.errors.birthDateRequired",
+      "members.form.errors.birthDateFuture"
     ]
   },
   "publicHome": {
@@ -1676,7 +1684,22 @@
       "used": "Iri genzura ryamaze gukoreshwa. Ongera utangire igenzura.",
       "unavailable": "Igenzura ntiriboneka.",
       "network": "Ntibishobotse kugera kuri seriveri. Reba interineti wongere ugerageze.",
-      "generic": "Umwirondoro ntiwashoboye kugenzurwa. Ongera ugerageze."
+      "generic": "Umwirondoro ntiwashoboye kugenzurwa. Ongera ugerageze.",
+      "expired": "Igenzura rirengeje iminota 30. Ongera ugenzure uyu muntu.",
+      "required": "Igenzura rirasabwa. Genzura umwirondoro w'uyu muntu mbere yo kubika.",
+      "blocked": "Igenzura rirasabwa ariko ntiriboneka. Rikureho muri Igenamiterere."
+    },
+    "title": "Genzura umwirondoro",
+    "subtitle": "Byemeza ko uyu muntu ari we uwo avuga kandi atari umunyamuryango usanzwe.",
+    "start": "Genzura umwirondoro",
+    "starting": "Biratangira...",
+    "verified": "Yagenzuwe ({{method}})",
+    "saveWithin": "Bika umunyamuryango mu gihe gisigaye: {{time}}, cyangwa wongere ugenzure.",
+    "method": {
+      "OTP": "kode ya SMS",
+      "FACE": "isura",
+      "PASSWORD": "ijambobanga",
+      "MOCK": "igerageza"
     }
   }
 }

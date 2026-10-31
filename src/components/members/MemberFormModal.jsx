@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { X } from 'lucide-react'
-import { createMember, updateMember } from '../../api/members'
+import { ShieldAlert, X } from 'lucide-react'
+import { createMember, getIdentityVerificationStatus, updateMember } from '../../api/members'
+import { verificationIsGone } from '../../members/identityVerification'
+import IdentityVerification from './IdentityVerification'
 import { todayIso } from '../../utils/format'
 import { RWANDAN_PHONE_PATTERN, cleanPhone } from '../../utils/phone'
 
@@ -21,6 +23,8 @@ function initialValues(member) {
     address: member?.address ?? '',
     joinDate: member?.joinDate ?? todayIso(),
     preferredLanguage: member?.preferredLanguage ?? 'rw',
+    // Only for the identity check of a new member: sent with the verification, never saved.
+    birthDate: '',
   }
 }
 
@@ -35,7 +39,8 @@ function toRequest(values) {
   }
 }
 
-function validate(request) {
+// birthDate is only checked when a verification is attached.
+function validate(request, birthDate) {
   const errors = {}
   if (!request.fullName) errors.fullName = 'members.form.errors.fullNameRequired'
   if (!RWANDAN_PHONE_PATTERN.test(request.phone)) errors.phone = 'members.form.errors.phoneInvalid'
@@ -46,6 +51,10 @@ function validate(request) {
     errors.joinDate = 'members.form.errors.joinDateRequired'
   } else if (request.joinDate > todayIso()) {
     errors.joinDate = 'members.form.errors.joinDateFuture'
+  }
+  if (birthDate !== undefined) {
+    if (!birthDate) errors.birthDate = 'members.form.errors.birthDateRequired'
+    else if (birthDate > todayIso()) errors.birthDate = 'members.form.errors.birthDateFuture'
   }
   return errors
 }
@@ -85,14 +94,41 @@ function Field({ id, label, hint, error, children }) {
   )
 }
 
-export default function MemberFormModal({ member, onClose, onSaved }) {
+// draft and initialVerification come back from the identity provider's page (see
+// pages/manager/MemberVerifyCallback.jsx): the values typed before leaving, and the result.
+export default function MemberFormModal({ member, onClose, onSaved, draft, initialVerification }) {
   const { t } = useTranslation()
   const isEdit = Boolean(member)
 
-  const [values, setValues] = useState(() => initialValues(member))
+  const [values, setValues] = useState(() => ({ ...initialValues(member), ...draft }))
+  // Only for a new member: the completed identity check, kept in memory until the member is saved.
+  const [verification, setVerification] = useState(initialVerification ?? null)
+  const dropVerification = useCallback(() => setVerification(null), [])
+  // { available, required } from the backend; null until it answers (or when it cannot be read:
+  // the backend still refuses a member without verification when it is required).
+  const [identity, setIdentity] = useState(null)
   const [fieldErrors, setFieldErrors] = useState({})
   const [formError, setFormError] = useState('')
   const [saving, setSaving] = useState(false)
+
+  useEffect(() => {
+    if (isEdit) return undefined
+    let ignore = false
+    getIdentityVerificationStatus()
+      .then((status) => {
+        if (!ignore) setIdentity(status)
+      })
+      .catch(() => {})
+    return () => {
+      ignore = true
+    }
+  }, [isEdit])
+
+  const canVerify = !isEdit && Boolean(identity?.available)
+  // A verification brought back from the provider stays visible even if the status said otherwise.
+  const showVerify = canVerify || (!isEdit && Boolean(verification))
+  // Required but not available: no member can be registered until the setting is switched off.
+  const blocked = !isEdit && Boolean(identity?.required) && identity?.available === false
 
   useEffect(() => {
     function handleKeyDown(event) {
@@ -110,17 +146,23 @@ export default function MemberFormModal({ member, onClose, onSaved }) {
     event.preventDefault()
     setFormError('')
 
+    if (blocked) return
     const request = toRequest(values)
-    const errors = validate(request)
+    const errors = validate(request, verification ? values.birthDate : undefined)
+    if (canVerify && identity.required && !verification) errors.verification = 'memberVerification.errors.required'
     setFieldErrors(Object.fromEntries(Object.entries(errors).map(([field, key]) => [field, t(key)])))
     if (Object.keys(errors).length > 0) return
 
     setSaving(true)
     try {
-      const saved = isEdit ? await updateMember(member.id, request) : await createMember(request)
+      const saved = isEdit
+        ? await updateMember(member.id, request)
+        : await createMember(
+            verification ? { ...request, verificationId: verification.verificationId, birthDate: values.birthDate } : request,
+          )
       onSaved(saved)
     } catch (error) {
-      showServerError(error, Object.keys(request))
+      showServerError(error, [...Object.keys(request), 'birthDate'])
       setSaving(false)
     }
   }
@@ -129,13 +171,23 @@ export default function MemberFormModal({ member, onClose, onSaved }) {
     const status = error.response?.status
     const message = error.response?.data?.message
 
+    // A verification that cannot be used again is dropped; the message says to verify again.
+    if (!isEdit && verificationIsGone(error)) setVerification(null)
+
     if (!error.response) {
       setFormError(t('members.form.errors.serverUnreachable'))
+    } else if (status === 400 && message?.startsWith('birthDate is required')) {
+      setFieldErrors({ birthDate: t('members.form.errors.birthDateRequired') })
+    } else if (status === 400 && message?.startsWith('Identity verification is required')) {
+      // Next to the verify step, or at the top when the step is not shown.
+      if (showVerify) setFieldErrors({ verification: t('memberVerification.errors.required') })
+      else setFormError(t('memberVerification.errors.required'))
     } else if (status === 400 && message) {
+      // A mismatch names the fields that differ and the attempt number; it is shown as it is.
       const { fieldErrors: serverErrors, otherErrors } = parseFieldErrors(message, fields)
       setFieldErrors(serverErrors)
       if (otherErrors.length > 0) setFormError(otherErrors.join(' '))
-    } else if (status === 409 && message) {
+    } else if ((status === 409 || status === 503) && message) {
       setFormError(message)
     } else {
       setFormError(t('members.form.errors.generic'))
@@ -166,6 +218,12 @@ export default function MemberFormModal({ member, onClose, onSaved }) {
         </div>
 
         <form onSubmit={handleSubmit} noValidate className="space-y-4 px-5 py-4">
+          {blocked && (
+            <p role="alert" className="flex items-start gap-2 rounded-md bg-danger/10 px-3 py-2 text-sm text-danger">
+              <ShieldAlert size={16} className="mt-0.5 shrink-0" />
+              {t('memberVerification.errors.blocked')}
+            </p>
+          )}
           {formError && (
             <p role="alert" className="rounded-md bg-danger/10 px-3 py-2 text-sm text-danger">
               {formError}
@@ -259,6 +317,35 @@ export default function MemberFormModal({ member, onClose, onSaved }) {
             </Field>
           </div>
 
+          {showVerify && (
+            <>
+              <Field
+                id="birthDate"
+                label={verification ? t('members.form.birthDate') : `${t('members.form.birthDate')} ${t('members.form.optional')}`}
+                hint={t('members.form.birthDateHint')}
+                error={fieldErrors.birthDate}
+              >
+                <input
+                  id="birthDate"
+                  type="date"
+                  value={values.birthDate}
+                  max={todayIso()}
+                  onChange={(event) => setValue('birthDate', event.target.value)}
+                  className={inputClass}
+                  required={Boolean(verification)}
+                  autoComplete="off"
+                />
+              </Field>
+
+              <IdentityVerification
+                verification={verification}
+                onExpired={dropVerification}
+                getDraft={() => values}
+                fieldError={fieldErrors.verification}
+              />
+            </>
+          )}
+
           <div className="flex justify-end gap-2 border-t border-text/5 pt-4">
             <button
               type="button"
@@ -270,7 +357,7 @@ export default function MemberFormModal({ member, onClose, onSaved }) {
             </button>
             <button
               type="submit"
-              disabled={saving}
+              disabled={saving || blocked}
               className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {saving ? t('members.form.saving') : t('members.form.save')}

@@ -140,8 +140,12 @@
         "joinDateRequired": "Choose the join date",
         "joinDateFuture": "The join date cannot be in the future",
         "generic": "Could not save the member. Please try again.",
-        "serverUnreachable": "Cannot reach the server. Check your connection."
-      }
+        "serverUnreachable": "Cannot reach the server. Check your connection.",
+        "birthDateRequired": "Enter the birth date: it is required with a verification",
+        "birthDateFuture": "The birth date cannot be in the future"
+      },
+      "birthDate": "Birth date",
+      "birthDateHint": "Needed for the identity check. It is not saved."
     },
     "detail": {
       "back": "Back to members",
@@ -1619,7 +1623,22 @@
       "used": "This verification was already used. Start the verification again.",
       "unavailable": "Verification is not available.",
       "network": "Cannot reach the server. Check your connection and try again.",
-      "generic": "The identity could not be verified. Please try again."
+      "generic": "The identity could not be verified. Please try again.",
+      "expired": "The verification is older than 30 minutes. Verify the person again.",
+      "required": "Verification is required. Verify the person's identity before saving.",
+      "blocked": "Verification is required but not available. Switch it off in Settings."
+    },
+    "title": "Verify identity",
+    "subtitle": "Confirms that this person is who they say and is not already a member.",
+    "start": "Verify identity",
+    "starting": "Starting...",
+    "verified": "Verified ({{method}})",
+    "saveWithin": "Save the member within {{time}}, or verify again.",
+    "method": {
+      "OTP": "SMS code",
+      "FACE": "face check",
+      "PASSWORD": "password",
+      "MOCK": "test mode"
     }
   }
 }
