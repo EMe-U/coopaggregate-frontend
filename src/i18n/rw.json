@@ -232,6 +232,11 @@
     },
     "print": {
       "statementAsOf": "Raporo yo ku itariki ya {{date}}"
+    },
+    "verified": {
+      "badge": "Yagenzuwe",
+      "test": "Igenzura ry'igerageza",
+      "testHint": "Igenzura ry'igerageza: nta mwirondoro nyawo wagenzuwe."
     }
   },
   "deliveries": {
@@ -1261,7 +1266,8 @@
       "members.form.birthDate",
       "members.form.birthDateHint",
       "members.form.errors.birthDateRequired",
-      "members.form.errors.birthDateFuture"
+      "members.form.errors.birthDateFuture",
+      "members.verified"
     ]
   },
   "publicHome": {

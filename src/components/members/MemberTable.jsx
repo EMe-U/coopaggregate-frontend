@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Eye, Pencil } from 'lucide-react'
 import Avatar from '../Avatar'
 import StatusBadge from '../StatusBadge'
+import VerifiedBadge from './VerifiedBadge'
 import { formatDate, formatPhone } from '../../utils/format'
 
 function avatarClass(member) {
@@ -62,7 +63,10 @@ export default function MemberTable({ members, onEdit, readOnly }) {
                   <div className="flex items-center gap-3">
                     <Avatar name={member.fullName} className={avatarClass(member)} />
                     <div>
-                      <p className="font-medium text-text">{member.fullName}</p>
+                      <p className="flex flex-wrap items-center gap-1.5 font-medium text-text">
+                        {member.fullName}
+                        <VerifiedBadge member={member} />
+                      </p>
                       {member.address && <p className="text-xs text-muted">{member.address}</p>}
                     </div>
                   </div>
@@ -89,7 +93,10 @@ export default function MemberTable({ members, onEdit, readOnly }) {
             <Avatar name={member.fullName} className={avatarClass(member)} />
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <p className="font-medium text-text">{member.fullName}</p>
+                <p className="flex flex-wrap items-center gap-1.5 font-medium text-text">
+                  {member.fullName}
+                  <VerifiedBadge member={member} />
+                </p>
                 <StatusBadge active={member.status === 'ACTIVE'}>
                   {t(`members.status.${member.status}`)}
                 </StatusBadge>

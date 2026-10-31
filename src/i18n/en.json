@@ -232,6 +232,11 @@
     },
     "print": {
       "statementAsOf": "Statement as of {{date}}"
+    },
+    "verified": {
+      "badge": "Verified",
+      "test": "Test verification",
+      "testHint": "A test check: no real identity was verified."
     }
   },
   "deliveries": {
