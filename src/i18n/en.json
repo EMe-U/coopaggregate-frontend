@@ -1610,5 +1610,16 @@
     },
     "error": "Could not load the batches.",
     "retry": "Try again"
+  },
+  "memberVerification": {
+    "failedTitle": "Identity not verified",
+    "backToForm": "Back to the registration form",
+    "errors": {
+      "startAgain": "The verification expired or is not valid. Start the verification again.",
+      "used": "This verification was already used. Start the verification again.",
+      "unavailable": "Verification is not available.",
+      "network": "Cannot reach the server. Check your connection and try again.",
+      "generic": "The identity could not be verified. Please try again."
+    }
   }
 }

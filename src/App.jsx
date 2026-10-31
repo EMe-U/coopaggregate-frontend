@@ -11,6 +11,7 @@ import RecordDelivery from './pages/manager/RecordDelivery'
 import Members from './pages/manager/Members'
 import MemberDetail from './pages/manager/MemberDetail'
 import MemberBatches from './pages/manager/MemberBatches'
+import MemberVerifyCallback from './pages/manager/MemberVerifyCallback'
 import Lots from './pages/manager/Lots'
 import LotDetail from './pages/manager/LotDetail'
 import Sales from './pages/manager/Sales'
@@ -35,6 +36,7 @@ export default function App() {
           <Route path="/members" element={<Members />} />
           <Route path="/members/:id" element={<MemberDetail />} />
           <Route element={<RequiresInternet />}>
+            <Route path="/identity/callback" element={<MemberVerifyCallback />} />
             <Route path="/members/:id/batches" element={<MemberBatches />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/deliveries" element={<Deliveries />} />

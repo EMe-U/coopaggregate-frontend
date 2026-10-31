@@ -1252,7 +1252,8 @@
       "dashboard.cards.sellableWaiting",
       "dashboard.cards.disputed",
       "dashboard.cards.gradeSellable",
-      "lots.actions.closeHint"
+      "lots.actions.closeHint",
+      "memberVerification"
     ]
   },
   "publicHome": {
@@ -1666,5 +1667,16 @@
     },
     "error": "Ntibishobotse kubona ibyagemuwe.",
     "retry": "Ongera ugerageze"
+  },
+  "memberVerification": {
+    "failedTitle": "Umwirondoro ntiwagenzuwe",
+    "backToForm": "Subira ku ifishi yo kwandika",
+    "errors": {
+      "startAgain": "Igenzura ryarangiye cyangwa ntiriri ryo. Ongera utangire igenzura.",
+      "used": "Iri genzura ryamaze gukoreshwa. Ongera utangire igenzura.",
+      "unavailable": "Igenzura ntiriboneka.",
+      "network": "Ntibishobotse kugera kuri seriveri. Reba interineti wongere ugerageze.",
+      "generic": "Umwirondoro ntiwashoboye kugenzurwa. Ongera ugerageze."
+    }
   }
 }

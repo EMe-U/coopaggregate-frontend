@@ -54,3 +54,25 @@ export async function activateMember(id) {
   const response = await client.patch(`/api/members/${id}/activate`)
   return response.data
 }
+
+// Whether identity verification can be used: { available, required }. Required but not available
+// means a new member cannot be registered until the setting is switched off.
+export async function getIdentityVerificationStatus() {
+  const response = await client.get('/api/members/verify/status')
+  return response.data
+}
+
+// Starts an identity check: { provider, authorizationUrl, state, expiresAt }. The member is sent to
+// authorizationUrl and comes back on /identity/callback. 503 when verification is not available.
+export async function startIdentityVerification() {
+  const response = await client.post('/api/members/verify/start')
+  return response.data
+}
+
+// Completes it: { verificationId, verified, method, useBefore }. A state works only once. 400 for an
+// unknown or expired state, 409 when it was already used or the person is already a member, 502
+// when the provider failed, 503 when verification is not available.
+export async function completeIdentityVerification(code, state) {
+  const response = await client.post('/api/members/verify/callback', { code, state })
+  return response.data
+}
