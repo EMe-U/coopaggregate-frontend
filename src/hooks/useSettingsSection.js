@@ -12,6 +12,7 @@ const REQUEST_KEYS = [
   'minOrderKg',
   'smsEnabled',
   'committeeEmails',
+  'requireIdentityVerification',
 ]
 
 function clean(value) {
