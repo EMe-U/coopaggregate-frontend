@@ -1169,7 +1169,7 @@
   },
   "codeConfirmation": {
     "title": "Emeza ibyagemuwe {{code}} hamwe n'umunyamuryango",
-    "hint": "Umunyamuryango yabonye kode kuri SMS. Niba ibyanditswe ari ukuri, akubwira iyo kode.",
+    "hint": "Umunyamuryango yabonye kode kuri SMS. Niba ibyanditswe ari ukuri, akubwira iyo kode. Niba hari ikitari cyo, gikosore muri ⋮ → Kosora ibyagemuwe.",
     "confirm": "Emeza",
     "codeLength": "Kode igira imibare {{count}}",
     "error": "Ntibishobotse kubika. Ongera ugerageze.",
@@ -1178,11 +1178,7 @@
     "resendsLeft_one": "Hasigaye kohereza {{count}}",
     "resendsLeft_other": "Hasigaye kohereza {{count}}",
     "smsOff": "SMS zarahagaritswe, nta kode yoherejwe. Genzura ibyagemuwe uri kumwe n'umunyamuryango, hanyuma ubyandike nk'ibyagenzuwe.",
-    "notCorrect": "Si byo",
-    "notCorrectHint": "Banza ukosore ibiro cyangwa urwego. Niba umunyamuryango akomeje kutemera, andika ikibazo.",
-    "fixDelivery": "Kosora ibiro cyangwa urwego",
-    "stillDisagrees": "Umunyamuryango akomeje kutemera",
-    "memberNotHere": "Umunyamuryango ntahari",
+    "close": "Funga",
     "review": "Byagenzuwe n'umuyobozi",
     "reviewTitle": "Kwandika {{code}} nk'ibyagenzuwe n'umuyobozi?",
     "reviewExplanation": "Koresha ibi gusa iyo umunyamuryango adashobora kubona kode. Vuga uko wagenzuye ibyagemuwe.",
@@ -1267,7 +1263,9 @@
       "members.form.birthDateHint",
       "members.form.errors.birthDateRequired",
       "members.form.errors.birthDateFuture",
-      "members.verified"
+      "members.verified",
+      "codeConfirmation.hint",
+      "codeConfirmation.close"
     ]
   },
   "publicHome": {
