@@ -141,7 +141,7 @@
         "joinDateFuture": "The join date cannot be in the future",
         "generic": "Could not save the member. Please try again.",
         "serverUnreachable": "Cannot reach the server. Check your connection.",
-        "birthDateRequired": "Enter the birth date: it is required with a verification",
+        "birthDateRequired": "Enter the birth date",
         "birthDateFuture": "The birth date cannot be in the future"
       },
       "birthDate": "Birth date",
@@ -1630,8 +1630,8 @@
       "network": "Cannot reach the server. Check your connection and try again.",
       "generic": "The identity could not be verified. Please try again.",
       "expired": "The verification is older than 30 minutes. Verify the person again.",
-      "required": "Verification is required. Verify the person's identity before saving.",
-      "blocked": "Verification is required but not available. Switch it off in Settings."
+      "required": "Verify the person's identity first.",
+      "blocked": "Member registration needs identity verification, which is not configured."
     },
     "title": "Verify identity",
     "subtitle": "Confirms that this person is who they say and is not already a member.",
@@ -1644,6 +1644,7 @@
       "FACE": "face check",
       "PASSWORD": "password",
       "MOCK": "test mode"
-    }
+    },
+    "requiredHint": "Required: Save is enabled once the identity is verified."
   }
 }

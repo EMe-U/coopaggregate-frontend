@@ -92,6 +92,7 @@ export default function IdentityVerification({ verification, onExpired, getDraft
         </button>
       </div>
 
+      {!shownError && <p className="text-xs text-muted">{t('memberVerification.requiredHint')}</p>}
       {shownError && (
         <p role="alert" className="rounded-md bg-danger/10 px-3 py-2 text-sm text-danger">
           {shownError}

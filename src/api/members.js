@@ -55,8 +55,8 @@ export async function activateMember(id) {
   return response.data
 }
 
-// Whether identity verification can be used: { available, required }. Required but not available
-// means a new member cannot be registered until the setting is switched off.
+// Whether identity verification is configured: { available, required }, both the same. When it is
+// not, no new member can be registered.
 export async function getIdentityVerificationStatus() {
   const response = await client.get('/api/members/verify/status')
   return response.data

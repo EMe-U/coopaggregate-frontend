@@ -39,7 +39,7 @@ function toRequest(values) {
   }
 }
 
-// birthDate is only checked when a verification is attached.
+// birthDate is only checked for a new member (undefined when editing).
 function validate(request, birthDate) {
   const errors = {}
   if (!request.fullName) errors.fullName = 'members.form.errors.fullNameRequired'
@@ -104,8 +104,8 @@ export default function MemberFormModal({ member, onClose, onSaved, draft, initi
   // Only for a new member: the completed identity check, kept in memory until the member is saved.
   const [verification, setVerification] = useState(initialVerification ?? null)
   const dropVerification = useCallback(() => setVerification(null), [])
-  // { available, required } from the backend; null until it answers (or when it cannot be read:
-  // the backend still refuses a member without verification when it is required).
+  // { available, required } from the backend (both the same: whether the identity provider is
+  // configured); null until it answers.
   const [identity, setIdentity] = useState(null)
   const [fieldErrors, setFieldErrors] = useState({})
   const [formError, setFormError] = useState('')
@@ -124,11 +124,12 @@ export default function MemberFormModal({ member, onClose, onSaved, draft, initi
     }
   }, [isEdit])
 
-  const canVerify = !isEdit && Boolean(identity?.available)
+  // Every new member must be verified. Without the identity provider nobody can be registered.
+  const blocked = !isEdit && identity?.available === false
   // A verification brought back from the provider stays visible even if the status said otherwise.
-  const showVerify = canVerify || (!isEdit && Boolean(verification))
-  // Required but not available: no member can be registered until the setting is switched off.
-  const blocked = !isEdit && Boolean(identity?.required) && identity?.available === false
+  const showVerify = !isEdit && (!blocked || Boolean(verification))
+  // Save needs a verification that has not expired (the step drops it when it runs out).
+  const canSave = isEdit || (!blocked && Boolean(verification))
 
   useEffect(() => {
     function handleKeyDown(event) {
@@ -146,10 +147,9 @@ export default function MemberFormModal({ member, onClose, onSaved, draft, initi
     event.preventDefault()
     setFormError('')
 
-    if (blocked) return
+    if (!canSave) return
     const request = toRequest(values)
-    const errors = validate(request, verification ? values.birthDate : undefined)
-    if (canVerify && identity.required && !verification) errors.verification = 'memberVerification.errors.required'
+    const errors = validate(request, isEdit ? undefined : values.birthDate)
     setFieldErrors(Object.fromEntries(Object.entries(errors).map(([field, key]) => [field, t(key)])))
     if (Object.keys(errors).length > 0) return
 
@@ -157,9 +157,7 @@ export default function MemberFormModal({ member, onClose, onSaved, draft, initi
     try {
       const saved = isEdit
         ? await updateMember(member.id, request)
-        : await createMember(
-            verification ? { ...request, verificationId: verification.verificationId, birthDate: values.birthDate } : request,
-          )
+        : await createMember({ ...request, verificationId: verification.verificationId, birthDate: values.birthDate })
       onSaved(saved)
     } catch (error) {
       showServerError(error, [...Object.keys(request), 'birthDate'])
@@ -178,10 +176,10 @@ export default function MemberFormModal({ member, onClose, onSaved, draft, initi
       setFormError(t('members.form.errors.serverUnreachable'))
     } else if (status === 400 && message?.startsWith('birthDate is required')) {
       setFieldErrors({ birthDate: t('members.form.errors.birthDateRequired') })
-    } else if (status === 400 && message?.startsWith('Identity verification is required')) {
-      // Next to the verify step, or at the top when the step is not shown.
-      if (showVerify) setFieldErrors({ verification: t('memberVerification.errors.required') })
-      else setFormError(t('memberVerification.errors.required'))
+    } else if (status === 400 && message?.startsWith('verificationId is required')) {
+      // The backend did not get a verification: verify again, with the message at the verify step.
+      setVerification(null)
+      setFieldErrors({ verification: t('memberVerification.errors.required') })
     } else if (status === 400 && message) {
       // A mismatch names the fields that differ and the attempt number; it is shown as it is.
       const { fieldErrors: serverErrors, otherErrors } = parseFieldErrors(message, fields)
@@ -321,7 +319,7 @@ export default function MemberFormModal({ member, onClose, onSaved, draft, initi
             <>
               <Field
                 id="birthDate"
-                label={verification ? t('members.form.birthDate') : `${t('members.form.birthDate')} ${t('members.form.optional')}`}
+                label={t('members.form.birthDate')}
                 hint={t('members.form.birthDateHint')}
                 error={fieldErrors.birthDate}
               >
@@ -332,7 +330,7 @@ export default function MemberFormModal({ member, onClose, onSaved, draft, initi
                   max={todayIso()}
                   onChange={(event) => setValue('birthDate', event.target.value)}
                   className={inputClass}
-                  required={Boolean(verification)}
+                  required
                   autoComplete="off"
                 />
               </Field>
@@ -357,7 +355,7 @@ export default function MemberFormModal({ member, onClose, onSaved, draft, initi
             </button>
             <button
               type="submit"
-              disabled={saving || blocked}
+              disabled={saving || !canSave}
               className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {saving ? t('members.form.saving') : t('members.form.save')}

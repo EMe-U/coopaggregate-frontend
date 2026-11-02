@@ -141,7 +141,7 @@
         "joinDateFuture": "Itariki ntishobora kuba iri imbere",
         "generic": "Ntibishobotse kubika umunyamuryango. Ongera ugerageze.",
         "serverUnreachable": "Ntibishoboka kugera kuri seriveri. Reba murandasi yawe.",
-        "birthDateRequired": "Andika itariki y'amavuko: irakenewe iyo hari igenzura",
+        "birthDateRequired": "Andika itariki y'amavuko",
         "birthDateFuture": "Itariki y'amavuko ntishobora kuba iri imbere"
       },
       "birthDate": "Itariki y'amavuko",
@@ -1692,8 +1692,8 @@
       "network": "Ntibishobotse kugera kuri seriveri. Reba interineti wongere ugerageze.",
       "generic": "Umwirondoro ntiwashoboye kugenzurwa. Ongera ugerageze.",
       "expired": "Igenzura rirengeje iminota 30. Ongera ugenzure uyu muntu.",
-      "required": "Igenzura rirasabwa. Genzura umwirondoro w'uyu muntu mbere yo kubika.",
-      "blocked": "Igenzura rirasabwa ariko ntiriboneka. Rikureho muri Igenamiterere."
+      "required": "Banza ugenzure umwirondoro w'uyu muntu.",
+      "blocked": "Kwandika umunyamuryango bisaba igenzura ry'umwirondoro, ritaratunganywa."
     },
     "title": "Genzura umwirondoro",
     "subtitle": "Byemeza ko uyu muntu ari we uwo avuga kandi atari umunyamuryango usanzwe.",
@@ -1706,6 +1706,7 @@
       "FACE": "isura",
       "PASSWORD": "ijambobanga",
       "MOCK": "igerageza"
-    }
+    },
+    "requiredHint": "Birakenewe: Bika ikora umwirondoro umaze kugenzurwa."
   }
 }
