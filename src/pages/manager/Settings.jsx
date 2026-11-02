@@ -8,7 +8,6 @@ import {
   CommitteeEmailsSection,
   CooperativeSection,
   DeductionSection,
-  IdentityVerificationSection,
   OrdersSection,
   SmsSection,
 } from '../../components/settings/GeneralSections'
@@ -88,7 +87,6 @@ export default function Settings() {
           {settings && (
             <>
               <SmsSection {...sectionProps} />
-              <IdentityVerificationSection {...sectionProps} />
               <OrdersSection {...sectionProps} />
             </>
           )}

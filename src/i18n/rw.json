@@ -1165,14 +1165,6 @@
       "title": "Ibyo abaguzi basaba",
       "subtitle": "Ibiro bike umuguzi ashobora gusaba",
       "minOrderKg": "Ibiro bike bishoboka"
-    },
-    "identity": {
-      "title": "Igenzura ry'umwirondoro",
-      "subtitle": "Iyo handikwa umunyamuryango mushya",
-      "on": "Umunyamuryango mushya abikwa gusa umwirondoro we umaze kugenzurwa.",
-      "off": "Kugenzura umwirondoro w'umunyamuryango mushya ntibiri ngombwa.",
-      "unavailable": "Igenzura ry'umwirondoro ntiriratunganywa kuri seriveri, ntirishobora gufungurwa.",
-      "requiredUnavailable": "Igenzura rirasabwa ariko ntiriboneka, nta munyamuryango mushya ushobora kwandikwa. Rikureho hanyuma ubike."
     }
   },
   "codeConfirmation": {
@@ -1275,8 +1267,7 @@
       "members.form.birthDateHint",
       "members.form.errors.birthDateRequired",
       "members.form.errors.birthDateFuture",
-      "members.verified",
-      "settings.identity"
+      "members.verified"
     ]
   },
   "publicHome": {

@@ -1165,14 +1165,6 @@
       "title": "Orders",
       "subtitle": "The smallest order a buyer can request",
       "minOrderKg": "Minimum order"
-    },
-    "identity": {
-      "title": "Identity verification",
-      "subtitle": "When registering a new member",
-      "on": "A new member can only be saved after their identity is verified.",
-      "off": "Verifying a new member's identity is optional.",
-      "unavailable": "Identity verification is not set up on the server, so it cannot be switched on.",
-      "requiredUnavailable": "Verification is required but not available, so no new member can be registered. Switch it off and save."
     }
   },
   "codeConfirmation": {

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Building2, Coins, Mail, MessageSquare, ShieldAlert, ShieldCheck, ShoppingBag, X } from 'lucide-react'
+import { Building2, Coins, Mail, MessageSquare, ShoppingBag, X } from 'lucide-react'
 import useSettingsSection from '../../hooks/useSettingsSection'
 import { cleanPhone, RWANDAN_PHONE_PATTERN } from '../../utils/phone'
 import SettingsSection, { SaveBar } from './SettingsSection'
@@ -151,47 +151,6 @@ export function SmsSection({ settings, onSaved }) {
       <p className="rounded-lg bg-background p-3 text-sm text-muted">
         {section.draft.smsEnabled ? t('settings.sms.on') : t('settings.sms.off')}
       </p>
-      <SaveBar dirty={section.dirty} saving={section.saving} message={section.message} onSave={section.save} />
-    </SettingsSection>
-  )
-}
-
-export function IdentityVerificationSection({ settings, onSaved }) {
-  const { t } = useTranslation()
-  const section = useSettingsSection(settings, ['requireIdentityVerification'], onSaved)
-  const required = Boolean(section.draft.requireIdentityVerification)
-  const available = Boolean(settings.identityVerificationAvailable)
-  // It cannot be switched on while verification is not available, but it can always be switched off.
-  const locked = !available && !settings.requireIdentityVerification
-
-  return (
-    <SettingsSection
-      icon={ShieldCheck}
-      title={t('settings.identity.title')}
-      subtitle={t('settings.identity.subtitle')}
-      badge={
-        <Switch
-          checked={required}
-          onChange={(checked) => section.setField('requireIdentityVerification', checked)}
-          label={t('settings.identity.title')}
-          disabled={locked}
-        />
-      }
-    >
-      <p className="rounded-lg bg-background p-3 text-sm text-muted">
-        {required ? t('settings.identity.on') : t('settings.identity.off')}
-      </p>
-      {!available && (
-        <p
-          role={settings.requireIdentityVerification ? 'alert' : undefined}
-          className={`mt-3 flex items-start gap-2 rounded-lg p-3 text-sm ${
-            settings.requireIdentityVerification ? 'bg-danger/10 text-danger' : 'bg-warning/15 text-amber-800'
-          }`}
-        >
-          <ShieldAlert size={16} className="mt-0.5 shrink-0" />
-          {settings.requireIdentityVerification ? t('settings.identity.requiredUnavailable') : t('settings.identity.unavailable')}
-        </p>
-      )}
       <SaveBar dirty={section.dirty} saving={section.saving} message={section.message} onSave={section.save} />
     </SettingsSection>
   )
