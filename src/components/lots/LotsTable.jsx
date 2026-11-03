@@ -8,11 +8,13 @@ import GradeName from '../GradeName'
 import Pagination from '../Pagination'
 import usePageSize from '../../hooks/usePageSize'
 import LotActionsMenu from './LotActionsMenu'
+import LotFill from './LotFill'
 import LotStatusBadge from './LotStatusBadge'
 import { formatDate, formatKg, formatMoney } from '../../utils/format'
 import useGradeName from '../../hooks/useGradeName'
 
-const STATUSES = ['OPEN', 'CLOSED', 'SOLD', 'SHARED']
+// Older lots (from before fixed-size lots) are listed under "All".
+const STATUSES = ['FILLING', 'FULL', 'SOLD']
 
 const selectClass =
   'min-h-11 rounded-lg border border-transparent bg-background px-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20'
@@ -21,7 +23,7 @@ function LotDates({ lot }) {
   const { t } = useTranslation()
   return lot.closedAt
     ? t('lots.table.period', { from: formatDate(lot.createdAt), to: formatDate(lot.closedAt) })
-    : t('lots.table.openSince', { date: formatDate(lot.createdAt) })
+    : t('lots.table.fillingSince', { date: formatDate(lot.createdAt) })
 }
 
 // The table shows the dates on two lines so the column stays narrow on a laptop screen.
@@ -31,7 +33,7 @@ function LotDatesStacked({ lot }) {
     <>
       <span className="block whitespace-nowrap">{formatDate(lot.createdAt)}</span>
       <span className="block whitespace-nowrap">
-        {lot.closedAt ? `– ${formatDate(lot.closedAt)}` : t('lots.table.stillOpen')}
+        {lot.closedAt ? `– ${formatDate(lot.closedAt)}` : t('lots.table.stillFilling')}
       </span>
     </>
   )
@@ -41,7 +43,7 @@ function SaleAmount({ amount }) {
   return amount ? formatMoney(amount) : <span className="text-muted">–</span>
 }
 
-export default function LotsTable({ reloadKey, onClose, onRecordLoss }) {
+export default function LotsTable({ reloadKey, onRecordLoss }) {
   const { t } = useTranslation()
   const gradeName = useGradeName()
   const pageSize = usePageSize()
@@ -121,7 +123,7 @@ export default function LotsTable({ reloadKey, onClose, onRecordLoss }) {
           <table className="w-full text-left text-sm">
             <thead className="bg-background text-xs text-muted">
               <tr>
-                {['lot', 'grade', 'status', 'dates', 'delivered', 'sold', 'lost', 'inStock', 'members', 'saleAmount'].map(
+                {['lot', 'grade', 'status', 'dates', 'fill', 'sold', 'lost', 'inStock', 'members', 'saleAmount'].map(
                   (column) => (
                     <th key={column} className="px-2 py-3 align-bottom font-semibold">
                       {t(`lots.table.${column}`)}
@@ -141,12 +143,14 @@ export default function LotsTable({ reloadKey, onClose, onRecordLoss }) {
                     <GradeName name={lot.gradeName} />
                   </td>
                   <td className={cell}>
-                    <LotStatusBadge status={lot.status} />
+                    <LotStatusBadge status={lot.status} olderLot={lot.olderLot} />
                   </td>
                   <td className={`${cell} text-xs text-muted`}>
                     <LotDatesStacked lot={lot} />
                   </td>
-                  <td className={oneLine}>{formatKg(lot.deliveredKg)}</td>
+                  <td className={cell}>
+                    <LotFill lot={lot} />
+                  </td>
                   <td className={oneLine}>{formatKg(lot.soldKg)}</td>
                   <td className={`${oneLine} ${Number(lot.lostKg) > 0 ? 'text-danger' : ''}`}>{formatKg(lot.lostKg)}</td>
                   <td className={`${oneLine} font-medium`}>{formatKg(lot.remainingKg)}</td>
@@ -155,7 +159,7 @@ export default function LotsTable({ reloadKey, onClose, onRecordLoss }) {
                     <SaleAmount amount={lot.saleAmountRwf} />
                   </td>
                   <td className="px-1 py-1 text-right">
-                    <LotActionsMenu lot={lot} onClose={onClose} onRecordLoss={onRecordLoss} />
+                    <LotActionsMenu lot={lot} onRecordLoss={onRecordLoss} />
                   </td>
                 </tr>
               ))}
@@ -168,9 +172,9 @@ export default function LotsTable({ reloadKey, onClose, onRecordLoss }) {
             <li key={lot.id} className="p-4">
               <div className="flex items-center gap-2">
                 <span className="font-mono font-medium text-text">{lot.code}</span>
-                <LotStatusBadge status={lot.status} />
+                <LotStatusBadge status={lot.status} olderLot={lot.olderLot} />
                 <div className="ml-auto -mr-2">
-                  <LotActionsMenu lot={lot} onClose={onClose} onRecordLoss={onRecordLoss} />
+                  <LotActionsMenu lot={lot} onRecordLoss={onRecordLoss} />
                 </div>
               </div>
               <div>
@@ -180,11 +184,11 @@ export default function LotsTable({ reloadKey, onClose, onRecordLoss }) {
                 <p className="text-xs text-muted">
                   <LotDates lot={lot} />
                 </p>
+                <div className="mt-2 text-sm">
+                  <span className="text-muted">{t('lots.table.fill')}: </span>
+                  <LotFill lot={lot} />
+                </div>
                 <dl className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
-                  <div className="flex justify-between gap-2">
-                    <dt className="text-muted">{t('lots.table.delivered')}</dt>
-                    <dd>{formatKg(lot.deliveredKg)}</dd>
-                  </div>
                   <div className="flex justify-between gap-2">
                     <dt className="text-muted">{t('lots.table.inStock')}</dt>
                     <dd className="font-medium">{formatKg(lot.remainingKg)}</dd>

@@ -33,13 +33,8 @@ export async function getStock() {
   return response.data
 }
 
-export async function closeLot(id) {
-  const response = await client.patch(`/api/lots/${id}/close`)
-  return response.data
-}
-
-// Returns the open lot for the grade, or null when none is open (204): the next delivery
-// of this grade then starts a new lot.
+// Returns the lot being filled for the grade, { id, code, gradeName, totalKg, capacityKg }, or null
+// when there is none (204): the next confirmed delivery of this grade then starts one.
 export async function findOpenLot(gradeId) {
   const response = await client.get('/api/lots/open', { params: { gradeId } })
   return response.status === 204 ? null : response.data

@@ -340,7 +340,10 @@
       "OPEN": "Gifunguye",
       "CLOSED": "Gifunze",
       "SOLD": "Cyagurishijwe",
-      "SHARED": "Cyagabanyijwe"
+      "SHARED": "Cyagabanyijwe",
+      "FILLING": "Kiruzuzwa",
+      "FULL": "Cyuzuye",
+      "OLDER": "Ikirundo cya kera"
     },
     "balance": {
       "title": "Iringaniza ry'ububiko",
@@ -350,7 +353,7 @@
     },
     "cards": {
       "totalInStock": "Byose biri mu bubiko",
-      "lotCounts": "Ibirundo {{open}} bifunguye · {{closed}} bifunze",
+      "lotCounts": "Ibirundo {{filling}} biruzuzwa · {{full}} byuzuye",
       "addedToday": "Byongewe uyu munsi",
       "deliveriesToday_one": "Inshuro {{count}} yo kugemura",
       "deliveriesToday_other": "Inshuro {{count}} zo kugemura",
@@ -359,24 +362,24 @@
     "stockError": "Ntibishobotse kubona incamake y'ububiko.",
     "retry": "Ongera ugerageze",
     "table": {
-      "title": "Ibirundo bifunguye n'ibifunze",
+      "title": "Ibirundo",
       "subtitle": "Kurikirana ibiro n'uko buri kirundo gihagaze.",
       "lot": "Ikirundo",
       "grade": "Urwego",
       "dates": "Amatariki",
-      "delivered": "Ibyagemuwe",
       "sold": "Ibyagurishijwe",
       "lost": "Ibyangiritse",
       "inStock": "Mu bubiko",
       "members": "Abanyamuryango",
       "saleAmount": "Amafaranga y'igurisha",
       "status": "Uko gihagaze",
-      "openSince": "{{date}} – gifunguye",
       "period": "{{from}} – {{to}}",
-      "empty": "Nta birundo biraboneka. Ikirundo gifunguka ubwacyo iyo hagemuwe bwa mbere ku rwego runaka.",
+      "empty": "Nta birundo biraboneka. Ikirundo gitangira ubwacyo iyo igemura rya mbere ry'urwego runaka ryemejwe.",
       "noResults": "Nta kirundo gihuye n'ibyo wahisemo.",
       "error": "Ntibishobotse kubona ibirundo.",
-      "stillOpen": "gifunguye"
+      "fill": "Uko cyuzuye",
+      "fillingSince": "{{date}} – kiruzuzwa",
+      "stillFilling": "kiruzuzwa"
     },
     "filters": {
       "status": "Uko gihagaze",
@@ -416,18 +419,12 @@
     "detail": {
       "back": "Subira ku birundo",
       "opened": "Cyafunguwe {{date}}",
-      "closedOn": "Cyafunzwe {{date}}",
       "delivered": "Ibyagemuwe",
       "sold": "Ibyagurishijwe",
       "lost": "Ibyangiritse",
       "inStock": "Mu bubiko",
       "saleAmount": "Amafaranga y'igurisha",
       "members": "Abanyamuryango",
-      "closeLot": "Funga ikirundo",
-      "closing": "Kirafungwa...",
-      "confirmClose": "Ufunga ikirundo {{code}}? Gufunga ikirundo bituma gusa ibizagemurwa bishya bijya mu kirundo gishya. Ntibihindura ibirayi bigurishwa mbere (ibyagemuwe kera ni byo bibanza).",
-      "closedNotice": "Ikirundo cyafunzwe",
-      "closeError": "Ntibishobotse gufunga ikirundo. Ongera ugerageze.",
       "recordLoss": "Andika ibyangiritse",
       "recordSale": "Andika igurisha",
       "membersTitle": "Abanyamuryango bari muri iki kirundo",
@@ -455,29 +452,29 @@
         "date": "Itariki",
         "status": "Kwemezwa",
         "actions": "Ibikorwa"
-      }
+      },
+      "fill": "Uko cyuzuye",
+      "fullOn": "Cyuzuye {{date}}",
+      "endedOn": "Cyarangiye {{date}}",
+      "memberSold": "Byagurishijwe",
+      "memberLost": "Byangiritse",
+      "memberRemaining": "Bisigaye",
+      "lossSharesTitle": "Uruhare rwa buri munyamuryango mu byangiritse",
+      "lossSharesHint": "Buri gihombo kigabanywa hakurikijwe ibyo buri munyamuryango yari asigaranye mu kirundo. Ibiro byamaze kugurishwa ntibibarwamo.",
+      "ofDelivery": "kuri {{kg}}"
     },
     "actions": {
       "column": "Ibikorwa",
       "menu": "Ibikorwa bya {{code}}",
       "view": "Reba ibisobanuro",
-      "close": "Funga ikirundo",
       "recordLoss": "Andika ibyangiritse",
-      "recordSale": "Andika igurisha",
-      "closeHint": "Gufunga ikirundo bituma gusa ibizagemurwa bishya bijya mu kirundo gishya. Ntibihindura ibirayi bigurishwa mbere (ibyagemuwe kera ni byo bibanza)."
-    },
-    "close": {
-      "title": "Ufunga {{code}}?",
-      "message": "Gufunga ikirundo bituma gusa ibizagemurwa bishya bya {{grade}} bijya mu kirundo gishya. Ntibihindura ibirayi bigurishwa mbere (ibyagemuwe kera ni byo bibanza).",
-      "confirm": "Funga ikirundo",
-      "cancel": "Hagarika",
-      "done": "Ikirundo {{code}} cyafunzwe"
+      "recordSale": "Andika igurisha"
     },
     "statusHelp": {
-      "OPEN": "Gifunguye: ibigemurwa bishya by'uru rwego bijyamo. Ibirayi byacyo bishobora kugurishwa.",
-      "CLOSED": "Gifunze: ibigemurwa bishya bijya mu kirundo gishya. Ntibihindura ibirayi bigurishwa mbere (ibyagemuwe kera ni byo bibanza).",
       "SOLD": "Cyagurishijwe: nta kintu gisigaye muri iki kirundo.",
-      "SHARED": "Cyagabanyijwe: amafaranga yagabanyijwe abanyamuryango."
+      "FILLING": "Kiruzuzwa: ibyagemuwe byemejwe by'uru rwego bijyamo kugeza cyuzuye. Ibirayi byacyo bishobora kugurishwa.",
+      "FULL": "Cyuzuye: cyageze ku ngano yacyo. Ibigemurwa bishya bijya mu kirundo gikurikira.",
+      "OLDER": "Ikirundo cya kera, cyo mbere y'ibirundo bifite ingano idahinduka. Nticyongerwamo ibiro bishya kandi ni cyo kigurishwa mbere"
     },
     "pendingConfirmation": "muri byo {{kg}} bitegereje kwemezwa",
     "split": {
@@ -487,6 +484,12 @@
       "waitingShort": "Bitegereje {{kg}}",
       "disputedShort": "Mu mpaka {{kg}}",
       "explanation": "Bishobora kugurishwa: byemejwe n'umunyamuryango, biteguye kugurishwa. Bitegereje: umunyamuryango ntarabyemeza. Biri mu mpaka: umunyamuryango avuga ko ibyanditswe atari byo. Ibishobora kugurishwa ni byo byonyine bigurishwa."
+    },
+    "fill": {
+      "value": "{{filled}} / {{capacity}} kg",
+      "label": "Uko cyuzuye",
+      "shortfall": "Haburamo {{kg}}",
+      "shortfallHelp": "Ibi biro byakuwemo n'igemura ryavanyweho nyuma y'uko ikirundo cyuzuye. Ikirundo cyuzuye ntikigera cyongera kuzuzwa."
     }
   },
   "sales": {
@@ -1238,7 +1241,6 @@
       "sales.result",
       "sales.history",
       "lots.statusHelp",
-      "lots.detail.confirmClose",
       "lots.close.message",
       "members.statement.grossShareNote",
       "members.statement.saleCredits",
@@ -1257,7 +1259,6 @@
       "dashboard.cards.sellableWaiting",
       "dashboard.cards.disputed",
       "dashboard.cards.gradeSellable",
-      "lots.actions.closeHint",
       "memberVerification",
       "members.form.birthDate",
       "members.form.birthDateHint",
@@ -1265,7 +1266,32 @@
       "members.form.errors.birthDateFuture",
       "members.verified",
       "codeConfirmation.hint",
-      "codeConfirmation.close"
+      "codeConfirmation.close",
+      "lots.status.FILLING",
+      "lots.status.FULL",
+      "lots.status.OLDER",
+      "lots.statusHelp.FILLING",
+      "lots.statusHelp.FULL",
+      "lots.statusHelp.OLDER",
+      "lots.fill.value",
+      "lots.fill.label",
+      "lots.fill.shortfall",
+      "lots.fill.shortfallHelp",
+      "lots.cards.lotCounts",
+      "lots.table.title",
+      "lots.table.fill",
+      "lots.table.fillingSince",
+      "lots.table.stillFilling",
+      "lots.table.empty",
+      "lots.detail.fill",
+      "lots.detail.fullOn",
+      "lots.detail.endedOn",
+      "lots.detail.memberSold",
+      "lots.detail.memberLost",
+      "lots.detail.memberRemaining",
+      "lots.detail.lossSharesTitle",
+      "lots.detail.lossSharesHint",
+      "lots.detail.ofDelivery"
     ]
   },
   "publicHome": {

@@ -10,7 +10,20 @@ import ConfirmationBadge from '../deliveries/ConfirmationBadge'
 import DeliveryActionsMenu from '../deliveries/DeliveryActionsMenu'
 import DeliveryHistoryNote, { deliveryRowId } from '../deliveries/DeliveryHistoryNote'
 
-// Every delivery in the lot, including reversed ones, with its confirmation status.
+// The kg of the delivery in this lot: a delivery can be split across lots.
+function KgInLot({ delivery, lotId }) {
+  const { t } = useTranslation()
+  const portion = delivery.lots?.find((entry) => entry.lotId === lotId)
+  if (!portion || Number(portion.kg) === Number(delivery.quantityKg)) return formatKg(delivery.quantityKg)
+  return (
+    <>
+      {formatKg(portion.kg)}
+      <span className="block text-xs text-muted">{t('lots.detail.ofDelivery', { kg: formatKg(delivery.quantityKg) })}</span>
+    </>
+  )
+}
+
+// Every delivery with kg in the lot, including reversed ones, with its confirmation status.
 // onChanged runs after a delivery was changed, so the lot's totals reload too.
 export default function LotDeliveries({ lot, reloadKey, onChanged }) {
   const { t } = useTranslation()
@@ -76,7 +89,9 @@ export default function LotDeliveries({ lot, reloadKey, onChanged }) {
                     {delivery.memberName}
                   </Link>
                 </td>
-                <td className={cell}>{formatKg(delivery.quantityKg)}</td>
+                <td className={cell}>
+                  <KgInLot delivery={delivery} lotId={lot.id} />
+                </td>
                 <td className={`${cell} text-muted`}>{formatDateTime(delivery.deliveredAt)}</td>
                 <td className={cell}>{!delivery.reversed && <ConfirmationBadge delivery={delivery} />}</td>
                 <td className="px-3 py-1">

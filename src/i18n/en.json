@@ -340,7 +340,10 @@
       "OPEN": "Open",
       "CLOSED": "Closed",
       "SOLD": "Sold",
-      "SHARED": "Shared"
+      "SHARED": "Shared",
+      "FILLING": "Filling",
+      "FULL": "Full",
+      "OLDER": "Older lot"
     },
     "balance": {
       "title": "Stock balance",
@@ -350,7 +353,7 @@
     },
     "cards": {
       "totalInStock": "Total in stock",
-      "lotCounts": "{{open}} open · {{closed}} closed lots",
+      "lotCounts": "{{filling}} filling · {{full}} full lots",
       "addedToday": "Added today",
       "deliveriesToday_one": "{{count}} delivery",
       "deliveriesToday_other": "{{count}} deliveries",
@@ -359,24 +362,24 @@
     "stockError": "Could not load the stock summary.",
     "retry": "Try again",
     "table": {
-      "title": "Active & closed lots",
+      "title": "Lots",
       "subtitle": "Track the weight and status of every lot.",
       "lot": "Lot",
       "grade": "Grade",
       "dates": "Dates",
-      "delivered": "Delivered",
       "sold": "Sold",
       "lost": "Lost",
       "inStock": "In stock",
       "members": "Members",
       "saleAmount": "Sale amount",
       "status": "Status",
-      "openSince": "{{date}} – open",
       "period": "{{from}} – {{to}}",
-      "empty": "No lots yet. A lot opens by itself with the first delivery of a grade.",
+      "empty": "No lots yet. A lot starts by itself when the first delivery of a grade is confirmed.",
       "noResults": "No lots match these filters.",
       "error": "Could not load lots.",
-      "stillOpen": "open"
+      "fill": "Fill level",
+      "fillingSince": "{{date}} – filling",
+      "stillFilling": "filling"
     },
     "filters": {
       "status": "Status",
@@ -416,18 +419,12 @@
     "detail": {
       "back": "Back to lots",
       "opened": "Opened {{date}}",
-      "closedOn": "Closed {{date}}",
       "delivered": "Delivered",
       "sold": "Sold",
       "lost": "Lost",
       "inStock": "In stock",
       "saleAmount": "Sale amount",
       "members": "Members",
-      "closeLot": "Close lot",
-      "closing": "Closing...",
-      "confirmClose": "Close lot {{code}}? Closing a lot only starts a new lot for new deliveries. It does not change which potatoes are sold first (oldest delivery first).",
-      "closedNotice": "Lot closed",
-      "closeError": "Could not close the lot. Please try again.",
       "recordLoss": "Record loss",
       "recordSale": "Record sale",
       "membersTitle": "Members in this lot",
@@ -455,29 +452,29 @@
         "date": "Date",
         "status": "Confirmation",
         "actions": "Actions"
-      }
+      },
+      "fill": "Fill level",
+      "fullOn": "Full {{date}}",
+      "endedOn": "Ended {{date}}",
+      "memberSold": "Sold",
+      "memberLost": "Lost",
+      "memberRemaining": "Left",
+      "lossSharesTitle": "Each member's share of the losses",
+      "lossSharesHint": "Each loss is shared in proportion to what each member had left in the lot. Kg already sold carry none.",
+      "ofDelivery": "of {{kg}}"
     },
     "actions": {
       "column": "Actions",
       "menu": "Actions for {{code}}",
       "view": "View details",
-      "close": "Close lot",
       "recordLoss": "Record loss",
-      "recordSale": "Record sale",
-      "closeHint": "Closing a lot only starts a new lot for new deliveries. It does not change which potatoes are sold first (oldest delivery first)."
-    },
-    "close": {
-      "title": "Close {{code}}?",
-      "message": "Closing a lot only starts a new lot for new {{grade}} deliveries. It does not change which potatoes are sold first (oldest delivery first).",
-      "confirm": "Close lot",
-      "cancel": "Cancel",
-      "done": "Lot {{code}} closed"
+      "recordSale": "Record sale"
     },
     "statusHelp": {
-      "OPEN": "Open: new deliveries of this grade go into it. Its potatoes can already be sold.",
-      "CLOSED": "Closed: new deliveries go into a new lot. This does not change which potatoes are sold first (oldest delivery first).",
       "SOLD": "Sold: nothing is left in this lot.",
-      "SHARED": "Shared: the money has been shared with the members."
+      "FILLING": "Filling: confirmed deliveries of this grade go into it until it is full. Its potatoes can already be sold.",
+      "FULL": "Full: it reached its size. New deliveries go into the next lot.",
+      "OLDER": "Older lot, from before fixed-size lots. It gets no new kg and is sold first"
     },
     "pendingConfirmation": "of which {{kg}} waiting for confirmation",
     "split": {
@@ -487,6 +484,12 @@
       "waitingShort": "Waiting {{kg}}",
       "disputedShort": "Disputed {{kg}}",
       "explanation": "Sellable: confirmed by the member, ready to sell. Waiting: the member has not confirmed yet. Disputed: the member says the record is wrong. Only sellable kg can be sold."
+    },
+    "fill": {
+      "value": "{{filled}} / {{capacity}} kg",
+      "label": "Fill level",
+      "shortfall": "{{kg}} short",
+      "shortfallHelp": "A reversed delivery took these kg out after the lot was full. A full lot is never filled again."
     }
   },
   "sales": {

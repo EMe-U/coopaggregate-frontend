@@ -130,7 +130,7 @@ export default function StockOverview({ stock, error, onRetry }) {
         <StockCard
           label={t('lots.cards.totalInStock')}
           value={formatKg(roundKg(stock.totalRemainingKg))}
-          note={t('lots.cards.lotCounts', { open: stock.openLots, closed: stock.closedLots })}
+          note={t('lots.cards.lotCounts', { filling: stock.openLots, full: stock.closedLots })}
           icon={Warehouse}
         />
         <StockCard
