@@ -488,6 +488,14 @@
       "label": "Uko cyuzuye",
       "shortfall": "Haburamo {{kg}}",
       "shortfallHelp": "Ibi biro byakuwemo n'igemura ryavanyweho nyuma y'uko ikirundo cyuzuye. Ikirundo cyuzuye ntikigera cyongera kuzuzwa."
+    },
+    "cell": {
+      "count_one": "Ikirundo {{count}}",
+      "count_other": "Ibirundo {{count}}",
+      "showAll_one": "Erekana ikirundo {{count}}",
+      "showAll_other": "Erekana ibirundo {{count}}",
+      "lot": "Ikirundo",
+      "kg": "Kg z'iri gemura"
     }
   },
   "sales": {
@@ -1352,7 +1360,13 @@
       "memberVerification.errors.NAME_TOO_LONG",
       "memberVerification.errors.PROVIDER_FAILED",
       "memberVerification.errors.NOT_CONFIGURED",
-      "members.form.verifiedLocked"
+      "members.form.verifiedLocked",
+      "lots.cell.count_one",
+      "lots.cell.count_other",
+      "lots.cell.showAll_one",
+      "lots.cell.showAll_other",
+      "lots.cell.lot",
+      "lots.cell.kg"
     ]
   },
   "publicHome": {

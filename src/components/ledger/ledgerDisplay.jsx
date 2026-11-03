@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { formatKg, formatMoney } from '../../utils/format'
+import LotsCell, { LotsBreakdown } from '../lots/LotsCell'
 
 // Display only: the backend stores kg and amounts as positive numbers (a reversal stores them
 // negated) and the hashes cover those stored values. Here each type gets the sign that tells the
@@ -77,7 +78,7 @@ function reversalReason(entry) {
 // when a field is missing.
 // The entry's lot. A delivery in fixed-size lots has all their codes ("A-2026-03, A-2026-04") and
 // the first lot's id, so only a single lot is a link.
-export function EntryLots({ entry, empty = '–' }) {
+export function EntryLots({ entry, empty = '–', onShowAll, full = false }) {
   if (!entry.lotCode) return empty
   const codes = entry.lotCode.split(', ')
   if (codes.length === 1 && entry.lotId) {
@@ -87,15 +88,12 @@ export function EntryLots({ entry, empty = '–' }) {
       </Link>
     )
   }
-  return (
-    <span className="font-mono">
-      {codes.map((code) => (
-        <span key={code} className="block">
-          {code}
-        </span>
-      ))}
-    </span>
-  )
+  // Several lots: the entry only names them ("A-2026-03, A-2026-04") with the first lot's id, so
+  // they are listed without links or kg. In the table they stay on one line (onShowAll opens the
+  // entry's details); full is for the details: one row per lot.
+  const lots = codes.map((code) => ({ lotCode: code }))
+  if (full) return <LotsBreakdown lots={lots} />
+  return <LotsCell lots={lots} onShowAll={onShowAll} />
 }
 
 export function useEntryDescription() {

@@ -488,6 +488,14 @@
       "label": "Fill level",
       "shortfall": "{{kg}} short",
       "shortfallHelp": "A reversed delivery took these kg out after the lot was full. A full lot is never filled again."
+    },
+    "cell": {
+      "count_one": "{{count}} lot",
+      "count_other": "{{count}} lots",
+      "showAll_one": "Show {{count}} lot",
+      "showAll_other": "Show {{count}} lots",
+      "lot": "Lot",
+      "kg": "Kg from this delivery"
     }
   },
   "sales": {

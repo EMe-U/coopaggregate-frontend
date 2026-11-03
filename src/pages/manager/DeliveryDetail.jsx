@@ -125,7 +125,7 @@ export default function DeliveryDetail() {
               <GradeName name={delivery.gradeName} />
             </Row>
             <Row label={t('deliveryDetail.lots')}>
-              <DeliveryLots lots={delivery.lots} reversed={delivery.reversed} />
+              <DeliveryLots lots={delivery.lots} reversed={delivery.reversed} full />
             </Row>
             <Row label={t('deliveryDetail.quantity')}>{formatKg(delivery.quantityKg)}</Row>
             <Row label={t('deliveryDetail.deduction')}>{formatMoney(delivery.deductionRwf)}</Row>

@@ -203,7 +203,7 @@ export default function TodayDeliveries({ reloadKey }) {
                     </span>
                   </td>
                   <td className={cell}>
-                    <DeliveryLots lots={delivery.lots} reversed={delivery.reversed} />
+                    <DeliveryLots lots={delivery.lots} reversed={delivery.reversed} deliveryId={delivery.id} />
                   </td>
                   <td className={cell}>{formatKg(delivery.quantityKg)}</td>
                   <td className={cell}>{formatMoney(delivery.deductionRwf)}</td>

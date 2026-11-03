@@ -51,7 +51,7 @@ export default function DeliveryReceipt({ delivery, onRecordAnother }) {
           <GradeName name={delivery.gradeName} />
         </Row>
         <Row label={t('deliveries.receipt.lots')}>
-          <DeliveryLots lots={delivery.lots} reversed={delivery.reversed} />
+          <DeliveryLots lots={delivery.lots} reversed={delivery.reversed} full />
         </Row>
         <Row label={t('deliveries.receipt.quantity')}>{formatKg(delivery.quantityKg)}</Row>
         <Row label={t('deliveries.receipt.deduction')}>{formatMoney(delivery.deductionRwf)}</Row>

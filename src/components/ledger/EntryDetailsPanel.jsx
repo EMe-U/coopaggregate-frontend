@@ -76,7 +76,7 @@ export default function EntryDetailsPanel({ entry, onClose, onOpenEntry }) {
               <EntryParty entry={entry} />
             </Detail>
             <Detail label={t('ledger.details.lot')}>
-              <EntryLots entry={entry} empty={none} />
+              <EntryLots entry={entry} empty={none} full />
             </Detail>
             <Detail label={t('ledger.details.kg')}>
               <EntryKg entry={entry} />

@@ -179,7 +179,7 @@ export default function MemberBatches() {
                         <GradeName name={batch.gradeName} />
                       </td>
                       <td className={cell}>
-                        <DeliveryLots lots={batch.lots} />
+                        <DeliveryLots lots={batch.lots} deliveryId={batch.deliveryId} />
                       </td>
                       <td className="min-w-52 px-3 py-3">
                         <PaymentStatus batch={batch} />
@@ -214,7 +214,7 @@ export default function MemberBatches() {
                       <p className="text-xs text-muted">
                         {formatDay(batch.deliveredAt)} · <GradeName name={batch.gradeName} />
                       </p>
-                      <DeliveryLots lots={batch.lots} className="mt-0.5" />
+                      <DeliveryLots lots={batch.lots} deliveryId={batch.deliveryId} className="mt-0.5" />
                     </div>
                     <PaymentStatus batch={batch} />
                   </div>

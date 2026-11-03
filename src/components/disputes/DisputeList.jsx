@@ -77,7 +77,7 @@ export default function DisputeList({ disputes, settled, onChanged }) {
                   </span>
                 </td>
                 <td className={cell}>
-                  <DeliveryLots lots={dispute.lots} reversed={dispute.outcome === 'REVERSED' || dispute.outcome === 'CORRECTED'} />
+                  <DeliveryLots lots={dispute.lots} reversed={dispute.outcome === 'REVERSED' || dispute.outcome === 'CORRECTED'} deliveryId={dispute.deliveryId} />
                 </td>
                 <td className={`${cell} font-semibold`}>{formatKg(dispute.quantityKg)}</td>
                 <td className={cell}>{reasonLabel(t, dispute.reason)}</td>
@@ -129,7 +129,7 @@ export default function DisputeList({ disputes, settled, onChanged }) {
               </span>
               <span className="font-semibold text-text">{formatKg(dispute.quantityKg)}</span>
             </p>
-            <DeliveryLots lots={dispute.lots} reversed={dispute.outcome === 'REVERSED' || dispute.outcome === 'CORRECTED'} />
+            <DeliveryLots lots={dispute.lots} reversed={dispute.outcome === 'REVERSED' || dispute.outcome === 'CORRECTED'} deliveryId={dispute.deliveryId} />
             <div>
               <p className="font-medium text-text">{reasonLabel(t, dispute.reason)}</p>
               {dispute.note && <p className="wrap-break-word text-muted">{dispute.note}</p>}

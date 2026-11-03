@@ -158,7 +158,7 @@ export default function LedgerTable({ filters = {}, reloadKey, onView, onReverse
                   <EntryParty entry={entry} />
                 </td>
                 <td className={`${cell} whitespace-nowrap font-mono text-xs`}>
-                  <EntryLots entry={entry} />
+                  <EntryLots entry={entry} onShowAll={onView ? () => onView(entry) : undefined} />
                 </td>
                 <td className={`${cell} whitespace-nowrap text-right`}>
                   <EntryKg entry={entry} />
