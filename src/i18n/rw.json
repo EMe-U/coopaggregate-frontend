@@ -504,7 +504,7 @@
     },
     "form": {
       "title": "Andika igurisha",
-      "subtitle": "Gurisha ku rwego. Kg zifatwa ku byagemuwe byemejwe bya kera by'urwo rwego, uko ikirundo cyaba kimeze kose.",
+      "subtitle": "Gurisha ku rwego. Kg zifatwa mu birundo by'urwo rwego hakurikijwe uko byujujwe, zigabanywa mu kirundo hakurikijwe ibyo buri wese afitemo.",
       "buyer": "Umuguzi",
       "date": "Itariki y'igurisha",
       "linesTitle": "Inzego ziri muri iri gurisha",
@@ -586,16 +586,15 @@
       "retry": "Ongera ugerageze"
     },
     "preview": {
-      "intro": "Igurisha kuri {{buyer}} ku wa {{date}}. Ibi ni ibyagemuwe igurisha ryakoresha, uhereye ku bya kera. Bigenzure, hanyuma ubike.",
+      "intro": "Igurisha kuri {{buyer}} ku wa {{date}}. Ibi ni ibirundo igurisha ryakoresha, uhereye ku bya mbere, n'uruhare rwa buri munyamuryango. Bigenzure, hanyuma ubike.",
       "itemTitle": "{{grade}}: {{kg}} ku {{price}} kuri kg",
       "stock": "Ibishobora kugurishwa ubu: {{sellable}} · Bitegereje kwemezwa: {{waiting}} · Biri mu mpaka: {{disputed}}",
       "belowFloor": "Iki giciro kiri munsi y'igiciro fatizo cy'urwego. Igurisha rishobora kubikwa uko byagenda kose.",
-      "skip": "Simbuka",
-      "skipLimit": "Ntushobora gusimbuka ibyagemuwe birenze {{max}}",
-      "skippedTitle_one": "Ibyagemuwe {{count}} byasimbutswe",
-      "skippedTitle_other": "Ibyagemuwe {{count}} byasimbutswe",
+      "skipLimit": "Ntushobora gusimbuka ibirundo birenze {{max}}",
+      "skippedTitle_one": "Ikirundo {{count}} cyasimbutswe",
+      "skippedTitle_other": "Ibirundo {{count}} byasimbutswe",
       "useAgain": "Ongera ubikoreshe",
-      "skipReason": "Kuki ibi byagemuwe bisimbutswe?",
+      "skipReason": "Kuki ibi birundo bisimbutswe?",
       "skipReasonPlaceholder": "Urugero: ibi birayi bibikiwe imbuto",
       "skipReasonShort": "Andika nibura inyuguti {{min}}",
       "skipReasonLong": "Nturenze inyuguti {{max}}",
@@ -603,9 +602,11 @@
       "totalAmount": "Amafaranga y'igurisha",
       "totalDeduction": "Ibikurwaho ({{perKg}} kuri kg)",
       "totalNet": "Ahabwa abanyamuryango",
-      "mayChange": "Igurisha ryongera kugenzura ibyagemuwe iyo ribitswe.",
+      "mayChange": "Igurisha ryongera kugenzura ibirundo iyo ribitswe.",
       "back": "Subira inyuma",
-      "checkAgain": "Ongera ugenzure"
+      "checkAgain": "Ongera ugenzure",
+      "skipLot": "Simbuka ikirundo",
+      "skipHint": "Simbuka iki kirundo cyose. Hakenewe impamvu."
     },
     "batches": {
       "member": "Umunyamuryango",
@@ -617,7 +618,10 @@
       "deduction": "Ibikurwaho",
       "net": "Ahabwa umunyamuryango",
       "money": "Amafaranga",
-      "paidByLotShare": "Yishyurwa binyuze mu kugabanya ikirundo"
+      "paidByLotShare": "Yishyurwa binyuze mu kugabanya ikirundo",
+      "lotHeading": "Ikirundo",
+      "lotKg_one": "{{kg}} biva ku byagemuwe {{count}}",
+      "lotKg_other": "{{kg}} biva ku byagemuwe {{count}}"
     }
   },
   "pagination": {
@@ -1315,7 +1319,19 @@
       "settings.lotSize.label",
       "settings.lotSize.hint",
       "settings.lotSize.locked",
-      "settings.lotSize.invalid"
+      "settings.lotSize.invalid",
+      "sales.form.subtitle",
+      "sales.preview.intro",
+      "sales.preview.skipLot",
+      "sales.preview.skipHint",
+      "sales.preview.skipLimit",
+      "sales.preview.skippedTitle_one",
+      "sales.preview.skippedTitle_other",
+      "sales.preview.skipReason",
+      "sales.preview.mayChange",
+      "sales.batches.lotHeading",
+      "sales.batches.lotKg_one",
+      "sales.batches.lotKg_other"
     ]
   },
   "publicHome": {

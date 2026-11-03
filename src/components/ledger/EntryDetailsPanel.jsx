@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Link2, X } from 'lucide-react'
 import LedgerTypeBadge from './LedgerTypeBadge'
-import { EntryAmount, EntryKg, EntryParty, useEntryDescription } from './ledgerDisplay'
+import { EntryAmount, EntryKg, EntryLots, EntryParty, useEntryDescription } from './ledgerDisplay'
 import { formatDateTime } from '../../utils/format'
 
 function Detail({ label, children }) {
@@ -76,13 +76,7 @@ export default function EntryDetailsPanel({ entry, onClose, onOpenEntry }) {
               <EntryParty entry={entry} />
             </Detail>
             <Detail label={t('ledger.details.lot')}>
-              {entry.lotId ? (
-                <Link to={`/lots/${entry.lotId}`} className="font-mono text-primary hover:underline">
-                  {entry.lotCode}
-                </Link>
-              ) : (
-                none
-              )}
+              <EntryLots entry={entry} empty={none} />
             </Detail>
             <Detail label={t('ledger.details.kg')}>
               <EntryKg entry={entry} />

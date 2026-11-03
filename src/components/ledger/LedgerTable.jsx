@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { BookOpen, Eye, Undo2 } from 'lucide-react'
 import { listLedger } from '../../api/ledger'
@@ -8,7 +7,7 @@ import EmptyState from '../EmptyState'
 import Pagination from '../Pagination'
 import usePageSize from '../../hooks/usePageSize'
 import LedgerTypeBadge from './LedgerTypeBadge'
-import { EntryAmount, EntryKg, EntryParty, useEntryDescription } from './ledgerDisplay'
+import { EntryAmount, EntryKg, EntryLots, EntryParty, useEntryDescription } from './ledgerDisplay'
 import { formatDate, formatTime, kigaliIsoDate } from '../../utils/format'
 import useNeedsInternet from '../../hooks/useNeedsInternet'
 
@@ -159,13 +158,7 @@ export default function LedgerTable({ filters = {}, reloadKey, onView, onReverse
                   <EntryParty entry={entry} />
                 </td>
                 <td className={`${cell} whitespace-nowrap font-mono text-xs`}>
-                  {entry.lotId ? (
-                    <Link to={`/lots/${entry.lotId}`} className="text-primary hover:underline">
-                      {entry.lotCode}
-                    </Link>
-                  ) : (
-                    '–'
-                  )}
+                  <EntryLots entry={entry} />
                 </td>
                 <td className={`${cell} whitespace-nowrap text-right`}>
                   <EntryKg entry={entry} />

@@ -5,8 +5,8 @@ import { formatKg, formatMoney } from '../../utils/format'
 import SaleBatchesTable from './SaleBatchesTable'
 
 // result is { code, buyerName, totalKg, totalAmountRwf, sales } for one sale or one order. The
-// batches are the ones the backend really used, which can differ from the preview if something
-// changed in between.
+// lines are the lot portions the backend really used, grouped by lot, which can differ from the
+// preview if something changed in between.
 export default function SaleResult({ result, onRecordAnother }) {
   const { t } = useTranslation()
   const gradeName = useGradeName()

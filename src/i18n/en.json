@@ -504,7 +504,7 @@
     },
     "form": {
       "title": "Record sale",
-      "subtitle": "Sell by grade. The kg come from the oldest confirmed batches of the grade, whatever their lot.",
+      "subtitle": "Sell by grade. The kg come from the grade's lots in the order they were filled, shared in proportion inside a lot.",
       "buyer": "Buyer",
       "date": "Sale date",
       "linesTitle": "Grades in this sale",
@@ -586,16 +586,15 @@
       "retry": "Try again"
     },
     "preview": {
-      "intro": "Sale to {{buyer}} on {{date}}. These are the batches the sale would use, oldest first. Check them, then save.",
+      "intro": "Sale to {{buyer}} on {{date}}. These are the lots the sale would use, first in first out, with each member's part. Check them, then save.",
       "itemTitle": "{{grade}}: {{kg}} at {{price}} per kg",
       "stock": "Sellable now: {{sellable}} · Waiting for confirmation: {{waiting}} · Disputed: {{disputed}}",
       "belowFloor": "This price is below the floor price of the grade. The sale can still be saved.",
-      "skip": "Skip",
-      "skipLimit": "At most {{max}} batches can be skipped",
-      "skippedTitle_one": "{{count}} batch skipped",
-      "skippedTitle_other": "{{count}} batches skipped",
+      "skipLimit": "At most {{max}} lots can be skipped",
+      "skippedTitle_one": "{{count}} lot skipped",
+      "skippedTitle_other": "{{count}} lots skipped",
       "useAgain": "Use again",
-      "skipReason": "Why are these batches skipped?",
+      "skipReason": "Why are these lots skipped?",
       "skipReasonPlaceholder": "For example: these potatoes are kept for seed",
       "skipReasonShort": "Write at least {{min}} characters",
       "skipReasonLong": "Write at most {{max}} characters",
@@ -603,9 +602,11 @@
       "totalAmount": "Sale amount",
       "totalDeduction": "Deduction ({{perKg}} per kg)",
       "totalNet": "Paid to members",
-      "mayChange": "The sale checks the batches again when it is saved.",
+      "mayChange": "The sale checks the lots again when it is saved.",
       "back": "Back",
-      "checkAgain": "Check again"
+      "checkAgain": "Check again",
+      "skipLot": "Skip lot",
+      "skipHint": "Pass over this whole lot. A reason is needed."
     },
     "batches": {
       "member": "Member",
@@ -617,7 +618,10 @@
       "deduction": "Deduction",
       "net": "Net to member",
       "money": "Money",
-      "paidByLotShare": "Paid through the lot share"
+      "paidByLotShare": "Paid through the lot share",
+      "lotHeading": "Lot",
+      "lotKg_one": "{{kg}} from {{count}} delivery",
+      "lotKg_other": "{{kg}} from {{count}} deliveries"
     }
   },
   "pagination": {

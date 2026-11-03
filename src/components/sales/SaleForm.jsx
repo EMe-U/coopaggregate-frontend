@@ -29,7 +29,7 @@ function emptyForm() {
   return { buyer: null, date: kigaliIsoDate(), items: [newItem()] }
 }
 
-const noSkip = { ids: [], reason: '' }
+const noSkip = { lots: [], reason: '' }
 
 function Field({ htmlFor, label, error, children }) {
   return (
@@ -48,10 +48,10 @@ function requestMessage(t, error) {
   return error.response.data?.message || t('sales.form.errors.generic')
 }
 
-// The skip list and reason go with an item only when it skips something.
+// Whole lots can be skipped; the lot ids and the reason go with an item only when it skips one.
 function withSkip(body, skip) {
-  if (skip.ids.length === 0) return body
-  return { ...body, skipDeliveryIds: skip.ids, skipReason: skip.reason.trim() }
+  if (skip.lots.length === 0) return body
+  return { ...body, skipLotIds: skip.lots.map((lot) => lot.lotId), skipReason: skip.reason.trim() }
 }
 
 // One grade is one sale (POST /api/sales); several grades are one order (POST /api/sales/orders).
@@ -66,7 +66,7 @@ export default function SaleForm({ initialGradeName, onSaved }) {
   const [form, setForm] = useState(emptyForm)
   const [tried, setTried] = useState(false)
   const [step, setStep] = useState('edit')
-  // By item key: { status, data, message } and { ids, reason }.
+  // By item key: { status, data, message } and { lots, reason }.
   const [previews, setPreviews] = useState({})
   const [skips, setSkips] = useState({})
   const [formError, setFormError] = useState('')
@@ -121,7 +121,7 @@ export default function SaleForm({ initialGradeName, onSaved }) {
   }
 
   function changeItem(key, changes) {
-    // Another grade has other batches, so its skipped batches no longer apply.
+    // Another grade has other lots, so its skipped lots no longer apply.
     if ('gradeId' in changes) setSkips((current) => ({ ...current, [key]: noSkip }))
     setForm((current) => ({
       ...current,
@@ -137,11 +137,11 @@ export default function SaleForm({ initialGradeName, onSaved }) {
     setForm((current) => ({ ...current, items: [...current.items, newItem()] }))
   }
 
-  function loadPreview(item, skipIds) {
+  function loadPreview(item, skipLots) {
     const request = (previewRequests.current[item.key] ?? 0) + 1
     previewRequests.current[item.key] = request
     setPreviews((current) => ({ ...current, [item.key]: { status: 'loading' } }))
-    previewSale(item.gradeId, { quantityKg: item.check.kg, pricePerKg: item.check.price, skip: skipIds })
+    previewSale(item.gradeId, { quantityKg: item.check.kg, pricePerKg: item.check.price, skipLots: skipLots.map((lot) => lot.lotId) })
       .then((data) => {
         if (previewRequests.current[item.key] === request) {
           setPreviews((current) => ({ ...current, [item.key]: { status: 'done', data } }))
@@ -155,7 +155,7 @@ export default function SaleForm({ initialGradeName, onSaved }) {
   }
 
   function loadAllPreviews() {
-    for (const item of items) loadPreview(item, (skips[item.key] ?? noSkip).ids)
+    for (const item of items) loadPreview(item, (skips[item.key] ?? noSkip).lots)
   }
 
   function handlePreview(event) {
@@ -167,9 +167,9 @@ export default function SaleForm({ initialGradeName, onSaved }) {
     loadAllPreviews()
   }
 
-  function changeSkip(item, ids) {
-    setSkips((current) => ({ ...current, [item.key]: { ...(current[item.key] ?? noSkip), ids } }))
-    loadPreview(item, ids)
+  function changeSkip(item, lots) {
+    setSkips((current) => ({ ...current, [item.key]: { ...(current[item.key] ?? noSkip), lots } }))
+    loadPreview(item, lots)
   }
 
   const skipOf = (item) => skips[item.key] ?? noSkip
@@ -297,8 +297,8 @@ export default function SaleForm({ initialGradeName, onSaved }) {
               preview={previews[item.key]}
               skip={skipOf(item)}
               disabled={saving}
-              onSkip={(id) => changeSkip(item, [...skipOf(item).ids, id])}
-              onUnskip={(id) => changeSkip(item, skipOf(item).ids.filter((skipped) => skipped !== id))}
+              onSkip={(lot) => changeSkip(item, [...skipOf(item).lots, lot])}
+              onUnskip={(lotId) => changeSkip(item, skipOf(item).lots.filter((skipped) => skipped.lotId !== lotId))}
               onReasonChange={(reason) => setSkips((current) => ({ ...current, [item.key]: { ...skipOf(item), reason } }))}
             />
           ))}

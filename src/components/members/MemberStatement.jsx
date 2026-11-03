@@ -11,6 +11,7 @@ import useLinkedDeliveries from '../../hooks/useLinkedDeliveries'
 import useSharedLots from '../../hooks/useSharedLots'
 import ConfirmationBadge from '../deliveries/ConfirmationBadge'
 import DeliveryActionsMenu from '../deliveries/DeliveryActionsMenu'
+import DeliveryLots from '../deliveries/DeliveryLots'
 import DeliveryHistoryNote, { deliveryRowId } from '../deliveries/DeliveryHistoryNote'
 import useOnlineStatus from '../../hooks/useOnlineStatus'
 import { loadWithCache } from '../../offline/cache'
@@ -204,7 +205,9 @@ function DeliveriesSection({ memberId, totals, onChanged }) {
           <td className={cell}>
             <GradeName name={delivery.gradeName} />
           </td>
-          <td className={cell}>{delivery.lotCode}</td>
+          <td className={cell}>
+            <DeliveryLots lots={delivery.lots} reversed={delivery.reversed} />
+          </td>
           <td className={cell}>{formatKg(delivery.quantityKg)}</td>
           <td className={cell}>{formatMoney(delivery.deductionRwf)}</td>
           <td className={cell}>{!delivery.reversed && <ConfirmationBadge delivery={delivery} />}</td>
@@ -286,7 +289,8 @@ function LotSharesSection({ statement, error }) {
   )
 }
 
-// What each sale by grade paid the member for one of their batches, at the time of the sale.
+// What each sale by grade paid the member for one of their batches, at the time of the sale. A batch
+// split across lots has one line per lot, with that portion's lot code.
 function SaleCreditsSection({ statement, error }) {
   const { t } = useTranslation()
   const key = 'members.statement.saleCredits'
@@ -302,7 +306,7 @@ function SaleCreditsSection({ statement, error }) {
       )}
       rows={statement?.saleCredits ?? []}
       renderRow={(credit) => (
-        <tr key={`${credit.saleCode}-${credit.receiptCode}`}>
+        <tr key={`${credit.saleCode}-${credit.receiptCode}-${credit.lotCode}`}>
           <td className={`${cell} font-mono text-xs`}>{credit.saleCode}</td>
           <td className={cell}>{formatDay(credit.soldAt)}</td>
           <td className={`${cell} font-mono text-xs`}>{credit.receiptCode}</td>

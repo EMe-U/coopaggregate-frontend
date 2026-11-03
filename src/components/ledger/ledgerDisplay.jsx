@@ -75,6 +75,29 @@ function reversalReason(entry) {
 
 // Builds the description from the entry's fields so it can be translated; the stored text is used
 // when a field is missing.
+// The entry's lot. A delivery in fixed-size lots has all their codes ("A-2026-03, A-2026-04") and
+// the first lot's id, so only a single lot is a link.
+export function EntryLots({ entry, empty = '–' }) {
+  if (!entry.lotCode) return empty
+  const codes = entry.lotCode.split(', ')
+  if (codes.length === 1 && entry.lotId) {
+    return (
+      <Link to={`/lots/${entry.lotId}`} className="font-mono text-primary hover:underline">
+        {entry.lotCode}
+      </Link>
+    )
+  }
+  return (
+    <span className="font-mono">
+      {codes.map((code) => (
+        <span key={code} className="block">
+          {code}
+        </span>
+      ))}
+    </span>
+  )
+}
+
 export function useEntryDescription() {
   const { t } = useTranslation()
 

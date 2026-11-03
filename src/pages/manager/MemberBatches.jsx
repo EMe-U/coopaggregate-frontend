@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { ArrowLeft, Layers } from 'lucide-react'
 import { getMemberBatches } from '../../api/members'
 import EmptyState from '../../components/EmptyState'
+import DeliveryLots from '../../components/deliveries/DeliveryLots'
 import GradeName from '../../components/GradeName'
 import PageTitle from '../../components/PageTitle'
 import Pagination from '../../components/Pagination'
@@ -177,10 +178,8 @@ export default function MemberBatches() {
                       <td className={cell}>
                         <GradeName name={batch.gradeName} />
                       </td>
-                      <td className={`${cell} font-mono text-xs`}>
-                        <Link to={`/lots/${batch.lotId}`} className="text-primary hover:underline">
-                          {batch.lotCode}
-                        </Link>
+                      <td className={cell}>
+                        <DeliveryLots lots={batch.lots} />
                       </td>
                       <td className="min-w-52 px-3 py-3">
                         <PaymentStatus batch={batch} />
@@ -213,11 +212,9 @@ export default function MemberBatches() {
                         {batch.receiptCode}
                       </Link>
                       <p className="text-xs text-muted">
-                        {formatDay(batch.deliveredAt)} · <GradeName name={batch.gradeName} /> ·{' '}
-                        <Link to={`/lots/${batch.lotId}`} className="font-mono text-primary hover:underline">
-                          {batch.lotCode}
-                        </Link>
+                        {formatDay(batch.deliveredAt)} · <GradeName name={batch.gradeName} />
                       </p>
+                      <DeliveryLots lots={batch.lots} className="mt-0.5" />
                     </div>
                     <PaymentStatus batch={batch} />
                   </div>

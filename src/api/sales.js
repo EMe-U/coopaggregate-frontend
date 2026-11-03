@@ -1,9 +1,11 @@
 import client from './client'
 
-// Sales are by grade: the backend takes the kg from the oldest confirmed batches of the grade,
-// whatever their lot, and credits each batch's member. The backend answers 201 for a new sale and
+// Sales are by grade, first in first out by lot: the older lots first, then the fixed-size lots in
+// the order they were filled, shared in proportion inside a lot. Each lot portion used credits its
+// member. The backend answers 201 for a new sale and
 // 200 when one with the same clientUuid was already saved, so a retry never sells twice. A 400
-// (not enough kg, a price not above the deduction) saves nothing; its message is shown as it is.
+// (not enough kg, a price not above the deduction, a skip refused) saves nothing; its message is
+// shown as it is. skipLotIds with a skipReason of 10 to 500 characters pass over whole lots.
 export async function recordSale(sale) {
   const response = await client.post('/api/sales', sale)
   return response.data
@@ -15,12 +17,12 @@ export async function recordSaleOrder(order) {
   return response.data
 }
 
-// Read-only: the batches a sale of this grade would use, oldest first, with each member's gross,
-// deduction and net. enough is false with a message when there are not enough sellable kg. skip is
-// a list of delivery ids to pass over.
-export async function previewSale(gradeId, { quantityKg, pricePerKg, skip = [] }) {
+// Read-only: the lot portions a sale of this grade would use, in the order they are taken, with
+// each member's gross, deduction and net. enough is false with a message when there are not enough
+// sellable kg. skipLots is a list of lot ids to pass over; skipped lists them with their kg.
+export async function previewSale(gradeId, { quantityKg, pricePerKg, skipLots = [] }) {
   const params = { quantityKg, pricePerKg }
-  if (skip.length > 0) params.skip = skip.join(',')
+  if (skipLots.length > 0) params.skipLots = skipLots.join(',')
   const response = await client.get(`/api/grades/${gradeId}/sale-preview`, { params })
   return response.data
 }
