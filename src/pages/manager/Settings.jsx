@@ -8,6 +8,7 @@ import {
   CommitteeEmailsSection,
   CooperativeSection,
   DeductionSection,
+  LotSizeSection,
   OrdersSection,
   SmsSection,
 } from '../../components/settings/GeneralSections'
@@ -88,6 +89,7 @@ export default function Settings() {
             <>
               <SmsSection {...sectionProps} />
               <OrdersSection {...sectionProps} />
+              <LotSizeSection {...sectionProps} />
             </>
           )}
           <LedgerIntegritySection />

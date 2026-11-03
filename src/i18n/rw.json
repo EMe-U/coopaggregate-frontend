@@ -264,14 +264,11 @@
     },
     "lot": {
       "title": "Ikirundo n'ibikurwaho",
-      "chooseGrade": "Hitamo urwego kugira ngo urebe ikirundo bizajyamo.",
-      "checking": "Turimo kureba ikirundo gifunguye...",
-      "existing": "Bizongerwa ku kirundo {{code}} (gifunguye)",
-      "newLot": "Hazatangizwa ikirundo gishya cy'uru rwego",
-      "error": "Ntibishobotse kureba ikirundo gifunguye.",
       "deduction": "Ibikurwaho na koperative: {{kg}} kg × {{rate}} RWF = {{amount}}",
       "deductionHint": "Andika ingano kugira ngo urebe ibikurwaho.",
-      "note": "Nta giciro cyandikwa ubu. Umunyamuryango yishyurwa nyuma y'uko ikirundo kigurishijwe."
+      "note": "Nta giciro cyandikwa ubu. Umunyamuryango yishyurwa nyuma y'uko ikirundo kigurishijwe.",
+      "entersLot": "Umunyamuryango namara kubyemeza, ibiro bizajya mu kirundo cy'uru rwego (kg {{capacity}} kuri buri kirundo).",
+      "entersLotNoSize": "Umunyamuryango namara kubyemeza, ibiro bizajya mu kirundo cy'uru rwego."
     },
     "duplicate": {
       "title": "Bishobora kuba byanditswe kabiri",
@@ -292,13 +289,13 @@
       "title": "Inyemezabuguzi y'ibyagemuwe",
       "member": "Umunyamuryango",
       "dateTime": "Itariki n'isaha",
-      "gradeLot": "Urwego n'ikirundo",
-      "gradeLotValue": "{{grade}} (ikirundo {{lot}})",
       "quantity": "Ingano",
       "deduction": "Ibikurwaho",
       "print": "Capa inyemezabuguzi",
       "recordAnother": "Andika ibindi",
-      "viewMember": "Reba umunyamuryango"
+      "viewMember": "Reba umunyamuryango",
+      "grade": "Urwego",
+      "lots": "Ibirundo"
     },
     "tips": {
       "title": "Inama ku muyobozi",
@@ -326,7 +323,10 @@
       "error": "Ntibishobotse kubona ibyagemuwe."
     },
     "save": "Bika ibyagemuwe",
-    "saving": "Birabikwa..."
+    "saving": "Birabikwa...",
+    "lots": {
+      "afterConfirmation": "Nyuma yo kwemezwa"
+    }
   },
   "grades": {
     "Big": "Binini",
@@ -827,13 +827,14 @@
       "active_other": "{{count}} bakora",
       "stock": "Ibiri mu bubiko",
       "deliveriesToday": "Ibyagemuwe uyu munsi",
-      "openLots": "Ibirundo bifunguye",
       "owed": "Amafaranga abanyamuryango babereyemo",
       "membersWaiting_one": "Umunyamuryango {{count}} utegereje",
       "membersWaiting_other": "Abanyamuryango {{count}} bategereje",
       "sellableWaiting": "Bishobora kugurishwa {{sellable}} · Bitegereje {{waiting}}",
       "disputed": "Mu mpaka {{kg}}",
-      "gradeSellable": "({{kg}} bishobora kugurishwa)"
+      "gradeSellable": "({{kg}} bishobora kugurishwa)",
+      "lotsBeingFilled": "Ibirundo biruzuzwa",
+      "noLotBeingFilled": "Nta na kimwe. Igemura ritaha ryemejwe ry'urwego rizatangiza ikirundo."
     },
     "history": {
       "title": "Igenzura ry'amateka",
@@ -890,13 +891,12 @@
       "message": "Urashobora gukomeza kwandika ibyagemuwe. Bibikwa kuri iki gikoresho, bikoherezwa interineti igarutse."
     },
     "saveFailed": "Ntibishobotse kubika ibyagemuwe kuri iki gikoresho. Ongera ugerageze.",
-    "lotLater": "Ikirundo kizagenwa igihe ibyagemuwe byoherejwe.",
     "receipt": {
       "waiting": "Bitegereje koherezwa",
       "failed": "Kohereza byanze",
-      "explanation": "Byabitswe kuri iki gikoresho. Nimero y'inyemezabwishyu, ikirundo n'amafaranga akurwaho bitangwa byoherejwe.",
+      "explanation": "Byabitswe kuri iki gikoresho. Nimero y'inyemezabwishyu n'amafaranga akurwaho bitangwa byoherejwe, ikirundo gitangwa umunyamuryango amaze kubyemeza.",
       "grade": "Urwego",
-      "lotLater": "Ikirundo kigenwa byoherejwe",
+      "lotLater": "Ikirundo gitangwa umunyamuryango amaze kubyemeza",
       "deductionPreview": "Amafaranga akurwaho (agereranyo)",
       "smsAfterSync": "Nibimara koherezwa, umunyamuryango azabona SMS asubize abyemeza."
     },
@@ -1168,6 +1168,14 @@
       "title": "Ibyo abaguzi basaba",
       "subtitle": "Ibiro bike umuguzi ashobora gusaba",
       "minOrderKg": "Ibiro bike bishoboka"
+    },
+    "lotSize": {
+      "title": "Ingano y'ikirundo",
+      "subtitle": "Ingano ya buri kirundo",
+      "label": "Ingano y'ikirundo",
+      "hint": "Buri kirundo gishya kijyamo ibi biro. Ishobora guhinduka gusa mbere y'uko ikirundo cya mbere cy'iyi ngano gitangira.",
+      "locked": "Hari ibirundo bifite iyi ngano, bityo ntishobora guhinduka.",
+      "invalid": "Andika umubare uri hejuru ya 0 utarenze 100.000, ufite imibare itarenze 2 nyuma y'akadomo"
     }
   },
   "codeConfirmation": {
@@ -1199,13 +1207,13 @@
     "error": "Ntibishobotse kubona ibyagemuwe.",
     "member": "Umunyamuryango",
     "grade": "Urwego",
-    "lot": "Ikirundo",
     "quantity": "Ibiro",
     "deduction": "Ibikurwaho",
     "deliveredAt": "Byagemuwe",
     "dispute": "Ikibazo",
     "resolution": "Icyo umuyobozi yanditse",
-    "confirmTitle": "Emeza hamwe n'umunyamuryango"
+    "confirmTitle": "Emeza hamwe n'umunyamuryango",
+    "lots": "Ibirundo"
   },
   "_nativeSpeakerReview": {
     "note": "Written without a native speaker. Please check these texts, then remove this block.",
@@ -1291,7 +1299,23 @@
       "lots.detail.memberRemaining",
       "lots.detail.lossSharesTitle",
       "lots.detail.lossSharesHint",
-      "lots.detail.ofDelivery"
+      "lots.detail.ofDelivery",
+      "deliveries.lot.entersLot",
+      "deliveries.lot.entersLotNoSize",
+      "deliveries.lots.afterConfirmation",
+      "deliveries.receipt.grade",
+      "deliveries.receipt.lots",
+      "deliveryDetail.lots",
+      "offline.receipt.explanation",
+      "offline.receipt.lotLater",
+      "dashboard.cards.lotsBeingFilled",
+      "dashboard.cards.noLotBeingFilled",
+      "settings.lotSize.title",
+      "settings.lotSize.subtitle",
+      "settings.lotSize.label",
+      "settings.lotSize.hint",
+      "settings.lotSize.locked",
+      "settings.lotSize.invalid"
     ]
   },
   "publicHome": {

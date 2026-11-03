@@ -8,6 +8,7 @@ import PageTitle from '../../components/PageTitle'
 import Pagination from '../../components/Pagination'
 import ConfirmationBadge from '../../components/deliveries/ConfirmationBadge'
 import DeliveryActionsMenu from '../../components/deliveries/DeliveryActionsMenu'
+import DeliveryLots from '../../components/deliveries/DeliveryLots'
 import usePageSize from '../../hooks/usePageSize'
 import useSharedLots from '../../hooks/useSharedLots'
 import { formatDateTime, formatKg } from '../../utils/format'
@@ -116,9 +117,7 @@ export default function Deliveries() {
                         <GradeName name={delivery.gradeName} />
                       </td>
                       <td className={cell}>
-                        <Link to={`/lots/${delivery.lotId}`} className="font-mono text-xs text-primary hover:underline">
-                          {delivery.lotCode}
-                        </Link>
+                        <DeliveryLots lots={delivery.lots} reversed={delivery.reversed} />
                       </td>
                       <td className={cell}>{formatKg(delivery.quantityKg)}</td>
                       <td className={`${cell} text-muted`}>{formatDateTime(delivery.deliveredAt)}</td>

@@ -59,17 +59,27 @@ export function StockCards({ summary }) {
         )}
       </StatCard>
 
-      <StatCard label={t('dashboard.cards.openLots')} icon={FolderOpen} loading={loading}>
+      <StatCard label={t('dashboard.cards.lotsBeingFilled')} icon={FolderOpen} loading={loading}>
         {summary && (
           <>
-            <p className={valueClass}>{formatNumber(summary.openLots.length)}</p>
-            <ul className="mt-1 space-y-0.5 text-xs text-muted">
-              {summary.openLots.map((lot) => (
+            <p className={valueClass}>{formatNumber(summary.lotsBeingFilled.length)}</p>
+            {summary.lotsBeingFilled.length === 0 && (
+              <p className="mt-1 text-xs text-muted">{t('dashboard.cards.noLotBeingFilled')}</p>
+            )}
+            <ul className="mt-1 space-y-1.5 text-xs text-muted">
+              {summary.lotsBeingFilled.map((lot) => (
                 <li key={lot.id}>
                   <Link to={`/lots/${lot.id}`} className="font-mono text-primary hover:underline">
                     {lot.code}
                   </Link>{' '}
-                  · <GradeName name={lot.gradeName} />
+                  · <GradeName name={lot.gradeName} /> ·{' '}
+                  {t('lots.fill.value', { filled: formatNumber(lot.filledKg), capacity: formatNumber(lot.capacityKg) })}
+                  <span className="mt-0.5 block h-1 overflow-hidden rounded-full bg-text/10">
+                    <span
+                      className="block h-full rounded-full bg-primary"
+                      style={{ width: `${Math.min(100, (Number(lot.filledKg) / Number(lot.capacityKg)) * 100)}%` }}
+                    />
+                  </span>
                 </li>
               ))}
             </ul>

@@ -10,6 +10,7 @@ import ConfirmationBadge, { confirmationMethodLabel } from '../../components/del
 import DeliveryActionsMenu from '../../components/deliveries/DeliveryActionsMenu'
 import DeliveryConfirmation from '../../components/deliveries/DeliveryConfirmation'
 import DeliveryHistoryNote from '../../components/deliveries/DeliveryHistoryNote'
+import DeliveryLots from '../../components/deliveries/DeliveryLots'
 import useLinkedDeliveries from '../../hooks/useLinkedDeliveries'
 import useSharedLots from '../../hooks/useSharedLots'
 import { formatDateTime, formatKg, formatMoney } from '../../utils/format'
@@ -123,10 +124,8 @@ export default function DeliveryDetail() {
             <Row label={t('deliveryDetail.grade')}>
               <GradeName name={delivery.gradeName} />
             </Row>
-            <Row label={t('deliveryDetail.lot')}>
-              <Link to={`/lots/${delivery.lotId}`} className="font-mono text-primary hover:underline">
-                {delivery.lotCode}
-              </Link>
+            <Row label={t('deliveryDetail.lots')}>
+              <DeliveryLots lots={delivery.lots} reversed={delivery.reversed} />
             </Row>
             <Row label={t('deliveryDetail.quantity')}>{formatKg(delivery.quantityKg)}</Row>
             <Row label={t('deliveryDetail.deduction')}>{formatMoney(delivery.deductionRwf)}</Row>

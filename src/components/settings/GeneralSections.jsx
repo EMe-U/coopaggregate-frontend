@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Building2, Coins, Mail, MessageSquare, ShoppingBag, X } from 'lucide-react'
+import { Boxes, Building2, Coins, Lock, Mail, MessageSquare, ShoppingBag, X } from 'lucide-react'
 import useSettingsSection from '../../hooks/useSettingsSection'
 import { cleanPhone, RWANDAN_PHONE_PATTERN } from '../../utils/phone'
 import SettingsSection, { SaveBar } from './SettingsSection'
@@ -127,6 +127,68 @@ export function OrdersSection({ settings, onSaved }) {
         </div>
       </Field>
       <SaveBar dirty={section.dirty} saving={section.saving} message={section.message} onSave={handleSave} />
+    </SettingsSection>
+  )
+}
+
+// Every lot has the same size, so it can only change until the first fixed-size lot exists. The
+// backend answers 409 when it is already fixed; the section then shows it as read-only.
+export function LotSizeSection({ settings, onSaved }) {
+  const { t } = useTranslation()
+  const section = useSettingsSection(settings, ['lotSizeKg'], onSaved)
+  const [error, setError] = useState('')
+  const locked = Boolean(settings.lotSizeLocked) || section.message?.status === 409
+
+  function handleSave() {
+    const size = parseAmount(section.draft.lotSizeKg)
+    if (size === null || size > 100000) {
+      setError(t('settings.lotSize.invalid'))
+      return
+    }
+    section.save()
+  }
+
+  return (
+    <SettingsSection icon={Boxes} title={t('settings.lotSize.title')} subtitle={t('settings.lotSize.subtitle')}>
+      {locked ? (
+        <>
+          <div className="rounded-lg bg-background p-4">
+            <p className={labelClass}>{t('settings.lotSize.label')}</p>
+            <p className="text-2xl font-semibold text-text">
+              {settings.lotSizeKg} <span className="text-sm font-normal text-muted">kg</span>
+            </p>
+          </div>
+          <p className="mt-3 flex items-start gap-1.5 text-xs text-muted">
+            <Lock size={14} className="mt-0.5 shrink-0" />
+            {t('settings.lotSize.locked')}
+          </p>
+          {section.message?.error && (
+            <p role="alert" className="mt-3 text-sm text-danger">
+              {section.message.error}
+            </p>
+          )}
+        </>
+      ) : (
+        <>
+          <Field id="settings-lot-size" label={t('settings.lotSize.label')} error={error} hint={t('settings.lotSize.hint')}>
+            <div className="relative max-w-xs">
+              <input
+                id="settings-lot-size"
+                type="text"
+                inputMode="decimal"
+                value={section.draft.lotSizeKg ?? ''}
+                onChange={(event) => {
+                  section.setField('lotSizeKg', event.target.value)
+                  setError('')
+                }}
+                className={`${inputClass} pr-12`}
+              />
+              <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted">kg</span>
+            </div>
+          </Field>
+          <SaveBar dirty={section.dirty} saving={section.saving} message={section.message} onSave={handleSave} />
+        </>
+      )}
     </SettingsSection>
   )
 }

@@ -264,14 +264,11 @@
     },
     "lot": {
       "title": "Lot assignment and deductions",
-      "chooseGrade": "Choose a grade to see which lot this delivery goes to.",
-      "checking": "Checking the open lot...",
-      "existing": "Will be added to lot {{code}} (open)",
-      "newLot": "A new lot will be started for this grade",
-      "error": "Could not check the open lot.",
       "deduction": "Cooperative deduction: {{kg}} kg × {{rate}} RWF = {{amount}}",
       "deductionHint": "Enter the quantity to see the deduction.",
-      "note": "No price is entered now. The member is paid after the lot is sold."
+      "note": "No price is entered now. The member is paid after the lot is sold.",
+      "entersLot": "Once the member confirms it, the kilos enter a lot of this grade ({{capacity}} kg per lot).",
+      "entersLotNoSize": "Once the member confirms it, the kilos enter a lot of this grade."
     },
     "duplicate": {
       "title": "Possible duplicate delivery",
@@ -292,13 +289,13 @@
       "title": "Delivery receipt",
       "member": "Member",
       "dateTime": "Date and time",
-      "gradeLot": "Grade and lot",
-      "gradeLotValue": "{{grade}} (lot {{lot}})",
       "quantity": "Quantity",
       "deduction": "Deduction",
       "print": "Print receipt",
       "recordAnother": "Record another",
-      "viewMember": "View member"
+      "viewMember": "View member",
+      "grade": "Grade",
+      "lots": "Lots"
     },
     "tips": {
       "title": "Manager tips",
@@ -326,7 +323,10 @@
       "error": "Could not load deliveries."
     },
     "save": "Save delivery",
-    "saving": "Saving..."
+    "saving": "Saving...",
+    "lots": {
+      "afterConfirmation": "After confirmation"
+    }
   },
   "grades": {
     "Big": "Big",
@@ -827,13 +827,14 @@
       "active_other": "{{count}} active",
       "stock": "Available stock",
       "deliveriesToday": "Deliveries today",
-      "openLots": "Open lots",
       "owed": "Amount owed to members",
       "membersWaiting_one": "{{count}} member waiting",
       "membersWaiting_other": "{{count}} members waiting",
       "sellableWaiting": "Sellable {{sellable}} · Waiting {{waiting}}",
       "disputed": "Disputed {{kg}}",
-      "gradeSellable": "({{kg}} sellable)"
+      "gradeSellable": "({{kg}} sellable)",
+      "lotsBeingFilled": "Lots being filled",
+      "noLotBeingFilled": "None. The next confirmed delivery of a grade starts one."
     },
     "history": {
       "title": "History check",
@@ -890,13 +891,12 @@
       "message": "You can still record deliveries. They are saved on this device and sync when the internet is back."
     },
     "saveFailed": "Could not save the delivery on this device. Please try again.",
-    "lotLater": "The lot will be assigned when this delivery syncs.",
     "receipt": {
       "waiting": "Waiting to sync",
       "failed": "Sync failed",
-      "explanation": "Saved on this device. The receipt code, lot and deduction are given when it syncs.",
+      "explanation": "Saved on this device. The receipt code and deduction are given when it syncs, the lot once the member confirms it.",
       "grade": "Grade",
-      "lotLater": "Lot assigned when it syncs",
+      "lotLater": "Lot given once the member confirms it",
       "deductionPreview": "Deduction (preview)",
       "smsAfterSync": "After it syncs, the member gets an SMS and replies to confirm it."
     },
@@ -1168,6 +1168,14 @@
       "title": "Orders",
       "subtitle": "The smallest order a buyer can request",
       "minOrderKg": "Minimum order"
+    },
+    "lotSize": {
+      "title": "Lot size",
+      "subtitle": "The size of every lot",
+      "label": "Lot size",
+      "hint": "Every new lot holds this many kg. It can only change until the first lot of this size is started.",
+      "locked": "Lots of this size already exist, so the size can no longer change.",
+      "invalid": "Enter a number above 0 and at most 100,000, with at most 2 decimals"
     }
   },
   "codeConfirmation": {
@@ -1199,13 +1207,13 @@
     "error": "Could not load the delivery.",
     "member": "Member",
     "grade": "Grade",
-    "lot": "Lot",
     "quantity": "Weight",
     "deduction": "Deduction",
     "deliveredAt": "Delivered",
     "dispute": "Dispute",
     "resolution": "Manager's note",
-    "confirmTitle": "Confirm with the member"
+    "confirmTitle": "Confirm with the member",
+    "lots": "Lots"
   },
   "publicHome": {
     "hero": "Irish potatoes sold by the cooperative.",

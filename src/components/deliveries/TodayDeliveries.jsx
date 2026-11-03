@@ -13,6 +13,7 @@ import { syncedDelivery } from '../../offline/sync'
 import GradeName from '../GradeName'
 import ConfirmationBadge from './ConfirmationBadge'
 import DeliveryActionsMenu from './DeliveryActionsMenu'
+import DeliveryLots from './DeliveryLots'
 import DeliveryHistoryNote, { deliveryRowId } from './DeliveryHistoryNote'
 import Pagination from '../Pagination'
 import { formatKg, formatMoney, formatTime, kigaliIsoDate } from '../../utils/format'
@@ -201,7 +202,9 @@ export default function TodayDeliveries({ reloadKey }) {
                       <GradeName name={delivery.gradeName} />
                     </span>
                   </td>
-                  <td className={`${cell} font-mono text-xs`}>{delivery.lotCode}</td>
+                  <td className={cell}>
+                    <DeliveryLots lots={delivery.lots} reversed={delivery.reversed} />
+                  </td>
                   <td className={cell}>{formatKg(delivery.quantityKg)}</td>
                   <td className={cell}>{formatMoney(delivery.deductionRwf)}</td>
                   <td className={cell}>{formatTime(delivery.deliveredAt)}</td>
