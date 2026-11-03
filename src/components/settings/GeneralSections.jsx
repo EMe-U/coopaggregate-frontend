@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Boxes, Building2, Coins, Lock, Mail, MessageSquare, ShoppingBag, X } from 'lucide-react'
+import { Boxes, Building2, Coins, Info, Mail, MessageSquare, ShoppingBag, X } from 'lucide-react'
 import useSettingsSection from '../../hooks/useSettingsSection'
 import { cleanPhone, RWANDAN_PHONE_PATTERN } from '../../utils/phone'
 import SettingsSection, { SaveBar } from './SettingsSection'
@@ -131,13 +131,22 @@ export function OrdersSection({ settings, onSaved }) {
   )
 }
 
-// Every lot has the same size, so it can only change until the first fixed-size lot exists. The
-// backend answers 409 when it is already fixed; the section then shows it as read-only.
+// The size of new lots. It can change at any time with a reason, which goes to the change history.
+// Each lot keeps the size it was started with, so the lot being filled and older lots do not change.
+const REASON_MIN = 10
+const REASON_MAX = 500
+
 export function LotSizeSection({ settings, onSaved }) {
   const { t } = useTranslation()
-  const section = useSettingsSection(settings, ['lotSizeKg'], onSaved)
+  const [reason, setReason] = useState('')
+  const section = useSettingsSection(settings, ['lotSizeKg'], (saved) => {
+    setReason('')
+    onSaved(saved)
+  })
   const [error, setError] = useState('')
-  const locked = Boolean(settings.lotSizeLocked) || section.message?.status === 409
+  const [reasonError, setReasonError] = useState('')
+  // A size typed differently but equal ("100.0") is not a change and needs no reason.
+  const changed = section.dirty && parseAmount(section.draft.lotSizeKg) !== Number(settings.lotSizeKg)
 
   function handleSave() {
     const size = parseAmount(section.draft.lotSizeKg)
@@ -145,50 +154,70 @@ export function LotSizeSection({ settings, onSaved }) {
       setError(t('settings.lotSize.invalid'))
       return
     }
-    section.save()
+    const trimmed = reason.trim()
+    if (changed && (trimmed.length < REASON_MIN || trimmed.length > REASON_MAX)) {
+      setReasonError(t('settings.lotSize.reasonInvalid', { min: REASON_MIN, max: REASON_MAX }))
+      return
+    }
+    section.save(changed ? { lotSizeReason: trimmed } : {})
   }
 
   return (
     <SettingsSection icon={Boxes} title={t('settings.lotSize.title')} subtitle={t('settings.lotSize.subtitle')}>
-      {locked ? (
-        <>
-          <div className="rounded-lg bg-background p-4">
-            <p className={labelClass}>{t('settings.lotSize.label')}</p>
-            <p className="text-2xl font-semibold text-text">
-              {settings.lotSizeKg} <span className="text-sm font-normal text-muted">kg</span>
-            </p>
-          </div>
-          <p className="mt-3 flex items-start gap-1.5 text-xs text-muted">
-            <Lock size={14} className="mt-0.5 shrink-0" />
-            {t('settings.lotSize.locked')}
+      <Field id="settings-lot-size" label={t('settings.lotSize.label')} error={error} hint={t('settings.lotSize.hint')}>
+        <div className="relative max-w-xs">
+          <input
+            id="settings-lot-size"
+            type="text"
+            inputMode="decimal"
+            value={section.draft.lotSizeKg ?? ''}
+            onChange={(event) => {
+              section.setField('lotSizeKg', event.target.value)
+              setError('')
+            }}
+            className={`${inputClass} pr-12`}
+          />
+          <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted">kg</span>
+        </div>
+      </Field>
+      {changed && (
+        <div className="mt-4 space-y-3">
+          <p className="flex items-start gap-1.5 rounded-lg bg-background p-3 text-sm text-muted">
+            <Info size={16} className="mt-0.5 shrink-0 text-primary" />
+            {t('settings.lotSize.newLotsOnly')}
           </p>
-          {section.message?.error && (
-            <p role="alert" className="mt-3 text-sm text-danger">
-              {section.message.error}
-            </p>
-          )}
-        </>
-      ) : (
-        <>
-          <Field id="settings-lot-size" label={t('settings.lotSize.label')} error={error} hint={t('settings.lotSize.hint')}>
-            <div className="relative max-w-xs">
-              <input
-                id="settings-lot-size"
-                type="text"
-                inputMode="decimal"
-                value={section.draft.lotSizeKg ?? ''}
-                onChange={(event) => {
-                  section.setField('lotSizeKg', event.target.value)
-                  setError('')
-                }}
-                className={`${inputClass} pr-12`}
-              />
-              <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted">kg</span>
+          <div>
+            <label htmlFor="settings-lot-size-reason" className={labelClass}>
+              {t('settings.lotSize.reason')}
+            </label>
+            <textarea
+              id="settings-lot-size-reason"
+              rows={3}
+              required
+              maxLength={REASON_MAX}
+              value={reason}
+              aria-invalid={Boolean(reasonError)}
+              aria-describedby="settings-lot-size-reason-help"
+              onChange={(event) => {
+                setReason(event.target.value)
+                setReasonError('')
+              }}
+              className={`${inputClass} py-2`}
+            />
+            <div id="settings-lot-size-reason-help" className="mt-1 flex flex-wrap justify-between gap-x-3 text-xs">
+              {reasonError ? (
+                <p className="text-sm text-danger">{reasonError}</p>
+              ) : (
+                <p className="text-muted">{t('settings.lotSize.reasonHint', { min: REASON_MIN, max: REASON_MAX })}</p>
+              )}
+              <p className="ml-auto text-muted" aria-live="polite">
+                {reason.trim().length} / {REASON_MAX}
+              </p>
             </div>
-          </Field>
-          <SaveBar dirty={section.dirty} saving={section.saving} message={section.message} onSave={handleSave} />
-        </>
+          </div>
+        </div>
       )}
+      <SaveBar dirty={section.dirty} saving={section.saving} message={section.message} onSave={handleSave} />
     </SettingsSection>
   )
 }

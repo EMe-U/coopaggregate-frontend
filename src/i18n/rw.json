@@ -1162,10 +1162,12 @@
         "IDENTITY_VERIFIED": "Umwirondoro wagenzuwe",
         "IDENTITY_DUPLICATE": "Igenzura: asanzwe ari umunyamuryango",
         "IDENTITY_VERIFICATION_FAILED": "Igenzura ry'umwirondoro ryanze",
-        "SALE_FIFO_SKIPPED": "Ibyagemuwe byasimbutswe mu igurisha"
+        "SALE_FIFO_SKIPPED": "Ibyagemuwe byasimbutswe mu igurisha",
+        "LOT_SIZE_CHANGED": "Ingano y'ikirundo yahinduwe"
       },
       "details": {
-        "saleFifoSkipped": "Igurisha {{sale}} ryasimbutse ibyagemuwe {{batches}}. Impamvu: {{reason}}"
+        "saleFifoSkipped": "Igurisha {{sale}} ryasimbutse ibyagemuwe {{batches}}. Impamvu: {{reason}}",
+        "lotSizeChanged": "Kuva kuri {{from}} kg ujya kuri {{to}} kg, ku birundo bishya gusa. Impamvu: {{reason}}"
       }
     },
     "orders": {
@@ -1175,11 +1177,14 @@
     },
     "lotSize": {
       "title": "Ingano y'ikirundo",
-      "subtitle": "Ingano ya buri kirundo",
+      "subtitle": "Ibiro ikirundo gishya kijyamo",
       "label": "Ingano y'ikirundo",
-      "hint": "Buri kirundo gishya kijyamo ibi biro. Ishobora guhinduka gusa mbere y'uko ikirundo cya mbere cy'iyi ngano gitangira.",
-      "locked": "Hari ibirundo bifite iyi ngano, bityo ntishobora guhinduka.",
-      "invalid": "Andika umubare uri hejuru ya 0 utarenze 100.000, ufite imibare itarenze 2 nyuma y'akadomo"
+      "hint": "Buri kirundo gishya kijyamo ibi biro.",
+      "invalid": "Andika umubare uri hejuru ya 0 utarenze 100.000, ufite imibare itarenze 2 nyuma y'akadomo",
+      "newLotsOnly": "Ingano nshya ikoreshwa ku birundo bishya gusa. Ikirundo kiri kuzuzwa n'ibirundo byose bisanzwe bigumana ingano yabyo.",
+      "reason": "Kuki ingano y'ikirundo ihinduka?",
+      "reasonHint": "Birakenewe: inyuguti {{min}} kugeza kuri {{max}}. Bibikwa mu mateka y'impinduka.",
+      "reasonInvalid": "Andika impamvu ifite inyuguti {{min}} kugeza kuri {{max}}."
     }
   },
   "codeConfirmation": {
@@ -1318,7 +1323,6 @@
       "settings.lotSize.subtitle",
       "settings.lotSize.label",
       "settings.lotSize.hint",
-      "settings.lotSize.locked",
       "settings.lotSize.invalid",
       "sales.form.subtitle",
       "sales.preview.intro",
@@ -1331,7 +1335,13 @@
       "sales.preview.mayChange",
       "sales.batches.lotHeading",
       "sales.batches.lotKg_one",
-      "sales.batches.lotKg_other"
+      "sales.batches.lotKg_other",
+      "settings.lotSize.newLotsOnly",
+      "settings.lotSize.reason",
+      "settings.lotSize.reasonHint",
+      "settings.lotSize.reasonInvalid",
+      "settings.history.actions.LOT_SIZE_CHANGED",
+      "settings.history.details.lotSizeChanged"
     ]
   },
   "publicHome": {

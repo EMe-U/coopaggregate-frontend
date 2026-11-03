@@ -1162,10 +1162,12 @@
         "IDENTITY_VERIFIED": "Identity verified",
         "IDENTITY_DUPLICATE": "Identity check: already a member",
         "IDENTITY_VERIFICATION_FAILED": "Identity check failed",
-        "SALE_FIFO_SKIPPED": "Batches skipped in a sale"
+        "SALE_FIFO_SKIPPED": "Batches skipped in a sale",
+        "LOT_SIZE_CHANGED": "Lot size changed"
       },
       "details": {
-        "saleFifoSkipped": "Sale {{sale}} passed over batches {{batches}}. Reason: {{reason}}"
+        "saleFifoSkipped": "Sale {{sale}} passed over batches {{batches}}. Reason: {{reason}}",
+        "lotSizeChanged": "From {{from}} kg to {{to}} kg, for new lots only. Reason: {{reason}}"
       }
     },
     "orders": {
@@ -1175,11 +1177,14 @@
     },
     "lotSize": {
       "title": "Lot size",
-      "subtitle": "The size of every lot",
+      "subtitle": "How many kg a new lot holds",
       "label": "Lot size",
-      "hint": "Every new lot holds this many kg. It can only change until the first lot of this size is started.",
-      "locked": "Lots of this size already exist, so the size can no longer change.",
-      "invalid": "Enter a number above 0 and at most 100,000, with at most 2 decimals"
+      "hint": "Each new lot holds this many kg.",
+      "invalid": "Enter a number above 0 and at most 100,000, with at most 2 decimals",
+      "newLotsOnly": "The new size applies to new lots only. The lot being filled and all existing lots keep their size.",
+      "reason": "Why does the lot size change?",
+      "reasonHint": "Required: {{min}} to {{max}} characters. It is kept in the change history.",
+      "reasonInvalid": "Give a reason of {{min}} to {{max}} characters."
     }
   },
   "codeConfirmation": {

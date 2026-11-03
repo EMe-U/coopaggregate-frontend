@@ -4,12 +4,14 @@ import { useTranslation } from 'react-i18next'
 import { History } from 'lucide-react'
 import { listSettingsHistory } from '../../api/settings'
 import usePageSize from '../../hooks/usePageSize'
-import { formatDateTime } from '../../utils/format'
+import { formatDateTime, formatNumber } from '../../utils/format'
 import Pagination from '../Pagination'
 import SettingsSection from './SettingsSection'
 
 // The stored details of a skipped-batches entry: "Sale SAL-…: skipped R-…, R-…. Reason: <text>".
 const SKIPPED_DETAILS = /^Sale (\S+): skipped (.+?)\. Reason: ([\s\S]*)$/
+// The stored details of a lot size change: "Lot size: 100 kg -> 50 kg, for new lots only. Reason: <text>".
+const LOT_SIZE_DETAILS = /^Lot size: (\S+) kg -> (\S+) kg, for new lots only\. Reason: ([\s\S]*)$/
 
 // Shown in plain words when they can be read, otherwise as stored.
 function Details({ entry }) {
@@ -22,11 +24,23 @@ function Details({ entry }) {
       </p>
     )
   }
+  const lotSize = entry.action === 'LOT_SIZE_CHANGED' && LOT_SIZE_DETAILS.exec(entry.details)
+  if (lotSize) {
+    return (
+      <p className="break-words text-xs text-muted">
+        {t('settings.history.details.lotSizeChanged', {
+          from: formatNumber(Number(lotSize[1])),
+          to: formatNumber(Number(lotSize[2])),
+          reason: lotSize[3],
+        })}
+      </p>
+    )
+  }
   return <p className="break-words font-mono text-xs text-muted">{entry.details}</p>
 }
 
-// Changes to settings, grades and the password, new confirmation codes, manager reviews and the
-// batches a sale skipped. Passwords and codes are never in it.
+// Changes to settings, grades, the lot size and the password, new confirmation codes, manager
+// reviews and the batches a sale skipped. Passwords and codes are never in it.
 export default function RecentChanges({ reloadKey }) {
   const { t } = useTranslation()
   const pageSize = usePageSize()
