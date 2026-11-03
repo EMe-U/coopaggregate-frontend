@@ -267,8 +267,9 @@
       "deduction": "Cooperative deduction: {{kg}} kg × {{rate}} RWF = {{amount}}",
       "deductionHint": "Enter the quantity to see the deduction.",
       "note": "No price is entered now. The member is paid after the lot is sold.",
-      "entersLot": "Once the member confirms it, the kilos enter a lot of this grade ({{capacity}} kg per lot).",
-      "entersLotNoSize": "Once the member confirms it, the kilos enter a lot of this grade."
+      "entersLot": "Once the member confirms it, the kilos enter a {{capacity}} kg lot of this grade.",
+      "entersLotNoSize": "Once the member confirms it, the kilos enter a lot of this grade.",
+      "entersFillingLot": "Once the member confirms it, the kilos enter the lot of this grade being filled ({{capacity}} kg). When it is full, new lots of {{next}} kg follow."
     },
     "duplicate": {
       "title": "Possible duplicate delivery",

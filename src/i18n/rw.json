@@ -267,8 +267,9 @@
       "deduction": "Ibikurwaho na koperative: {{kg}} kg × {{rate}} RWF = {{amount}}",
       "deductionHint": "Andika ingano kugira ngo urebe ibikurwaho.",
       "note": "Nta giciro cyandikwa ubu. Umunyamuryango yishyurwa nyuma y'uko ikirundo kigurishijwe.",
-      "entersLot": "Umunyamuryango namara kubyemeza, ibiro bizajya mu kirundo cy'uru rwego (kg {{capacity}} kuri buri kirundo).",
-      "entersLotNoSize": "Umunyamuryango namara kubyemeza, ibiro bizajya mu kirundo cy'uru rwego."
+      "entersLot": "Umunyamuryango namara kubyemeza, ibiro bizajya mu kirundo cy'uru rwego cya kg {{capacity}}.",
+      "entersLotNoSize": "Umunyamuryango namara kubyemeza, ibiro bizajya mu kirundo cy'uru rwego.",
+      "entersFillingLot": "Umunyamuryango namara kubyemeza, ibiro bizajya mu kirundo cy'uru rwego kiri kuzuzwa (kg {{capacity}}). Nicyuzura, hazakurikiraho ibirundo bishya bya kg {{next}}."
     },
     "duplicate": {
       "title": "Bishobora kuba byanditswe kabiri",
@@ -1341,7 +1342,8 @@
       "settings.lotSize.reasonHint",
       "settings.lotSize.reasonInvalid",
       "settings.history.actions.LOT_SIZE_CHANGED",
-      "settings.history.details.lotSizeChanged"
+      "settings.history.details.lotSizeChanged",
+      "deliveries.lot.entersFillingLot"
     ]
   },
   "publicHome": {

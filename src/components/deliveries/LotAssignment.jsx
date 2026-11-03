@@ -7,9 +7,9 @@ import useOnlineStatus from '../../hooks/useOnlineStatus'
 import { formatMoney, formatNumber } from '../../utils/format'
 import { DEDUCTION_PER_KG_PREVIEW, previewDeduction } from '../../utils/deduction'
 
-// The lot size: the capacity of the grade's lot being filled, or else the lot size setting (the
-// next lot starts with it). Null when neither can be read, for example offline.
-function useLotSize(gradeId, isOnline) {
+// The capacity of the grade's lot being filled (null when there is none) and the lot size setting,
+// which new lots start with. Each is null when it cannot be read, for example offline.
+function useLotSizes(gradeId, isOnline) {
   const [settingSize, setSettingSize] = useState(null)
   const [lotSize, setLotSize] = useState(null)
 
@@ -40,7 +40,18 @@ function useLotSize(gradeId, isOnline) {
     }
   }, [gradeId, isOnline])
 
-  return lotSize ?? settingSize
+  return { lotSize, settingSize }
+}
+
+// After a lot size change, the lot being filled keeps its old size and the kilos that do not fit
+// go into new lots of the setting's size, so both sizes are named when they differ.
+function LotSizeNote({ lotSize, settingSize }) {
+  const { t } = useTranslation()
+  if (lotSize != null && settingSize != null && Number(lotSize) !== Number(settingSize)) {
+    return t('deliveries.lot.entersFillingLot', { capacity: formatNumber(lotSize), next: formatNumber(settingSize) })
+  }
+  const size = lotSize ?? settingSize
+  return size != null ? t('deliveries.lot.entersLot', { capacity: formatNumber(size) }) : t('deliveries.lot.entersLotNoSize')
 }
 
 // A delivery is in no lot until the member confirms it; then the system puts its kilos into the
@@ -48,7 +59,7 @@ function useLotSize(gradeId, isOnline) {
 export default function LotAssignment({ gradeId, quantityKg }) {
   const { t } = useTranslation()
   const isOnline = useOnlineStatus()
-  const lotSize = useLotSize(gradeId, isOnline)
+  const { lotSize, settingSize } = useLotSizes(gradeId, isOnline)
 
   return (
     <div className="rounded-lg bg-primary-light p-4 text-sm text-primary">
@@ -58,9 +69,7 @@ export default function LotAssignment({ gradeId, quantityKg }) {
       </p>
       <div className="mt-2 space-y-1 pl-6">
         <p>
-          {lotSize != null
-            ? t('deliveries.lot.entersLot', { capacity: formatNumber(lotSize) })
-            : t('deliveries.lot.entersLotNoSize')}
+          <LotSizeNote lotSize={lotSize} settingSize={settingSize} />
         </p>
         <p>
           {quantityKg
