@@ -140,12 +140,9 @@
         "joinDateRequired": "Choose the join date",
         "joinDateFuture": "The join date cannot be in the future",
         "generic": "Could not save the member. Please try again.",
-        "serverUnreachable": "Cannot reach the server. Check your connection.",
-        "birthDateRequired": "Enter the birth date",
-        "birthDateFuture": "The birth date cannot be in the future"
+        "serverUnreachable": "Cannot reach the server. Check your connection."
       },
-      "birthDate": "Birth date",
-      "birthDateHint": "Needed for the identity check. It is not saved."
+      "verifiedLocked": "The name and phone number come from the identity check and cannot be changed here."
     },
     "detail": {
       "back": "Back to members",
@@ -1638,30 +1635,34 @@
     "retry": "Try again"
   },
   "memberVerification": {
-    "failedTitle": "Identity not verified",
-    "backToForm": "Back to the registration form",
     "errors": {
-      "startAgain": "The verification expired or is not valid. Start the verification again.",
-      "used": "This verification was already used. Start the verification again.",
-      "unavailable": "Verification is not available.",
+      "startAgain": "The verification was not found. Start again from Add member.",
       "network": "Cannot reach the server. Check your connection and try again.",
       "generic": "The identity could not be verified. Please try again.",
-      "expired": "The verification is older than 30 minutes. Verify the person again.",
-      "required": "Verify the person's identity first.",
-      "blocked": "Member registration needs identity verification, which is not configured."
+      "expired": "The verification is older than 30 minutes and can no longer be used. Start again from Add member.",
+      "blocked": "Member registration needs identity verification, which is not configured.",
+      "VERIFICATION_UNKNOWN": "This verification is not known or was started by another manager. Start again from Add member.",
+      "VERIFICATION_EXPIRED": "The verification took too long and expired. Start again from Add member.",
+      "VERIFICATION_USED": "This verification was already used. Start again from Add member.",
+      "ALREADY_MEMBER": "This person is already a member.",
+      "CLAIMS_MISSING": "The identity service did not share the person's name and phone number. Start again from Add member and allow both.",
+      "PHONE_NOT_RWANDAN": "The verified phone number is not a Rwandan mobile number, so this person cannot be registered.",
+      "NAME_TOO_LONG": "The verified name is longer than 150 characters and cannot be saved. Contact the administrator.",
+      "PROVIDER_FAILED": "The identity service did not answer correctly. Try again in a moment from Add member.",
+      "NOT_CONFIGURED": "Member registration needs identity verification, which is not configured."
     },
-    "title": "Verify identity",
-    "subtitle": "Confirms that this person is who they say and is not already a member.",
-    "start": "Verify identity",
     "starting": "Starting...",
-    "verified": "Verified ({{method}})",
-    "saveWithin": "Save the member within {{time}}, or verify again.",
+    "saveWithin": "Save within {{time}}, or start again from Add member.",
     "method": {
       "OTP": "SMS code",
       "FACE": "face check",
       "PASSWORD": "password",
       "MOCK": "test mode"
     },
-    "requiredHint": "Required: Save is enabled once the identity is verified."
+    "checking": "Checking the identity...",
+    "cancelled": {
+      "message": "Verification was cancelled. Start again from Add member when the person is ready.",
+      "consentDenied": "Verification was cancelled: the person must allow sharing their name and phone number. Start again from Add member."
+    }
   }
 }

@@ -140,12 +140,9 @@
         "joinDateRequired": "Hitamo itariki yinjiriyeho",
         "joinDateFuture": "Itariki ntishobora kuba iri imbere",
         "generic": "Ntibishobotse kubika umunyamuryango. Ongera ugerageze.",
-        "serverUnreachable": "Ntibishoboka kugera kuri seriveri. Reba murandasi yawe.",
-        "birthDateRequired": "Andika itariki y'amavuko",
-        "birthDateFuture": "Itariki y'amavuko ntishobora kuba iri imbere"
+        "serverUnreachable": "Ntibishoboka kugera kuri seriveri. Reba murandasi yawe."
       },
-      "birthDate": "Itariki y'amavuko",
-      "birthDateHint": "Ikenewe mu igenzura ry'umwirondoro. Ntibikwa."
+      "verifiedLocked": "Izina na telefoni biva mu igenzura ry'umwirondoro, ntibishobora guhindurirwa hano."
     },
     "detail": {
       "back": "Subira ku banyamuryango",
@@ -1278,10 +1275,6 @@
       "dashboard.cards.disputed",
       "dashboard.cards.gradeSellable",
       "memberVerification",
-      "members.form.birthDate",
-      "members.form.birthDateHint",
-      "members.form.errors.birthDateRequired",
-      "members.form.errors.birthDateFuture",
       "members.verified",
       "codeConfirmation.hint",
       "codeConfirmation.close",
@@ -1343,7 +1336,23 @@
       "settings.lotSize.reasonInvalid",
       "settings.history.actions.LOT_SIZE_CHANGED",
       "settings.history.details.lotSizeChanged",
-      "deliveries.lot.entersFillingLot"
+      "deliveries.lot.entersFillingLot",
+      "memberVerification.checking",
+      "memberVerification.saveWithin",
+      "memberVerification.cancelled.message",
+      "memberVerification.cancelled.consentDenied",
+      "memberVerification.errors.startAgain",
+      "memberVerification.errors.expired",
+      "memberVerification.errors.VERIFICATION_UNKNOWN",
+      "memberVerification.errors.VERIFICATION_EXPIRED",
+      "memberVerification.errors.VERIFICATION_USED",
+      "memberVerification.errors.ALREADY_MEMBER",
+      "memberVerification.errors.CLAIMS_MISSING",
+      "memberVerification.errors.PHONE_NOT_RWANDAN",
+      "memberVerification.errors.NAME_TOO_LONG",
+      "memberVerification.errors.PROVIDER_FAILED",
+      "memberVerification.errors.NOT_CONFIGURED",
+      "members.form.verifiedLocked"
     ]
   },
   "publicHome": {
@@ -1759,30 +1768,34 @@
     "retry": "Ongera ugerageze"
   },
   "memberVerification": {
-    "failedTitle": "Umwirondoro ntiwagenzuwe",
-    "backToForm": "Subira ku ifishi yo kwandika",
     "errors": {
-      "startAgain": "Igenzura ryarangiye cyangwa ntiriri ryo. Ongera utangire igenzura.",
-      "used": "Iri genzura ryamaze gukoreshwa. Ongera utangire igenzura.",
-      "unavailable": "Igenzura ntiriboneka.",
+      "startAgain": "Igenzura ntiryabonetse. Ongera utangire kuri Ongeramo umunyamuryango.",
       "network": "Ntibishobotse kugera kuri seriveri. Reba interineti wongere ugerageze.",
       "generic": "Umwirondoro ntiwashoboye kugenzurwa. Ongera ugerageze.",
-      "expired": "Igenzura rirengeje iminota 30. Ongera ugenzure uyu muntu.",
-      "required": "Banza ugenzure umwirondoro w'uyu muntu.",
-      "blocked": "Kwandika umunyamuryango bisaba igenzura ry'umwirondoro, ritaratunganywa."
+      "expired": "Igenzura rirengeje iminota 30, ntirigishobora gukoreshwa. Ongera utangire kuri Ongeramo umunyamuryango.",
+      "blocked": "Kwandika umunyamuryango bisaba igenzura ry'umwirondoro, ritaratunganywa.",
+      "VERIFICATION_UNKNOWN": "Iri genzura ntirizwi cyangwa ryatangijwe n'undi muyobozi. Ongera utangire kuri Ongeramo umunyamuryango.",
+      "VERIFICATION_EXPIRED": "Igenzura ryatinze cyane rirarangira. Ongera utangire kuri Ongeramo umunyamuryango.",
+      "VERIFICATION_USED": "Iri genzura ryamaze gukoreshwa. Ongera utangire kuri Ongeramo umunyamuryango.",
+      "ALREADY_MEMBER": "Uyu muntu asanzwe ari umunyamuryango.",
+      "CLAIMS_MISSING": "Serivisi y'igenzura ntiyatanze izina na telefoni by'uyu muntu. Ongera utangire kuri Ongeramo umunyamuryango kandi wemere byombi.",
+      "PHONE_NOT_RWANDAN": "Telefoni yagenzuwe si nimero ya telefoni igendanwa yo mu Rwanda, bityo uyu muntu ntashobora kwandikwa.",
+      "NAME_TOO_LONG": "Izina ryagenzuwe rirengeje inyuguti 150, ntirishobora kubikwa. Vugana n'umuyobozi wa sisitemu.",
+      "PROVIDER_FAILED": "Serivisi y'igenzura ntiyasubije neza. Ongera ugerageze nyuma gato kuri Ongeramo umunyamuryango.",
+      "NOT_CONFIGURED": "Kwandika umunyamuryango bisaba igenzura ry'umwirondoro, ritaratunganywa."
     },
-    "title": "Genzura umwirondoro",
-    "subtitle": "Byemeza ko uyu muntu ari we uwo avuga kandi atari umunyamuryango usanzwe.",
-    "start": "Genzura umwirondoro",
     "starting": "Biratangira...",
-    "verified": "Yagenzuwe ({{method}})",
-    "saveWithin": "Bika umunyamuryango mu gihe gisigaye: {{time}}, cyangwa wongere ugenzure.",
+    "saveWithin": "Bika mu gihe gisigaye: {{time}}, cyangwa wongere utangire kuri Ongeramo umunyamuryango.",
     "method": {
       "OTP": "kode ya SMS",
       "FACE": "isura",
       "PASSWORD": "ijambobanga",
       "MOCK": "igerageza"
     },
-    "requiredHint": "Birakenewe: Bika ikora umwirondoro umaze kugenzurwa."
+    "checking": "Turimo kugenzura umwirondoro...",
+    "cancelled": {
+      "message": "Igenzura ryahagaritswe. Ongera utangire kuri Ongeramo umunyamuryango igihe uyu muntu yiteguye.",
+      "consentDenied": "Igenzura ryahagaritswe: uyu muntu agomba kwemera ko izina na telefoni bye bitangwa. Ongera utangire kuri Ongeramo umunyamuryango."
+    }
   }
 }

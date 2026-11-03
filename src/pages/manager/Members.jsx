@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { UserPlus, Users } from 'lucide-react'
-import { getMemberSummary } from '../../api/members'
+import { ShieldAlert, UserPlus, Users, X } from 'lucide-react'
+import { getIdentityVerificationStatus, getMemberSummary, startIdentityVerification } from '../../api/members'
 import OfflineDataNote from '../../components/OfflineDataNote'
 import PageTitle from '../../components/PageTitle'
 import EmptyState from '../../components/EmptyState'
@@ -17,7 +17,7 @@ import useNeedsInternet from '../../hooks/useNeedsInternet'
 import useOnlineStatus from '../../hooks/useOnlineStatus'
 import usePageSize from '../../hooks/usePageSize'
 import { loadMembersPage, loadWithCache } from '../../offline/cache'
-import { takeRegistrationDraft, takeVerification } from '../../members/identityVerification'
+import { takeVerification, verificationErrorMessage, verificationExpired } from '../../members/identityVerification'
 
 const ACTIVE_PARAM = { all: undefined, active: true, inactive: false }
 
@@ -45,16 +45,67 @@ export default function Members() {
   // form is null when closed; form.member is null when adding a new member.
   const [form, setForm] = useState(null)
 
-  // Back from the identity check (?register=1): open the form again with what was typed and the
-  // result. Both are read once; the ref keeps a second effect run from finding them empty.
-  const [searchParams, setSearchParams] = useSearchParams()
-  const restored = useRef(false)
+  // Why the last registration attempt stopped: a cancelled or failed identity check, an expired
+  // verification, and so on. Shown above the list until closed or a new attempt starts.
+  const [registrationError, setRegistrationError] = useState('')
+  // { available } from the backend; null until it answers. Without verification nobody can be added.
+  const [identity, setIdentity] = useState(null)
+  const [starting, setStarting] = useState(false)
+
   useEffect(() => {
-    if (restored.current || searchParams.get('register') !== '1') return
-    restored.current = true
-    setForm({ member: null, draft: takeRegistrationDraft(), verification: takeVerification() })
-    setSearchParams({}, { replace: true })
-  }, [searchParams, setSearchParams])
+    if (!isOnline) return undefined
+    let ignore = false
+    getIdentityVerificationStatus()
+      .then((status) => {
+        if (!ignore) setIdentity(status)
+      })
+      .catch(() => {})
+    return () => {
+      ignore = true
+    }
+  }, [isOnline])
+  const registrationBlocked = identity?.available === false
+
+  // Back from the identity check (see MemberVerifyCallback): open the form with the verification,
+  // or show why there is none. Read once, then removed from the history entry; the ref keeps a
+  // second effect run from finding the verification already taken.
+  const location = useLocation()
+  const navigate = useNavigate()
+  const handledReturn = useRef(false)
+  useEffect(() => {
+    const registration = location.state?.registration
+    if (!registration || handledReturn.current) return
+    handledReturn.current = true
+    navigate(location.pathname, { replace: true, state: null })
+    if (registration.error) {
+      setRegistrationError(registration.error)
+      return
+    }
+    const verification = takeVerification()
+    if (!verification) setRegistrationError(t('memberVerification.errors.startAgain'))
+    else if (verificationExpired(verification)) setRegistrationError(t('memberVerification.errors.expired'))
+    else setForm({ member: null, verification })
+  }, [location, navigate, t])
+
+  async function handleAdd() {
+    setStarting(true)
+    setRegistrationError('')
+    try {
+      const started = await startIdentityVerification()
+      window.location.assign(started.authorizationUrl)
+      return
+    } catch (error) {
+      setRegistrationError(verificationErrorMessage(t, error))
+    }
+    setStarting(false)
+  }
+
+  // The form gave up its verification (expired, used, refused): close it and say why.
+  const handleVerificationGone = useCallback((message) => {
+    setForm(null)
+    setRegistrationError(message)
+  }, [])
+
   const [notice, setNotice] = useState('')
   const clearNotice = useCallback(() => setNotice(''), [])
 
@@ -177,15 +228,40 @@ export default function Members() {
         </div>
         <button
           type="button"
-          onClick={() => setForm({ member: null })}
-          disabled={needsInternet.offline}
+          onClick={handleAdd}
+          disabled={needsInternet.offline || registrationBlocked || starting}
           title={needsInternet.title}
+          aria-describedby={registrationBlocked ? 'members-registration-blocked' : undefined}
           className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
         >
           <UserPlus size={16} />
-          {t('members.add')}
+          {starting ? t('memberVerification.starting') : t('members.add')}
         </button>
       </div>
+
+      {registrationBlocked && (
+        <p
+          id="members-registration-blocked"
+          className="flex items-start gap-2 rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-900"
+        >
+          <ShieldAlert size={16} className="mt-0.5 shrink-0" />
+          {t('memberVerification.errors.blocked')}
+        </p>
+      )}
+      {registrationError && (
+        <div role="alert" className="flex items-start gap-2 rounded-xl bg-danger/10 px-4 py-3 text-sm text-danger">
+          <ShieldAlert size={16} className="mt-0.5 shrink-0" />
+          <p className="min-w-0 flex-1">{registrationError}</p>
+          <button
+            type="button"
+            onClick={() => setRegistrationError('')}
+            aria-label={t('members.form.close')}
+            className="-m-1 rounded-md p-1 hover:bg-danger/10"
+          >
+            <X size={16} />
+          </button>
+        </div>
+      )}
 
       <OfflineDataNote savedAt={savedAt} />
 
@@ -203,10 +279,10 @@ export default function Members() {
       {form && (
         <MemberFormModal
           member={form.member}
-          draft={form.draft}
-          initialVerification={form.verification}
+          verification={form.verification}
           onClose={() => setForm(null)}
           onSaved={handleSaved}
+          onVerificationGone={handleVerificationGone}
         />
       )}
       {notice && <SuccessToast message={notice} onDone={clearNotice} />}

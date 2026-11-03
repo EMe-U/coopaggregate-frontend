@@ -1,32 +1,11 @@
-// The member form is left for the identity provider's page and comes back on /identity/callback.
-// The form values wait in sessionStorage meanwhile (gone when the tab closes, removed after use and
-// on logout). The verification itself is only kept in memory; the code, the state and the
-// provider's details are never stored anywhere.
-const DRAFT_KEY = 'memberRegistrationDraft'
+// Registering a member starts with the identity check: "Add member" sends the manager to the
+// identity provider's page, which comes back on /identity/callback. The completed verification
+// ({ verificationId, fullName, phone, useBefore, ... }) is kept in memory only, from the callback
+// page until the Members page opens the form with it; it is never written to any storage. The
+// code and the state are never kept.
 
 let verification = null
 
-export function saveRegistrationDraft(values) {
-  sessionStorage.setItem(DRAFT_KEY, JSON.stringify(values))
-}
-
-// Returns the saved form values once, or null.
-export function takeRegistrationDraft() {
-  const saved = sessionStorage.getItem(DRAFT_KEY)
-  sessionStorage.removeItem(DRAFT_KEY)
-  try {
-    return saved ? JSON.parse(saved) : null
-  } catch {
-    return null
-  }
-}
-
-export function clearRegistrationDraft() {
-  sessionStorage.removeItem(DRAFT_KEY)
-  verification = null
-}
-
-// result: { verificationId, verified, method, useBefore } from the callback.
 export function keepVerification(result) {
   verification = result
 }
@@ -38,26 +17,45 @@ export function takeVerification() {
   return result
 }
 
-// The message for a failed start or callback, by status. 409 and 502 carry the backend's own
-// message ("This person is already a member.", or a fixed text about the provider).
-export function verificationErrorMessage(t, error) {
-  const status = error.response?.status
-  const message = error.response?.data?.message
-  if (!error.response) return t('memberVerification.errors.network')
-  if (status === 400) return t('memberVerification.errors.startAgain')
-  if (status === 409) return message || t('memberVerification.errors.used')
-  if (status === 502) return message || t('memberVerification.errors.generic')
-  if (status === 503) return t('memberVerification.errors.unavailable')
-  return message || t('memberVerification.errors.generic')
+// On logout.
+export function clearVerification() {
+  verification = null
 }
 
-// Whether a refused registration means the verification cannot be used again: it is used up (the
-// third mismatch, or older than 30 minutes), unknown, or already used (409). A 409 about a phone
-// or national ID used by another member keeps the verification.
-export function verificationIsGone(error) {
-  const status = error.response?.status
-  const message = error.response?.data?.message ?? ''
-  if (status === 400) return /used up|does not exist|did not verify anyone/i.test(message)
-  if (status === 409) return /already a member|was already used/i.test(message)
-  return false
+export function verificationExpired(result, now = Date.now()) {
+  return new Date(result.useBefore).getTime() <= now
+}
+
+// The error codes the backend sends with an identity error, each with its own text.
+const CODES = [
+  'VERIFICATION_UNKNOWN',
+  'VERIFICATION_EXPIRED',
+  'VERIFICATION_USED',
+  'ALREADY_MEMBER',
+  'CLAIMS_MISSING',
+  'PHONE_NOT_RWANDAN',
+  'NAME_TOO_LONG',
+  'PROVIDER_FAILED',
+  'NOT_CONFIGURED',
+]
+
+export function errorCode(error) {
+  const code = error.response?.data?.code
+  return CODES.includes(code) ? code : null
+}
+
+// The message for a failed start or callback, in the chosen language.
+export function verificationErrorMessage(t, error) {
+  if (!error.response) return t('memberVerification.errors.network')
+  const code = errorCode(error)
+  if (code) return t(`memberVerification.errors.${code}`)
+  if (error.response.status === 503) return t('memberVerification.errors.NOT_CONFIGURED')
+  return t('memberVerification.errors.generic')
+}
+
+// The message after the provider sent the manager back with an error instead of a code.
+export function cancelledMessage(t, providerError) {
+  return providerError === 'essential_consent_denied'
+    ? t('memberVerification.cancelled.consentDenied')
+    : t('memberVerification.cancelled.message')
 }

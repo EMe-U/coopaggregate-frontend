@@ -69,10 +69,16 @@ export async function startIdentityVerification() {
   return response.data
 }
 
-// Completes it: { verificationId, verified, method, useBefore }. A state works only once. 400 for an
-// unknown or expired state, 409 when it was already used or the person is already a member, 502
-// when the provider failed, 503 when verification is not available.
+// Completes it: { verificationId, verified, method, fullName, phone, useBefore }. A state works only
+// once. Errors carry a code (VERIFICATION_UNKNOWN, VERIFICATION_EXPIRED, VERIFICATION_USED,
+// ALREADY_MEMBER, CLAIMS_MISSING, PHONE_NOT_RWANDAN, NAME_TOO_LONG, PROVIDER_FAILED, NOT_CONFIGURED).
 export async function completeIdentityVerification(code, state) {
   const response = await client.post('/api/members/verify/callback', { code, state })
   return response.data
+}
+
+// Tells the backend the provider sent the manager back with an error instead of a code, so the
+// state is used up and the outcome is written to the change history. Always succeeds.
+export async function cancelIdentityVerification(state, error) {
+  await client.post('/api/members/verify/cancel', { state, error })
 }

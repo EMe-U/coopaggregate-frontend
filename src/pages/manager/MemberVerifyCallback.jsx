@@ -1,19 +1,15 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ShieldAlert } from 'lucide-react'
-import { completeIdentityVerification } from '../../api/members'
-import EmptyState from '../../components/EmptyState'
-import { keepVerification, verificationErrorMessage } from '../../members/identityVerification'
+import { cancelIdentityVerification, completeIdentityVerification } from '../../api/members'
+import { cancelledMessage, keepVerification, verificationErrorMessage } from '../../members/identityVerification'
 
-const BACK_TO_FORM = '/members?register=1'
-
-// The identity provider sends the member back here with a code and the state. The result is kept
-// in memory and the registration form opens again with the values typed before leaving.
+// The identity provider sends the manager back here, with a code and the state, or with an error.
+// Either way the Members page opens next: with the Add member form and the verified name and phone,
+// or with a message saying why there is no verification.
 export default function MemberVerifyCallback() {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const [error, setError] = useState('')
   // A state works only once, so the request must not be sent twice (React runs effects twice in
   // development).
   const sent = useRef(false)
@@ -24,35 +20,35 @@ export default function MemberVerifyCallback() {
     const params = new URLSearchParams(window.location.search)
     const code = params.get('code')
     const state = params.get('state')
-    const request = code && state ? completeIdentityVerification(code, state) : null
-    // Once sent, the code and the state must not stay in the address bar or the browser history.
+    const providerError = params.get('error')
+    // Once read, the code and the state must not stay in the address bar or the browser history.
     // The router's own history entry is kept, so only the query string goes.
     window.history.replaceState(window.history.state, '', window.location.pathname)
-    if (!request) {
-      setError(t('memberVerification.errors.startAgain'))
+
+    const backToMembers = (registration) => navigate('/members', { replace: true, state: { registration } })
+
+    if (providerError) {
+      const done = () => backToMembers({ error: cancelledMessage(t, providerError) })
+      if (state) cancelIdentityVerification(state, providerError).catch(() => {}).finally(done)
+      else done()
       return
     }
-    request
+    if (!code || !state) {
+      backToMembers({ error: t('memberVerification.errors.VERIFICATION_UNKNOWN') })
+      return
+    }
+    completeIdentityVerification(code, state)
       .then((result) => {
         keepVerification(result)
-        navigate(BACK_TO_FORM, { replace: true })
+        backToMembers({ verified: true })
       })
-      .catch((requestError) => setError(verificationErrorMessage(t, requestError)))
+      .catch((error) => backToMembers({ error: verificationErrorMessage(t, error) }))
   }, [navigate, t])
 
-  if (!error) return <div className="h-48 animate-pulse rounded-xl bg-surface shadow-sm" />
-
   return (
-    <div className="rounded-xl bg-surface shadow-sm">
-      <EmptyState icon={ShieldAlert} title={t('memberVerification.failedTitle')} message={error}>
-        <button
-          type="button"
-          onClick={() => navigate(BACK_TO_FORM, { replace: true })}
-          className="min-h-11 rounded-lg bg-primary px-4 text-sm font-semibold text-white hover:bg-primary/90"
-        >
-          {t('memberVerification.backToForm')}
-        </button>
-      </EmptyState>
+    <div role="status" aria-busy="true" className="space-y-3 rounded-xl bg-surface p-6 shadow-sm">
+      <p className="text-sm text-muted">{t('memberVerification.checking')}</p>
+      <div className="h-24 animate-pulse rounded-lg bg-background" />
     </div>
   )
 }

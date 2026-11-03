@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { getCurrentManager } from '../api/auth'
 import { clearToken, getToken, setToken } from '../utils/auth'
-import { clearRegistrationDraft } from '../members/identityVerification'
+import { clearVerification } from '../members/identityVerification'
 
 const AuthContext = createContext(null)
 
@@ -47,7 +47,7 @@ export function AuthProvider({ children }) {
   function signOut() {
     clearToken()
     localStorage.removeItem(LAST_MANAGER_KEY)
-    clearRegistrationDraft()
+    clearVerification()
     setTokenState(null)
     setManager(null)
   }
