@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Lock, ShieldCheck, X } from 'lucide-react'
+import { Lock, ShieldAlert, ShieldCheck, X } from 'lucide-react'
 import { createMember, updateMember } from '../../api/members'
 import { errorCode, verificationErrorMessage } from '../../members/identityVerification'
 import { genderLabel, maskNationalId, verifiedFieldsOf } from '../../members/memberDetails'
@@ -53,7 +53,22 @@ function toNewMemberRequest(values, verification) {
   }
 }
 
-// The name and phone are only checked when editing; a new member's come from the verification.
+// Registering without identity verification (only when the backend allows it): the typed name and
+// phone, and the other typed fields when filled. Never a verificationId, birth date, gender or email.
+function toUnverifiedRequest(values) {
+  const nationalId = values.nationalId.trim()
+  const address = values.address.trim()
+  return {
+    fullName: values.fullName.trim(),
+    phone: cleanPhone(values.phone),
+    ...(nationalId && { nationalId }),
+    ...(address && { address }),
+    joinDate: values.joinDate,
+    preferredLanguage: values.preferredLanguage,
+  }
+}
+
+// The name and phone are checked when typed; a verified new member's come from the verification.
 function validate(request) {
   const errors = {}
   if ('fullName' in request && !request.fullName) errors.fullName = 'members.form.errors.fullNameRequired'
@@ -216,11 +231,15 @@ function VerifiedIdentity({ verification, now, errors }) {
 }
 
 // Adds a member (verification is the completed identity check from MemberVerifyCallback, kept in
-// memory only) or edits one (member). onVerificationGone closes the form with a message when the
+// memory only, or unverified when the backend allows registering without it) or edits one (member). onVerificationGone closes the form with a message when the
 // verification expires or can no longer be used, so the manager starts again from Add member.
-export default function MemberFormModal({ member, verification, onClose, onSaved, onVerificationGone }) {
+export default function MemberFormModal({ member, verification, unverified = false, onClose, onSaved, onVerificationGone }) {
   const { t } = useTranslation()
   const isEdit = Boolean(member)
+  // A new member from an identity check: the verified details are shown, never typed.
+  const fromVerification = !isEdit && !unverified
+  // The name and phone are typed when editing and when registering without verification.
+  const typesNameAndPhone = isEdit || unverified
 
   const [values, setValues] = useState(() => initialValues(member))
   const [fieldErrors, setFieldErrors] = useState({})
@@ -233,11 +252,11 @@ export default function MemberFormModal({ member, verification, onClose, onSaved
 
   // The verification must be used within 30 minutes: count down, then drop it.
   useEffect(() => {
-    if (isEdit) return undefined
+    if (!fromVerification) return undefined
     const timer = setInterval(() => setNow(Date.now()), 1000)
     return () => clearInterval(timer)
-  }, [isEdit])
-  const expired = !isEdit && new Date(verification.useBefore).getTime() <= now
+  }, [fromVerification])
+  const expired = fromVerification && new Date(verification.useBefore).getTime() <= now
   useEffect(() => {
     if (expired) onVerificationGone(t('memberVerification.errors.expired'))
   }, [expired, onVerificationGone, t])
@@ -259,7 +278,11 @@ export default function MemberFormModal({ member, verification, onClose, onSaved
     setFormError('')
 
     if (expired) return
-    const request = isEdit ? toRequest(values) : toNewMemberRequest(values, verification)
+    const request = isEdit
+      ? toRequest(values)
+      : unverified
+        ? toUnverifiedRequest(values)
+        : toNewMemberRequest(values, verification)
     const errors = validate(request)
     setFieldErrors(Object.fromEntries(Object.entries(errors).map(([field, key]) => [field, t(key)])))
     if (Object.keys(errors).length > 0) return
@@ -269,7 +292,7 @@ export default function MemberFormModal({ member, verification, onClose, onSaved
       const saved = isEdit ? await updateMember(member.id, request) : await createMember(request)
       onSaved(saved)
     } catch (error) {
-      if (isEdit) showServerError(error, Object.keys(request))
+      if (typesNameAndPhone) showServerError(error, Object.keys(request))
       else showCreateError(error)
       setSaving(false)
     }
@@ -398,6 +421,13 @@ export default function MemberFormModal({ member, verification, onClose, onSaved
             </p>
           )}
 
+          {unverified && (
+            <p role="note" className="flex items-start gap-2 rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-900">
+              <ShieldAlert size={16} className="mt-0.5 shrink-0" aria-hidden="true" />
+              {t('members.form.unverifiedNotice')}
+            </p>
+          )}
+
           {isEdit && lockedInEdit('fullName') ? (
             <LockedField
               id="fullName"
@@ -405,7 +435,7 @@ export default function MemberFormModal({ member, verification, onClose, onSaved
               value={lockedById('fullName').value}
               error={fieldErrors.fullName}
             />
-          ) : isEdit ? (
+          ) : typesNameAndPhone ? (
             <Field id="fullName" label={t('members.form.fullName')} error={fieldErrors.fullName}>
               <input
                 id="fullName"
@@ -424,7 +454,7 @@ export default function MemberFormModal({ member, verification, onClose, onSaved
             {isEdit && lockedInEdit('phone') && (
               <LockedField id="phone" label={lockedById('phone').label} value={lockedById('phone').value} error={fieldErrors.phone} />
             )}
-            {isEdit && !lockedInEdit('phone') && (
+            {typesNameAndPhone && !lockedInEdit('phone') && (
               <Field
                 id="phone"
                 label={t('members.form.phone')}
@@ -459,7 +489,7 @@ export default function MemberFormModal({ member, verification, onClose, onSaved
                 onChange={(event) => setValue('nationalId', event.target.value)}
                 className={inputClass}
                 maxLength={16}
-                autoFocus={!isEdit}
+                autoFocus={fromVerification}
               />
             </Field>
 

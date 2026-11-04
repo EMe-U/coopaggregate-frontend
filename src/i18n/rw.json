@@ -149,7 +149,8 @@
       "verifiedLocked": "Biva mu igenzura ry'umwirondoro, ntibishobora guhindurirwa hano: {{fields}}.",
       "birthDate": "Itariki y'amavuko",
       "gender": "Igitsina",
-      "email": "Imeyili"
+      "email": "Imeyili",
+      "unverifiedNotice": "Igenzura ry'umwirondoro ntiriboneka. Uyu munyamuryango azandikwa nk'UTARAGENZUWE."
     },
     "detail": {
       "back": "Subira ku banyamuryango",
@@ -245,7 +246,9 @@
       "badge": "Yagenzuwe",
       "test": "Igenzura ry'igerageza",
       "testHint": "Igenzura ry'igerageza: nta mwirondoro nyawo wagenzuwe.",
-      "mark": "byagenzuwe"
+      "mark": "byagenzuwe",
+      "not": "Ntiyagenzuwe",
+      "notHint": "Nta wagenzuye ko iri zina n'iyi nimero ya telefoni ari iby'uyu munyamuryango."
     },
     "gender": {
       "male": "Gabo",
@@ -1406,7 +1409,10 @@
       "nav.publicSite",
       "nav.publicSiteLabel",
       "publicNav.staffLogin",
-      "publicNav.staffLoginLabel"
+      "publicNav.staffLoginLabel",
+      "members.form.unverifiedNotice",
+      "members.verified.not",
+      "members.verified.notHint"
     ]
   },
   "publicHome": {

@@ -48,7 +48,8 @@ export default function Members() {
   // Why the last registration attempt stopped: a cancelled or failed identity check, an expired
   // verification, and so on. Shown above the list until closed or a new attempt starts.
   const [registrationError, setRegistrationError] = useState('')
-  // { available } from the backend; null until it answers. Without verification nobody can be added.
+  // { available, unverifiedAllowed } from the backend; null until it answers. Without verification
+  // nobody can be added, unless the backend allows registering members as not verified.
   const [identity, setIdentity] = useState(null)
   const [starting, setStarting] = useState(false)
 
@@ -64,7 +65,8 @@ export default function Members() {
       ignore = true
     }
   }, [isOnline])
-  const registrationBlocked = identity?.available === false
+  const unverifiedAllowed = identity?.unverifiedAllowed === true
+  const registrationBlocked = identity?.available === false && !unverifiedAllowed
 
   // Back from the identity check (see MemberVerifyCallback): open the form with the verification,
   // or show why there is none. Read once, then removed from the history entry; the ref keeps a
@@ -88,8 +90,13 @@ export default function Members() {
   }, [location, navigate, t])
 
   async function handleAdd() {
-    setStarting(true)
     setRegistrationError('')
+    // Verification is off but allowed to be skipped: the plain form, no identity check.
+    if (unverifiedAllowed) {
+      setForm({ member: null, verification: null, unverified: true })
+      return
+    }
+    setStarting(true)
     try {
       const started = await startIdentityVerification()
       window.location.assign(started.authorizationUrl)
@@ -280,6 +287,7 @@ export default function Members() {
         <MemberFormModal
           member={form.member}
           verification={form.verification}
+          unverified={form.unverified}
           onClose={() => setForm(null)}
           onSaved={handleSaved}
           onVerificationGone={handleVerificationGone}
