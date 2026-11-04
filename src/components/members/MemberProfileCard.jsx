@@ -1,10 +1,11 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Layers, MessageSquare, Pencil, Printer, UserCheck, UserX } from 'lucide-react'
+import { Eye, EyeOff, Layers, MessageSquare, Pencil, Printer, UserCheck, UserX } from 'lucide-react'
 import Avatar from '../Avatar'
 import StatusBadge from '../StatusBadge'
 import VerifiedBadge, { VerifiedMark } from './VerifiedBadge'
-import { genderLabel, verifiedFieldsOf } from '../../members/memberDetails'
+import { genderLabel, maskNationalId, verifiedFieldsOf } from '../../members/memberDetails'
 import { formatAddress, formatDate, formatPhone } from '../../utils/format'
 
 // verified adds the mark of a detail that came from the identity check; wide takes the whole row.
@@ -17,6 +18,38 @@ function Detail({ label, verified, wide, children }) {
         {verified && <VerifiedMark />}
       </p>
     </div>
+  )
+}
+
+// Masked until the manager asks to see it. The choice lives only in this component: it is never
+// stored and is gone when the page is left. A printout is always masked.
+function NationalId({ nationalId }) {
+  const { t } = useTranslation()
+  const [revealed, setRevealed] = useState(false)
+  const masked = maskNationalId(nationalId)
+  return (
+    <span className="inline-flex flex-wrap items-center gap-x-2 gap-y-1">
+      <span className="font-mono" data-testid="national-id">
+        {revealed ? (
+          <>
+            <span className="print:hidden">{nationalId}</span>
+            <span className="hidden print:inline">{masked}</span>
+          </>
+        ) : (
+          masked
+        )}
+      </span>
+      <button
+        type="button"
+        onClick={() => setRevealed((value) => !value)}
+        aria-label={revealed ? t('members.nationalId.hideLabel') : t('members.nationalId.showLabel')}
+        aria-pressed={revealed}
+        className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-xs font-medium text-primary ring-1 ring-primary/20 hover:bg-primary-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary print:hidden"
+      >
+        {revealed ? <EyeOff size={12} aria-hidden="true" /> : <Eye size={12} aria-hidden="true" />}
+        {revealed ? t('members.nationalId.hide') : t('members.nationalId.show')}
+      </button>
+    </span>
   )
 }
 
@@ -95,7 +128,11 @@ export default function MemberProfileCard({ member, onEdit, onToggleActive, chan
       <div className="mt-5 grid grid-cols-2 gap-4 border-t border-text/5 pt-4">
         <Detail label={t('members.detail.phone')}>{formatPhone(member.phone)}</Detail>
         <Detail label={t('members.detail.nationalId')}>
-          {member.nationalId ?? <span className="text-muted">{t('members.detail.notProvided')}</span>}
+          {member.nationalId ? (
+            <NationalId key={member.id} nationalId={member.nationalId} />
+          ) : (
+            <span className="text-muted">{t('members.detail.notProvided')}</span>
+          )}
         </Detail>
         <Detail label={t('members.detail.joinDate')}>{formatDate(member.joinDate)}</Detail>
         {member.birthDate && (

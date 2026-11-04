@@ -246,6 +246,12 @@
     "gender": {
       "male": "Male",
       "female": "Female"
+    },
+    "nationalId": {
+      "show": "Show",
+      "hide": "Hide",
+      "showLabel": "Show the full national ID",
+      "hideLabel": "Hide the national ID"
     }
   },
   "deliveries": {

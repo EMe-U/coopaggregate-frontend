@@ -246,6 +246,12 @@
     "gender": {
       "male": "Gabo",
       "female": "Gore"
+    },
+    "nationalId": {
+      "show": "Erekana",
+      "hide": "Hisha",
+      "showLabel": "Erekana indangamuntu yose",
+      "hideLabel": "Hisha indangamuntu"
     }
   },
   "deliveries": {
@@ -1388,7 +1394,11 @@
       "members.detail.address",
       "members.gender.male",
       "members.gender.female",
-      "members.verified.mark"
+      "members.verified.mark",
+      "members.nationalId.show",
+      "members.nationalId.hide",
+      "members.nationalId.showLabel",
+      "members.nationalId.hideLabel"
     ]
   },
   "publicHome": {

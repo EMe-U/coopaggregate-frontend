@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Lock, ShieldCheck, X } from 'lucide-react'
 import { createMember, updateMember } from '../../api/members'
 import { errorCode, verificationErrorMessage } from '../../members/identityVerification'
-import { genderLabel, verifiedFieldsOf } from '../../members/memberDetails'
+import { genderLabel, maskNationalId, verifiedFieldsOf } from '../../members/memberDetails'
 import { formatAddress, formatDate, todayIso } from '../../utils/format'
 import { RWANDAN_PHONE_PATTERN, cleanPhone } from '../../utils/phone'
 import { VerifiedMark } from './VerifiedBadge'
@@ -227,6 +227,9 @@ export default function MemberFormModal({ member, verification, onClose, onSaved
   const [formError, setFormError] = useState('')
   const [saving, setSaving] = useState(false)
   const [now, setNow] = useState(() => Date.now())
+  // A saved national ID is shown masked and read-only until the manager goes into the field to
+  // change it; left unchanged, it is masked again.
+  const [nationalIdMasked, setNationalIdMasked] = useState(() => isEdit && Boolean(member.nationalId))
 
   // The verification must be used within 30 minutes: count down, then drop it.
   useEffect(() => {
@@ -447,7 +450,12 @@ export default function MemberFormModal({ member, verification, onClose, onSaved
               <input
                 id="nationalId"
                 inputMode="numeric"
-                value={values.nationalId}
+                value={nationalIdMasked ? maskNationalId(values.nationalId) : values.nationalId}
+                readOnly={nationalIdMasked}
+                onFocus={() => setNationalIdMasked(false)}
+                onBlur={() => {
+                  if (isEdit && values.nationalId && values.nationalId === (member.nationalId ?? '')) setNationalIdMasked(true)
+                }}
                 onChange={(event) => setValue('nationalId', event.target.value)}
                 className={inputClass}
                 maxLength={16}

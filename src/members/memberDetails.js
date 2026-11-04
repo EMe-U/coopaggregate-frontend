@@ -11,3 +11,10 @@ export function genderLabel(t, gender) {
   const known = gender.trim().toLowerCase()
   return known === 'male' || known === 'female' ? t(`members.gender.${known}`) : gender
 }
+
+// The national ID with only its last 4 characters: "••••••5678". The number of dots is fixed so
+// the mask does not show the length either.
+export function maskNationalId(nationalId) {
+  if (!nationalId) return ''
+  return nationalId.length > 4 ? `••••••${nationalId.slice(-4)}` : '••••'
+}
