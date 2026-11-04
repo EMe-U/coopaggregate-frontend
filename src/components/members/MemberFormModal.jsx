@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Lock, ShieldCheck, X } from 'lucide-react'
 import { createMember, updateMember } from '../../api/members'
 import { errorCode, verificationErrorMessage } from '../../members/identityVerification'
-import { todayIso } from '../../utils/format'
+import { genderLabel, verifiedFieldsOf } from '../../members/memberDetails'
+import { formatAddress, formatDate, todayIso } from '../../utils/format'
 import { RWANDAN_PHONE_PATTERN, cleanPhone } from '../../utils/phone'
+import { VerifiedMark } from './VerifiedBadge'
 
 // Same rules as the backend's MemberRequest.
 const NATIONAL_ID_PATTERN = /^\d{16}$/
@@ -36,10 +38,12 @@ function toRequest(values) {
   }
 }
 
-// A new member gets the name and phone of the verification: they are never sent.
+// A new member gets every verified detail from the verification: only what the manager typed is
+// sent. A value for a verified field (even empty) is refused, and so is a birth date, gender or
+// email, which only come from the check; the address is typed only when it was not verified.
 function toNewMemberRequest(values, verification) {
   const nationalId = values.nationalId.trim()
-  const address = values.address.trim()
+  const address = verifiedFieldsOf(verification).includes('address') ? '' : values.address.trim()
   return {
     verificationId: verification.verificationId,
     ...(nationalId && { nationalId }),
@@ -105,27 +109,95 @@ function timeLeft(useBefore, now) {
   return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`
 }
 
-// A verified value: shown, never typed or sent.
-function LockedField({ id, label, value, error }) {
+// A read-only text that grows to show all of its value, at any width.
+function LockedText({ id, value, className }) {
+  const ref = useRef(null)
+  useLayoutEffect(() => {
+    const element = ref.current
+    function fit() {
+      element.style.height = 'auto'
+      element.style.height = `${element.scrollHeight + 2}px`
+    }
+    fit()
+    window.addEventListener('resize', fit)
+    return () => window.removeEventListener('resize', fit)
+  }, [value])
+  return <textarea ref={ref} id={id} value={value} readOnly aria-readonly="true" rows={1} className={className} />
+}
+
+// A verified value: shown, never typed. multiline wraps a long value (an address) instead of
+// hiding most of it in a one-line box.
+function LockedField({ id, label, value, error, multiline }) {
+  const lockedClass = `${inputClass} cursor-not-allowed bg-background pr-9`
   return (
-    <Field id={id} label={label} error={error}>
+    <Field
+      id={id}
+      label={
+        <>
+          {label}
+          <VerifiedMark />
+        </>
+      }
+      error={error}
+    >
       <div className="relative">
-        <input
-          id={id}
-          value={value}
-          readOnly
-          aria-readonly="true"
-          className={`${inputClass} cursor-not-allowed bg-background pr-9`}
-        />
-        <Lock size={14} className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted" />
+        {multiline ? (
+          <LockedText id={id} value={value} className={`${lockedClass} block resize-none overflow-hidden break-words`} />
+        ) : (
+          <input id={id} value={value} readOnly aria-readonly="true" className={lockedClass} />
+        )}
+        <Lock size={14} className="pointer-events-none absolute right-3 top-3 text-muted" />
       </div>
     </Field>
   )
 }
 
-// The new member's verified name and phone, with the time left to save them.
+// The verified details of a member or a verification, in form order, with how each is shown.
+// Only details named in verifiedFields and with a value; the address is left out when asked
+// (editing keeps it editable).
+function lockedDetails(t, source, { withAddress = true } = {}) {
+  const fields = verifiedFieldsOf(source)
+  const birthdate = source.birthdate ?? source.birthDate
+  const all = [
+    { field: 'fullName', id: 'fullName', label: t('members.form.fullName'), value: source.fullName },
+    { field: 'phone', id: 'phone', label: t('members.form.phone'), value: toLocalPhone(source.phone) },
+    { field: 'birthdate', id: 'birthDate', label: t('members.form.birthDate'), value: formatDate(birthdate) },
+    { field: 'gender', id: 'gender', label: t('members.form.gender'), value: genderLabel(t, source.gender) },
+    { field: 'email', id: 'email', label: t('members.form.email'), value: source.email },
+    withAddress && { field: 'address', id: 'address', label: t('members.form.address'), value: formatAddress(source.address), multiline: true },
+  ]
+  return all.filter((detail) => detail && fields.includes(detail.field) && detail.value)
+}
+
+// "Full name, Phone, Birth date" for the note under the verified details.
+function lockedNote(t, details) {
+  return t('members.form.verifiedLocked', { fields: details.map((detail) => detail.label).join(', ') })
+}
+
+// Short details two by two; the name and the address take the whole width.
+function LockedDetails({ details, errors }) {
+  const wide = (detail) => detail.field === 'fullName' || detail.field === 'address'
+  return (
+    <div className="grid gap-3 sm:grid-cols-2">
+      {details.map((detail) => (
+        <div key={detail.field} className={wide(detail) ? 'sm:col-span-2' : undefined}>
+          <LockedField
+            id={detail.id}
+            label={detail.label}
+            value={detail.value}
+            error={errors[detail.id]}
+            multiline={detail.multiline}
+          />
+        </div>
+      ))}
+    </div>
+  )
+}
+
+// The new member's verified details, with the time left to save them.
 function VerifiedIdentity({ verification, now, errors }) {
   const { t } = useTranslation()
+  const details = lockedDetails(t, verification)
   return (
     <div className="space-y-3 rounded-lg border border-primary/20 bg-primary-light/40 p-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
@@ -137,9 +209,8 @@ function VerifiedIdentity({ verification, now, errors }) {
           {t('memberVerification.saveWithin', { time: timeLeft(verification.useBefore, now) })}
         </p>
       </div>
-      <LockedField id="fullName" label={t('members.form.fullName')} value={verification.fullName} error={errors.fullName} />
-      <LockedField id="phone" label={t('members.form.phone')} value={toLocalPhone(verification.phone)} error={errors.phone} />
-      <p className="text-xs text-muted">{t('members.form.verifiedLocked')}</p>
+      <LockedDetails details={details} errors={errors} />
+      <p className="text-xs text-muted">{lockedNote(t, details)}</p>
     </div>
   )
 }
@@ -218,9 +289,12 @@ export default function MemberFormModal({ member, verification, onClose, onSaved
       setFieldErrors({ phone: message })
     } else if (status === 409 && message) {
       setFormError(message)
+    } else if (status === 400 && error.response.data?.code === 'VERIFIED_FIELD_LOCKED') {
+      // A verified detail was sent: a fault of this page, never of the manager.
+      onVerificationGone(t('members.form.errors.generic'))
     } else if (status === 400) {
-      // Errors about the fields typed here are shown by them; anything else (such as a name or
-      // phone that should never have been sent) is a fault of this page.
+      // Errors about the fields typed here are shown by them; anything else (such as a birth date
+      // that should never have been sent) is a fault of this page.
       const { fieldErrors: serverErrors, otherErrors } = parseFieldErrors(message, [
         'nationalId',
         'address',
@@ -254,11 +328,31 @@ export default function MemberFormModal({ member, verification, onClose, onSaved
     }
   }
 
-  // Beside the national ID for a new member; on its own line when editing, as before.
+  // Editing: verified details are shown locked (the address excepted: it stays editable, and a
+  // changed address is no longer the verified one, so its mark goes as soon as it differs).
+  const editLocked = isEdit ? lockedDetails(t, member, { withAddress: false }) : []
+  const lockedInEdit = (field) => editLocked.some((detail) => detail.field === field)
+  const lockedById = (id) => editLocked.find((detail) => detail.id === id)
+  const editExtras = editLocked.filter((detail) => !['fullName', 'phone'].includes(detail.field))
+  const addressVerified = isEdit
+    ? verifiedFieldsOf(member).includes('address') && values.address.trim() === (member.address ?? '').trim()
+    : verifiedFieldsOf(verification).includes('address')
+
+  // Beside the national ID for a new member, unless the check verified it; on its own line when
+  // editing, as before.
   const addressField = (
     <Field
       id="address"
-      label={`${t('members.form.address')} ${t('members.form.optional')}`}
+      label={
+        isEdit && addressVerified ? (
+          <>
+            {t('members.form.address')}
+            <VerifiedMark />
+          </>
+        ) : (
+          `${t('members.form.address')} ${t('members.form.optional')}`
+        )
+      }
       error={fieldErrors.address}
     >
       <input
@@ -266,7 +360,7 @@ export default function MemberFormModal({ member, verification, onClose, onSaved
         value={values.address}
         onChange={(event) => setValue('address', event.target.value)}
         className={inputClass}
-        maxLength={255}
+        maxLength={isEdit ? 500 : 255}
       />
     </Field>
   )
@@ -301,7 +395,14 @@ export default function MemberFormModal({ member, verification, onClose, onSaved
             </p>
           )}
 
-          {isEdit ? (
+          {isEdit && lockedInEdit('fullName') ? (
+            <LockedField
+              id="fullName"
+              label={lockedById('fullName').label}
+              value={lockedById('fullName').value}
+              error={fieldErrors.fullName}
+            />
+          ) : isEdit ? (
             <Field id="fullName" label={t('members.form.fullName')} error={fieldErrors.fullName}>
               <input
                 id="fullName"
@@ -317,7 +418,10 @@ export default function MemberFormModal({ member, verification, onClose, onSaved
           )}
 
           <div className="grid gap-4 sm:grid-cols-2">
-            {isEdit && (
+            {isEdit && lockedInEdit('phone') && (
+              <LockedField id="phone" label={lockedById('phone').label} value={lockedById('phone').value} error={fieldErrors.phone} />
+            )}
+            {isEdit && !lockedInEdit('phone') && (
               <Field
                 id="phone"
                 label={t('members.form.phone')}
@@ -351,8 +455,12 @@ export default function MemberFormModal({ member, verification, onClose, onSaved
               />
             </Field>
 
-            {!isEdit && addressField}
+            {!isEdit && !addressVerified && addressField}
           </div>
+
+          {editExtras.length > 0 && <LockedDetails details={editExtras} errors={fieldErrors} />}
+
+          {editLocked.length > 0 && <p className="text-xs text-muted">{lockedNote(t, editLocked)}</p>}
 
           {isEdit && addressField}
 

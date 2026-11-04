@@ -3,14 +3,19 @@ import { useTranslation } from 'react-i18next'
 import { Layers, MessageSquare, Pencil, Printer, UserCheck, UserX } from 'lucide-react'
 import Avatar from '../Avatar'
 import StatusBadge from '../StatusBadge'
-import VerifiedBadge from './VerifiedBadge'
-import { formatDate, formatPhone } from '../../utils/format'
+import VerifiedBadge, { VerifiedMark } from './VerifiedBadge'
+import { genderLabel, verifiedFieldsOf } from '../../members/memberDetails'
+import { formatAddress, formatDate, formatPhone } from '../../utils/format'
 
-function Detail({ label, children }) {
+// verified adds the mark of a detail that came from the identity check; wide takes the whole row.
+function Detail({ label, verified, wide, children }) {
   return (
-    <div>
+    <div className={wide ? 'col-span-2' : undefined}>
       <p className="text-xs font-medium uppercase tracking-wide text-muted">{label}</p>
-      <p className="mt-0.5 text-sm text-text">{children}</p>
+      <p className="mt-0.5 break-words text-sm text-text">
+        {children}
+        {verified && <VerifiedMark />}
+      </p>
     </div>
   )
 }
@@ -23,6 +28,8 @@ export default function MemberProfileCard({ member, onEdit, onToggleActive, chan
   const { t } = useTranslation()
   const active = member.status === 'ACTIVE'
   const needsInternet = readOnly ? t('offline.needsInternet') : undefined
+  const verifiedFields = verifiedFieldsOf(member)
+  const address = formatAddress(member.address)
 
   return (
     <div className="rounded-xl bg-surface p-5 shadow-sm print:break-inside-avoid">
@@ -82,7 +89,6 @@ export default function MemberProfileCard({ member, onEdit, onToggleActive, chan
         />
         <div className="min-w-0">
           <h1 className="text-xl font-semibold text-text">{member.fullName}</h1>
-          {member.address && <p className="text-sm text-muted">{member.address}</p>}
         </div>
       </div>
 
@@ -92,6 +98,26 @@ export default function MemberProfileCard({ member, onEdit, onToggleActive, chan
           {member.nationalId ?? <span className="text-muted">{t('members.detail.notProvided')}</span>}
         </Detail>
         <Detail label={t('members.detail.joinDate')}>{formatDate(member.joinDate)}</Detail>
+        {member.birthDate && (
+          <Detail label={t('members.detail.birthDate')} verified={verifiedFields.includes('birthdate')}>
+            {formatDate(member.birthDate)}
+          </Detail>
+        )}
+        {member.gender && (
+          <Detail label={t('members.detail.gender')} verified={verifiedFields.includes('gender')}>
+            {genderLabel(t, member.gender)}
+          </Detail>
+        )}
+        {member.email && (
+          <Detail label={t('members.detail.email')} verified={verifiedFields.includes('email')} wide>
+            {member.email}
+          </Detail>
+        )}
+        {address && (
+          <Detail label={t('members.detail.address')} verified={verifiedFields.includes('address')} wide>
+            {address}
+          </Detail>
+        )}
       </div>
 
       <div className="mt-5 flex flex-wrap gap-2 print:hidden">

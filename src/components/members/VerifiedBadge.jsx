@@ -34,3 +34,14 @@ export default function VerifiedBadge({ member, withDetails }) {
     </span>
   )
 }
+
+// The small mark beside one detail that came from the identity check.
+export function VerifiedMark() {
+  const { t } = useTranslation()
+  return (
+    <span className="ml-1.5 inline-flex items-center gap-0.5 whitespace-nowrap align-middle text-[11px] font-medium normal-case tracking-normal text-primary">
+      <ShieldCheck size={11} aria-hidden="true" />
+      {t('members.verified.mark')}
+    </span>
+  )
+}

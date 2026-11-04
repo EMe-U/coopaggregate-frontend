@@ -12,6 +12,11 @@ export function formatDate(isoDate) {
   return `${day}/${month}/${year}`
 }
 
+// An address on one readable line: line breaks and runs of spaces become one space.
+export function formatAddress(address) {
+  return (address ?? '').replace(/\s+/g, ' ').trim()
+}
+
 const numberFormat = new Intl.NumberFormat('en-US')
 
 export function formatNumber(value) {

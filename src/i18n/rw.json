@@ -142,7 +142,10 @@
         "generic": "Ntibishobotse kubika umunyamuryango. Ongera ugerageze.",
         "serverUnreachable": "Ntibishoboka kugera kuri seriveri. Reba murandasi yawe."
       },
-      "verifiedLocked": "Izina na telefoni biva mu igenzura ry'umwirondoro, ntibishobora guhindurirwa hano."
+      "verifiedLocked": "Biva mu igenzura ry'umwirondoro, ntibishobora guhindurirwa hano: {{fields}}.",
+      "birthDate": "Itariki y'amavuko",
+      "gender": "Igitsina",
+      "email": "Imeyili"
     },
     "detail": {
       "back": "Subira ku banyamuryango",
@@ -166,7 +169,11 @@
       "notFound": "Umunyamuryango ntiyabonetse",
       "notFoundMessage": "Nta munyamuryango ufite iyi nimero.",
       "loadError": "Ntibishobotse kubona amakuru y'umunyamuryango.",
-      "batches": "Ibyagemuwe"
+      "batches": "Ibyagemuwe",
+      "birthDate": "Itariki y'amavuko",
+      "gender": "Igitsina",
+      "email": "Imeyili",
+      "address": "Aho atuye"
     },
     "statement": {
       "summaryTitle": "Incamake y'imari",
@@ -233,7 +240,12 @@
     "verified": {
       "badge": "Yagenzuwe",
       "test": "Igenzura ry'igerageza",
-      "testHint": "Igenzura ry'igerageza: nta mwirondoro nyawo wagenzuwe."
+      "testHint": "Igenzura ry'igerageza: nta mwirondoro nyawo wagenzuwe.",
+      "mark": "byagenzuwe"
+    },
+    "gender": {
+      "male": "Gabo",
+      "female": "Gore"
     }
   },
   "deliveries": {
@@ -1366,7 +1378,17 @@
       "lots.cell.showAll_one",
       "lots.cell.showAll_other",
       "lots.cell.lot",
-      "lots.cell.kg"
+      "lots.cell.kg",
+      "members.form.birthDate",
+      "members.form.gender",
+      "members.form.email",
+      "members.detail.birthDate",
+      "members.detail.gender",
+      "members.detail.email",
+      "members.detail.address",
+      "members.gender.male",
+      "members.gender.female",
+      "members.verified.mark"
     ]
   },
   "publicHome": {

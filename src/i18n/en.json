@@ -142,7 +142,10 @@
         "generic": "Could not save the member. Please try again.",
         "serverUnreachable": "Cannot reach the server. Check your connection."
       },
-      "verifiedLocked": "The name and phone number come from the identity check and cannot be changed here."
+      "verifiedLocked": "From the identity check, cannot be changed here: {{fields}}.",
+      "birthDate": "Birth date",
+      "gender": "Gender",
+      "email": "Email"
     },
     "detail": {
       "back": "Back to members",
@@ -166,7 +169,11 @@
       "notFound": "Member not found",
       "notFoundMessage": "There is no member with this ID.",
       "loadError": "Could not load this member.",
-      "batches": "Batches"
+      "batches": "Batches",
+      "birthDate": "Birth date",
+      "gender": "Gender",
+      "email": "Email",
+      "address": "Address"
     },
     "statement": {
       "summaryTitle": "Financial statement summary",
@@ -233,7 +240,12 @@
     "verified": {
       "badge": "Verified",
       "test": "Test verification",
-      "testHint": "A test check: no real identity was verified."
+      "testHint": "A test check: no real identity was verified.",
+      "mark": "verified"
+    },
+    "gender": {
+      "male": "Male",
+      "female": "Female"
     }
   },
   "deliveries": {
