@@ -16,7 +16,9 @@
     "reports": "Reports",
     "settings": "Settings",
     "logout": "Logout",
-    "soon": "soon"
+    "soon": "soon",
+    "publicSite": "Public site",
+    "publicSiteLabel": "Public site: open the home page, you stay logged in"
   },
   "publicNav": {
     "sendRequest": "Send Request",

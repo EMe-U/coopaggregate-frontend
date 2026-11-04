@@ -1,10 +1,11 @@
-import { useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { startTransition, useState } from 'react'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import {
   BookOpen,
   Boxes,
   FileChartColumn,
+  Globe,
   Inbox,
   LayoutDashboard,
   LogOut,
@@ -43,9 +44,14 @@ export default function Sidebar({ isOpen, onClose }) {
   const pending = usePendingDeliveries()
   const [confirmingLogout, setConfirmingLogout] = useState(false)
 
+  // Logging out leads to the public home page. A session that ends by itself (401) still goes to
+  // /login, from the API client. The router changes pages in a transition, so the logout goes in
+  // the same one: otherwise the manager page sees no token first and sends the manager to /login.
   function logOut() {
-    signOut()
-    navigate('/login', { replace: true })
+    startTransition(() => {
+      signOut()
+      navigate('/', { replace: true })
+    })
   }
 
   // Logging out keeps the queue on this device, but nothing syncs until someone logs in again.
@@ -108,7 +114,17 @@ export default function Sidebar({ isOpen, onClose }) {
           )}
         </nav>
 
-        <div className="border-t border-background p-3">
+        <div className="space-y-1 border-t border-background p-3">
+          {/* The public home page in this tab, still logged in: back with the browser's back button. */}
+          <Link
+            to="/"
+            onClick={onClose}
+            aria-label={t('nav.publicSiteLabel')}
+            className={`${itemClass} text-text outline-none hover:bg-background focus-visible:ring-2 focus-visible:ring-primary`}
+          >
+            <Globe size={18} />
+            {t('nav.publicSite')}
+          </Link>
           <button
             type="button"
             onClick={handleLogout}

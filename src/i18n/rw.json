@@ -16,7 +16,9 @@
     "reports": "Raporo",
     "settings": "Igenamiterere",
     "logout": "Sohoka",
-    "soon": "vuba"
+    "soon": "vuba",
+    "publicSite": "Urubuga rusange",
+    "publicSiteLabel": "Urubuga rusange: fungura ipaji y'ibanze, ugumye winjiye"
   },
   "publicNav": {
     "sendRequest": "Ohereza Icyifuzo",
@@ -1398,7 +1400,9 @@
       "members.nationalId.show",
       "members.nationalId.hide",
       "members.nationalId.showLabel",
-      "members.nationalId.hideLabel"
+      "members.nationalId.hideLabel",
+      "nav.publicSite",
+      "nav.publicSiteLabel"
     ]
   },
   "publicHome": {
