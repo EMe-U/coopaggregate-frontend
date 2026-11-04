@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { CircleCheck, CircleX, Clock, Search, Ticket } from 'lucide-react'
+import { CircleCheck, CircleX, Clock, MessageCircle, Phone, Search, Ticket } from 'lucide-react'
 import { getRequestStatus } from '../../api/public'
-import { cleanPhone, RWANDAN_PHONE_PATTERN } from '../../utils/phone'
+import { formatPhone } from '../../utils/format'
+import { cleanPhone, internationalPhone, RWANDAN_PHONE_PATTERN } from '../../utils/phone'
 
 const inputClass =
   'min-h-12 w-full rounded-lg border border-transparent bg-background px-3 text-base outline-none placeholder:text-muted/70 focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:opacity-60'
@@ -136,6 +137,20 @@ export default function RequestStatus() {
                 {t(`requestStatus.status.${result.status}`, { defaultValue: result.status })}
               </span>
             </div>
+            {/* An older backend answer has no contact details; then nothing is shown. */}
+            {result.contactMethod && result.contactNumber && (
+              <p className="mt-4 flex items-start gap-2 rounded-lg bg-primary-light p-3 text-sm text-primary">
+                {result.contactMethod === 'WHATSAPP' ? (
+                  <MessageCircle size={16} className="mt-0.5 shrink-0" />
+                ) : (
+                  <Phone size={16} className="mt-0.5 shrink-0" />
+                )}
+                {t(`requestStatus.contactBy.${result.contactMethod}`, {
+                  number: formatPhone(internationalPhone(result.contactNumber)),
+                  defaultValue: formatPhone(internationalPhone(result.contactNumber)),
+                })}
+              </p>
+            )}
             {result.message && (
               <div className="mt-4 border-l-4 border-primary bg-background p-4">
                 <p className="text-xs font-semibold uppercase tracking-wide text-primary">{t('requestStatus.notice')}</p>

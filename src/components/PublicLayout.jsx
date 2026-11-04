@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Menu, X } from 'lucide-react'
+import { useAuth } from '../context/AuthContext'
 import usePublicInfo from '../hooks/usePublicInfo'
 import LanguageSwitch from './LanguageSwitch'
 import Logo from './Logo'
@@ -12,6 +13,7 @@ export default function PublicLayout() {
   const { t } = useTranslation()
   const { pathname, hash } = useLocation()
   const publicInfo = usePublicInfo()
+  const { token } = useAuth()
   // On phones and tablets the links are in a menu opened with a button.
   const [menuOpen, setMenuOpen] = useState(false)
   const headerRef = useRef(null)
@@ -77,6 +79,25 @@ export default function PublicLayout() {
     hasContact && { to: '/#contact', label: t('publicNav.contact'), section: true },
   ].filter(Boolean)
 
+  // For the cooperative's managers: plain text, apart from the buyer links. A manager still logged in
+  // goes straight back to the dashboard.
+  function renderStaffLink(layout) {
+    const look =
+      layout === 'menu'
+        ? 'flex min-h-12 items-center rounded-lg px-3 text-base'
+        : 'hidden whitespace-nowrap rounded px-1 py-2 text-sm lg:inline-flex'
+    return (
+      <Link
+        to={token ? '/dashboard' : '/login'}
+        onClick={() => setMenuOpen(false)}
+        aria-label={t('publicNav.staffLoginLabel')}
+        className={`${look} text-muted outline-none hover:text-text hover:underline focus-visible:ring-2 focus-visible:ring-primary`}
+      >
+        {t('publicNav.staffLogin')}
+      </Link>
+    )
+  }
+
   function renderLinks(layout) {
     const base = layout === 'menu' ? 'flex min-h-12 items-center rounded-lg px-3 text-base' : 'whitespace-nowrap py-2 text-sm'
     return links.map(({ to, label, section }) =>
@@ -107,6 +128,7 @@ export default function PublicLayout() {
           </Link>
           <nav className="hidden gap-x-6 lg:flex lg:flex-1 lg:justify-center">{renderLinks('bar')}</nav>
           <div className="ml-auto flex items-center gap-1 lg:ml-0">
+            {renderStaffLink('bar')}
             <LanguageSwitch />
             <button
               type="button"
@@ -122,7 +144,10 @@ export default function PublicLayout() {
         </div>
         {menuOpen && (
           <nav id="public-menu" className="border-t border-text/5 px-4 py-2 lg:hidden">
-            <div className="mx-auto flex max-w-6xl flex-col">{renderLinks('menu')}</div>
+            <div className="mx-auto flex max-w-6xl flex-col">
+              {renderLinks('menu')}
+              <div className="mt-1 border-t border-text/5 pt-1">{renderStaffLink('menu')}</div>
+            </div>
           </nav>
         )}
       </header>

@@ -1,14 +1,19 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useOutletContext, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, CircleCheck, SendHorizonal, Truck } from 'lucide-react'
+import { ArrowLeft, Check, CircleCheck, Copy, Link2, MessageCircle, Phone, SendHorizonal, ShieldCheck, Truck } from 'lucide-react'
 import { sendPurchaseRequest } from '../../api/public'
-import { formatKg } from '../../utils/format'
-import { cleanPhone, RWANDAN_PHONE_PATTERN } from '../../utils/phone'
+import { copyText } from '../../utils/clipboard'
+import { formatKg, formatPhone } from '../../utils/format'
+import { cleanPhone, internationalPhone, RWANDAN_PHONE_PATTERN } from '../../utils/phone'
 import { parseKg } from '../../utils/quantity'
 import { publicGradeName } from './publicGrade'
 
 const MAX_QUANTITY_KG = 100000
+const CONTACT_METHODS = [
+  { value: 'CALL', icon: Phone },
+  { value: 'WHATSAPP', icon: MessageCircle },
+]
 const inputClass =
   'min-h-12 w-full rounded-lg border border-transparent bg-background px-3 text-base outline-none placeholder:text-muted/70 focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:opacity-60'
 
@@ -26,13 +31,47 @@ function Field({ id, label, optional, hint, error, children }) {
   )
 }
 
+// Copies text on click; the label says "Copied" (or that it failed) for 2 seconds.
+function CopyButton({ text, label, copiedLabel, icon: Icon }) {
+  const { t } = useTranslation()
+  const [state, setState] = useState(null)
+
+  useEffect(() => {
+    if (!state) return undefined
+    const timer = setTimeout(() => setState(null), 2000)
+    return () => clearTimeout(timer)
+  }, [state])
+
+  return (
+    <button
+      type="button"
+      onClick={async () => setState((await copyText(text)) ? 'copied' : 'failed')}
+      aria-live="polite"
+      className="flex min-h-12 items-center justify-center gap-2 rounded-lg border border-text/10 bg-surface px-4 text-sm font-medium text-text hover:bg-background"
+    >
+      {state === 'copied' ? <Check size={16} className="text-primary" /> : <Icon size={16} />}
+      {state === 'copied' ? copiedLabel : state === 'failed' ? t('publicRequest.sent.copyFailed') : label}
+    </button>
+  )
+}
+
 export default function SendRequest() {
   const { t, i18n } = useTranslation()
   const [searchParams] = useSearchParams()
   const { info, grades, reload } = useOutletContext()
   const minOrderKg = Number(info.data?.minOrderKg) || null
 
-  const [values, setValues] = useState({ gradeCode: searchParams.get('grade') ?? '', quantity: '', name: '', phone: '', email: '', note: '', website: '' })
+  const [values, setValues] = useState({
+    gradeCode: searchParams.get('grade') ?? '',
+    quantity: '',
+    name: '',
+    phone: '',
+    contactMethod: 'CALL',
+    whatsapp: '',
+    email: '',
+    note: '',
+    website: '',
+  })
   const [errors, setErrors] = useState({})
   const [formError, setFormError] = useState('')
   const [sending, setSending] = useState(false)
@@ -65,6 +104,9 @@ export default function SendRequest() {
     else if (quantityKg > MAX_QUANTITY_KG) found.quantity = t('publicRequest.errors.quantityTooLarge', { kg: formatKg(MAX_QUANTITY_KG) })
     if (!values.name.trim()) found.name = t('publicRequest.errors.name')
     if (!RWANDAN_PHONE_PATTERN.test(cleanPhone(values.phone))) found.phone = t('publicRequest.errors.phone')
+    if (values.contactMethod === 'WHATSAPP' && values.whatsapp.trim() && !RWANDAN_PHONE_PATTERN.test(cleanPhone(values.whatsapp))) {
+      found.whatsapp = t('publicRequest.errors.phone')
+    }
     if (values.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email.trim())) found.email = t('publicRequest.errors.email')
     return { found, quantityKg }
   }
@@ -77,19 +119,26 @@ export default function SendRequest() {
     setErrors(found)
     if (Object.keys(found).length > 0) return
 
+    // The number the cooperative will use, shown on the confirmation: the WhatsApp number when one
+    // was given for WhatsApp, otherwise the main phone.
+    const whatsapp = values.contactMethod === 'WHATSAPP' ? cleanPhone(values.whatsapp) : ''
+    const contact = { method: values.contactMethod, number: whatsapp || cleanPhone(values.phone) }
+
     setSending(true)
     try {
-      setSent(
-        await sendPurchaseRequest({
+      const answer = await sendPurchaseRequest({
           name: values.name.trim(),
           phone: cleanPhone(values.phone),
           email: values.email.trim() || null,
           gradeCode: values.gradeCode,
           quantityKg,
           note: values.note.trim() || null,
+          contactMethod: values.contactMethod,
+          // Only for WhatsApp; left out, the cooperative uses the main phone.
+          whatsappNumber: values.contactMethod === 'WHATSAPP' ? cleanPhone(values.whatsapp) || null : null,
           website: values.website,
-        }),
-      )
+        })
+      setSent({ ...answer, contact })
     } catch (error) {
       setFormError(
         error.response ? error.response.data?.message || t('publicRequest.errors.generic') : t('publicRequest.errors.network'),
@@ -138,6 +187,25 @@ export default function SendRequest() {
             </div>
             <p className="mt-4 rounded-lg bg-background px-4 py-3 text-center font-mono text-xl font-bold tracking-wide text-text">
               {sent.code}
+            </p>
+            <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
+              <CopyButton text={sent.code} label={t('publicRequest.sent.copy')} copiedLabel={t('publicRequest.sent.copied')} icon={Copy} />
+              <CopyButton
+                text={`${window.location.origin}/status?code=${encodeURIComponent(sent.code)}`}
+                label={t('publicRequest.sent.saveLink')}
+                copiedLabel={t('publicRequest.sent.linkCopied')}
+                icon={Link2}
+              />
+            </div>
+            <p className="mt-4 flex items-start gap-2 rounded-lg bg-primary-light p-3 text-sm text-primary">
+              {sent.contact.method === 'WHATSAPP' ? (
+                <MessageCircle size={16} className="mt-0.5 shrink-0" />
+              ) : (
+                <Phone size={16} className="mt-0.5 shrink-0" />
+              )}
+              {t(`publicRequest.sent.contactBy.${sent.contact.method}`, {
+                number: formatPhone(internationalPhone(sent.contact.number)),
+              })}
             </p>
             <p className="mt-3 text-sm text-text">{t('publicRequest.sent.howToCheck')}</p>
             <div className="mt-4 flex flex-wrap gap-3">
@@ -242,6 +310,58 @@ export default function SendRequest() {
                 />
               </Field>
             </div>
+
+            <fieldset className="min-w-0 space-y-3">
+              <legend className="mb-1.5 text-sm font-medium text-text">{t('publicRequest.contact.question')}</legend>
+              <div className="grid grid-cols-2 gap-3">
+                {CONTACT_METHODS.map(({ value, icon: Icon }) => (
+                  <label
+                    key={value}
+                    className={`flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-lg border px-3 text-sm font-medium has-focus-visible:ring-2 has-focus-visible:ring-primary/30 ${
+                      values.contactMethod === value
+                        ? 'border-primary bg-primary-light text-primary'
+                        : 'border-text/10 bg-background text-text hover:bg-primary-light/50'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="contactMethod"
+                      value={value}
+                      checked={values.contactMethod === value}
+                      onChange={() => setValue('contactMethod', value)}
+                      disabled={sending}
+                      className="sr-only"
+                    />
+                    <Icon size={16} />
+                    {t(`publicRequest.contact.${value}`)}
+                  </label>
+                ))}
+              </div>
+              {values.contactMethod === 'WHATSAPP' && (
+                <Field
+                  id="request-whatsapp"
+                  label={t('publicRequest.contact.whatsappNumber')}
+                  optional
+                  error={errors.whatsapp}
+                  hint={t('publicRequest.contact.whatsappHint')}
+                >
+                  <input
+                    id="request-whatsapp"
+                    type="tel"
+                    inputMode="tel"
+                    autoComplete="tel"
+                    value={values.whatsapp}
+                    onChange={(event) => setValue('whatsapp', event.target.value)}
+                    disabled={sending}
+                    className={inputClass}
+                  />
+                </Field>
+              )}
+              <p className="flex items-start gap-2 text-xs text-muted">
+                <ShieldCheck size={14} className="mt-0.5 shrink-0" />
+                {t('publicRequest.contact.privacy')}
+              </p>
+            </fieldset>
 
             <Field id="request-email" label={t('publicRequest.email')} optional error={errors.email}>
               <input

@@ -10,8 +10,9 @@ import ConfirmationBadge, { confirmationMethodLabel } from '../../components/del
 import DeliveryActionsMenu from '../../components/deliveries/DeliveryActionsMenu'
 import DeliveryConfirmation from '../../components/deliveries/DeliveryConfirmation'
 import DeliveryHistoryNote from '../../components/deliveries/DeliveryHistoryNote'
+import DeliveryLots from '../../components/deliveries/DeliveryLots'
 import useLinkedDeliveries from '../../hooks/useLinkedDeliveries'
-import useLotsWithSales from '../../hooks/useLotsWithSales'
+import useSharedLots from '../../hooks/useSharedLots'
 import { formatDateTime, formatKg, formatMoney } from '../../utils/format'
 
 function Row({ label, children }) {
@@ -49,7 +50,7 @@ export default function DeliveryDetail() {
   }, [id, reloadKey])
 
   const linked = useLinkedDeliveries(delivery ? [delivery] : [])
-  const lotsWithSales = useLotsWithSales(delivery ? [delivery.lotId] : [], reloadKey)
+  const sharedLots = useSharedLots(delivery ? [delivery.lotId] : [], reloadKey)
 
   // A correction is a new delivery with its own code, so the page moves to it.
   function handleChanged(updated) {
@@ -106,7 +107,7 @@ export default function DeliveryDetail() {
             </h1>
             <DeliveryActionsMenu
               delivery={delivery}
-              lotHasSales={lotsWithSales.has(delivery.lotId)}
+              lotShared={sharedLots.has(delivery.lotId)}
               onChanged={() => setReloadKey((key) => key + 1)}
               onDetailPage
             />
@@ -123,10 +124,8 @@ export default function DeliveryDetail() {
             <Row label={t('deliveryDetail.grade')}>
               <GradeName name={delivery.gradeName} />
             </Row>
-            <Row label={t('deliveryDetail.lot')}>
-              <Link to={`/lots/${delivery.lotId}`} className="font-mono text-primary hover:underline">
-                {delivery.lotCode}
-              </Link>
+            <Row label={t('deliveryDetail.lots')}>
+              <DeliveryLots lots={delivery.lots} reversed={delivery.reversed} full />
             </Row>
             <Row label={t('deliveryDetail.quantity')}>{formatKg(delivery.quantityKg)}</Row>
             <Row label={t('deliveryDetail.deduction')}>{formatMoney(delivery.deductionRwf)}</Row>

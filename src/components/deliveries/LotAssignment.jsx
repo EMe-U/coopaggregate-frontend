@@ -2,43 +2,64 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Info } from 'lucide-react'
 import { findOpenLot } from '../../api/lots'
+import { getSettings } from '../../api/settings'
 import useOnlineStatus from '../../hooks/useOnlineStatus'
-import { formatMoney } from '../../utils/format'
+import { formatMoney, formatNumber } from '../../utils/format'
 import { DEDUCTION_PER_KG_PREVIEW, previewDeduction } from '../../utils/deduction'
 
-export default function LotAssignment({ gradeId, quantityKg }) {
-  const { t } = useTranslation()
-  const isOnline = useOnlineStatus()
-  const [lot, setLot] = useState({ status: 'idle' })
+// The capacity of the grade's lot being filled (null when there is none) and the lot size setting,
+// which new lots start with. Each is null when it cannot be read, for example offline.
+function useLotSizes(gradeId, isOnline) {
+  const [settingSize, setSettingSize] = useState(null)
+  const [lotSize, setLotSize] = useState(null)
 
   useEffect(() => {
-    // Offline the server picks the lot when the delivery syncs, so there is nothing to look up.
-    if (!gradeId || !isOnline) {
-      setLot({ status: 'idle' })
-      return
-    }
-
+    if (!isOnline) return undefined
     let ignore = false
-    setLot({ status: 'loading' })
+    getSettings()
+      .then((settings) => {
+        if (!ignore) setSettingSize(settings.lotSizeKg ?? null)
+      })
+      .catch(() => {})
+    return () => {
+      ignore = true
+    }
+  }, [isOnline])
+
+  useEffect(() => {
+    setLotSize(null)
+    if (!gradeId || !isOnline) return undefined
+    let ignore = false
     findOpenLot(gradeId)
       .then((openLot) => {
-        if (!ignore) setLot({ status: 'done', openLot })
+        if (!ignore) setLotSize(openLot?.capacityKg ?? null)
       })
-      .catch(() => {
-        if (!ignore) setLot({ status: 'error' })
-      })
+      .catch(() => {})
     return () => {
       ignore = true
     }
   }, [gradeId, isOnline])
 
-  let lotText
-  if (!isOnline) lotText = t('offline.lotLater')
-  else if (lot.status === 'idle') lotText = t('deliveries.lot.chooseGrade')
-  else if (lot.status === 'loading') lotText = t('deliveries.lot.checking')
-  else if (lot.status === 'error') lotText = t('deliveries.lot.error')
-  else if (lot.openLot) lotText = t('deliveries.lot.existing', { code: lot.openLot.code })
-  else lotText = t('deliveries.lot.newLot')
+  return { lotSize, settingSize }
+}
+
+// After a lot size change, the lot being filled keeps its old size and the kilos that do not fit
+// go into new lots of the setting's size, so both sizes are named when they differ.
+function LotSizeNote({ lotSize, settingSize }) {
+  const { t } = useTranslation()
+  if (lotSize != null && settingSize != null && Number(lotSize) !== Number(settingSize)) {
+    return t('deliveries.lot.entersFillingLot', { capacity: formatNumber(lotSize), next: formatNumber(settingSize) })
+  }
+  const size = lotSize ?? settingSize
+  return size != null ? t('deliveries.lot.entersLot', { capacity: formatNumber(size) }) : t('deliveries.lot.entersLotNoSize')
+}
+
+// A delivery is in no lot until the member confirms it; then the system puts its kilos into the
+// lots of its grade, first in first out, splitting it across lots when one fills up.
+export default function LotAssignment({ gradeId, quantityKg }) {
+  const { t } = useTranslation()
+  const isOnline = useOnlineStatus()
+  const { lotSize, settingSize } = useLotSizes(gradeId, isOnline)
 
   return (
     <div className="rounded-lg bg-primary-light p-4 text-sm text-primary">
@@ -47,7 +68,9 @@ export default function LotAssignment({ gradeId, quantityKg }) {
         {t('deliveries.lot.title')}
       </p>
       <div className="mt-2 space-y-1 pl-6">
-        <p className={lot.status === 'error' ? 'text-danger' : undefined}>{lotText}</p>
+        <p>
+          <LotSizeNote lotSize={lotSize} settingSize={settingSize} />
+        </p>
         <p>
           {quantityKg
             ? t('deliveries.lot.deduction', {

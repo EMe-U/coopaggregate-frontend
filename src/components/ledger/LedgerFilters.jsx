@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { Search, X } from 'lucide-react'
 import { kigaliIsoDate } from '../../utils/format'
 
-const TYPES = ['DELIVERY', 'LOSS', 'SALE', 'SHARE', 'PAYMENT', 'REVERSAL']
+const TYPES = ['DELIVERY', 'LOSS', 'SALE', 'SALE_CREDIT', 'SHARE', 'PAYMENT', 'REVERSAL']
 
 const controlClass =
   'min-h-11 rounded-lg border border-transparent bg-background px-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20'

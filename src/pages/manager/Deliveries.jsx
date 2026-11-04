@@ -8,8 +8,9 @@ import PageTitle from '../../components/PageTitle'
 import Pagination from '../../components/Pagination'
 import ConfirmationBadge from '../../components/deliveries/ConfirmationBadge'
 import DeliveryActionsMenu from '../../components/deliveries/DeliveryActionsMenu'
+import DeliveryLots from '../../components/deliveries/DeliveryLots'
 import usePageSize from '../../hooks/usePageSize'
-import useLotsWithSales from '../../hooks/useLotsWithSales'
+import useSharedLots from '../../hooks/useSharedLots'
 import { formatDateTime, formatKg } from '../../utils/format'
 
 const STATUSES = ['PENDING', 'CONFIRMED', 'DISPUTED']
@@ -51,7 +52,7 @@ export default function Deliveries() {
   }, [status, olderThanHours, page, pageSize, reloadKey])
 
   const deliveries = result?.content ?? []
-  const lotsWithSales = useLotsWithSales(deliveries.map((delivery) => delivery.lotId), reloadKey)
+  const sharedLots = useSharedLots(deliveries.map((delivery) => delivery.lotId), reloadKey)
 
   let title = t('deliveriesPage.title')
   if (status === 'DISPUTED') title = t('deliveriesPage.disputed')
@@ -116,9 +117,7 @@ export default function Deliveries() {
                         <GradeName name={delivery.gradeName} />
                       </td>
                       <td className={cell}>
-                        <Link to={`/lots/${delivery.lotId}`} className="font-mono text-xs text-primary hover:underline">
-                          {delivery.lotCode}
-                        </Link>
+                        <DeliveryLots lots={delivery.lots} reversed={delivery.reversed} deliveryId={delivery.id} />
                       </td>
                       <td className={cell}>{formatKg(delivery.quantityKg)}</td>
                       <td className={`${cell} text-muted`}>{formatDateTime(delivery.deliveredAt)}</td>
@@ -128,7 +127,7 @@ export default function Deliveries() {
                       <td className="px-3 py-1">
                         <DeliveryActionsMenu
                           delivery={delivery}
-                          lotHasSales={lotsWithSales.has(delivery.lotId)}
+                          lotShared={sharedLots.has(delivery.lotId)}
                           onChanged={() => setReloadKey((key) => key + 1)}
                         />
                       </td>

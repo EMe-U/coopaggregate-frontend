@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ArrowRight, FolderOpen, Package, Split, TrendingUp, Truck, Users, Wallet } from 'lucide-react'
+import { ArrowRight, FolderOpen, Package, TrendingUp, Truck, Users, Wallet } from 'lucide-react'
 import GradeName from '../GradeName'
 import StatCard from './StatCard'
 import { formatKg, formatMoney, formatNumber } from '../../utils/format'
@@ -32,10 +32,17 @@ export function StockCards({ summary }) {
         {summary && (
           <>
             <p className={valueClass}>{formatKg(summary.stockKg)}</p>
+            {/* Only sellable (confirmed) kg can be sold; the rest waits for the member or is disputed. */}
+            <p className="mt-1 text-xs font-medium text-primary">
+              {t('dashboard.cards.sellableWaiting', { sellable: formatKg(summary.sellableKg), waiting: formatKg(summary.waitingKg) })}
+              {Number(summary.disputedKg) > 0 && ` · ${t('dashboard.cards.disputed', { kg: formatKg(summary.disputedKg) })}`}
+            </p>
             <ul className="mt-1 text-xs text-muted">
-              {summary.stockByGrade.map((grade) => (
+              {summary.stockByGradeDetail.map((grade) => (
                 <li key={grade.gradeName}>
-                  <GradeName name={grade.gradeName} />: {formatKg(grade.kg)}
+                  <GradeName name={grade.gradeName} />: {formatKg(grade.remainingKg)}
+                  {Number(grade.sellableKg) !== Number(grade.remainingKg) &&
+                    ` ${t('dashboard.cards.gradeSellable', { kg: formatKg(grade.sellableKg) })}`}
                 </li>
               ))}
             </ul>
@@ -52,17 +59,27 @@ export function StockCards({ summary }) {
         )}
       </StatCard>
 
-      <StatCard label={t('dashboard.cards.openLots')} icon={FolderOpen} loading={loading}>
+      <StatCard label={t('dashboard.cards.lotsBeingFilled')} icon={FolderOpen} loading={loading}>
         {summary && (
           <>
-            <p className={valueClass}>{formatNumber(summary.openLots.length)}</p>
-            <ul className="mt-1 space-y-0.5 text-xs text-muted">
-              {summary.openLots.map((lot) => (
+            <p className={valueClass}>{formatNumber(summary.lotsBeingFilled.length)}</p>
+            {summary.lotsBeingFilled.length === 0 && (
+              <p className="mt-1 text-xs text-muted">{t('dashboard.cards.noLotBeingFilled')}</p>
+            )}
+            <ul className="mt-1 space-y-1.5 text-xs text-muted">
+              {summary.lotsBeingFilled.map((lot) => (
                 <li key={lot.id}>
                   <Link to={`/lots/${lot.id}`} className="font-mono text-primary hover:underline">
                     {lot.code}
                   </Link>{' '}
-                  · <GradeName name={lot.gradeName} />
+                  · <GradeName name={lot.gradeName} /> ·{' '}
+                  {t('lots.fill.value', { filled: formatNumber(lot.filledKg), capacity: formatNumber(lot.capacityKg) })}
+                  <span className="mt-0.5 block h-1 overflow-hidden rounded-full bg-text/10">
+                    <span
+                      className="block h-full rounded-full bg-primary"
+                      style={{ width: `${Math.min(100, (Number(lot.filledKg) / Number(lot.capacityKg)) * 100)}%` }}
+                    />
+                  </span>
                 </li>
               ))}
             </ul>
@@ -85,18 +102,6 @@ export function MoneyCards({ summary }) {
             <p className={valueClass}>{formatMoney(summary.owedToMembersRwf)}</p>
             <Link to="/payments" className={linkClass}>
               {t('dashboard.cards.membersWaiting', { count: summary.membersAwaitingPayment })}
-              <ArrowRight size={14} />
-            </Link>
-          </>
-        )}
-      </StatCard>
-
-      <StatCard label={t('dashboard.cards.readyToShare')} icon={Split} loading={loading}>
-        {summary && (
-          <>
-            <p className={valueClass}>{t('dashboard.cards.lots', { count: summary.lotsReadyToShare })}</p>
-            <Link to="/share" className={linkClass}>
-              {t('dashboard.cards.goToShare')}
               <ArrowRight size={14} />
             </Link>
           </>

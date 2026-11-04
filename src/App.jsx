@@ -10,10 +10,11 @@ import DeliveryDetail from './pages/manager/DeliveryDetail'
 import RecordDelivery from './pages/manager/RecordDelivery'
 import Members from './pages/manager/Members'
 import MemberDetail from './pages/manager/MemberDetail'
+import MemberBatches from './pages/manager/MemberBatches'
+import MemberVerifyCallback from './pages/manager/MemberVerifyCallback'
 import Lots from './pages/manager/Lots'
 import LotDetail from './pages/manager/LotDetail'
 import Sales from './pages/manager/Sales'
-import ShareLotMoney from './pages/manager/ShareLotMoney'
 import Payments from './pages/manager/Payments'
 import BuyerRequests from './pages/manager/BuyerRequests'
 import Disputes from './pages/manager/Disputes'
@@ -35,13 +36,16 @@ export default function App() {
           <Route path="/members" element={<Members />} />
           <Route path="/members/:id" element={<MemberDetail />} />
           <Route element={<RequiresInternet />}>
+            <Route path="/identity/callback" element={<MemberVerifyCallback />} />
+            <Route path="/members/:id/batches" element={<MemberBatches />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/deliveries" element={<Deliveries />} />
             <Route path="/deliveries/:id" element={<DeliveryDetail />} />
             <Route path="/lots" element={<Lots />} />
             <Route path="/lots/:id" element={<LotDetail />} />
             <Route path="/sales" element={<Sales />} />
-            <Route path="/share" element={<ShareLotMoney />} />
+            {/* Lots are no longer shared: sales pay the members by batch. Old links land on the dashboard. */}
+            <Route path="/share" element={<Navigate to="/dashboard" replace />} />
             <Route path="/payments" element={<Payments />} />
             <Route path="/buyer-requests" element={<BuyerRequests />} />
             <Route path="/disputes" element={<Disputes />} />

@@ -9,7 +9,6 @@
     "members": "Members",
     "lots": "Lots & Stock",
     "sales": "Sales",
-    "share": "Share Lot Money",
     "payments": "Payments",
     "buyerRequests": "Buyer Requests",
     "ledger": "Ledger",
@@ -17,7 +16,9 @@
     "reports": "Reports",
     "settings": "Settings",
     "logout": "Logout",
-    "soon": "soon"
+    "soon": "soon",
+    "publicSite": "Public site",
+    "publicSiteLabel": "Public site: open the home page, you stay logged in"
   },
   "publicNav": {
     "sendRequest": "Send Request",
@@ -26,7 +27,9 @@
     "contact": "Contact",
     "copyright": "© {{year}} {{name}}",
     "openMenu": "Open menu",
-    "closeMenu": "Close menu"
+    "closeMenu": "Close menu",
+    "staffLogin": "Staff login",
+    "staffLoginLabel": "Staff login, for the cooperative's managers"
   },
   "topbar": {
     "online": "Online",
@@ -142,7 +145,12 @@
         "joinDateFuture": "The join date cannot be in the future",
         "generic": "Could not save the member. Please try again.",
         "serverUnreachable": "Cannot reach the server. Check your connection."
-      }
+      },
+      "verifiedLocked": "From the identity check, cannot be changed here: {{fields}}.",
+      "birthDate": "Birth date",
+      "gender": "Gender",
+      "email": "Email",
+      "unverifiedNotice": "Identity verification is not available. This member will be registered as NOT verified."
     },
     "detail": {
       "back": "Back to members",
@@ -165,13 +173,18 @@
       "print": "Print",
       "notFound": "Member not found",
       "notFoundMessage": "There is no member with this ID.",
-      "loadError": "Could not load this member."
+      "loadError": "Could not load this member.",
+      "batches": "Batches",
+      "birthDate": "Birth date",
+      "gender": "Gender",
+      "email": "Email",
+      "address": "Address"
     },
     "statement": {
       "summaryTitle": "Financial statement summary",
       "netAmount": "Net amount owed / balance to disburse",
       "grossShare": "Total gross share",
-      "grossShareNote": "From lot shares",
+      "grossShareNote": "From lot shares and sale credits",
       "deductions": "Total deductions",
       "deductionsNote": "Per-kg deduction",
       "paidOut": "Total paid",
@@ -210,10 +223,42 @@
       },
       "error": "Could not load the statement.",
       "pay": "Pay",
-      "loading": "Loading..."
+      "loading": "Loading...",
+      "saleCredits": {
+        "title": "Sale credits",
+        "subtitle": "Paid by batch when a sale by grade used this member's potatoes",
+        "saleCode": "Sale",
+        "date": "Date",
+        "receiptCode": "Batch (receipt)",
+        "lot": "Lot",
+        "kg": "Kg",
+        "pricePerKg": "Price/kg",
+        "gross": "Gross",
+        "deduction": "Deduction",
+        "net": "Net",
+        "empty": "No sale credits yet"
+      }
     },
     "print": {
       "statementAsOf": "Statement as of {{date}}"
+    },
+    "verified": {
+      "badge": "Verified",
+      "test": "Test verification",
+      "testHint": "A test check: no real identity was verified.",
+      "mark": "verified",
+      "not": "Not verified",
+      "notHint": "Nobody checked that this name and phone number belong to the member."
+    },
+    "gender": {
+      "male": "Male",
+      "female": "Female"
+    },
+    "nationalId": {
+      "show": "Show",
+      "hide": "Hide",
+      "showLabel": "Show the full national ID",
+      "hideLabel": "Hide the national ID"
     }
   },
   "deliveries": {
@@ -241,14 +286,12 @@
     },
     "lot": {
       "title": "Lot assignment and deductions",
-      "chooseGrade": "Choose a grade to see which lot this delivery goes to.",
-      "checking": "Checking the open lot...",
-      "existing": "Will be added to lot {{code}} (open)",
-      "newLot": "A new lot will be started for this grade",
-      "error": "Could not check the open lot.",
       "deduction": "Cooperative deduction: {{kg}} kg × {{rate}} RWF = {{amount}}",
       "deductionHint": "Enter the quantity to see the deduction.",
-      "note": "No price is entered now. The member is paid after the lot is sold."
+      "note": "No price is entered now. The member is paid after the lot is sold.",
+      "entersLot": "Once the member confirms it, the kilos enter a {{capacity}} kg lot of this grade.",
+      "entersLotNoSize": "Once the member confirms it, the kilos enter a lot of this grade.",
+      "entersFillingLot": "Once the member confirms it, the kilos enter the lot of this grade being filled ({{capacity}} kg). When it is full, new lots of {{next}} kg follow."
     },
     "duplicate": {
       "title": "Possible duplicate delivery",
@@ -269,13 +312,13 @@
       "title": "Delivery receipt",
       "member": "Member",
       "dateTime": "Date and time",
-      "gradeLot": "Grade and lot",
-      "gradeLotValue": "{{grade}} (lot {{lot}})",
       "quantity": "Quantity",
       "deduction": "Deduction",
       "print": "Print receipt",
       "recordAnother": "Record another",
-      "viewMember": "View member"
+      "viewMember": "View member",
+      "grade": "Grade",
+      "lots": "Lots"
     },
     "tips": {
       "title": "Manager tips",
@@ -303,7 +346,10 @@
       "error": "Could not load deliveries."
     },
     "save": "Save delivery",
-    "saving": "Saving..."
+    "saving": "Saving...",
+    "lots": {
+      "afterConfirmation": "After confirmation"
+    }
   },
   "grades": {
     "Big": "Big",
@@ -317,7 +363,10 @@
       "OPEN": "Open",
       "CLOSED": "Closed",
       "SOLD": "Sold",
-      "SHARED": "Shared"
+      "SHARED": "Shared",
+      "FILLING": "Filling",
+      "FULL": "Full",
+      "OLDER": "Older lot"
     },
     "balance": {
       "title": "Stock balance",
@@ -326,34 +375,34 @@
       "mismatch": "The stock does not balance: {{difference}} is missing or extra. Check recent deliveries, sales and losses."
     },
     "cards": {
-      "gradeAvailable": "{{grade}} available",
       "totalInStock": "Total in stock",
-      "lotCounts": "{{open}} open · {{closed}} closed lots",
+      "lotCounts": "{{filling}} filling · {{full}} full lots",
       "addedToday": "Added today",
       "deliveriesToday_one": "{{count}} delivery",
-      "deliveriesToday_other": "{{count}} deliveries"
+      "deliveriesToday_other": "{{count}} deliveries",
+      "gradeSellable": "{{grade}} sellable"
     },
     "stockError": "Could not load the stock summary.",
     "retry": "Try again",
     "table": {
-      "title": "Active & closed lots",
+      "title": "Lots",
       "subtitle": "Track the weight and status of every lot.",
       "lot": "Lot",
       "grade": "Grade",
       "dates": "Dates",
-      "delivered": "Delivered",
       "sold": "Sold",
       "lost": "Lost",
       "inStock": "In stock",
       "members": "Members",
       "saleAmount": "Sale amount",
       "status": "Status",
-      "openSince": "{{date}} – open",
       "period": "{{from}} – {{to}}",
-      "empty": "No lots yet. A lot opens by itself with the first delivery of a grade.",
+      "empty": "No lots yet. A lot starts by itself when the first delivery of a grade is confirmed.",
       "noResults": "No lots match these filters.",
       "error": "Could not load lots.",
-      "stillOpen": "open"
+      "fill": "Fill level",
+      "fillingSince": "{{date}} – filling",
+      "stillFilling": "filling"
     },
     "filters": {
       "status": "Status",
@@ -393,18 +442,12 @@
     "detail": {
       "back": "Back to lots",
       "opened": "Opened {{date}}",
-      "closedOn": "Closed {{date}}",
       "delivered": "Delivered",
       "sold": "Sold",
       "lost": "Lost",
       "inStock": "In stock",
       "saleAmount": "Sale amount",
       "members": "Members",
-      "closeLot": "Close lot",
-      "closing": "Closing...",
-      "confirmClose": "Close lot {{code}}? No more deliveries will be added to it, and the next delivery of this grade starts a new lot.",
-      "closedNotice": "Lot closed",
-      "closeError": "Could not close the lot. Please try again.",
       "recordLoss": "Record loss",
       "recordSale": "Record sale",
       "membersTitle": "Members in this lot",
@@ -432,32 +475,53 @@
         "date": "Date",
         "status": "Confirmation",
         "actions": "Actions"
-      }
+      },
+      "fill": "Fill level",
+      "fullOn": "Full {{date}}",
+      "endedOn": "Ended {{date}}",
+      "memberSold": "Sold",
+      "memberLost": "Lost",
+      "memberRemaining": "Left",
+      "lossSharesTitle": "Each member's share of the losses",
+      "lossSharesHint": "Each loss is shared in proportion to what each member had left in the lot. Kg already sold carry none.",
+      "ofDelivery": "of {{kg}}"
     },
     "actions": {
       "column": "Actions",
       "menu": "Actions for {{code}}",
       "view": "View details",
-      "close": "Close lot",
       "recordLoss": "Record loss",
-      "recordSale": "Record sale",
-      "shareMoney": "Share money",
-      "viewShares": "View shares"
-    },
-    "close": {
-      "title": "Close {{code}}?",
-      "message": "No more deliveries will go into this lot. The next {{grade}} delivery will start a new lot.",
-      "confirm": "Close lot",
-      "cancel": "Cancel",
-      "done": "Lot {{code}} closed"
+      "recordSale": "Record sale"
     },
     "statusHelp": {
-      "OPEN": "Open: still receiving deliveries.",
-      "CLOSED": "Closed: no more deliveries; ready to be sold.",
-      "SOLD": "Sold: fully sold; the money is waiting to be shared.",
-      "SHARED": "Shared: the money has been shared with the members."
+      "SOLD": "Sold: nothing is left in this lot.",
+      "FILLING": "Filling: confirmed deliveries of this grade go into it until it is full. Its potatoes can already be sold.",
+      "FULL": "Full: it reached its size. New deliveries go into the next lot.",
+      "OLDER": "Older lot, from before fixed-size lots. It gets no new kg and is sold first"
     },
-    "pendingConfirmation": "of which {{kg}} waiting for confirmation"
+    "pendingConfirmation": "of which {{kg}} waiting for confirmation",
+    "split": {
+      "sellable": "Sellable",
+      "waiting": "Waiting for confirmation",
+      "disputed": "Disputed",
+      "waitingShort": "Waiting {{kg}}",
+      "disputedShort": "Disputed {{kg}}",
+      "explanation": "Sellable: confirmed by the member, ready to sell. Waiting: the member has not confirmed yet. Disputed: the member says the record is wrong. Only sellable kg can be sold."
+    },
+    "fill": {
+      "value": "{{filled}} / {{capacity}} kg",
+      "label": "Fill level",
+      "shortfall": "{{kg}} short",
+      "shortfallHelp": "A reversed delivery took these kg out after the lot was full. A full lot is never filled again."
+    },
+    "cell": {
+      "count_one": "{{count}} lot",
+      "count_other": "{{count}} lots",
+      "showAll_one": "Show {{count}} lot",
+      "showAll_other": "Show {{count}} lots",
+      "lot": "Lot",
+      "kg": "Kg from this delivery"
+    }
   },
   "sales": {
     "title": "Sales & Buyer Transactions",
@@ -471,47 +535,34 @@
     },
     "form": {
       "title": "Record sale",
-      "subtitle": "One order can take potatoes from several closed lots of the same grade.",
+      "subtitle": "Sell by grade. The kg come from the grade's lots in the order they were filled, shared in proportion inside a lot.",
       "buyer": "Buyer",
+      "date": "Sale date",
+      "linesTitle": "Grades in this sale",
+      "linesHint": "One grade is one sale. Add more grades to record one order for this buyer; each grade can be added once.",
       "grade": "Grade",
       "chooseGrade": "Choose a grade",
+      "kg": "Kg",
       "price": "Price per kg (RWF)",
-      "wanted": "Total kg wanted",
-      "date": "Sale date",
-      "linesTitle": "Lots in this order",
-      "lot": "Lot",
-      "chooseLot": "Choose a lot",
-      "lotOption": "{{code}} – {{kg}} available",
-      "available": "Available",
-      "kg": "Kg taken",
-      "linePrice": "Price/kg",
       "amount": "Amount",
-      "remove": "Remove lot {{code}}",
-      "addLot": "Add lot",
-      "suggest": "Suggest lots",
-      "suggestHint": "Fills the order from the oldest closed lots of this grade.",
-      "noLines": "Choose a grade, then suggest lots or add them one by one.",
-      "noLots": "No closed lot of this grade has stock to sell.",
-      "totalKg": "Total kg",
-      "totalAmount": "Total amount",
-      "mismatch": "The lots add up to {{taken}}, but {{wanted}} was wanted.",
-      "notEnoughStock": "The closed lots of this grade only have {{available}}.",
+      "remove": "Remove {{grade}}",
+      "addGrade": "Add another grade",
       "belowFloor": "Below the floor price ({{floor}} per kg)",
+      "estimate": "Estimated amount",
+      "totalAmount": "Total amount",
       "clear": "Clear",
+      "preview": "Preview",
       "save": "Save sale",
       "saving": "Saving...",
       "errors": {
         "buyerRequired": "Choose a buyer",
         "gradeRequired": "Choose a grade",
+        "kgRequired": "Enter the kg",
+        "kgInvalid": "Enter kg above 0 with at most 2 decimals",
         "priceRequired": "Enter the price per kg",
         "priceInvalid": "Enter a whole number of RWF above 0",
-        "wantedInvalid": "Enter a number above 0 with at most 2 decimals",
         "dateRequired": "Choose the sale date",
         "dateFuture": "The sale date cannot be in the future",
-        "lineLot": "Choose a lot",
-        "lineKg": "Enter kg above 0 with at most 2 decimals",
-        "lineKgTooLarge": "At most {{kg}}",
-        "linePrice": "Enter a whole RWF price above 0",
         "generic": "Could not save the sale. Please try again.",
         "serverUnreachable": "Cannot reach the server. Check your connection and try again."
       }
@@ -537,11 +588,12 @@
       }
     },
     "result": {
-      "title": "Order {{code}} saved",
+      "title": "{{code}} saved",
       "total": "Total: {{amount}}",
-      "belowFloor": "Some prices are below the floor price for this grade. The sale was saved anyway.",
-      "readyToShare": "Now fully sold and ready to share:",
-      "share": "Share money",
+      "saleLine": "{{kg}} at {{price}} per kg = {{total}}",
+      "credited_one": "{{net}} credited to the member of {{count}} batch, after a deduction of {{deduction}}.",
+      "credited_other": "{{net}} credited to the members of {{count}} batches, after a deduction of {{deduction}}.",
+      "belowFloor": "Some prices are below the floor price for their grade. The sale was saved anyway.",
       "recordAnother": "Record another sale"
     },
     "history": {
@@ -549,15 +601,58 @@
       "saleId": "Order / sale",
       "date": "Date",
       "buyer": "Buyer",
-      "lot": "Lot",
+      "grade": "Grade",
       "kg": "Kg",
       "pricePerKg": "Price/kg",
       "total": "Total",
+      "batches": "Batches",
+      "batchCount_one": "{{count}} batch",
+      "batchCount_other": "{{count}} batches",
+      "orderLines_one": "{{count}} grade",
+      "orderLines_other": "{{count}} grades",
+      "paidByLotShare": "Sold from lot {{lot}} before sales by grade: its members are paid through the lot share.",
+      "noBatches": "No batch details were kept for this sale.",
       "empty": "No sales yet.",
       "error": "Could not load sales.",
-      "retry": "Try again",
-      "lots_one": "{{count}} lot",
-      "lots_other": "{{count}} lots"
+      "retry": "Try again"
+    },
+    "preview": {
+      "intro": "Sale to {{buyer}} on {{date}}. These are the lots the sale would use, first in first out, with each member's part. Check them, then save.",
+      "itemTitle": "{{grade}}: {{kg}} at {{price}} per kg",
+      "stock": "Sellable now: {{sellable}} · Waiting for confirmation: {{waiting}} · Disputed: {{disputed}}",
+      "belowFloor": "This price is below the floor price of the grade. The sale can still be saved.",
+      "skipLimit": "At most {{max}} lots can be skipped",
+      "skippedTitle_one": "{{count}} lot skipped",
+      "skippedTitle_other": "{{count}} lots skipped",
+      "useAgain": "Use again",
+      "skipReason": "Why are these lots skipped?",
+      "skipReasonPlaceholder": "For example: these potatoes are kept for seed",
+      "skipReasonShort": "Write at least {{min}} characters",
+      "skipReasonLong": "Write at most {{max}} characters",
+      "counter": "{{count}} / {{max}}",
+      "totalAmount": "Sale amount",
+      "totalDeduction": "Deduction ({{perKg}} per kg)",
+      "totalNet": "Paid to members",
+      "mayChange": "The sale checks the lots again when it is saved.",
+      "back": "Back",
+      "checkAgain": "Check again",
+      "skipLot": "Skip lot",
+      "skipHint": "Pass over this whole lot. A reason is needed."
+    },
+    "batches": {
+      "member": "Member",
+      "receipt": "Receipt",
+      "lot": "Lot",
+      "delivered": "Delivered",
+      "kg": "Kg",
+      "gross": "Gross",
+      "deduction": "Deduction",
+      "net": "Net to member",
+      "money": "Money",
+      "paidByLotShare": "Paid through the lot share",
+      "lotHeading": "Lot",
+      "lotKg_one": "{{kg}} from {{count}} delivery",
+      "lotKg_other": "{{kg}} from {{count}} deliveries"
     }
   },
   "pagination": {
@@ -565,65 +660,6 @@
     "next": "Next",
     "showing": "Showing {{from}}–{{to}} of {{total}}",
     "label": "Pages"
-  },
-  "share": {
-    "eyebrow": "Financial distribution & lot settlement",
-    "title": "Share Lot Money",
-    "lot": "Sold lot",
-    "chooseLot": "Choose a sold lot",
-    "noLots": "No sold lots yet. A lot can be shared once it is fully sold.",
-    "lotOption": "{{code}} ({{grade}}) – sold, ready to share",
-    "lotsError": "Could not load the lots.",
-    "previewError": "Could not load the shares for this lot.",
-    "retry": "Try again",
-    "empty": "Choose a sold lot to see how its money will be shared.",
-    "stockBalanced": "Stock check balanced",
-    "stockUnbalanced": "Stock check does not balance",
-    "cards": {
-      "delivered": "Delivered quantity",
-      "lost": "Lost",
-      "sold": "Sold",
-      "soldSales_one": "Sold ({{count}} sale)",
-      "soldSales_other": "Sold ({{count}} sales)",
-      "saleMoney": "Sale money",
-      "moneyPerKg": "Money per kg delivered"
-    },
-    "breakdown": {
-      "title": "Member allocation breakdown",
-      "contributors_one": "{{count}} contributor",
-      "contributors_other": "{{count}} contributors"
-    },
-    "table": {
-      "member": "Member",
-      "delivered": "Delivered (kg)",
-      "share": "Share",
-      "shareOfMoney": "Share of money",
-      "deduction": "Deduction",
-      "net": "Net to receive",
-      "total": "Total"
-    },
-    "rules": {
-      "title": "Calculation rules",
-      "shareLabel": "Member's share",
-      "share": "= (member's kg ÷ total kg in the lot) × sale money.",
-      "deduction": "The cooperative keeps a fixed amount for every kg delivered, set in Settings, and takes it from each share."
-    },
-    "finalize": {
-      "title": "Finalize lot distribution",
-      "text": "Confirming saves each member's share permanently in the ledger. This cannot be undone.",
-      "confirm": "Confirm sharing",
-      "sharing": "Sharing...",
-      "cancel": "Cancel"
-    },
-    "confirmQuestion": "Share the money of lot {{code}} between its members? This cannot be undone.",
-    "success": "Lot {{code}} has been shared. The members can now be paid.",
-    "goToPayments": "Go to payments",
-    "error": "Could not share the lot. Please try again.",
-    "shareMoney": "Share money",
-    "unconfirmed": {
-      "title": "Deliveries not confirmed yet",
-      "hint": "The lot can be shared once each of these is confirmed by the member or checked by the manager. Open one to confirm, check or settle it."
-    }
   },
   "payments": {
     "eyebrow": "Financial operations",
@@ -723,7 +759,8 @@
       "SALE": "Sale",
       "SHARE": "Share",
       "PAYMENT": "Payment",
-      "REVERSAL": "Reversal"
+      "REVERSAL": "Reversal",
+      "SALE_CREDIT": "Sale credit"
     },
     "verify": {
       "title": "Chain check",
@@ -802,7 +839,9 @@
       "sale": "Sale {{code}} from {{lot}}",
       "share": "Share of {{lot}} for {{member}}",
       "payment": "Payment {{code}} by {{method}}",
-      "reversal": "Reversal of entry #{{id}}: {{reason}}"
+      "reversal": "Reversal of entry #{{id}}: {{reason}}",
+      "saleByGrade": "Sale {{code}} to {{buyer}}",
+      "saleCredit": "Sale {{code}}: credit to {{member}} for batch {{batch}} of lot {{lot}}"
     }
   },
   "dashboard": {
@@ -823,14 +862,14 @@
       "active_other": "{{count}} active",
       "stock": "Available stock",
       "deliveriesToday": "Deliveries today",
-      "openLots": "Open lots",
       "owed": "Amount owed to members",
       "membersWaiting_one": "{{count}} member waiting",
       "membersWaiting_other": "{{count}} members waiting",
-      "readyToShare": "Ready to share",
-      "lots_one": "{{count}} lot",
-      "lots_other": "{{count}} lots",
-      "goToShare": "Share lot money"
+      "sellableWaiting": "Sellable {{sellable}} · Waiting {{waiting}}",
+      "disputed": "Disputed {{kg}}",
+      "gradeSellable": "({{kg}} sellable)",
+      "lotsBeingFilled": "Lots being filled",
+      "noLotBeingFilled": "None. The next confirmed delivery of a grade starts one."
     },
     "history": {
       "title": "History check",
@@ -846,12 +885,6 @@
       "count_one": "{{count}} item",
       "count_other": "{{count}} items",
       "allCaughtUp": "All caught up",
-      "readyToShare_one": "{{count}} sold lot is ready to share",
-      "readyToShare_other": "{{count}} sold lots are ready to share",
-      "readyToShareAction": "Share lot money",
-      "readyToSell_one": "{{count}} closed lot is ready to sell",
-      "readyToSell_other": "{{count}} closed lots are ready to sell",
-      "readyToSellAction": "Record sale",
       "awaitingPayment_one": "{{count}} member is waiting for payment",
       "awaitingPayment_other": "{{count}} members are waiting for payment",
       "awaitingPaymentAction": "Pay members",
@@ -860,7 +893,10 @@
       "disputedAction": "Check disputes",
       "waitingConfirmation_one": "{{count}} delivery waiting for confirmation over 48 hours",
       "waitingConfirmation_other": "{{count}} deliveries waiting for confirmation over 48 hours",
-      "waitingConfirmationAction": "See deliveries"
+      "waitingConfirmationAction": "See deliveries",
+      "gradesToSell_one": "{{count}} grade has kg ready to sell",
+      "gradesToSell_other": "{{count}} grades have kg ready to sell",
+      "gradesToSellAction": "Record sale"
     },
     "recent": {
       "title": "Recent deliveries",
@@ -890,13 +926,12 @@
       "message": "You can still record deliveries. They are saved on this device and sync when the internet is back."
     },
     "saveFailed": "Could not save the delivery on this device. Please try again.",
-    "lotLater": "The lot will be assigned when this delivery syncs.",
     "receipt": {
       "waiting": "Waiting to sync",
       "failed": "Sync failed",
-      "explanation": "Saved on this device. The receipt code, lot and deduction are given when it syncs.",
+      "explanation": "Saved on this device. The receipt code and deduction are given when it syncs, the lot once the member confirms it.",
       "grade": "Grade",
-      "lotLater": "Lot assigned when it syncs",
+      "lotLater": "Lot given once the member confirms it",
       "deductionPreview": "Deduction (preview)",
       "smsAfterSync": "After it syncs, the member gets an SMS and replies to confirm it."
     },
@@ -963,9 +998,10 @@
       "reverse": "Reverse delivery",
       "reverseTitle": "Reverse delivery {{code}}?",
       "reverseExplanation": "The delivery stays in the history, marked as reversed, and is no longer counted in the lot, stock or the member's statement.",
-      "lotHasSales": "This lot already has sales. Report it as a dispute instead.",
       "correctedBy": "Corrected by",
-      "corrects": "Corrects"
+      "corrects": "Corrects",
+      "lotShared": "This lot has already been shared, so its deliveries can no longer be reversed or corrected. Record a dispute instead.",
+      "batchSold": "{{kg}} of this delivery are already sold, so it can no longer be reversed or corrected. If the record is wrong, record a dispute instead."
     },
     "correct": {
       "title": "Correct delivery {{code}}",
@@ -1156,18 +1192,35 @@
         "DELIVERY_REVIEWED": "Delivery checked by the manager",
         "IDENTITY_VERIFIED": "Identity verified",
         "IDENTITY_DUPLICATE": "Identity check: already a member",
-        "IDENTITY_VERIFICATION_FAILED": "Identity check failed"
+        "IDENTITY_VERIFICATION_FAILED": "Identity check failed",
+        "SALE_FIFO_SKIPPED": "Batches skipped in a sale",
+        "LOT_SIZE_CHANGED": "Lot size changed"
+      },
+      "details": {
+        "saleFifoSkipped": "Sale {{sale}} passed over batches {{batches}}. Reason: {{reason}}",
+        "lotSizeChanged": "From {{from}} kg to {{to}} kg, for new lots only. Reason: {{reason}}"
       }
     },
     "orders": {
       "title": "Orders",
       "subtitle": "The smallest order a buyer can request",
       "minOrderKg": "Minimum order"
+    },
+    "lotSize": {
+      "title": "Lot size",
+      "subtitle": "How many kg a new lot holds",
+      "label": "Lot size",
+      "hint": "Each new lot holds this many kg.",
+      "invalid": "Enter a number above 0 and at most 100,000, with at most 2 decimals",
+      "newLotsOnly": "The new size applies to new lots only. The lot being filled and all existing lots keep their size.",
+      "reason": "Why does the lot size change?",
+      "reasonHint": "Required: {{min}} to {{max}} characters. It is kept in the change history.",
+      "reasonInvalid": "Give a reason of {{min}} to {{max}} characters."
     }
   },
   "codeConfirmation": {
     "title": "Confirm delivery {{code}} with the member",
-    "hint": "The member received a code by SMS. If the details are correct, they tell you the code.",
+    "hint": "The member received a code by SMS. If the details are correct, they tell you the code. If something is wrong, fix it from the ⋮ menu → Correct delivery.",
     "confirm": "Confirm",
     "codeLength": "The code has {{count}} digits",
     "error": "Could not save. Please try again.",
@@ -1176,11 +1229,7 @@
     "resendsLeft_one": "{{count}} resend left",
     "resendsLeft_other": "{{count}} resends left",
     "smsOff": "SMS are turned off, so no code was sent. Check the delivery with the member, then record it as checked.",
-    "notCorrect": "Not correct",
-    "notCorrectHint": "First fix the weight or grade. If the member still disagrees, record a dispute.",
-    "fixDelivery": "Fix weight or grade",
-    "stillDisagrees": "The member still disagrees",
-    "memberNotHere": "Member not here",
+    "close": "Close",
     "review": "Checked by the manager",
     "reviewTitle": "Record {{code}} as checked by the manager?",
     "reviewExplanation": "Use this only when the member cannot get a code. Say how you checked the delivery.",
@@ -1198,13 +1247,13 @@
     "error": "Could not load the delivery.",
     "member": "Member",
     "grade": "Grade",
-    "lot": "Lot",
     "quantity": "Weight",
     "deduction": "Deduction",
     "deliveredAt": "Delivered",
     "dispute": "Dispute",
     "resolution": "Manager's note",
-    "confirmTitle": "Confirm with the member"
+    "confirmTitle": "Confirm with the member",
+    "lots": "Lots"
   },
   "publicHome": {
     "hero": "Irish potatoes sold by the cooperative.",
@@ -1294,13 +1343,30 @@
       "keepCode": "Keep this code to check your request.",
       "howToCheck": "To see the answer, open \"Check Request Status\" and enter this code with the phone number you used.",
       "checkStatus": "Check request status",
-      "another": "Send another request"
+      "another": "Send another request",
+      "copy": "Copy code",
+      "copied": "Copied",
+      "saveLink": "Save this link",
+      "linkCopied": "Link copied",
+      "copyFailed": "Could not copy",
+      "contactBy": {
+        "CALL": "The cooperative will contact you by call on {{number}}.",
+        "WHATSAPP": "The cooperative will contact you on WhatsApp on {{number}}."
+      }
     },
     "back": {
       "grades": "Back to the grades",
       "home": "Back to the home page"
     },
-    "gradeHint": "Choose a grade to see its details here."
+    "gradeHint": "Choose a grade to see its details here.",
+    "contact": {
+      "question": "How should we contact you?",
+      "CALL": "Call",
+      "WHATSAPP": "WhatsApp",
+      "whatsappNumber": "WhatsApp number (if different)",
+      "whatsappHint": "Leave empty to use the phone number above.",
+      "privacy": "We use your number only to contact you about this request."
+    }
   },
   "requestStatus": {
     "eyebrow": "Buyer portal",
@@ -1324,6 +1390,10 @@
       "notFound": "Request not found. Check the code and the phone number.",
       "generic": "Could not check the request. Please try again.",
       "network": "Cannot reach the server. Check your connection and try again."
+    },
+    "contactBy": {
+      "CALL": "The cooperative will contact you by call on {{number}}.",
+      "WHATSAPP": "The cooperative will contact you on WhatsApp on {{number}}."
     }
   },
   "buyerRequests": {
@@ -1356,7 +1426,8 @@
       "quantity": "Quantity",
       "date": "Date",
       "status": "Status",
-      "actions": "Actions"
+      "actions": "Actions",
+      "contact": "Contact"
     },
     "actions": {
       "menu": "Actions for request {{code}}",
@@ -1392,7 +1463,16 @@
       "noResults": "No requests match your search."
     },
     "error": "Could not load the requests.",
-    "retry": "Try again"
+    "retry": "Try again",
+    "contact": {
+      "title": "Contact",
+      "CALL": "Call",
+      "WHATSAPP": "WhatsApp",
+      "call": "Call",
+      "whatsapp": "WhatsApp",
+      "callLabel": "Call {{name}}",
+      "whatsappLabel": "Message {{name}} on WhatsApp"
+    }
   },
   "disputes": {
     "title": "Disputes",
@@ -1533,6 +1613,89 @@
       "pendingFromWeek_one": "{{count}} delivered this week",
       "pendingFromWeek_other": "{{count}} delivered this week",
       "openDisputes": "Open disputes"
+    }
+  },
+  "memberBatches": {
+    "back": "Back to the member",
+    "title": "Batches of {{name}}",
+    "subtitle": "{{number}} · Each delivery is a batch: what was sold or lost from it, what is left and what it earned.",
+    "totals": {
+      "received": "Received",
+      "sold": "Sold",
+      "lost": "Lost",
+      "remaining": "Remaining"
+    },
+    "earnings": {
+      "gross": "Gross from sales",
+      "deduction": "Deductions",
+      "earned": "Earned",
+      "note": "Money credited by batch when a sale by grade used these batches. Sales from before sales by grade are paid through the lot share."
+    },
+    "listTitle": "Batches",
+    "filter": {
+      "all": "All",
+      "unsold": "With kg left"
+    },
+    "columns": {
+      "receipt": "Receipt",
+      "delivered": "Delivered",
+      "grade": "Grade",
+      "lot": "Lot",
+      "received": "Received",
+      "sold": "Sold",
+      "lost": "Lost",
+      "remaining": "Left",
+      "gross": "Gross",
+      "deduction": "Deduction",
+      "earned": "Earned",
+      "payment": "Payment"
+    },
+    "payment": {
+      "NOTHING_SOLD": "Nothing sold yet",
+      "BATCH": "Paid by batch",
+      "LOT_SHARE": "Paid through the share of lot {{lot}}",
+      "AWAITING_SETTLEMENT": "Sold before sales by grade; not paid yet"
+    },
+    "card": {
+      "kg": "Received {{received}} · Sold {{sold}} · Lost {{lost}} · Left {{remaining}}",
+      "money": "Gross {{gross}} − deduction {{deduction}} = earned {{earned}}"
+    },
+    "empty": {
+      "all": "No batches yet",
+      "unsold": "No batch has kg left"
+    },
+    "error": "Could not load the batches.",
+    "retry": "Try again"
+  },
+  "memberVerification": {
+    "errors": {
+      "startAgain": "The verification was not found. Start again from Add member.",
+      "network": "Cannot reach the server. Check your connection and try again.",
+      "generic": "The identity could not be verified. Please try again.",
+      "expired": "The verification is older than 30 minutes and can no longer be used. Start again from Add member.",
+      "blocked": "Member registration needs identity verification, which is not configured.",
+      "VERIFICATION_UNKNOWN": "This verification is not known or was started by another manager. Start again from Add member.",
+      "VERIFICATION_EXPIRED": "The verification took too long and expired. Start again from Add member.",
+      "VERIFICATION_USED": "This verification was already used. Start again from Add member.",
+      "ALREADY_MEMBER": "This person is already a member.",
+      "CLAIMS_MISSING": "The identity service did not share the person's name and phone number. Start again from Add member and allow both.",
+      "PHONE_NOT_RWANDAN": "The verified phone number is not a Rwandan mobile number, so this person cannot be registered.",
+      "NAME_TOO_LONG": "The verified name is longer than 150 characters and cannot be saved. Contact the administrator.",
+      "PROVIDER_FAILED": "The identity service did not answer correctly. Try again in a moment from Add member.",
+      "NOT_CONFIGURED": "Member registration needs identity verification, which is not configured."
+    },
+    "starting": "Starting...",
+    "saveWithin": "Save within {{time}}, or start again from Add member.",
+    "method": {
+      "OTP": "SMS code",
+      "FACE": "face check",
+      "PASSWORD": "password",
+      "MOCK": "test mode"
+    },
+    "checking": "Checking the identity...",
+    "cancelled": {
+      "message": "Verification was cancelled. Start again from Add member when the person is ready.",
+      "consentDenied": "Verification was cancelled: the person must allow sharing their name and phone number. Start again from Add member."
     }
   }
 }

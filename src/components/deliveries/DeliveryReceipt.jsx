@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { Plus, Printer, ReceiptText, User } from 'lucide-react'
 import GradeName from '../GradeName'
 import ConfirmationBadge, { confirmationMethodLabel } from './ConfirmationBadge'
+import DeliveryLots from './DeliveryLots'
 import { formatDateTime, formatKg, formatMoney } from '../../utils/format'
-import useGradeName from '../../hooks/useGradeName'
 
 function Row({ label, children }) {
   return (
@@ -19,7 +19,6 @@ function Row({ label, children }) {
 // Shows the delivery exactly as the backend saved it, including the deduction it calculated.
 export default function DeliveryReceipt({ delivery, onRecordAnother }) {
   const { t } = useTranslation()
-  const gradeName = useGradeName()
   const cardRef = useRef(null)
 
   // On a phone the receipt sits below the form, so bring it into view after saving.
@@ -48,11 +47,11 @@ export default function DeliveryReceipt({ delivery, onRecordAnother }) {
           <span className="block text-xs font-normal text-muted">{delivery.memberNumber}</span>
         </Row>
         <Row label={t('deliveries.receipt.dateTime')}>{formatDateTime(delivery.deliveredAt)}</Row>
-        <Row label={t('deliveries.receipt.gradeLot')}>
-          {t('deliveries.receipt.gradeLotValue', {
-            grade: gradeName(delivery.gradeName),
-            lot: delivery.lotCode,
-          })}
+        <Row label={t('deliveries.receipt.grade')}>
+          <GradeName name={delivery.gradeName} />
+        </Row>
+        <Row label={t('deliveries.receipt.lots')}>
+          <DeliveryLots lots={delivery.lots} reversed={delivery.reversed} full />
         </Row>
         <Row label={t('deliveries.receipt.quantity')}>{formatKg(delivery.quantityKg)}</Row>
         <Row label={t('deliveries.receipt.deduction')}>{formatMoney(delivery.deductionRwf)}</Row>

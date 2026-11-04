@@ -1,15 +1,55 @@
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { MessageSquare, Pencil, Printer, UserCheck, UserX } from 'lucide-react'
+import { Eye, EyeOff, Layers, MessageSquare, Pencil, Printer, UserCheck, UserX } from 'lucide-react'
 import Avatar from '../Avatar'
 import StatusBadge from '../StatusBadge'
-import { formatDate, formatPhone } from '../../utils/format'
+import VerifiedBadge, { VerifiedMark } from './VerifiedBadge'
+import { genderLabel, maskNationalId, verifiedFieldsOf } from '../../members/memberDetails'
+import { formatAddress, formatDate, formatPhone } from '../../utils/format'
 
-function Detail({ label, children }) {
+// verified adds the mark of a detail that came from the identity check; wide takes the whole row.
+function Detail({ label, verified, wide, children }) {
   return (
-    <div>
+    <div className={wide ? 'col-span-2' : undefined}>
       <p className="text-xs font-medium uppercase tracking-wide text-muted">{label}</p>
-      <p className="mt-0.5 text-sm text-text">{children}</p>
+      <p className="mt-0.5 break-words text-sm text-text">
+        {children}
+        {verified && <VerifiedMark />}
+      </p>
     </div>
+  )
+}
+
+// Masked until the manager asks to see it. The choice lives only in this component: it is never
+// stored and is gone when the page is left. A printout is always masked.
+function NationalId({ nationalId }) {
+  const { t } = useTranslation()
+  const [revealed, setRevealed] = useState(false)
+  const masked = maskNationalId(nationalId)
+  return (
+    <span className="inline-flex flex-wrap items-center gap-x-2 gap-y-1">
+      <span className="font-mono" data-testid="national-id">
+        {revealed ? (
+          <>
+            <span className="print:hidden">{nationalId}</span>
+            <span className="hidden print:inline">{masked}</span>
+          </>
+        ) : (
+          masked
+        )}
+      </span>
+      <button
+        type="button"
+        onClick={() => setRevealed((value) => !value)}
+        aria-label={revealed ? t('members.nationalId.hideLabel') : t('members.nationalId.showLabel')}
+        aria-pressed={revealed}
+        className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-xs font-medium text-primary ring-1 ring-primary/20 hover:bg-primary-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary print:hidden"
+      >
+        {revealed ? <EyeOff size={12} aria-hidden="true" /> : <Eye size={12} aria-hidden="true" />}
+        {revealed ? t('members.nationalId.hide') : t('members.nationalId.show')}
+      </button>
+    </span>
   )
 }
 
@@ -21,6 +61,8 @@ export default function MemberProfileCard({ member, onEdit, onToggleActive, chan
   const { t } = useTranslation()
   const active = member.status === 'ACTIVE'
   const needsInternet = readOnly ? t('offline.needsInternet') : undefined
+  const verifiedFields = verifiedFieldsOf(member)
+  const address = formatAddress(member.address)
 
   return (
     <div className="rounded-xl bg-surface p-5 shadow-sm print:break-inside-avoid">
@@ -32,6 +74,7 @@ export default function MemberProfileCard({ member, onEdit, onToggleActive, chan
           <span className="font-mono text-xs text-muted">
             {t('members.detail.memberNumber', { code: member.memberCode })}
           </span>
+          <VerifiedBadge member={member} withDetails />
         </div>
 
         <div className="flex gap-1.5 print:hidden">
@@ -79,16 +122,39 @@ export default function MemberProfileCard({ member, onEdit, onToggleActive, chan
         />
         <div className="min-w-0">
           <h1 className="text-xl font-semibold text-text">{member.fullName}</h1>
-          {member.address && <p className="text-sm text-muted">{member.address}</p>}
         </div>
       </div>
 
       <div className="mt-5 grid grid-cols-2 gap-4 border-t border-text/5 pt-4">
         <Detail label={t('members.detail.phone')}>{formatPhone(member.phone)}</Detail>
         <Detail label={t('members.detail.nationalId')}>
-          {member.nationalId ?? <span className="text-muted">{t('members.detail.notProvided')}</span>}
+          {member.nationalId ? (
+            <NationalId key={member.id} nationalId={member.nationalId} />
+          ) : (
+            <span className="text-muted">{t('members.detail.notProvided')}</span>
+          )}
         </Detail>
         <Detail label={t('members.detail.joinDate')}>{formatDate(member.joinDate)}</Detail>
+        {member.birthDate && (
+          <Detail label={t('members.detail.birthDate')} verified={verifiedFields.includes('birthdate')}>
+            {formatDate(member.birthDate)}
+          </Detail>
+        )}
+        {member.gender && (
+          <Detail label={t('members.detail.gender')} verified={verifiedFields.includes('gender')}>
+            {genderLabel(t, member.gender)}
+          </Detail>
+        )}
+        {member.email && (
+          <Detail label={t('members.detail.email')} verified={verifiedFields.includes('email')} wide>
+            {member.email}
+          </Detail>
+        )}
+        {address && (
+          <Detail label={t('members.detail.address')} verified={verifiedFields.includes('address')} wide>
+            {address}
+          </Detail>
+        )}
       </div>
 
       <div className="mt-5 flex flex-wrap gap-2 print:hidden">
@@ -103,6 +169,13 @@ export default function MemberProfileCard({ member, onEdit, onToggleActive, chan
             {t('members.detail.soon')}
           </span>
         </button>
+        <Link
+          to={`/members/${member.id}/batches`}
+          className="flex items-center gap-2 rounded-lg border border-text/10 px-3 py-2 text-sm font-medium text-text hover:bg-background"
+        >
+          <Layers size={16} />
+          {t('members.detail.batches')}
+        </Link>
         <button
           type="button"
           onClick={() => window.print()}

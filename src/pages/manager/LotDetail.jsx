@@ -1,13 +1,15 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, Boxes, HandCoins, Lock, Split, TriangleAlert, Truck, Users } from 'lucide-react'
-import { closeLot, getLot, listLosses } from '../../api/lots'
+import { ArrowLeft, Boxes, HandCoins, TriangleAlert, Truck, Users } from 'lucide-react'
+import { getLot, listLosses } from '../../api/lots'
 import EmptyState from '../../components/EmptyState'
 import GradeName from '../../components/GradeName'
 import SuccessToast from '../../components/SuccessToast'
 import LossModal from '../../components/lots/LossModal'
+import { LOT_HOLDS_STOCK } from '../../components/lots/LotActionsMenu'
 import LotDeliveries from '../../components/lots/LotDeliveries'
+import LotFill from '../../components/lots/LotFill'
 import LotStatusBadge from '../../components/lots/LotStatusBadge'
 import { formatDate, formatKg, formatMoney } from '../../utils/format'
 import useNeedsInternet from '../../hooks/useNeedsInternet'
@@ -31,6 +33,31 @@ function Section({ icon: Icon, title, children }) {
       </h2>
       {children}
     </section>
+  )
+}
+
+// Each loss is shared across the lot's members in proportion to what each had left; lostKg of a
+// member is their share of all the lot's losses.
+function MemberLossShares({ members }) {
+  const { t } = useTranslation()
+  const sharing = members.filter((member) => Number(member.lostKg) > 0)
+  if (sharing.length === 0) return null
+
+  return (
+    <div className="mt-4 rounded-lg bg-background p-3 text-sm">
+      <p className="font-medium text-text">{t('lots.detail.lossSharesTitle')}</p>
+      <p className="text-xs text-muted">{t('lots.detail.lossSharesHint')}</p>
+      <ul className="mt-2 space-y-1">
+        {sharing.map((member) => (
+          <li key={member.memberId} className="flex justify-between gap-3">
+            <span className="min-w-0 truncate">
+              {member.memberName} <span className="font-mono text-xs text-muted">{member.memberNumber}</span>
+            </span>
+            <span className="whitespace-nowrap text-danger">{formatKg(member.lostKg)}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
   )
 }
 
@@ -96,9 +123,7 @@ export default function LotDetail() {
   const [loadState, setLoadState] = useState('loading')
   const [reloadKey, setReloadKey] = useState(0)
 
-  const [closing, setClosing] = useState(false)
   const [recordingLoss, setRecordingLoss] = useState(false)
-  const [actionError, setActionError] = useState('')
   const [notice, setNotice] = useState('')
   const clearNotice = useCallback(() => setNotice(''), [])
 
@@ -108,22 +133,6 @@ export default function LotDetail() {
     setRecordingLoss(false)
     setNotice(t('lots.loss.saved'))
     reload()
-  }
-
-  async function handleClose() {
-    if (!window.confirm(t('lots.detail.confirmClose', { code: lot.code }))) return
-
-    setClosing(true)
-    setActionError('')
-    try {
-      await closeLot(lot.id)
-      setNotice(t('lots.detail.closedNotice'))
-      reload()
-    } catch (error) {
-      setActionError(error.response?.data?.message || t('lots.detail.closeError'))
-    } finally {
-      setClosing(false)
-    }
   }
 
   useEffect(() => {
@@ -180,8 +189,9 @@ export default function LotDetail() {
   }
 
   const hasStock = Number(lot.remainingKg) > 0
-  const canRecordLoss = (lot.status === 'OPEN' || lot.status === 'CLOSED') && hasStock
-  const canSell = lot.status === 'CLOSED' && hasStock
+  const canRecordLoss = LOT_HOLDS_STOCK.includes(lot.status) && hasStock
+  // Sales are by grade, first in first out by lot; a lot being filled can already be sold from.
+  const canSell = LOT_HOLDS_STOCK.includes(lot.status) && hasStock
 
   return (
     <div className="space-y-6">
@@ -191,27 +201,15 @@ export default function LotDetail() {
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-3">
             <h1 className="font-mono text-2xl font-semibold text-text">{lot.code}</h1>
-            <LotStatusBadge status={lot.status} />
+            <LotStatusBadge status={lot.status} olderLot={lot.olderLot} />
           </div>
           <p className="mt-1 text-sm text-muted">
             <GradeName name={lot.gradeName} /> · {t('lots.detail.opened', { date: formatDate(lot.createdAt) })}
-            {lot.closedAt && <> · {t('lots.detail.closedOn', { date: formatDate(lot.closedAt) })}</>}
+            {lot.closedAt && <> · {t(lot.olderLot ? 'lots.detail.endedOn' : 'lots.detail.fullOn', { date: formatDate(lot.closedAt) })}</>}
           </p>
         </div>
 
         <div className="flex flex-wrap gap-2">
-          {lot.status === 'OPEN' && (
-            <button
-              type="button"
-              onClick={handleClose}
-              disabled={closing || needsInternet.offline}
-              title={needsInternet.title}
-              className="flex min-h-11 items-center gap-2 rounded-lg border border-text/10 bg-surface px-4 text-sm font-medium text-text hover:bg-background disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              <Lock size={16} />
-              {closing ? t('lots.detail.closing') : t('lots.detail.closeLot')}
-            </button>
-          )}
           {canRecordLoss && (
             <button
               type="button"
@@ -227,7 +225,7 @@ export default function LotDetail() {
           {canSell && (
             <button
               type="button"
-              onClick={() => navigate(`/sales?lotId=${lot.id}`)}
+              onClick={() => navigate(`/sales?grade=${encodeURIComponent(lot.gradeName)}`)}
               disabled={needsInternet.offline}
               title={needsInternet.title}
               className="flex min-h-11 items-center gap-2 rounded-lg bg-primary px-4 text-sm font-semibold text-white hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
@@ -236,31 +234,13 @@ export default function LotDetail() {
               {t('lots.detail.recordSale')}
             </button>
           )}
-          {lot.status === 'SOLD' && (
-            <button
-              type="button"
-              onClick={() => navigate(`/share?lotId=${lot.id}`)}
-              disabled={needsInternet.offline}
-              title={needsInternet.title}
-              className="flex min-h-11 items-center gap-2 rounded-lg bg-primary px-4 text-sm font-semibold text-white hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              <Split size={16} />
-              {t('share.shareMoney')}
-            </button>
-          )}
         </div>
       </div>
 
-      {actionError && (
-        <p role="alert" className="rounded-lg bg-danger/10 px-3 py-2 text-sm text-danger">
-          {actionError}
-        </p>
-      )}
-
       <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-6">
         <Stat
-          label={t('lots.detail.delivered')}
-          value={formatKg(lot.deliveredKg)}
+          label={lot.olderLot ? t('lots.detail.delivered') : t('lots.detail.fill')}
+          value={<LotFill lot={lot} />}
           note={
             Number(lot.pendingConfirmationKg) > 0
               ? t('lots.pendingConfirmation', { kg: formatKg(lot.pendingConfirmationKg) })
@@ -287,7 +267,7 @@ export default function LotDetail() {
               <table className="w-full text-left text-sm">
                 <thead className="bg-background text-xs text-muted">
                   <tr>
-                    {['memberName', 'memberNumber', 'kg'].map((column) => (
+                    {['memberName', 'memberNumber', 'kg', 'memberSold', 'memberLost', 'memberRemaining'].map((column) => (
                       <th key={column} className="whitespace-nowrap px-3 py-2 font-semibold">
                         {t(`lots.detail.${column}`)}
                       </th>
@@ -304,6 +284,11 @@ export default function LotDetail() {
                       </td>
                       <td className="whitespace-nowrap px-3 py-2 font-mono text-xs">{member.memberNumber}</td>
                       <td className="whitespace-nowrap px-3 py-2">{formatKg(member.kg)}</td>
+                      <td className="whitespace-nowrap px-3 py-2">{formatKg(member.soldKg)}</td>
+                      <td className={`whitespace-nowrap px-3 py-2 ${Number(member.lostKg) > 0 ? 'text-danger' : ''}`}>
+                        {formatKg(member.lostKg)}
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-2 font-medium">{formatKg(member.remainingKg)}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -314,6 +299,7 @@ export default function LotDetail() {
 
         <Section icon={TriangleAlert} title={t('lots.detail.lossesTitle')}>
           <LossesList lotId={lot.id} reloadKey={reloadKey} />
+          <MemberLossShares members={lot.members} />
         </Section>
       </div>
 

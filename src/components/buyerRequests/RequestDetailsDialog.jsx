@@ -4,6 +4,7 @@ import { X } from 'lucide-react'
 import { getBuyerRequest } from '../../api/buyerRequests'
 import { formatDateTime, formatKg, formatPhone } from '../../utils/format'
 import GradeName from '../GradeName'
+import ContactActions from './ContactActions'
 import RequestStatusBadge from './RequestStatusBadge'
 
 function Row({ label, children }) {
@@ -82,6 +83,12 @@ export default function RequestDetailsDialog({ requestId, onClose }) {
                 {formatPhone(request.buyerPhone)}
               </a>
             </Row>
+            <div className="py-2">
+              <dt className="text-muted">{t('buyerRequests.contact.title')}</dt>
+              <dd className="mt-2">
+                <ContactActions request={request} />
+              </dd>
+            </div>
             {request.buyerEmail && (
               <Row label={t('buyerRequests.details.email')}>
                 <a href={`mailto:${request.buyerEmail}`} className="text-primary hover:underline">

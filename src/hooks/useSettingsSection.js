@@ -5,6 +5,8 @@ import { cleanPhone } from '../utils/phone'
 
 // Every field PUT /api/settings takes. deductionPerKg is read-only, so it is never sent. The
 // backend clears the email, location and phone when they are left out, so every save sends them.
+// lotSizeKg is only sent by the lot size section: left out, the backend keeps the current size.
+// save(extra) adds fields that are not part of the draft, such as the reason for a new lot size.
 const REQUEST_KEYS = [
   'cooperativeEmail',
   'cooperativePhone',
@@ -46,15 +48,16 @@ export default function useSettingsSection(settings, keys, onSaved) {
     setMessage(null)
   }
 
-  async function save() {
+  async function save(extra = {}) {
     setSaving(true)
     setMessage(null)
     try {
       const request = Object.fromEntries(
-        Object.entries({ ...pick(settings, REQUEST_KEYS), ...draft }).map(([key, value]) => [key, clean(value)]),
+        Object.entries({ ...pick(settings, REQUEST_KEYS), ...draft, ...extra }).map(([key, value]) => [key, clean(value)]),
       )
       // The input holds text such as "150" or "150,5"; the backend expects a number.
       request.minOrderKg = Number(String(request.minOrderKg).replace(',', '.'))
+      if ('lotSizeKg' in request) request.lotSizeKg = Number(String(request.lotSizeKg).replace(',', '.'))
       // A phone may be typed with spaces ("0788 123 456"); the backend wants it without.
       if (request.cooperativePhone) request.cooperativePhone = cleanPhone(request.cooperativePhone)
       const saved = await saveSettings(request)

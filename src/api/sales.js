@@ -1,10 +1,29 @@
 import client from './client'
 
-// One order can take kg from several closed lots of the same grade. Returns the saved order
-// with its sales and the lots that became fully sold. The backend answers 201 for a new order
-// and 200 when an order with the same clientUuid was already saved, so a retry never sells twice.
+// Sales are by grade, first in first out by lot: the older lots first, then the fixed-size lots in
+// the order they were filled, shared in proportion inside a lot. Each lot portion used credits its
+// member. The backend answers 201 for a new sale and
+// 200 when one with the same clientUuid was already saved, so a retry never sells twice. A 400
+// (not enough kg, a price not above the deduction, a skip refused) saves nothing; its message is
+// shown as it is. skipLotIds with a skipReason of 10 to 500 characters pass over whole lots.
+export async function recordSale(sale) {
+  const response = await client.post('/api/sales', sale)
+  return response.data
+}
+
+// One buyer order with several grades, each grade once. If one item fails, nothing is saved.
 export async function recordSaleOrder(order) {
   const response = await client.post('/api/sales/orders', order)
+  return response.data
+}
+
+// Read-only: the lot portions a sale of this grade would use, in the order they are taken, with
+// each member's gross, deduction and net. enough is false with a message when there are not enough
+// sellable kg. skipLots is a list of lot ids to pass over; skipped lists them with their kg.
+export async function previewSale(gradeId, { quantityKg, pricePerKg, skipLots = [] }) {
+  const params = { quantityKg, pricePerKg }
+  if (skipLots.length > 0) params.skipLots = skipLots.join(',')
+  const response = await client.get(`/api/grades/${gradeId}/sale-preview`, { params })
   return response.data
 }
 

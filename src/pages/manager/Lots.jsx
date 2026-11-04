@@ -1,32 +1,24 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Boxes } from 'lucide-react'
-import { closeLot, getStock } from '../../api/lots'
-import ConfirmDialog from '../../components/ConfirmDialog'
+import { getStock } from '../../api/lots'
 import PageTitle from '../../components/PageTitle'
 import SuccessToast from '../../components/SuccessToast'
 import LossModal from '../../components/lots/LossModal'
 import LotsTable from '../../components/lots/LotsTable'
 import StockOverview from '../../components/lots/StockOverview'
-import useNeedsInternet from '../../hooks/useNeedsInternet'
-import useGradeName from '../../hooks/useGradeName'
 
 export default function Lots() {
   const { t } = useTranslation()
-  const gradeName = useGradeName()
-  const needsInternet = useNeedsInternet()
 
   const [stock, setStock] = useState(null)
   const [stockError, setStockError] = useState(false)
-  // Bumped after a loss or a close so the table shows the new numbers.
+  // Bumped after a loss so the table shows the new numbers.
   const [reloadKey, setReloadKey] = useState(0)
   const [notice, setNotice] = useState('')
   const clearNotice = useCallback(() => setNotice(''), [])
 
-  const [closing, setClosing] = useState(null)
   const [lossLot, setLossLot] = useState(null)
-  const [closeBusy, setCloseBusy] = useState(false)
-  const [closeError, setCloseError] = useState('')
 
   const loadStock = useCallback(() => {
     setStockError(false)
@@ -42,26 +34,6 @@ export default function Lots() {
   function refresh() {
     setReloadKey((key) => key + 1)
     loadStock()
-  }
-
-  function askToClose(lot) {
-    setCloseError('')
-    setClosing(lot)
-  }
-
-  async function confirmClose() {
-    setCloseBusy(true)
-    setCloseError('')
-    try {
-      await closeLot(closing.id)
-      setNotice(t('lots.close.done', { code: closing.code }))
-      setClosing(null)
-      refresh()
-    } catch (error) {
-      setCloseError(error.response?.data?.message || t('lots.detail.closeError'))
-    } finally {
-      setCloseBusy(false)
-    }
   }
 
   function handleLossSaved() {
@@ -82,24 +54,8 @@ export default function Lots() {
 
       <StockOverview stock={stock} error={stockError} onRetry={loadStock} />
 
-      <LotsTable reloadKey={reloadKey} onClose={askToClose} onRecordLoss={setLossLot} />
+      <LotsTable reloadKey={reloadKey} onRecordLoss={setLossLot} />
 
-      {closing && (
-        <ConfirmDialog
-          title={t('lots.close.title', { code: closing.code })}
-          message={t('lots.close.message', {
-            grade: gradeName(closing.gradeName),
-          })}
-          confirmLabel={closeBusy ? t('lots.detail.closing') : t('lots.close.confirm')}
-          cancelLabel={t('lots.close.cancel')}
-          busy={closeBusy}
-          error={closeError}
-          onConfirm={confirmClose}
-          confirmDisabled={needsInternet.offline}
-          confirmTitle={needsInternet.title}
-          onCancel={() => setClosing(null)}
-        />
-      )}
       {lossLot && <LossModal lot={lossLot} onClose={() => setLossLot(null)} onSaved={handleLossSaved} />}
       {notice && <SuccessToast message={notice} onDone={clearNotice} />}
     </div>

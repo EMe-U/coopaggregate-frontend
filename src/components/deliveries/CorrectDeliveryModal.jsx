@@ -6,6 +6,7 @@ import useNeedsInternet from '../../hooks/useNeedsInternet'
 import { parseKg } from '../../utils/quantity'
 import GradeSelector from './GradeSelector'
 import MemberPicker from './MemberPicker'
+import { plainReversalError } from './reversalError'
 
 const MAX_QUANTITY_KG = 5000
 
@@ -71,7 +72,7 @@ export default function CorrectDeliveryModal({ delivery, onClose, onCorrected })
       })
       onCorrected(corrected)
     } catch (error) {
-      setServerError(error.response?.data?.message || t('reversal.error'))
+      setServerError(plainReversalError(t, error).response?.data?.message || t('reversal.error'))
       setSaving(false)
     }
   }

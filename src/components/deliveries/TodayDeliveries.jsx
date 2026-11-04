@@ -5,7 +5,7 @@ import { getDashboard } from '../../api/dashboard'
 import { listDeliveries } from '../../api/deliveries'
 import useOnlineStatus from '../../hooks/useOnlineStatus'
 import useLinkedDeliveries from '../../hooks/useLinkedDeliveries'
-import useLotsWithSales from '../../hooks/useLotsWithSales'
+import useSharedLots from '../../hooks/useSharedLots'
 import usePageSize from '../../hooks/usePageSize'
 import usePendingDeliveries from '../../hooks/usePendingDeliveries'
 import { temporaryReference } from '../../offline/pending'
@@ -13,6 +13,7 @@ import { syncedDelivery } from '../../offline/sync'
 import GradeName from '../GradeName'
 import ConfirmationBadge from './ConfirmationBadge'
 import DeliveryActionsMenu from './DeliveryActionsMenu'
+import DeliveryLots from './DeliveryLots'
 import DeliveryHistoryNote, { deliveryRowId } from './DeliveryHistoryNote'
 import Pagination from '../Pagination'
 import { formatKg, formatMoney, formatTime, kigaliIsoDate } from '../../utils/format'
@@ -89,7 +90,7 @@ export default function TodayDeliveries({ reloadKey }) {
   }, [reloadKey, retryKey, isOnline])
 
   const deliveries = result?.content
-  const lotsWithSales = useLotsWithSales((deliveries ?? []).map((delivery) => delivery.lotId), retryKey)
+  const sharedLots = useSharedLots((deliveries ?? []).map((delivery) => delivery.lotId), retryKey)
   const linked = useLinkedDeliveries(deliveries ?? [])
   // Deliveries waiting on this device go on top of the first page. One that has just synced can
   // be in both lists for a moment; the server row wins.
@@ -201,7 +202,9 @@ export default function TodayDeliveries({ reloadKey }) {
                       <GradeName name={delivery.gradeName} />
                     </span>
                   </td>
-                  <td className={`${cell} font-mono text-xs`}>{delivery.lotCode}</td>
+                  <td className={cell}>
+                    <DeliveryLots lots={delivery.lots} reversed={delivery.reversed} deliveryId={delivery.id} />
+                  </td>
                   <td className={cell}>{formatKg(delivery.quantityKg)}</td>
                   <td className={cell}>{formatMoney(delivery.deductionRwf)}</td>
                   <td className={cell}>{formatTime(delivery.deliveredAt)}</td>
@@ -219,7 +222,7 @@ export default function TodayDeliveries({ reloadKey }) {
                       </Link>
                       <DeliveryActionsMenu
                         delivery={delivery}
-                        lotHasSales={lotsWithSales.has(delivery.lotId)}
+                        lotShared={sharedLots.has(delivery.lotId)}
                         onChanged={() => setRetryKey((key) => key + 1)}
                       />
                     </div>

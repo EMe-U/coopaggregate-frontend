@@ -7,6 +7,7 @@ import GradeName from '../../components/GradeName'
 import PageTitle from '../../components/PageTitle'
 import Pagination from '../../components/Pagination'
 import SuccessToast from '../../components/SuccessToast'
+import ContactActions from '../../components/buyerRequests/ContactActions'
 import RequestActionsMenu from '../../components/buyerRequests/RequestActionsMenu'
 import RequestStatusBadge from '../../components/buyerRequests/RequestStatusBadge'
 import RequestSummaryCards from '../../components/buyerRequests/RequestSummaryCards'
@@ -98,7 +99,7 @@ export default function BuyerRequests() {
           <table className="w-full text-left text-sm">
             <thead className="bg-background text-xs uppercase tracking-wide text-muted">
               <tr>
-                {['reference', 'buyer', 'grade', 'quantity', 'date', 'status', 'actions'].map((column) => (
+                {['reference', 'buyer', 'contact', 'grade', 'quantity', 'date', 'status', 'actions'].map((column) => (
                   <th key={column} className="whitespace-nowrap px-4 py-3 font-semibold">
                     {t(`buyerRequests.columns.${column}`)}
                   </th>
@@ -112,6 +113,9 @@ export default function BuyerRequests() {
                   <td className={cell}>
                     <p className="font-medium text-text">{request.buyerName}</p>
                     <p className="text-xs text-muted">{formatPhone(request.buyerPhone)}</p>
+                  </td>
+                  <td className="px-4 py-2">
+                    <ContactActions request={request} compact />
                   </td>
                   <td className={cell}>
                     <span className="rounded-md bg-primary-light px-2 py-0.5 text-xs font-medium text-primary">

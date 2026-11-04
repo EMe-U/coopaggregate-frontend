@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import GradeName from '../GradeName'
+import DeliveryLots from '../deliveries/DeliveryLots'
 import { formatDay, formatKg } from '../../utils/format'
 import DisputeActionsMenu from './DisputeActionsMenu'
 
@@ -75,7 +76,9 @@ export default function DisputeList({ disputes, settled, onChanged }) {
                     <GradeName name={dispute.gradeName} />
                   </span>
                 </td>
-                <td className={`${cell} font-mono text-xs`}>{dispute.lotCode}</td>
+                <td className={cell}>
+                  <DeliveryLots lots={dispute.lots} reversed={dispute.outcome === 'REVERSED' || dispute.outcome === 'CORRECTED'} deliveryId={dispute.deliveryId} />
+                </td>
                 <td className={`${cell} font-semibold`}>{formatKg(dispute.quantityKg)}</td>
                 <td className={cell}>{reasonLabel(t, dispute.reason)}</td>
                 <td className={textCell}>{dispute.note || noValue}</td>
@@ -124,9 +127,9 @@ export default function DisputeList({ disputes, settled, onChanged }) {
               <span className="rounded-md bg-primary-light px-2 py-0.5 text-xs font-medium text-primary">
                 <GradeName name={dispute.gradeName} />
               </span>
-              <span className="font-mono text-xs">{dispute.lotCode}</span>
               <span className="font-semibold text-text">{formatKg(dispute.quantityKg)}</span>
             </p>
+            <DeliveryLots lots={dispute.lots} reversed={dispute.outcome === 'REVERSED' || dispute.outcome === 'CORRECTED'} deliveryId={dispute.deliveryId} />
             <div>
               <p className="font-medium text-text">{reasonLabel(t, dispute.reason)}</p>
               {dispute.note && <p className="wrap-break-word text-muted">{dispute.note}</p>}

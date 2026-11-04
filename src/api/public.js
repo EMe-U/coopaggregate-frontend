@@ -16,14 +16,17 @@ export async function getPublicInfo() {
   return response.data
 }
 
-// { name, phone, email, gradeCode, quantityKg, note, website }. Answers 201 { code, status}.
-// website is the honeypot field: it stays empty for people.
+// { name, phone, email, gradeCode, quantityKg, note, contactMethod, whatsappNumber, website }.
+// Answers 201 { code, status }. contactMethod is CALL (the default) or WHATSAPP; whatsappNumber is
+// only for WHATSAPP, and without it the cooperative uses phone. website is the honeypot field: it
+// stays empty for people.
 export async function sendPurchaseRequest(request) {
   const response = await publicClient.post('/api/public/requests', request)
   return response.data
 }
 
-// { code, status, message }. A wrong code or phone is a 404 "Request not found."
+// { code, status, message, contactMethod, contactNumber }. contactNumber is the number the
+// cooperative will use. A wrong code or phone is a 404 "Request not found."
 export async function getRequestStatus(code, phone) {
   const response = await publicClient.get(`/api/public/requests/${encodeURIComponent(code)}`, { params: { phone } })
   return response.data
