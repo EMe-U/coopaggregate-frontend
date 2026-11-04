@@ -27,7 +27,9 @@
     "contact": "Twandikire",
     "copyright": "© {{year}} {{name}}",
     "openMenu": "Fungura menu",
-    "closeMenu": "Funga menu"
+    "closeMenu": "Funga menu",
+    "staffLogin": "Kwinjira kw'abakozi",
+    "staffLoginLabel": "Kwinjira kw'abakozi, ku bayobozi ba koperative"
   },
   "topbar": {
     "online": "Kuri murandasi",
@@ -1402,7 +1404,9 @@
       "members.nationalId.showLabel",
       "members.nationalId.hideLabel",
       "nav.publicSite",
-      "nav.publicSiteLabel"
+      "nav.publicSiteLabel",
+      "publicNav.staffLogin",
+      "publicNav.staffLoginLabel"
     ]
   },
   "publicHome": {

@@ -27,7 +27,9 @@
     "contact": "Contact",
     "copyright": "© {{year}} {{name}}",
     "openMenu": "Open menu",
-    "closeMenu": "Close menu"
+    "closeMenu": "Close menu",
+    "staffLogin": "Staff login",
+    "staffLoginLabel": "Staff login, for the cooperative's managers"
   },
   "topbar": {
     "online": "Online",
