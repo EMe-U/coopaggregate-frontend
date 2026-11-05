@@ -242,7 +242,7 @@ export function SmsSection({ settings, onSaved }) {
       <p className="rounded-lg bg-background p-3 text-sm text-muted">
         {section.draft.smsEnabled ? t('settings.sms.on') : t('settings.sms.off')}
       </p>
-      <SaveBar dirty={section.dirty} saving={section.saving} message={section.message} onSave={section.save} />
+      <SaveBar dirty={section.dirty} saving={section.saving} message={section.message} onSave={() => section.save()} />
     </SettingsSection>
   )
 }
@@ -309,7 +309,7 @@ export function CommitteeEmailsSection({ settings, onSaved }) {
       </form>
       {error && <p className="mt-1 text-sm text-danger">{error}</p>}
       <p className="mt-3 text-xs text-muted">{t('settings.committee.note')}</p>
-      <SaveBar dirty={section.dirty} saving={section.saving} message={section.message} onSave={section.save} />
+      <SaveBar dirty={section.dirty} saving={section.saving} message={section.message} onSave={() => section.save()} />
     </SettingsSection>
   )
 }

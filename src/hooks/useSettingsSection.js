@@ -31,6 +31,15 @@ function pick(source, keys) {
   return Object.fromEntries(keys.map((key) => [key, source?.[key] ?? null]))
 }
 
+// The extra fields for save(extra): only a plain object counts. Anything else, such as the click
+// event when save is passed straight to onClick, a string or a number, is ignored, so it can never
+// end up in the request.
+export function extraFields(extra) {
+  if (extra === null || typeof extra !== 'object') return {}
+  const prototype = Object.getPrototypeOf(extra)
+  return prototype === Object.prototype || prototype === null ? extra : {}
+}
+
 // One settings section: its own draft of a few fields and its own Save. The backend replaces all
 // settings at once, so saving sends the last saved values of every other section with this
 // section's draft; unsaved edits in other sections are not sent. A 400 shows the backend's message
@@ -53,7 +62,7 @@ export default function useSettingsSection(settings, keys, onSaved) {
     setMessage(null)
     try {
       const request = Object.fromEntries(
-        Object.entries({ ...pick(settings, REQUEST_KEYS), ...draft, ...extra }).map(([key, value]) => [key, clean(value)]),
+        Object.entries({ ...pick(settings, REQUEST_KEYS), ...draft, ...extraFields(extra) }).map(([key, value]) => [key, clean(value)]),
       )
       // The input holds text such as "150" or "150,5"; the backend expects a number.
       request.minOrderKg = Number(String(request.minOrderKg).replace(',', '.'))
