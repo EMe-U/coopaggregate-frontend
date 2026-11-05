@@ -989,7 +989,7 @@
     "reason": "Impamvu",
     "reasonPlaceholder": "Sobanura icyari kitari cyo",
     "reasonRequired": "Andika impamvu",
-    "cancel": "Reka",
+    "cancel": "Hagarika",
     "reversing": "Birabikwa...",
     "error": "Ntibishobotse kubika impinduka. Ongera ugerageze.",
     "delivery": {
@@ -1421,7 +1421,7 @@
   "publicHome": {
     "hero": "Ibirayi bigurishwa na koperative.",
     "heroWithLocation": "Ibirayi bivuye {{location}}.",
-    "viewGrades": "Reba ibyiciro",
+    "viewGrades": "Reba ibyiciro by'Ibirayi",
     "sendRequest": "Ohereza icyifuzo cyo kugura",
     "error": "Ntibishobotse kubona amakuru. Ongera ugerageze.",
     "retry": "Ongera ugerageze",
@@ -1459,7 +1459,7 @@
       "intro": "Ufite ibibazo ku bijyanye no kugura ibirayi byinshi, gutwara ibicuruzwa, cyangwa ibyiciro byihariye? Andikira ibiro bya koperative mu buryo butaziguye."
     },
     "requestGrade": "Saba iki cyiciro",
-    "heroIntro": "Ohereza icyifuzo cyo kugura kuri interineti: hitamo icyiciro n'ingano ukeneye, koperative izakireba ikuhe igisubizo.",
+    "heroIntro": "Ohereza icyifuzo cyo kugura kuri interineti: hitamo icyiciro n'ingano ukeneye, koperative izakireba iguhe igisubizo.",
     "availability": {
       "AVAILABLE": "Birahari",
       "LIMITED": "Bisigaye bike",
