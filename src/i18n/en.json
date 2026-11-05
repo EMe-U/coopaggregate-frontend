@@ -1697,5 +1697,10 @@
       "message": "Verification was cancelled. Start again from Add member when the person is ready.",
       "consentDenied": "Verification was cancelled: the person must allow sharing their name and phone number. Start again from Add member."
     }
+  },
+  "server": {
+    "waking": "The server is waking up. This can take up to 2 minutes. Please wait.",
+    "unreachable": "Cannot reach the server. Check your connection, then try again.",
+    "retry": "Try again"
   }
 }

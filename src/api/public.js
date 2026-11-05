@@ -1,8 +1,9 @@
 import axios from 'axios'
+import { watchServer } from './serverStatus'
 
 // The public pages never use the manager's session: this client sends no token and has no 401
 // redirect, so an expired login can neither break them nor send a buyer to the manager's login.
-const publicClient = axios.create({ baseURL: import.meta.env.VITE_API_URL })
+const publicClient = watchServer(axios.create({ baseURL: import.meta.env.VITE_API_URL }))
 
 // Active grades: { code, name, nameRw, description, sizeInfo, packaging }. No prices or stock.
 export async function listPublicGrades() {
