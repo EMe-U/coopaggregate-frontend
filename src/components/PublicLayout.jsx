@@ -6,6 +6,8 @@ import { useAuth } from '../context/AuthContext'
 import usePublicInfo from '../hooks/usePublicInfo'
 import LanguageSwitch from './LanguageSwitch'
 import Logo from './Logo'
+import ServerStatusNotice from './ServerStatusNotice'
+import useServerStatus from '../hooks/useServerStatus'
 
 // The public pages share one load of the cooperative info and grades (outlet context), and the
 // nav uses it: Grades only when there are grades, Contact only when there is something to show.
@@ -13,6 +15,13 @@ export default function PublicLayout() {
   const { t } = useTranslation()
   const { pathname, hash } = useLocation()
   const publicInfo = usePublicInfo()
+  // "Try again" after the server could not be reached loads the info and the page again.
+  const { retryKey } = useServerStatus()
+  const [loadedRetryKey, setLoadedRetryKey] = useState(retryKey)
+  if (retryKey !== loadedRetryKey) {
+    setLoadedRetryKey(retryKey)
+    publicInfo.reload()
+  }
   const { token } = useAuth()
   // On phones and tablets the links are in a menu opened with a button.
   const [menuOpen, setMenuOpen] = useState(false)
@@ -150,10 +159,11 @@ export default function PublicLayout() {
             </div>
           </nav>
         )}
+        <ServerStatusNotice />
       </header>
 
       <main className="flex-1">
-        <Outlet context={publicInfo} />
+        <Outlet key={retryKey} context={publicInfo} />
       </main>
 
       <footer className="bg-surface px-4 py-5 text-center text-xs text-muted">

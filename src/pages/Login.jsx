@@ -5,6 +5,7 @@ import { ArrowRight, Eye, EyeOff, Lock, MapPin, Tractor, User } from 'lucide-rea
 import { login } from '../api/auth'
 import { useAuth } from '../context/AuthContext'
 import LanguageSwitch from '../components/LanguageSwitch'
+import ServerStatusNotice from '../components/ServerStatusNotice'
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -73,6 +74,8 @@ export default function Login() {
       <header className="border-b border-text/5 bg-surface/80 px-4 py-4 sm:px-6">
         <span className="text-lg font-bold text-primary">{t('app.name')}</span>
       </header>
+      {/* The login shows its own message when the server cannot be reached. */}
+      <ServerStatusNotice withRetry={false} />
 
       <main className="relative flex flex-1 items-center justify-center overflow-hidden px-4 py-12">
         <div className="pointer-events-none absolute -left-24 -top-24 h-80 w-80 rounded-full bg-primary-light blur-3xl" />

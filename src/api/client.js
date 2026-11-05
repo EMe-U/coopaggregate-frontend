@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { clearToken, getToken } from '../utils/auth'
+import { watchServer } from './serverStatus'
 
 export const LOGIN_URL = '/api/auth/login'
 
@@ -31,5 +32,8 @@ client.interceptors.response.use(
     return Promise.reject(error)
   },
 )
+
+// After the 401 handling: a sleeping server is shown as waking up, and failed GETs are tried again.
+watchServer(client)
 
 export default client

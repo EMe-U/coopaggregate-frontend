@@ -1412,7 +1412,10 @@
       "publicNav.staffLoginLabel",
       "members.form.unverifiedNotice",
       "members.verified.not",
-      "members.verified.notHint"
+      "members.verified.notHint",
+      "server.waking",
+      "server.unreachable",
+      "server.retry"
     ]
   },
   "publicHome": {
@@ -1857,5 +1860,10 @@
       "message": "Igenzura ryahagaritswe. Ongera utangire kuri Ongeramo umunyamuryango igihe uyu muntu yiteguye.",
       "consentDenied": "Igenzura ryahagaritswe: uyu muntu agomba kwemera ko izina na telefoni bye bitangwa. Ongera utangire kuri Ongeramo umunyamuryango."
     }
+  },
+  "server": {
+    "waking": "Seriveri iri gutangira gukora. Bishobora gufata iminota igera kuri 2. Tegereza gato.",
+    "unreachable": "Ntibishoboka kugera kuri seriveri. Reba murandasi yawe, hanyuma wongere ugerageze.",
+    "retry": "Ongera ugerageze"
   }
 }
