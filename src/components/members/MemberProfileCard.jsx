@@ -71,9 +71,20 @@ export default function MemberProfileCard({ member, onEdit, onToggleActive, chan
           <StatusBadge active={active}>
             {active ? t('members.detail.activeMember') : t('members.detail.inactiveMember')}
           </StatusBadge>
-          <span className="font-mono text-xs text-muted">
-            {t('members.detail.memberNumber', { code: member.memberCode })}
-          </span>
+          {/* The national ID next to the member number: masked, with Show/Hide. */}
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
+            <span className="font-mono text-muted">
+              {t('members.detail.memberNumber', { code: member.memberCode })}
+            </span>
+            <span className="inline-flex flex-wrap items-center gap-x-1.5 gap-y-1">
+              <span className="text-muted">{t('members.detail.nationalId')}:</span>
+              {member.nationalId ? (
+                <NationalId key={member.id} nationalId={member.nationalId} />
+              ) : (
+                <span className="text-muted">{t('members.detail.notProvided')}</span>
+              )}
+            </span>
+          </div>
           <VerifiedBadge member={member} withDetails />
         </div>
 
@@ -127,13 +138,6 @@ export default function MemberProfileCard({ member, onEdit, onToggleActive, chan
 
       <div className="mt-5 grid grid-cols-2 gap-4 border-t border-text/5 pt-4">
         <Detail label={t('members.detail.phone')}>{formatPhone(member.phone)}</Detail>
-        <Detail label={t('members.detail.nationalId')}>
-          {member.nationalId ? (
-            <NationalId key={member.id} nationalId={member.nationalId} />
-          ) : (
-            <span className="text-muted">{t('members.detail.notProvided')}</span>
-          )}
-        </Detail>
         <Detail label={t('members.detail.joinDate')}>{formatDate(member.joinDate)}</Detail>
         {member.birthDate && (
           <Detail label={t('members.detail.birthDate')} verified={verifiedFields.includes('birthdate')}>

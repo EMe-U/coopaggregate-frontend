@@ -3,13 +3,57 @@ import { useTranslation } from 'react-i18next'
 import { Lock, ShieldAlert, ShieldCheck, X } from 'lucide-react'
 import { createMember, updateMember } from '../../api/members'
 import { errorCode, verificationErrorMessage } from '../../members/identityVerification'
-import { genderLabel, maskNationalId, verifiedFieldsOf } from '../../members/memberDetails'
+import {
+  NATIONAL_ID_LENGTH,
+  NATIONAL_ID_PATTERN,
+  cleanNationalId,
+  genderLabel,
+  maskNationalId,
+  verifiedFieldsOf,
+} from '../../members/memberDetails'
 import { formatAddress, formatDate, todayIso } from '../../utils/format'
 import { RWANDAN_PHONE_PATTERN, cleanPhone } from '../../utils/phone'
 import { VerifiedMark } from './VerifiedBadge'
 
-// Same rules as the backend's MemberRequest.
-const NATIONAL_ID_PATTERN = /^\d{16}$/
+// The national ID to send. The member's saved ID sent back unchanged is always accepted by the
+// backend (even in an older format); anything else is sent without its spaces.
+function nationalIdToSend(value, saved) {
+  if (saved && value.trim() === saved) return saved
+  return cleanNationalId(value)
+}
+
+// What is wrong with the typed national ID, as a text key, or null. A new member needs one; a
+// member who has one cannot have it removed; an older member without one may leave it empty.
+function nationalIdProblem(value, { required, saved }) {
+  const nationalId = nationalIdToSend(value, saved)
+  if (saved && nationalId === saved) return null
+  if (!nationalId) {
+    if (saved) return 'members.form.errors.nationalIdCannotRemove'
+    return required ? 'members.form.errors.nationalIdRequired' : null
+  }
+  if (!/^[0-9]+$/.test(nationalId)) return 'members.form.errors.nationalIdDigitsOnly'
+  if (!NATIONAL_ID_PATTERN.test(nationalId)) return 'members.form.errors.nationalIdInvalid'
+  return null
+}
+
+// The backend's national ID errors (NATIONAL_ID_REQUIRED, NATIONAL_ID_INVALID, NATIONAL_ID_TAKEN)
+// as the text shown under the field, or null for any other error.
+function nationalIdServerError(t, error, saved) {
+  const data = error.response?.data
+  switch (data?.code) {
+    case 'NATIONAL_ID_REQUIRED':
+      return t(saved ? 'members.form.errors.nationalIdCannotRemove' : 'members.form.errors.nationalIdRequired')
+    case 'NATIONAL_ID_INVALID':
+      return t('members.form.errors.nationalIdInvalid')
+    case 'NATIONAL_ID_TAKEN':
+      // Two registrations at the same moment: the backend does not know the other member.
+      return data.memberCode
+        ? t('members.form.errors.nationalIdTaken', { code: data.memberCode })
+        : t('members.form.errors.nationalIdTakenOther')
+    default:
+      return null
+  }
+}
 
 // The backend stores +2507XXXXXXXX; the manager is used to typing 07XXXXXXXX.
 function toLocalPhone(phone) {
@@ -27,11 +71,13 @@ function initialValues(member) {
   }
 }
 
-function toRequest(values) {
+// Editing always sends the national ID: the saved one when unchanged, since leaving it out would
+// remove it, which the backend refuses.
+function toRequest(values, savedNationalId) {
   return {
     fullName: values.fullName.trim(),
     phone: cleanPhone(values.phone),
-    nationalId: values.nationalId.trim() || null,
+    nationalId: nationalIdToSend(values.nationalId, savedNationalId) || null,
     address: values.address.trim() || null,
     joinDate: values.joinDate,
     preferredLanguage: values.preferredLanguage,
@@ -42,11 +88,10 @@ function toRequest(values) {
 // sent. A value for a verified field (even empty) is refused, and so is a birth date, gender or
 // email, which only come from the check; the address is typed only when it was not verified.
 function toNewMemberRequest(values, verification) {
-  const nationalId = values.nationalId.trim()
   const address = verifiedFieldsOf(verification).includes('address') ? '' : values.address.trim()
   return {
     verificationId: verification.verificationId,
-    ...(nationalId && { nationalId }),
+    nationalId: cleanNationalId(values.nationalId),
     ...(address && { address }),
     joinDate: values.joinDate,
     preferredLanguage: values.preferredLanguage,
@@ -54,14 +99,14 @@ function toNewMemberRequest(values, verification) {
 }
 
 // Registering without identity verification (only when the backend allows it): the typed name and
-// phone, and the other typed fields when filled. Never a verificationId, birth date, gender or email.
+// phone and national ID, and the other typed fields when filled. Never a verificationId, birth date,
+// gender or email.
 function toUnverifiedRequest(values) {
-  const nationalId = values.nationalId.trim()
   const address = values.address.trim()
   return {
     fullName: values.fullName.trim(),
     phone: cleanPhone(values.phone),
-    ...(nationalId && { nationalId }),
+    nationalId: cleanNationalId(values.nationalId),
     ...(address && { address }),
     joinDate: values.joinDate,
     preferredLanguage: values.preferredLanguage,
@@ -69,13 +114,11 @@ function toUnverifiedRequest(values) {
 }
 
 // The name and phone are checked when typed; a verified new member's come from the verification.
+// The national ID is checked as it is typed (nationalIdProblem).
 function validate(request) {
   const errors = {}
   if ('fullName' in request && !request.fullName) errors.fullName = 'members.form.errors.fullNameRequired'
   if ('phone' in request && !RWANDAN_PHONE_PATTERN.test(request.phone)) errors.phone = 'members.form.errors.phoneInvalid'
-  if (request.nationalId && !NATIONAL_ID_PATTERN.test(request.nationalId)) {
-    errors.nationalId = 'members.form.errors.nationalIdInvalid'
-  }
   if (!request.joinDate) {
     errors.joinDate = 'members.form.errors.joinDateRequired'
   } else if (request.joinDate > todayIso()) {
@@ -103,7 +146,28 @@ function parseFieldErrors(message, fields) {
 const inputClass =
   'w-full rounded-md border border-text/10 bg-surface px-3 py-2 text-sm text-text outline-none focus:border-primary focus:ring-2 focus:ring-primary/20'
 
-function Field({ id, label, hint, error, children }) {
+// aside is shown at the end of the message line, such as the national ID's digit counter.
+function Field({ id, label, hint, error, aside, children }) {
+  if (aside) {
+    return (
+      <div>
+        <label htmlFor={id} className="mb-1 block text-sm font-medium text-text">
+          {label}
+        </label>
+        {children}
+        <div className="mt-1 flex items-start justify-between gap-2">
+          {error ? (
+            <p id={`${id}-error`} className="min-w-0 text-xs text-danger">
+              {error}
+            </p>
+          ) : (
+            <p className="min-w-0 text-xs text-muted">{hint}</p>
+          )}
+          {aside}
+        </div>
+      </div>
+    )
+  }
   return (
     <div>
       <label htmlFor={id} className="mb-1 block text-sm font-medium text-text">
@@ -249,6 +313,18 @@ export default function MemberFormModal({ member, verification, unverified = fal
   // A saved national ID is shown masked and read-only until the manager goes into the field to
   // change it; left unchanged, it is masked again.
   const [nationalIdMasked, setNationalIdMasked] = useState(() => isEdit && Boolean(member.nationalId))
+  // The national ID's message shows once the manager has left the field (or right away for a
+  // letter or a 17th digit); the Save button stays disabled while it is not valid.
+  const [nationalIdTouched, setNationalIdTouched] = useState(false)
+  const savedNationalId = isEdit ? (member.nationalId ?? '').trim() : ''
+  const nationalIdError = nationalIdProblem(values.nationalId, { required: !isEdit, saved: savedNationalId })
+  const nationalIdLength = cleanNationalId(values.nationalId).length
+  const showNationalIdError =
+    nationalIdTouched ||
+    nationalIdLength > NATIONAL_ID_LENGTH ||
+    nationalIdError === 'members.form.errors.nationalIdDigitsOnly'
+  const nationalIdMessage =
+    fieldErrors.nationalId || (showNationalIdError && nationalIdError ? t(nationalIdError) : '')
 
   // The verification must be used within 30 minutes: count down, then drop it.
   useEffect(() => {
@@ -273,17 +349,25 @@ export default function MemberFormModal({ member, verification, unverified = fal
     setValues((current) => ({ ...current, [name]: value }))
   }
 
+  function setNationalId(value) {
+    setValue('nationalId', value)
+    // A message from the server was about the ID typed before.
+    setFieldErrors(({ nationalId: _old, ...others }) => others)
+  }
+
   async function handleSubmit(event) {
     event.preventDefault()
     setFormError('')
 
     if (expired) return
     const request = isEdit
-      ? toRequest(values)
+      ? toRequest(values, savedNationalId)
       : unverified
         ? toUnverifiedRequest(values)
         : toNewMemberRequest(values, verification)
     const errors = validate(request)
+    if (nationalIdError) errors.nationalId = nationalIdError
+    setNationalIdTouched(true)
     setFieldErrors(Object.fromEntries(Object.entries(errors).map(([field, key]) => [field, t(key)])))
     if (Object.keys(errors).length > 0) return
 
@@ -292,7 +376,11 @@ export default function MemberFormModal({ member, verification, unverified = fal
       const saved = isEdit ? await updateMember(member.id, request) : await createMember(request)
       onSaved(saved)
     } catch (error) {
-      if (typesNameAndPhone) showServerError(error, Object.keys(request))
+      const nationalIdServerMessage = nationalIdServerError(t, error, savedNationalId)
+      if (nationalIdServerMessage) {
+        setNationalIdMasked(false)
+        setFieldErrors({ nationalId: nationalIdServerMessage })
+      } else if (typesNameAndPhone) showServerError(error, Object.keys(request))
       else showCreateError(error)
       setSaving(false)
     }
@@ -474,21 +562,47 @@ export default function MemberFormModal({ member, verification, unverified = fal
 
             <Field
               id="nationalId"
-              label={`${t('members.form.nationalId')} ${t('members.form.optional')}`}
-              error={fieldErrors.nationalId}
+              label={
+                isEdit && !savedNationalId
+                  ? `${t('members.form.nationalId')} ${t('members.form.optional')}`
+                  : t('members.form.nationalId')
+              }
+              error={nationalIdMessage}
+              aside={
+                !nationalIdMasked && (
+                  <span
+                    id="nationalId-count"
+                    className={`shrink-0 text-xs tabular-nums ${
+                      nationalIdLength === NATIONAL_ID_LENGTH && !nationalIdError ? 'text-primary' : 'text-muted'
+                    }`}
+                  >
+                    {t('members.form.nationalIdCount', { count: nationalIdLength, total: NATIONAL_ID_LENGTH })}
+                  </span>
+                )
+              }
             >
               <input
                 id="nationalId"
                 inputMode="numeric"
+                autoComplete="off"
                 value={nationalIdMasked ? maskNationalId(values.nationalId) : values.nationalId}
                 readOnly={nationalIdMasked}
+                required={!isEdit || Boolean(savedNationalId)}
+                aria-invalid={nationalIdMessage ? 'true' : undefined}
+                aria-describedby={
+                  [nationalIdMessage && 'nationalId-error', !nationalIdMasked && 'nationalId-count']
+                    .filter(Boolean)
+                    .join(' ') || undefined
+                }
                 onFocus={() => setNationalIdMasked(false)}
                 onBlur={() => {
+                  setNationalIdTouched(true)
                   if (isEdit && values.nationalId && values.nationalId === (member.nationalId ?? '')) setNationalIdMasked(true)
                 }}
-                onChange={(event) => setValue('nationalId', event.target.value)}
+                onChange={(event) => setNationalId(event.target.value)}
                 className={inputClass}
-                maxLength={16}
+                // Room for the spaces of "1199 8800 1234 5678"; the counter counts the digits.
+                maxLength={32}
                 autoFocus={fromVerification}
               />
             </Field>
@@ -542,7 +656,7 @@ export default function MemberFormModal({ member, verification, unverified = fal
             </button>
             <button
               type="submit"
-              disabled={saving || expired}
+              disabled={saving || expired || Boolean(nationalIdError)}
               className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {saving ? t('members.form.saving') : t('members.form.save')}
