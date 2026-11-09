@@ -10,6 +10,35 @@ function avatarClass(member) {
   return member.status === 'ACTIVE' ? 'bg-primary-light text-primary' : 'bg-background text-muted'
 }
 
+// The national ID as the list gives it (already masked, never the full ID), with the member
+// number below. A member without one gets a link to the edit form to add it.
+function NationalIdCell({ member, onEdit, readOnly }) {
+  const { t } = useTranslation()
+
+  return (
+    <div className="min-w-0">
+      {member.nationalIdMasked ? (
+        <p className="whitespace-nowrap font-mono text-sm text-text">{member.nationalIdMasked}</p>
+      ) : (
+        <p className="flex flex-wrap items-center gap-x-2 text-sm text-muted">
+          <span>{t('members.table.noNationalId')}</span>
+          <button
+            type="button"
+            onClick={() => onEdit(member)}
+            disabled={readOnly}
+            className="text-xs font-medium text-primary hover:underline disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:no-underline"
+            aria-label={t('members.table.addNationalIdFor', { name: member.fullName })}
+            title={readOnly ? t('offline.needsInternet') : undefined}
+          >
+            {t('members.table.addNationalId')}
+          </button>
+        </p>
+      )}
+      <p className="whitespace-nowrap text-xs text-muted">{member.memberCode}</p>
+    </div>
+  )
+}
+
 function MemberActions({ member, onEdit, readOnly }) {
   const { t } = useTranslation()
 
@@ -47,7 +76,7 @@ export default function MemberTable({ members, onEdit, readOnly }) {
         <table className="w-full text-left text-sm">
           <thead className="bg-background text-xs uppercase tracking-wide text-muted">
             <tr>
-              <th className="px-4 py-3 font-semibold">{t('members.table.memberId')}</th>
+              <th className="px-4 py-3 font-semibold">{t('members.table.nationalId')}</th>
               <th className="px-4 py-3 font-semibold">{t('members.table.fullName')}</th>
               <th className="px-4 py-3 font-semibold">{t('members.table.phone')}</th>
               <th className="px-4 py-3 font-semibold">{t('members.table.joinDate')}</th>
@@ -58,7 +87,9 @@ export default function MemberTable({ members, onEdit, readOnly }) {
           <tbody className="divide-y divide-text/5">
             {members.map((member) => (
               <tr key={member.id}>
-                <td className="whitespace-nowrap px-4 py-3 font-medium text-primary">{member.memberCode}</td>
+                <td className="px-4 py-3">
+                  <NationalIdCell member={member} onEdit={onEdit} readOnly={readOnly} />
+                </td>
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3">
                     <Avatar name={member.fullName} className={avatarClass(member)} />
@@ -101,7 +132,9 @@ export default function MemberTable({ members, onEdit, readOnly }) {
                   {t(`members.status.${member.status}`)}
                 </StatusBadge>
               </div>
-              <p className="text-xs font-medium text-primary">{member.memberCode}</p>
+              <div className="mt-0.5">
+                <NationalIdCell member={member} onEdit={onEdit} readOnly={readOnly} />
+              </div>
               {member.address && <p className="text-xs text-muted">{member.address}</p>}
               <p className="mt-1 text-sm">{formatPhone(member.phone)}</p>
               <div className="mt-1 flex items-center justify-between">

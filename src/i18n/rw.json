@@ -97,7 +97,10 @@
       "inactive": "Badakora"
     },
     "table": {
-      "memberId": "Nimero",
+      "nationalId": "Indangamuntu",
+      "noNationalId": "Nta ndangamuntu irashyirwamo",
+      "addNationalId": "Ongeraho",
+      "addNationalIdFor": "Ongeraho indangamuntu ya {{name}}",
       "fullName": "Amazina yose",
       "phone": "Telefoni",
       "joinDate": "Itariki yinjiriyeho",
@@ -1419,6 +1422,10 @@
       "publicNav.staffLoginLabel",
       "members.form.unverifiedNotice",
       "members.form.nationalIdCount",
+      "members.table.nationalId",
+      "members.table.noNationalId",
+      "members.table.addNationalId",
+      "members.table.addNationalIdFor",
       "members.form.errors.nationalIdRequired",
       "members.form.errors.nationalIdDigitsOnly",
       "members.form.errors.nationalIdCannotRemove",

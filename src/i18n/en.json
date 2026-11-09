@@ -97,7 +97,10 @@
       "inactive": "Inactive"
     },
     "table": {
-      "memberId": "Member ID",
+      "nationalId": "National ID",
+      "noNationalId": "No national ID yet",
+      "addNationalId": "Add",
+      "addNationalIdFor": "Add a national ID for {{name}}",
       "fullName": "Full name",
       "phone": "Phone",
       "joinDate": "Join date",
