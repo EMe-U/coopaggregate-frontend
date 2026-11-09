@@ -23,6 +23,12 @@ export async function loadWithCache(key, fetcher) {
   return { data: entry.value, savedAt: entry.savedAt }
 }
 
+// The list gives only nationalIdMasked; any full national ID is dropped all the same, so it is
+// never stored on this device with the list.
+function withoutNationalId({ nationalId: _nationalId, ...member }) {
+  return member
+}
+
 // Saves every member, in the server's order (by name), so members can be searched and listed
 // without internet.
 export async function refreshMemberCache() {
@@ -31,7 +37,7 @@ export async function refreshMemberCache() {
   let totalPages = 1
   while (page < totalPages) {
     const data = await listMembers({ page, size: MEMBERS_PAGE_SIZE })
-    members.push(...data.content)
+    members.push(...data.content.map(withoutNationalId))
     totalPages = data.totalPages
     page++
   }
