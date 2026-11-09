@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { ShieldAlert, UserPlus, Users, X } from 'lucide-react'
-import { getIdentityVerificationStatus, getMemberSummary, startIdentityVerification } from '../../api/members'
+import { getIdentityVerificationStatus, getMember, getMemberSummary, startIdentityVerification } from '../../api/members'
 import OfflineDataNote from '../../components/OfflineDataNote'
 import PageTitle from '../../components/PageTitle'
 import EmptyState from '../../components/EmptyState'
@@ -18,6 +18,7 @@ import useOnlineStatus from '../../hooks/useOnlineStatus'
 import usePageSize from '../../hooks/usePageSize'
 import { loadMembersPage, loadWithCache } from '../../offline/cache'
 import { takeVerification, verificationErrorMessage, verificationExpired } from '../../members/identityVerification'
+import { memberSearchTerm } from '../../members/memberDetails'
 
 const ACTIVE_PARAM = { all: undefined, active: true, inactive: false }
 
@@ -32,7 +33,8 @@ export default function Members() {
 
   const [search, setSearch] = useState('')
   const [status, setStatus] = useState('all')
-  const debouncedSearch = useDebouncedValue(search.trim(), 300)
+  // A whole national ID typed with spaces is searched as its 16 digits.
+  const debouncedSearch = useDebouncedValue(memberSearchTerm(search.trim()), 300)
 
   const [page, setPage] = useState(0)
   const [result, setResult] = useState(null)
@@ -161,6 +163,23 @@ export default function Members() {
     setPage(0)
   }
 
+  // A row of the list has no national ID, and an edit must send it back (leaving it out would
+  // remove it, which the backend refuses), so the full profile is loaded first. It is not saved
+  // on this device.
+  const [openingEdit, setOpeningEdit] = useState(false)
+  async function handleEdit(row) {
+    if (openingEdit) return
+    setOpeningEdit(true)
+    setRegistrationError('')
+    try {
+      setForm({ member: await getMember(row.id) })
+    } catch {
+      setRegistrationError(t('members.form.errors.loadForEdit'))
+    } finally {
+      setOpeningEdit(false)
+    }
+  }
+
   function handleSaved() {
     setForm(null)
     setNotice(t('members.form.saved'))
@@ -210,7 +229,7 @@ export default function Members() {
       <div className={loading ? 'opacity-60' : undefined}>
         <MemberTable
           members={result.content}
-          onEdit={(member) => setForm({ member })}
+          onEdit={handleEdit}
           readOnly={needsInternet.offline || savedAt !== null}
         />
         <Pagination

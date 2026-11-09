@@ -18,3 +18,19 @@ export function maskNationalId(nationalId) {
   if (!nationalId) return ''
   return nationalId.length > 4 ? `••••••${nationalId.slice(-4)}` : '••••'
 }
+
+// A national ID is exactly 16 digits (0-9), as the backend requires. Spaces typed inside it, as in
+// "1199 8800 1234 5678", are dropped.
+export const NATIONAL_ID_LENGTH = 16
+export const NATIONAL_ID_PATTERN = /^[0-9]{16}$/
+
+export function cleanNationalId(value) {
+  return (value ?? '').replace(/\s+/g, '')
+}
+
+// The members search: a whole national ID (spaces allowed) is sent as its 16 digits, so the
+// backend finds the member by it. Anything else is sent as typed.
+export function memberSearchTerm(search) {
+  const digits = cleanNationalId(search)
+  return NATIONAL_ID_PATTERN.test(digits) ? digits : search
+}

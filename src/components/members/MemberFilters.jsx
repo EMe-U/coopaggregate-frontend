@@ -19,7 +19,7 @@ export default function MemberFilters({
   const { t } = useTranslation()
 
   return (
-    <div className="flex flex-col gap-3 rounded-xl bg-surface p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex flex-col gap-3 rounded-xl bg-surface p-4 shadow-sm sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
       <div className="relative w-full sm:max-w-sm">
         <Search
           size={16}
@@ -35,9 +35,10 @@ export default function MemberFilters({
         />
       </div>
 
-      <div className="flex items-center gap-2 text-sm">
+      {/* The status buttons wrap onto a second line when they do not fit (a phone, longer texts). */}
+      <div className="flex min-w-0 flex-wrap items-center gap-2 text-sm">
         <span className="text-muted">{filterLabel ?? t('members.filter.label')}</span>
-        <div className="flex rounded-md bg-background p-0.5">
+        <div className="flex min-w-0 flex-wrap rounded-md bg-background p-0.5">
           {statuses.map((value) => (
             <button
               key={value}

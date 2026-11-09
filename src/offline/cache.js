@@ -39,7 +39,8 @@ export async function refreshMemberCache() {
 }
 
 // Matches the same fields as the backend search: name, member number, phone and national ID.
-// Phones are stored as +2507XXXXXXXX, so the leading 0 of a typed 07... number is dropped.
+// Phones are stored as +2507XXXXXXXX, so the leading 0 of a typed 07... number is dropped. The
+// national ID matches only as a whole, as on the backend.
 function matchesSearch(member, search) {
   const text = search.toLowerCase()
   const digits = search.replace(/\D/g, '').replace(/^0/, '')
@@ -47,7 +48,7 @@ function matchesSearch(member, search) {
     member.fullName.toLowerCase().includes(text) ||
     member.memberCode.toLowerCase().includes(text) ||
     (digits !== '' && member.phone?.includes(digits)) ||
-    member.nationalId?.includes(search)
+    (Boolean(member.nationalId) && member.nationalId === search)
   )
 }
 
