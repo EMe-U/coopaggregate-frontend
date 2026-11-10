@@ -24,6 +24,7 @@ import Settings from './pages/manager/Settings'
 import Home from './pages/public/Home'
 import SendRequest from './pages/public/SendRequest'
 import RequestStatus from './pages/public/RequestStatus'
+import Privacy from './pages/public/Privacy'
 
 export default function App() {
   return (
@@ -60,6 +61,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/request" element={<SendRequest />} />
         <Route path="/status" element={<RequestStatus />} />
+        <Route path="/privacy" element={<Privacy />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

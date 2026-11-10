@@ -160,7 +160,13 @@
       "birthDate": "Birth date",
       "gender": "Gender",
       "email": "Email",
-      "unverifiedNotice": "Identity verification is not available. This member will be registered as NOT verified."
+      "unverifiedNotice": "Identity verification is not available. This member will be registered as NOT verified.",
+      "consent": {
+        "label": "The member has been told how their data is used",
+        "link": "privacy notice",
+        "linkLabel": "Privacy notice (opens in a new tab)",
+        "required": "Tick this box once the member has been told how their data is used."
+      }
     },
     "detail": {
       "back": "Back to members",
@@ -1712,5 +1718,80 @@
     "waking": "The server is waking up. This can take up to 2 minutes. Please wait.",
     "unreachable": "Cannot reach the server. Check your connection, then try again.",
     "retry": "Try again"
+  },
+  "privacy": {
+    "title": "Privacy notice: CoopAggregate",
+    "subtitle": "Koperative Intagamburuzwa, Busogo, Musanze. Last updated: 10 November 2026.",
+    "sections": [
+      {
+        "heading": "1. Who we are",
+        "text": [
+          "CoopAggregate is the system Koperative Intagamburuzwa uses to record deliveries of produce and to pay members fairly. The cooperative is responsible for the information in it. Contact: [name, phone and email of the cooperative's contact person]."
+        ]
+      },
+      {
+        "heading": "2. What we collect about members",
+        "items": [
+          "Name, phone number and address. Date of birth, gender and email only when they come from digital identity verification (eSignet).",
+          "When a member is registered through eSignet, the details that come from that verification cannot be changed by hand, except the address, which a manager can update. The date and method of the verification are kept, with a reference from eSignet that is not the national ID number.",
+          "National ID number, typed in by a cooperative manager from the member's card.",
+          "A member number (for example M-0001), created by the system.",
+          "The date the member joined and their preferred language (Kinyarwanda or English).",
+          "Records of each delivery: date, grade, kilograms, deductions, receipt code, whether the member confirmed it, and any dispute.",
+          "Records of each payment to the member: date, amount, method and reference number.",
+          "The text messages (SMS) we send about deliveries, and the phone number they were sent to. A reply is used to confirm or dispute that delivery; only the reason written in a dispute reply is kept.",
+          "A record of some actions managers take, such as registering a member, with the manager and the time."
+        ],
+        "text": [
+          "We do not collect or store a photo of you."
+        ]
+      },
+      {
+        "heading": "3. Why we collect it",
+        "items": [
+          "To prove who delivered what, and to pay the right person.",
+          "To confirm each delivery to the member by SMS.",
+          "To avoid registering the same person twice."
+        ],
+        "text": [
+          "We do not sell your information and we do not use it for advertising."
+        ]
+      },
+      {
+        "heading": "4. Who can see it",
+        "items": [
+          "Cooperative managers who log in to the system.",
+          "The services that run the system: Render (hosting), Neon (database) and the SMS gateway.",
+          "Nobody else, unless the law requires it."
+        ]
+      },
+      {
+        "heading": "5. How it is protected",
+        "items": [
+          "Managers must log in.",
+          "The national ID is hidden on screen unless a manager chooses to show it or is typing it in, and is always hidden in printouts. The member list shows only its last 4 digits.",
+          "Every delivery, payment, sale and loss is written into a ledger in which each entry is linked to the one before it, so a change to an entry, or the deletion of an entry that has later entries after it, can be detected."
+        ]
+      },
+      {
+        "heading": "6. How long we keep it",
+        "text": [
+          "We keep your information while you are a member, and afterwards for a period decided by the cooperative [period to be confirmed with the cooperative]."
+        ]
+      },
+      {
+        "heading": "7. Your rights",
+        "text": [
+          "You may ask the cooperative to show you the information it holds about you, to correct it, and to explain how it is used. Because ledger entries are designed so they cannot be erased, a delivery record is not deleted; if it is wrong, it is corrected by a new, visible entry. Your personal details in the member record can be corrected or removed on request [confirm with the cooperative]."
+        ]
+      },
+      {
+        "heading": "8. Questions or complaints",
+        "text": [
+          "Contact [name, phone and email of the cooperative's contact person]. You may also complain to Rwanda's data protection authority, the National Cyber Security Authority [verify name and contact details]."
+        ]
+      }
+    ],
+    "link": "Privacy notice"
   }
 }

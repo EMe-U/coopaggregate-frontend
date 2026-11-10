@@ -172,7 +172,12 @@ export default function PublicLayout() {
           <span className="font-medium text-text">{cooperative?.cooperativeName ?? t('app.cooperative')}</span>
           {cooperative?.location && <span>· {cooperative.location}</span>}
         </p>
-        <p className="mt-1">{t('publicNav.copyright', { year: new Date().getFullYear(), name: t('app.name') })}</p>
+        <p className="mt-1 flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
+          <span>{t('publicNav.copyright', { year: new Date().getFullYear(), name: t('app.name') })}</span>
+          <Link to="/privacy" className="underline hover:text-text">
+            {t('privacy.link')}
+          </Link>
+        </p>
       </footer>
     </div>
   )
