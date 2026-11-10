@@ -1444,7 +1444,15 @@
       "server.unreachable",
       "server.retry",
       "privacy.title",
-      "privacy.subtitle",
+      "privacy.cooperative",
+      "privacy.updated",
+      "privacy.inShort.title",
+      "privacy.inShort.items",
+      "privacy.contents",
+      "privacy.backToTop",
+      "privacy.contact.notSet",
+      "privacy.contact.loading",
+      "privacy.contact.error",
       "privacy.link",
       "privacy.sections.0.heading",
       "privacy.sections.0.text",
@@ -1920,12 +1928,42 @@
   },
   "privacy": {
     "title": "Itangazo ryerekeye amakuru bwite: CoopAggregate",
-    "subtitle": "Koperative Intagamburuzwa, Busogo, Musanze. Byavuguruwe bwa nyuma: 10 Ugushyingo 2026.",
+    "cooperative": "Koperative Intagamburuzwa",
+    "updated": "Byavuguruwe bwa nyuma: 10 Ugushyingo 2026",
+    "inShort": {
+      "title": "Muri make",
+      "items": [
+        {
+          "label": "Ibyo tubika:",
+          "text": "amazina yawe, telefoni, indangamuntu, amakuru avuye mu igenzura ry'umwirondoro, n'ibyanditswe ku musaruro wazanye, ku bwishyu no kuri SMS."
+        },
+        {
+          "label": "Impamvu:",
+          "text": "kugaragaza uwazanye buri musaruro, kwishyura umuntu ukwiye, no kukumenyesha buri musaruro kuri SMS."
+        },
+        {
+          "label": "Ababibona:",
+          "text": "abayobozi ba koperative na serivisi zikoresha sisitemu. Ntitugurisha amakuru yawe kandi ntituyakoresha mu kwamamaza."
+        },
+        {
+          "label": "Uburenganzira bwawe:",
+          "text": "gusaba kwerekwa amakuru yawe, kuyakosora, no gusobanurirwa uko akoreshwa."
+        }
+      ]
+    },
+    "contents": "Ibikubiyemo",
+    "backToTop": "Subira hejuru",
+    "contact": {
+      "notSet": "Ntibirashyirwaho",
+      "loading": "Turimo kuzana amakuru yo kuvugana na koperative…",
+      "error": "Ntibyashobotse kubona amakuru yo kuvugana na koperative. Ongera ugerageze nyuma."
+    },
     "sections": [
       {
         "heading": "1. Abo turi bo",
         "text": [
-          "CoopAggregate ni uburyo Koperative Intagamburuzwa ikoresha mu kwandika umusaruro abanyamuryango bazana no kubishyura mu buryo bukwiye. Koperative ni yo ishinzwe amakuru ari muri ubu buryo. Uwo mwavugana: [name, phone and email of the cooperative's contact person]."
+          "CoopAggregate ni uburyo Koperative Intagamburuzwa ikoresha mu kwandika umusaruro abanyamuryango bazana no kubishyura mu buryo bukwiye.",
+          "Koperative ni yo ishinzwe amakuru ari muri ubu buryo. Ushobora kuvugana na koperative ukoresheje amakuru ari hepfo."
         ]
       },
       {
@@ -1981,13 +2019,16 @@
       {
         "heading": "7. Uburenganzira bwawe",
         "text": [
-          "Ushobora gusaba koperative kukwereka amakuru ikubitseho, kuyakosora, no kugusobanurira uko akoreshwa. Kubera ko ibyanditswe mu gitabo cy'ibaruramari byateganyijwe ku buryo bidashobora gusibwa, inyandiko y'umusaruro wazanywe ntisibwa; niba irimo ikosa, ikosorwa n'icyanditswe gishya kigaragara. Amakuru yawe bwite ari mu nyandiko y'umunyamuryango ashobora gukosorwa cyangwa gukurwamo ubisabye [confirm with the cooperative]."
+          "Ushobora gusaba koperative kukwereka amakuru ikubitseho, kuyakosora, no kugusobanurira uko akoreshwa.",
+          "Kubera ko ibyanditswe mu gitabo cy'ibaruramari byateganyijwe ku buryo bidashobora gusibwa, inyandiko y'umusaruro wazanywe ntisibwa; niba irimo ikosa, ikosorwa n'icyanditswe gishya kigaragara.",
+          "Amakuru yawe ari mu nyandiko y'umunyamuryango ashobora gukosorwa ubisabye. Umunyamuryango ashobora gushyirwa mu badakora. Gusiba burundu inyandiko y'umunyamuryango ntibishoboka igihe cyose hari ibyanditswe ku musaruro yazanye [to be confirmed with the cooperative]."
         ]
       },
       {
         "heading": "8. Ibibazo cyangwa ibirego",
         "text": [
-          "Vugana na [name, phone and email of the cooperative's contact person]. Ushobora kandi gutanga ikirego ku rwego rushinzwe kurinda amakuru bwite mu Rwanda, National Cyber Security Authority (Ikigo cy'Igihugu gishinzwe Umutekano w'Ikoranabuhanga) [verify name and contact details]."
+          "Vugana na koperative ukoresheje amakuru ari hepfo.",
+          "Ushobora kandi gutanga ikirego ku rwego rushinzwe kurinda amakuru bwite mu Rwanda, National Cyber Security Authority (Ikigo cy'Igihugu gishinzwe Umutekano w'Ikoranabuhanga) [verify name and contact details]."
         ]
       }
     ],

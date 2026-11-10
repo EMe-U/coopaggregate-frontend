@@ -1721,12 +1721,42 @@
   },
   "privacy": {
     "title": "Privacy notice: CoopAggregate",
-    "subtitle": "Koperative Intagamburuzwa, Busogo, Musanze. Last updated: 10 November 2026.",
+    "cooperative": "Koperative Intagamburuzwa",
+    "updated": "Last updated: 10 November 2026",
+    "inShort": {
+      "title": "In short",
+      "items": [
+        {
+          "label": "What we collect:",
+          "text": "your name, phone, national ID, the details from identity verification, and records of your deliveries, payments and SMS."
+        },
+        {
+          "label": "Why:",
+          "text": "to prove who delivered what, to pay the right person, and to confirm each delivery by SMS."
+        },
+        {
+          "label": "Who sees it:",
+          "text": "the cooperative's managers and the services that run the system. We do not sell it or use it for advertising."
+        },
+        {
+          "label": "Your rights:",
+          "text": "ask to see your information, to have it corrected, and to know how it is used."
+        }
+      ]
+    },
+    "contents": "Contents",
+    "backToTop": "Back to top",
+    "contact": {
+      "notSet": "Not set yet",
+      "loading": "Loading the contact details…",
+      "error": "The contact details could not be loaded. Please try again later."
+    },
     "sections": [
       {
         "heading": "1. Who we are",
         "text": [
-          "CoopAggregate is the system Koperative Intagamburuzwa uses to record deliveries of produce and to pay members fairly. The cooperative is responsible for the information in it. Contact: [name, phone and email of the cooperative's contact person]."
+          "CoopAggregate is the system Koperative Intagamburuzwa uses to record deliveries of produce and to pay members fairly.",
+          "The cooperative is responsible for the information in it. You can reach the cooperative with the contact details below."
         ]
       },
       {
@@ -1782,13 +1812,16 @@
       {
         "heading": "7. Your rights",
         "text": [
-          "You may ask the cooperative to show you the information it holds about you, to correct it, and to explain how it is used. Because ledger entries are designed so they cannot be erased, a delivery record is not deleted; if it is wrong, it is corrected by a new, visible entry. Your personal details in the member record can be corrected or removed on request [confirm with the cooperative]."
+          "You may ask the cooperative to show you the information it holds about you, to correct it, and to explain how it is used.",
+          "Because ledger entries are designed so they cannot be erased, a delivery record is not deleted; if it is wrong, it is corrected by a new, visible entry.",
+          "Your details in the member record can be corrected on request. A member can be made inactive. Full deletion of a member record is not possible while their delivery records exist [to be confirmed with the cooperative]."
         ]
       },
       {
         "heading": "8. Questions or complaints",
         "text": [
-          "Contact [name, phone and email of the cooperative's contact person]. You may also complain to Rwanda's data protection authority, the National Cyber Security Authority [verify name and contact details]."
+          "Contact the cooperative using the details below.",
+          "You may also complain to Rwanda's data protection authority, the National Cyber Security Authority [verify name and contact details]."
         ]
       }
     ],
