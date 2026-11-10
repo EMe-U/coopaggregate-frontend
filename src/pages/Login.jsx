@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { ArrowRight, Eye, EyeOff, Lock, MapPin, Tractor, User } from 'lucide-react'
 import { login } from '../api/auth'
@@ -187,8 +187,11 @@ export default function Login() {
         </div>
       </main>
 
-      <footer className="border-t border-text/5 bg-text/3 py-6 text-center text-xs text-muted">
-        {t('login.footer', { year: new Date().getFullYear() })}
+      <footer className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border-t border-text/5 bg-text/3 px-4 py-6 text-center text-xs text-muted">
+        <span>{t('login.footer', { year: new Date().getFullYear() })}</span>
+        <Link to="/privacy" className="underline hover:text-text">
+          {t('privacy.link')}
+        </Link>
       </footer>
     </div>
   )

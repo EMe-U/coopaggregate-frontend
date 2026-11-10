@@ -12,6 +12,7 @@ import {
   PackagePlus,
   Scale,
   Settings,
+  ShieldCheck,
   ShoppingCart,
   Users,
   Wallet,
@@ -124,6 +125,14 @@ export default function Sidebar({ isOpen, onClose }) {
           >
             <Globe size={18} />
             {t('nav.publicSite')}
+          </Link>
+          <Link
+            to="/privacy"
+            onClick={onClose}
+            className={`${itemClass} text-text outline-none hover:bg-background focus-visible:ring-2 focus-visible:ring-primary`}
+          >
+            <ShieldCheck size={18} />
+            {t('privacy.link')}
           </Link>
           <button
             type="button"

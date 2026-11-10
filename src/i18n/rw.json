@@ -160,7 +160,13 @@
       "birthDate": "Itariki y'amavuko",
       "gender": "Igitsina",
       "email": "Imeyili",
-      "unverifiedNotice": "Igenzura ry'umwirondoro ntiriboneka. Uyu munyamuryango azandikwa nk'UTARAGENZUWE."
+      "unverifiedNotice": "Igenzura ry'umwirondoro ntiriboneka. Uyu munyamuryango azandikwa nk'UTARAGENZUWE.",
+      "consent": {
+        "label": "Umunyamuryango yasobanuriwe uko amakuru ye akoreshwa",
+        "link": "itangazo ryerekeye amakuru bwite",
+        "linkLabel": "Itangazo ryerekeye amakuru bwite (rifunguka mu idirishya rishya)",
+        "required": "Emeza aka kazu umaze gusobanurira umunyamuryango uko amakuru ye akoreshwa."
+      }
     },
     "detail": {
       "back": "Subira ku banyamuryango",
@@ -1436,7 +1442,40 @@
       "members.verified.notHint",
       "server.waking",
       "server.unreachable",
-      "server.retry"
+      "server.retry",
+      "privacy.title",
+      "privacy.cooperative",
+      "privacy.updated",
+      "privacy.inShort.title",
+      "privacy.inShort.items",
+      "privacy.contents",
+      "privacy.backToTop",
+      "privacy.contact.notSet",
+      "privacy.contact.loading",
+      "privacy.contact.error",
+      "privacy.link",
+      "privacy.sections.0.heading",
+      "privacy.sections.0.text",
+      "privacy.sections.1.heading",
+      "privacy.sections.1.items",
+      "privacy.sections.1.text",
+      "privacy.sections.2.heading",
+      "privacy.sections.2.items",
+      "privacy.sections.2.text",
+      "privacy.sections.3.heading",
+      "privacy.sections.3.items",
+      "privacy.sections.4.heading",
+      "privacy.sections.4.items",
+      "privacy.sections.5.heading",
+      "privacy.sections.5.text",
+      "privacy.sections.6.heading",
+      "privacy.sections.6.text",
+      "privacy.sections.7.heading",
+      "privacy.sections.7.text",
+      "members.form.consent.label",
+      "members.form.consent.link",
+      "members.form.consent.linkLabel",
+      "members.form.consent.required"
     ]
   },
   "publicHome": {
@@ -1886,5 +1925,113 @@
     "waking": "Seriveri iri gutangira gukora. Bishobora gufata iminota igera kuri 2. Tegereza gato.",
     "unreachable": "Ntibishoboka kugera kuri seriveri. Reba murandasi yawe, hanyuma wongere ugerageze.",
     "retry": "Ongera ugerageze"
+  },
+  "privacy": {
+    "title": "Itangazo ryerekeye amakuru bwite: CoopAggregate",
+    "cooperative": "Koperative Intagamburuzwa",
+    "updated": "Byavuguruwe bwa nyuma: 10 Ugushyingo 2026",
+    "inShort": {
+      "title": "Muri make",
+      "items": [
+        {
+          "label": "Ibyo tubika:",
+          "text": "amazina yawe, telefoni, indangamuntu, amakuru avuye mu igenzura ry'umwirondoro, n'ibyanditswe ku musaruro wazanye, ku bwishyu no kuri SMS."
+        },
+        {
+          "label": "Impamvu:",
+          "text": "kugaragaza uwazanye buri musaruro, kwishyura umuntu ukwiye, no kukumenyesha buri musaruro kuri SMS."
+        },
+        {
+          "label": "Ababibona:",
+          "text": "abayobozi ba koperative na serivisi zikoresha sisitemu. Ntitugurisha amakuru yawe kandi ntituyakoresha mu kwamamaza."
+        },
+        {
+          "label": "Uburenganzira bwawe:",
+          "text": "gusaba kwerekwa amakuru yawe, kuyakosora, no gusobanurirwa uko akoreshwa."
+        }
+      ]
+    },
+    "contents": "Ibikubiyemo",
+    "backToTop": "Subira hejuru",
+    "contact": {
+      "notSet": "Ntibirashyirwaho",
+      "loading": "Turimo kuzana amakuru yo kuvugana na koperative…",
+      "error": "Ntibyashobotse kubona amakuru yo kuvugana na koperative. Ongera ugerageze nyuma."
+    },
+    "sections": [
+      {
+        "heading": "1. Abo turi bo",
+        "text": [
+          "CoopAggregate ni uburyo Koperative Intagamburuzwa ikoresha mu kwandika umusaruro abanyamuryango bazana no kubishyura mu buryo bukwiye.",
+          "Koperative ni yo ishinzwe amakuru ari muri ubu buryo. Ushobora kuvugana na koperative ukoresheje amakuru ari hepfo."
+        ]
+      },
+      {
+        "heading": "2. Amakuru tubika ku banyamuryango",
+        "items": [
+          "Amazina, nimero ya telefoni na aderesi. Itariki y'amavuko, igitsina na imeri bibikwa gusa iyo bivuye mu igenzura ry'umwirondoro mu buryo bw'ikoranabuhanga (eSignet).",
+          "Iyo umunyamuryango yanditswe hakoreshejwe eSignet, amakuru avuye muri iryo genzura ntashobora guhindurwa n'intoki, uretse aderesi umuyobozi ashobora kuvugurura. Tubika kandi itariki n'uburyo igenzura ryakozwemo, hamwe n'inomero ndanga itangwa na eSignet itari nimero y'indangamuntu.",
+          "Nimero y'indangamuntu, yandikwa n'umuyobozi wa koperative ayikuye ku ndangamuntu y'umunyamuryango.",
+          "Nimero y'umunyamuryango (urugero M-0001), ishyirwaho na sisitemu.",
+          "Itariki umunyamuryango yinjiriyeho n'ururimi ahitamo (Ikinyarwanda cyangwa Icyongereza).",
+          "Ibyanditswe kuri buri musaruro wazanywe: itariki, icyiciro, ibiro, ibyakuweho, kode y'inyemezabwishyu, niba umunyamuryango yarabyemeje, n'impaka zose zabayeho.",
+          "Ibyanditswe kuri buri bwishyu umunyamuryango yahawe: itariki, amafaranga, uburyo bwakoreshejwe na nimero ndanga y'ubwishyu.",
+          "Ubutumwa bugufi (SMS) twohereza ku musaruro wazanywe, n'inomero ya telefoni bwoherejweho. Igisubizo gikoreshwa mu kwemeza cyangwa guhakana uwo musaruro; tubika gusa impamvu yanditswe mu gisubizo cyo guhakana.",
+          "Inyandiko y'ibikorwa bimwe abayobozi bakora, nko kwandika umunyamuryango, hamwe n'umuyobozi wabikoze n'igihe."
+        ],
+        "text": [
+          "Ntidufata cyangwa ngo tubike ifoto yawe."
+        ]
+      },
+      {
+        "heading": "3. Impamvu tuyabika",
+        "items": [
+          "Kugaragaza neza uwazanye buri musaruro, no kwishyura umuntu ukwiye.",
+          "Kumenyesha umunyamuryango kuri SMS buri musaruro yazanye.",
+          "Kwirinda kwandika umuntu umwe inshuro ebyiri."
+        ],
+        "text": [
+          "Ntitugurisha amakuru yawe kandi ntituyakoresha mu kwamamaza."
+        ]
+      },
+      {
+        "heading": "4. Abashobora kuyabona",
+        "items": [
+          "Abayobozi ba koperative binjira muri sisitemu.",
+          "Serivisi zikoresha sisitemu: Render (aho sisitemu ibitswe kuri murandasi), Neon (ububiko bw'amakuru) n'uburyo bwohereza SMS.",
+          "Nta wundi, keretse amategeko abisabye."
+        ]
+      },
+      {
+        "heading": "5. Uko arindwa",
+        "items": [
+          "Abayobozi bagomba kubanza kwinjira muri sisitemu.",
+          "Nimero y'indangamuntu ihishwa kuri ekarani keretse umuyobozi ahisemo kuyerekana cyangwa ari kuyandika, kandi ihora ihishwe ku mpapuro zicapwe. Ku rutonde rw'abanyamuryango hagaragara imibare 4 ya nyuma gusa.",
+          "Buri musaruro wazanywe, ubwishyu, igurisha n'igihombo byandikwa mu gitabo cy'ibaruramari (ledger) aho buri cyanditswe gihujwe n'icyakibanjirije, ku buryo guhindura icyanditswe, cyangwa gusiba icyanditswe gikurikiwe n'ibindi, bishobora kumenyekana."
+        ]
+      },
+      {
+        "heading": "6. Igihe tuyabika",
+        "text": [
+          "Tubika amakuru yawe igihe cyose uri umunyamuryango, na nyuma yaho mu gihe koperative izagena [period to be confirmed with the cooperative]."
+        ]
+      },
+      {
+        "heading": "7. Uburenganzira bwawe",
+        "text": [
+          "Ushobora gusaba koperative kukwereka amakuru ikubitseho, kuyakosora, no kugusobanurira uko akoreshwa.",
+          "Kubera ko ibyanditswe mu gitabo cy'ibaruramari byateganyijwe ku buryo bidashobora gusibwa, inyandiko y'umusaruro wazanywe ntisibwa; niba irimo ikosa, ikosorwa n'icyanditswe gishya kigaragara.",
+          "Amakuru yawe ari mu nyandiko y'umunyamuryango ashobora gukosorwa ubisabye. Umunyamuryango ashobora gushyirwa mu badakora. Gusiba burundu inyandiko y'umunyamuryango ntibishoboka igihe cyose hari ibyanditswe ku musaruro yazanye [to be confirmed with the cooperative]."
+        ]
+      },
+      {
+        "heading": "8. Ibibazo cyangwa ibirego",
+        "text": [
+          "Vugana na koperative ukoresheje amakuru ari hepfo.",
+          "Ushobora kandi gutanga ikirego ku rwego rushinzwe kurinda amakuru bwite mu Rwanda, National Cyber Security Authority (Ikigo cy'Igihugu gishinzwe Umutekano w'Ikoranabuhanga) [verify name and contact details]."
+        ]
+      }
+    ],
+    "link": "Amakuru bwite"
   }
 }

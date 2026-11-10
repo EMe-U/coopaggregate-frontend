@@ -316,6 +316,9 @@ export default function MemberFormModal({ member, verification, unverified = fal
   // The national ID's message shows once the manager has left the field (or right away for a
   // letter or a 17th digit); the Save button stays disabled while it is not valid.
   const [nationalIdTouched, setNationalIdTouched] = useState(false)
+  // A new member must have been told how their data is used. The answer only allows Save; it is
+  // never sent or stored.
+  const [consentGiven, setConsentGiven] = useState(false)
   const savedNationalId = isEdit ? (member.nationalId ?? '').trim() : ''
   const nationalIdError = nationalIdProblem(values.nationalId, { required: !isEdit, saved: savedNationalId })
   const nationalIdLength = cleanNationalId(values.nationalId).length
@@ -367,6 +370,7 @@ export default function MemberFormModal({ member, verification, unverified = fal
         : toNewMemberRequest(values, verification)
     const errors = validate(request)
     if (nationalIdError) errors.nationalId = nationalIdError
+    if (!isEdit && !consentGiven) errors.consent = 'members.form.consent.required'
     setNationalIdTouched(true)
     setFieldErrors(Object.fromEntries(Object.entries(errors).map(([field, key]) => [field, t(key)])))
     if (Object.keys(errors).length > 0) return
@@ -644,6 +648,45 @@ export default function MemberFormModal({ member, verification, unverified = fal
               </select>
             </Field>
           </div>
+
+          {!isEdit && (
+            <div>
+              <div className="flex items-start gap-2 text-sm text-text">
+                <input
+                  id="consent"
+                  type="checkbox"
+                  checked={consentGiven}
+                  onChange={(event) => {
+                    setConsentGiven(event.target.checked)
+                    if (event.target.checked) setFieldErrors(({ consent: _old, ...others }) => others)
+                  }}
+                  required
+                  aria-invalid={fieldErrors.consent ? 'true' : undefined}
+                  aria-describedby={fieldErrors.consent ? 'consent-error' : undefined}
+                  className="mt-0.5 h-4 w-4 shrink-0 accent-primary"
+                />
+                <p className="min-w-0">
+                  <label htmlFor="consent">{t('members.form.consent.label')}</label>{' '}
+                  (
+                  <a
+                    href="/privacy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={t('members.form.consent.linkLabel')}
+                    className="font-medium text-primary underline hover:text-primary/80"
+                  >
+                    {t('members.form.consent.link')}
+                  </a>
+                  )
+                </p>
+              </div>
+              {fieldErrors.consent && (
+                <p id="consent-error" role="alert" className="mt-1 text-sm text-danger">
+                  {fieldErrors.consent}
+                </p>
+              )}
+            </div>
+          )}
 
           <div className="flex justify-end gap-2 border-t border-text/5 pt-4">
             <button
