@@ -2,19 +2,20 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Boxes } from 'lucide-react'
 import { listGrades } from '../../api/grades'
-import { listLots } from '../../api/lots'
+import { listActiveLots, listLots } from '../../api/lots'
 import EmptyState from '../EmptyState'
 import GradeName from '../GradeName'
 import Pagination from '../Pagination'
 import usePageSize from '../../hooks/usePageSize'
 import LotActionsMenu from './LotActionsMenu'
 import LotFill from './LotFill'
-import LotStatusBadge from './LotStatusBadge'
+import LotStatusBadge, { lotStatusLabel } from './LotStatusBadge'
 import { formatDate, formatKg, formatMoney } from '../../utils/format'
 import useGradeName from '../../hooks/useGradeName'
 
-// Older lots (from before fixed-size lots) are listed under "All".
-const STATUSES = ['FILLING', 'FULL', 'SOLD']
+// The list opens on the lots in use (filling and full). Sold and emptied lots are only hidden from
+// it: each has its own choice, and "All" also lists the older lots (from before fixed-size lots).
+const STATUS_FILTERS = ['active', 'SOLD', 'EMPTIED', 'all']
 
 const selectClass =
   'min-h-11 rounded-lg border border-transparent bg-background px-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20'
@@ -49,7 +50,7 @@ export default function LotsTable({ reloadKey, onRecordLoss }) {
   const pageSize = usePageSize()
 
   const [grades, setGrades] = useState([])
-  const [status, setStatus] = useState('')
+  const [status, setStatus] = useState('active')
   const [gradeId, setGradeId] = useState('')
   const [page, setPage] = useState(0)
   const [result, setResult] = useState(null)
@@ -68,7 +69,11 @@ export default function LotsTable({ reloadKey, onRecordLoss }) {
     let ignore = false
     setLoading(true)
     setLoadError(false)
-    listLots({ status, gradeId, page, size: pageSize })
+    const request =
+      status === 'active'
+        ? listActiveLots({ gradeId, page, size: pageSize })
+        : listLots({ status: status === 'all' ? undefined : status, gradeId, page, size: pageSize })
+    request
       .then((data) => {
         if (!ignore) setResult(data)
       })
@@ -109,8 +114,9 @@ export default function LotsTable({ reloadKey, onRecordLoss }) {
     }
 
     if (result.totalElements === 0) {
-      const filtered = status !== '' || gradeId !== ''
-      return <EmptyState icon={Boxes} title={filtered ? t('lots.table.noResults') : t('lots.table.empty')} />
+      if (gradeId !== '') return <EmptyState icon={Boxes} title={t('lots.table.noResults')} />
+      if (status === 'active') return <EmptyState icon={Boxes} title={t('lots.table.noActive')} />
+      return <EmptyState icon={Boxes} title={status === 'all' ? t('lots.table.empty') : t('lots.table.noResults')} />
     }
 
     // Short numbers stay on one line; headers and money may wrap so all columns fit on a laptop.
@@ -243,12 +249,10 @@ export default function LotsTable({ reloadKey, onRecordLoss }) {
             }}
             className={selectClass}
           >
-            <option value="">
-              {t('lots.filters.status')}: {t('lots.filters.all')}
-            </option>
-            {STATUSES.map((value) => (
+            {STATUS_FILTERS.map((value) => (
               <option key={value} value={value}>
-                {t(`lots.status.${value}`)}
+                {t('lots.filters.status')}:{' '}
+                {value === 'active' ? t('lots.filters.active') : value === 'all' ? t('lots.filters.all') : lotStatusLabel(t, value)}
               </option>
             ))}
           </select>

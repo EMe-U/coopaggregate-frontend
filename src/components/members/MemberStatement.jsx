@@ -12,6 +12,7 @@ import useSharedLots from '../../hooks/useSharedLots'
 import ConfirmationBadge from '../deliveries/ConfirmationBadge'
 import DeliveryActionsMenu from '../deliveries/DeliveryActionsMenu'
 import DeliveryLots from '../deliveries/DeliveryLots'
+import LotStatusBadge from '../lots/LotStatusBadge'
 import DeliveryHistoryNote, { deliveryRowId } from '../deliveries/DeliveryHistoryNote'
 import useOnlineStatus from '../../hooks/useOnlineStatus'
 import { loadWithCache } from '../../offline/cache'
@@ -253,6 +254,8 @@ function ShareMoney({ share }) {
   const key = 'members.statement.lotShares'
 
   if (share.status === 'SHARED') return formatMoney(share.shareRwf)
+  // An emptied lot (or a status this page does not know) has no money to wait for: its status is shown.
+  if (!['SOLD', 'OPEN', 'CLOSED', 'FILLING', 'FULL'].includes(share.status)) return <LotStatusBadge status={share.status} />
   // A sold lot has money but has not been shared yet; an open or closed lot is not sold.
   const waitingKey = share.status === 'SOLD' ? 'waitingForSharing' : 'waitingForSale'
   return (

@@ -5,6 +5,7 @@ import { ArrowLeft, Layers } from 'lucide-react'
 import { getMemberBatches } from '../../api/members'
 import EmptyState from '../../components/EmptyState'
 import DeliveryLots from '../../components/deliveries/DeliveryLots'
+import LotStatusBadge from '../../components/lots/LotStatusBadge'
 import GradeName from '../../components/GradeName'
 import PageTitle from '../../components/PageTitle'
 import Pagination from '../../components/Pagination'
@@ -28,6 +29,20 @@ function PaymentStatus({ batch }) {
     <span className={`inline-block rounded-md px-2 py-0.5 text-xs font-medium ${PAYMENT_CLASS[batch.payment] ?? PAYMENT_CLASS.NOTHING_SOLD}`}>
       {t(`memberBatches.payment.${batch.payment}`, { lot: batch.lotCode, defaultValue: batch.payment })}
     </span>
+  )
+}
+
+// The batch's lot, and "Emptied" when every delivery in it was taken back before any sale.
+function BatchLots({ batch, className }) {
+  return (
+    <>
+      <DeliveryLots lots={batch.lots} deliveryId={batch.deliveryId} className={className} />
+      {batch.lotStatus === 'EMPTIED' && (
+        <span className="mt-1 block">
+          <LotStatusBadge status="EMPTIED" />
+        </span>
+      )}
+    </>
   )
 }
 
@@ -179,7 +194,7 @@ export default function MemberBatches() {
                         <GradeName name={batch.gradeName} />
                       </td>
                       <td className={cell}>
-                        <DeliveryLots lots={batch.lots} deliveryId={batch.deliveryId} />
+                        <BatchLots batch={batch} />
                       </td>
                       <td className="min-w-52 px-3 py-3">
                         <PaymentStatus batch={batch} />
@@ -214,7 +229,7 @@ export default function MemberBatches() {
                       <p className="text-xs text-muted">
                         {formatDay(batch.deliveredAt)} · <GradeName name={batch.gradeName} />
                       </p>
-                      <DeliveryLots lots={batch.lots} deliveryId={batch.deliveryId} className="mt-0.5" />
+                      <BatchLots batch={batch} className="mt-0.5" />
                     </div>
                     <PaymentStatus batch={batch} />
                   </div>

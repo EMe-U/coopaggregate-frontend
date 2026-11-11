@@ -384,7 +384,9 @@
       "SHARED": "Shared",
       "FILLING": "Filling",
       "FULL": "Full",
-      "OLDER": "Older lot"
+      "OLDER": "Older lot",
+      "EMPTIED": "Emptied",
+      "unknown": "Other status"
     },
     "balance": {
       "title": "Stock balance",
@@ -420,12 +422,14 @@
       "error": "Could not load lots.",
       "fill": "Fill level",
       "fillingSince": "{{date}} – filling",
-      "stillFilling": "filling"
+      "stillFilling": "filling",
+      "noActive": "No lots being filled or full. Choose another status to see sold, emptied or older lots."
     },
     "filters": {
       "status": "Status",
       "grade": "Grade",
-      "all": "All"
+      "all": "All",
+      "active": "Active"
     },
     "loss": {
       "subtitle": "Record rot, damage or other losses so the stock stays correct.",
@@ -502,7 +506,8 @@
       "memberRemaining": "Left",
       "lossSharesTitle": "Each member's share of the losses",
       "lossSharesHint": "Each loss is shared in proportion to what each member had left in the lot. Kg already sold carry none.",
-      "ofDelivery": "of {{kg}}"
+      "ofDelivery": "of {{kg}}",
+      "paidBySales": "Members were paid by each sale. See their statements."
     },
     "actions": {
       "column": "Actions",
@@ -515,7 +520,9 @@
       "SOLD": "Sold: nothing is left in this lot.",
       "FILLING": "Filling: confirmed deliveries of this grade go into it until it is full. Its potatoes can already be sold.",
       "FULL": "Full: it reached its size. New deliveries go into the next lot.",
-      "OLDER": "Older lot, from before fixed-size lots. It gets no new kg and is sold first"
+      "OLDER": "Older lot, from before fixed-size lots. It gets no new kg and is sold first",
+      "EMPTIED": "All deliveries were reversed or corrected before any sale. Nothing to sell or share.",
+      "unknown": "A status this page does not know: {{status}}"
     },
     "pendingConfirmation": "of which {{kg}} waiting for confirmation",
     "split": {
@@ -530,7 +537,10 @@
       "value": "{{filled}} / {{capacity}} kg",
       "label": "Fill level",
       "shortfall": "{{kg}} short",
-      "shortfallHelp": "A reversed delivery took these kg out after the lot was full. A full lot is never filled again."
+      "shortfallHelp": "A reversed delivery took these kg out after the lot was full. A full lot is never filled again.",
+      "emptied": "0 of {{capacity}} kg",
+      "soldOut": "Sold out",
+      "soldKg": "{{kg}} sold"
     },
     "cell": {
       "count_one": "{{count}} lot",
