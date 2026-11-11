@@ -36,11 +36,15 @@ function nationalIdProblem(value, { required, saved }) {
   return null
 }
 
-// The backend's national ID errors (NATIONAL_ID_REQUIRED, NATIONAL_ID_INVALID, NATIONAL_ID_TAKEN)
-// as the text shown under the field, or null for any other error.
-function nationalIdServerError(t, error, saved) {
+// The backend's national ID errors (NATIONAL_ID_REQUIRED, NATIONAL_ID_INVALID, NATIONAL_ID_TAKEN,
+// and VERIFIED_FIELD_LOCKED when editing: a verified member's ID was changed) as the text shown
+// under the field, or null for any other error.
+function nationalIdServerError(t, error, { saved, isEdit }) {
   const data = error.response?.data
   switch (data?.code) {
+    case 'VERIFIED_FIELD_LOCKED':
+      // When adding, it is about the verification: handled with the other verification errors.
+      return isEdit ? t('members.form.errors.nationalIdLocked') : null
     case 'NATIONAL_ID_REQUIRED':
       return t(saved ? 'members.form.errors.nationalIdCannotRemove' : 'members.form.errors.nationalIdRequired')
     case 'NATIONAL_ID_INVALID':
@@ -86,12 +90,13 @@ function toRequest(values, savedNationalId) {
 
 // A new member gets every verified detail from the verification: only what the manager typed is
 // sent. A value for a verified field (even empty) is refused, and so is a birth date, gender or
-// email, which only come from the check; the address is typed only when it was not verified.
+// email, which only come from the check; the address and national ID are typed only when the check
+// did not give them.
 function toNewMemberRequest(values, verification) {
   const address = verifiedFieldsOf(verification).includes('address') ? '' : values.address.trim()
   return {
     verificationId: verification.verificationId,
-    nationalId: cleanNationalId(values.nationalId),
+    ...(!verification.nationalIdMasked && { nationalId: cleanNationalId(values.nationalId) }),
     ...(address && { address }),
     joinDate: values.joinDate,
     preferredLanguage: values.preferredLanguage,
@@ -205,8 +210,9 @@ function LockedText({ id, value, className }) {
 }
 
 // A verified value: shown, never typed. multiline wraps a long value (an address) instead of
-// hiding most of it in a one-line box.
-function LockedField({ id, label, value, error, multiline }) {
+// hiding most of it in a one-line box. verified={false} drops the mark, for a locked value that
+// did not come from the identity check.
+function LockedField({ id, label, value, error, hint, multiline, verified = true }) {
   const lockedClass = `${inputClass} cursor-not-allowed bg-background pr-9`
   return (
     <Field
@@ -214,10 +220,11 @@ function LockedField({ id, label, value, error, multiline }) {
       label={
         <>
           {label}
-          <VerifiedMark />
+          {verified && <VerifiedMark />}
         </>
       }
       error={error}
+      hint={hint}
     >
       <div className="relative">
         {multiline ? (
@@ -233,13 +240,15 @@ function LockedField({ id, label, value, error, multiline }) {
 
 // The verified details of a member or a verification, in form order, with how each is shown.
 // Only details named in verifiedFields and with a value; the address is left out when asked
-// (editing keeps it editable).
+// (editing keeps it editable). The national ID is only in a verification, masked by the backend
+// (nationalIdMasked): the full ID is never sent to this page.
 function lockedDetails(t, source, { withAddress = true } = {}) {
   const fields = verifiedFieldsOf(source)
   const birthdate = source.birthdate ?? source.birthDate
   const all = [
     { field: 'fullName', id: 'fullName', label: t('members.form.fullName'), value: source.fullName },
     { field: 'phone', id: 'phone', label: t('members.form.phone'), value: toLocalPhone(source.phone) },
+    { field: 'nationalId', id: 'nationalId', label: t('members.form.nationalId'), value: source.nationalIdMasked },
     { field: 'birthdate', id: 'birthDate', label: t('members.form.birthDate'), value: formatDate(birthdate) },
     { field: 'gender', id: 'gender', label: t('members.form.gender'), value: genderLabel(t, source.gender) },
     { field: 'email', id: 'email', label: t('members.form.email'), value: source.email },
@@ -320,7 +329,15 @@ export default function MemberFormModal({ member, verification, unverified = fal
   // never sent or stored.
   const [consentGiven, setConsentGiven] = useState(false)
   const savedNationalId = isEdit ? (member.nationalId ?? '').trim() : ''
-  const nationalIdError = nationalIdProblem(values.nationalId, { required: !isEdit, saved: savedNationalId })
+  // The national ID is not typed when the identity check gave it (shown masked with the other
+  // verified details), nor when editing a verified member who has one: it cannot be changed, and
+  // the saved one is sent back unchanged. A verified member without one may still get one typed.
+  const nationalIdFromCheck = fromVerification && Boolean(verification.nationalIdMasked)
+  const nationalIdLockedInEdit = isEdit && Boolean(member.verified) && Boolean(savedNationalId)
+  const typesNationalId = !nationalIdFromCheck && !nationalIdLockedInEdit
+  const nationalIdError = typesNationalId
+    ? nationalIdProblem(values.nationalId, { required: !isEdit, saved: savedNationalId })
+    : null
   const nationalIdLength = cleanNationalId(values.nationalId).length
   const showNationalIdError =
     nationalIdTouched ||
@@ -380,7 +397,7 @@ export default function MemberFormModal({ member, verification, unverified = fal
       const saved = isEdit ? await updateMember(member.id, request) : await createMember(request)
       onSaved(saved)
     } catch (error) {
-      const nationalIdServerMessage = nationalIdServerError(t, error, savedNationalId)
+      const nationalIdServerMessage = nationalIdServerError(t, error, { saved: savedNationalId, isEdit })
       if (nationalIdServerMessage) {
         setNationalIdMasked(false)
         setFieldErrors({ nationalId: nationalIdServerMessage })
@@ -455,6 +472,8 @@ export default function MemberFormModal({ member, verification, unverified = fal
   const addressVerified = isEdit
     ? verifiedFieldsOf(member).includes('address') && values.address.trim() === (member.address ?? '').trim()
     : verifiedFieldsOf(verification).includes('address')
+
+  const hasDetailsRow = isEdit || typesNameAndPhone || typesNationalId || !addressVerified
 
   // Beside the national ID for a new member, unless the check verified it; on its own line when
   // editing, as before.
@@ -542,7 +561,8 @@ export default function MemberFormModal({ member, verification, unverified = fal
             <VerifiedIdentity verification={verification} now={now} errors={fieldErrors} />
           )}
 
-          <div className="grid gap-4 sm:grid-cols-2">
+          {/* Empty when the check gave both the national ID and the address. */}
+          <div className={hasDetailsRow ? 'grid gap-4 sm:grid-cols-2' : 'hidden'}>
             {isEdit && lockedInEdit('phone') && (
               <LockedField id="phone" label={lockedById('phone').label} value={lockedById('phone').value} error={fieldErrors.phone} />
             )}
@@ -564,52 +584,65 @@ export default function MemberFormModal({ member, verification, unverified = fal
               </Field>
             )}
 
-            <Field
-              id="nationalId"
-              label={
-                isEdit && !savedNationalId
-                  ? `${t('members.form.nationalId')} ${t('members.form.optional')}`
-                  : t('members.form.nationalId')
-              }
-              error={nationalIdMessage}
-              aside={
-                !nationalIdMasked && (
-                  <span
-                    id="nationalId-count"
-                    className={`shrink-0 text-xs tabular-nums ${
-                      nationalIdLength === NATIONAL_ID_LENGTH && !nationalIdError ? 'text-primary' : 'text-muted'
-                    }`}
-                  >
-                    {t('members.form.nationalIdCount', { count: nationalIdLength, total: NATIONAL_ID_LENGTH })}
-                  </span>
-                )
-              }
-            >
-              <input
+            {nationalIdLockedInEdit && (
+              <LockedField
                 id="nationalId"
-                inputMode="numeric"
-                autoComplete="off"
-                value={nationalIdMasked ? maskNationalId(values.nationalId) : values.nationalId}
-                readOnly={nationalIdMasked}
-                required={!isEdit || Boolean(savedNationalId)}
-                aria-invalid={nationalIdMessage ? 'true' : undefined}
-                aria-describedby={
-                  [nationalIdMessage && 'nationalId-error', !nationalIdMasked && 'nationalId-count']
-                    .filter(Boolean)
-                    .join(' ') || undefined
-                }
-                onFocus={() => setNationalIdMasked(false)}
-                onBlur={() => {
-                  setNationalIdTouched(true)
-                  if (isEdit && values.nationalId && values.nationalId === (member.nationalId ?? '')) setNationalIdMasked(true)
-                }}
-                onChange={(event) => setNationalId(event.target.value)}
-                className={inputClass}
-                // Room for the spaces of "1199 8800 1234 5678"; the counter counts the digits.
-                maxLength={32}
-                autoFocus={fromVerification}
+                label={t('members.form.nationalId')}
+                value={maskNationalId(savedNationalId)}
+                verified={verifiedFieldsOf(member).includes('nationalId')}
+                hint={t('members.form.nationalIdLockedHint')}
+                error={fieldErrors.nationalId}
               />
-            </Field>
+            )}
+
+            {typesNationalId && (
+              <Field
+                id="nationalId"
+                label={
+                  isEdit && !savedNationalId
+                    ? `${t('members.form.nationalId')} ${t('members.form.optional')}`
+                    : t('members.form.nationalId')
+                }
+                error={nationalIdMessage}
+                aside={
+                  !nationalIdMasked && (
+                    <span
+                      id="nationalId-count"
+                      className={`shrink-0 text-xs tabular-nums ${
+                        nationalIdLength === NATIONAL_ID_LENGTH && !nationalIdError ? 'text-primary' : 'text-muted'
+                      }`}
+                    >
+                      {t('members.form.nationalIdCount', { count: nationalIdLength, total: NATIONAL_ID_LENGTH })}
+                    </span>
+                  )
+                }
+              >
+                <input
+                  id="nationalId"
+                  inputMode="numeric"
+                  autoComplete="off"
+                  value={nationalIdMasked ? maskNationalId(values.nationalId) : values.nationalId}
+                  readOnly={nationalIdMasked}
+                  required={!isEdit || Boolean(savedNationalId)}
+                  aria-invalid={nationalIdMessage ? 'true' : undefined}
+                  aria-describedby={
+                    [nationalIdMessage && 'nationalId-error', !nationalIdMasked && 'nationalId-count']
+                      .filter(Boolean)
+                      .join(' ') || undefined
+                  }
+                  onFocus={() => setNationalIdMasked(false)}
+                  onBlur={() => {
+                    setNationalIdTouched(true)
+                    if (isEdit && values.nationalId && values.nationalId === (member.nationalId ?? '')) setNationalIdMasked(true)
+                  }}
+                  onChange={(event) => setNationalId(event.target.value)}
+                  className={inputClass}
+                  // Room for the spaces of "1199 8800 1234 5678"; the counter counts the digits.
+                  maxLength={32}
+                  autoFocus={fromVerification}
+                />
+              </Field>
+            )}
 
             {!isEdit && !addressVerified && addressField}
           </div>

@@ -28,9 +28,15 @@ export function cleanNationalId(value) {
   return (value ?? '').replace(/\s+/g, '')
 }
 
-// The members search: a whole national ID (spaces allowed) is sent as its 16 digits, so the
-// backend finds the member by it. Anything else is sent as typed.
+// The backend finds a member by any whole national ID of 6 to 20 letters or digits: a typed
+// 16-digit one, or one from the identity check.
+export const SEARCHABLE_NATIONAL_ID = /^[A-Za-z0-9]{6,20}$/
+
+// The members search: a whole national ID typed with spaces ("1199 8800 1234 5678") is sent
+// without them, so the backend finds the member by it. Only a term with a digit is joined, so a
+// name such as "Jean Paul" is still searched as typed. Anything else is sent as typed.
 export function memberSearchTerm(search) {
-  const digits = cleanNationalId(search)
-  return NATIONAL_ID_PATTERN.test(digits) ? digits : search
+  if (!/\s/.test(search)) return search
+  const joined = cleanNationalId(search)
+  return SEARCHABLE_NATIONAL_ID.test(joined) && /[0-9]/.test(joined) ? joined : search
 }
