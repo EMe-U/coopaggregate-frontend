@@ -384,7 +384,9 @@
       "SHARED": "Cyagabanyijwe",
       "FILLING": "Kiruzuzwa",
       "FULL": "Cyuzuye",
-      "OLDER": "Ikirundo cya kera"
+      "OLDER": "Ikirundo cya kera",
+      "EMPTIED": "Cyasigaye ubusa",
+      "unknown": "Uko gihagaze ntikuzwi"
     },
     "balance": {
       "title": "Iringaniza ry'ububiko",
@@ -420,12 +422,14 @@
       "error": "Ntibishobotse kubona ibirundo.",
       "fill": "Uko cyuzuye",
       "fillingSince": "{{date}} – kiruzuzwa",
-      "stillFilling": "kiruzuzwa"
+      "stillFilling": "kiruzuzwa",
+      "noActive": "Nta kirundo kiruzuzwa cyangwa cyuzuye. Hitamo uko gihagaze kundi kugira ngo urebe ibyagurishijwe, ibyasigaye ubusa cyangwa ibya kera."
     },
     "filters": {
       "status": "Uko gihagaze",
       "grade": "Urwego",
-      "all": "Byose"
+      "all": "Byose",
+      "active": "Ibikiri gukoreshwa"
     },
     "loss": {
       "subtitle": "Andika ibyaboze, ibyangiritse cyangwa ibindi byatakaye kugira ngo ububiko bube ukuri.",
@@ -502,7 +506,8 @@
       "memberRemaining": "Bisigaye",
       "lossSharesTitle": "Uruhare rwa buri munyamuryango mu byangiritse",
       "lossSharesHint": "Buri gihombo kigabanywa hakurikijwe ibyo buri munyamuryango yari asigaranye mu kirundo. Ibiro byamaze kugurishwa ntibibarwamo.",
-      "ofDelivery": "kuri {{kg}}"
+      "ofDelivery": "kuri {{kg}}",
+      "paidBySales": "Abanyamuryango bishyuwe kuri buri igurisha. Reba raporo z'amafaranga yabo."
     },
     "actions": {
       "column": "Ibikorwa",
@@ -515,7 +520,9 @@
       "SOLD": "Cyagurishijwe: nta kintu gisigaye muri iki kirundo.",
       "FILLING": "Kiruzuzwa: ibyagemuwe byemejwe by'uru rwego bijyamo kugeza cyuzuye. Ibirayi byacyo bishobora kugurishwa.",
       "FULL": "Cyuzuye: cyageze ku ngano yacyo. Ibigemurwa bishya bijya mu kirundo gikurikira.",
-      "OLDER": "Ikirundo cya kera, cyo mbere y'ibirundo bifite ingano idahinduka. Nticyongerwamo ibiro bishya kandi ni cyo kigurishwa mbere"
+      "OLDER": "Ikirundo cya kera, cyo mbere y'ibirundo bifite ingano idahinduka. Nticyongerwamo ibiro bishya kandi ni cyo kigurishwa mbere",
+      "EMPTIED": "Ibyagemuwe byose byavanyweho cyangwa birakosorwa mbere y'uko hagira ikigurishwa. Nta kintu gisigaye cyo kugurisha cyangwa kugabanya.",
+      "unknown": "Uko gihagaze uru rupapuro rutazi: {{status}}"
     },
     "pendingConfirmation": "muri byo {{kg}} bitegereje kwemezwa",
     "split": {
@@ -530,7 +537,10 @@
       "value": "{{filled}} / {{capacity}} kg",
       "label": "Uko cyuzuye",
       "shortfall": "Haburamo {{kg}}",
-      "shortfallHelp": "Ibi biro byakuwemo n'igemura ryavanyweho nyuma y'uko ikirundo cyuzuye. Ikirundo cyuzuye ntikigera cyongera kuzuzwa."
+      "shortfallHelp": "Ibi biro byakuwemo n'igemura ryavanyweho nyuma y'uko ikirundo cyuzuye. Ikirundo cyuzuye ntikigera cyongera kuzuzwa.",
+      "emptied": "0 kuri {{capacity}} kg",
+      "soldOut": "Cyagurishijwe cyose",
+      "soldKg": "Hagurishijwe {{kg}}"
     },
     "cell": {
       "count_one": "Ikirundo {{count}}",
@@ -1479,7 +1489,17 @@
       "members.form.consent.label",
       "members.form.consent.link",
       "members.form.consent.linkLabel",
-      "members.form.consent.required"
+      "members.form.consent.required",
+      "lots.status.EMPTIED",
+      "lots.status.unknown",
+      "lots.statusHelp.EMPTIED",
+      "lots.statusHelp.unknown",
+      "lots.fill.emptied",
+      "lots.fill.soldOut",
+      "lots.fill.soldKg",
+      "lots.filters.active",
+      "lots.table.noActive",
+      "lots.detail.paidBySales"
     ]
   },
   "publicHome": {

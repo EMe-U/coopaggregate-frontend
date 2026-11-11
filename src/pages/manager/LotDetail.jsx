@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, Boxes, HandCoins, TriangleAlert, Truck, Users } from 'lucide-react'
+import { ArrowLeft, Boxes, HandCoins, Info, TriangleAlert, Truck, Users } from 'lucide-react'
 import { getLot, listLosses } from '../../api/lots'
 import EmptyState from '../../components/EmptyState'
 import GradeName from '../../components/GradeName'
@@ -207,6 +207,13 @@ export default function LotDetail() {
             <GradeName name={lot.gradeName} /> · {t('lots.detail.opened', { date: formatDate(lot.createdAt) })}
             {lot.closedAt && <> · {t(lot.olderLot ? 'lots.detail.endedOn' : 'lots.detail.fullOn', { date: formatDate(lot.closedAt) })}</>}
           </p>
+          {/* A fixed-size lot is never shared: each sale pays its members. An emptied lot had no sale. */}
+          {!lot.olderLot && lot.capacityKg != null && (
+            <p data-testid="lot-payment-note" className="mt-2 flex items-start gap-1.5 text-sm text-muted">
+              <Info size={16} className="mt-0.5 shrink-0" aria-hidden="true" />
+              {lot.status === 'EMPTIED' ? t('lots.statusHelp.EMPTIED') : t('lots.detail.paidBySales')}
+            </p>
+          )}
         </div>
 
         <div className="flex flex-wrap gap-2">
