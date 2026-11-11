@@ -33,7 +33,7 @@ export default function Members() {
 
   const [search, setSearch] = useState('')
   const [status, setStatus] = useState('all')
-  // A whole national ID typed with spaces is searched as its 16 digits.
+  // A whole national ID typed with spaces is searched without them.
   const debouncedSearch = useDebouncedValue(memberSearchTerm(search.trim()), 300)
 
   const [page, setPage] = useState(0)
