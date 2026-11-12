@@ -4,6 +4,7 @@ import { Boxes } from 'lucide-react'
 import { listGrades } from '../../api/grades'
 import { listActiveLots, listLots } from '../../api/lots'
 import EmptyState from '../EmptyState'
+import FilterMenu from '../FilterMenu'
 import GradeName from '../GradeName'
 import Pagination from '../Pagination'
 import usePageSize from '../../hooks/usePageSize'
@@ -17,8 +18,6 @@ import useGradeName from '../../hooks/useGradeName'
 // it: each has its own choice, and "All" also lists the older lots (from before fixed-size lots).
 const STATUS_FILTERS = ['active', 'SOLD', 'EMPTIED', 'all']
 
-const selectClass =
-  'min-h-11 rounded-lg border border-transparent bg-background px-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20'
 
 function LotDates({ lot }) {
   const { t } = useTranslation()
@@ -48,6 +47,7 @@ export default function LotsTable({ reloadKey, onRecordLoss }) {
   const { t } = useTranslation()
   const gradeName = useGradeName()
   const pageSize = usePageSize()
+  const filterValue = (filter, value) => t('lots.filters.value', { filter, value })
 
   const [grades, setGrades] = useState([])
   const [status, setStatus] = useState('active')
@@ -239,41 +239,35 @@ export default function LotsTable({ reloadKey, onRecordLoss }) {
           <h2 className="text-lg font-semibold text-text">{t('lots.table.title')}</h2>
           <p className="text-sm text-muted">{t('lots.table.subtitle')}</p>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <select
-            aria-label={t('lots.filters.status')}
+        <div className="-mr-2 ml-auto flex flex-wrap items-center justify-end gap-x-1">
+          <FilterMenu
+            name={t('lots.filters.status')}
             value={status}
-            onChange={(event) => {
-              setStatus(event.target.value)
+            defaultValue="active"
+            options={STATUS_FILTERS.map((value) => ({
+              value,
+              label: value === 'active' ? t('lots.filters.active') : value === 'all' ? t('lots.filters.all') : lotStatusLabel(t, value),
+            }))}
+            valueLabel={filterValue}
+            onChange={(value) => {
+              setStatus(value)
               setPage(0)
             }}
-            className={selectClass}
-          >
-            {STATUS_FILTERS.map((value) => (
-              <option key={value} value={value}>
-                {t('lots.filters.status')}:{' '}
-                {value === 'active' ? t('lots.filters.active') : value === 'all' ? t('lots.filters.all') : lotStatusLabel(t, value)}
-              </option>
-            ))}
-          </select>
-          <select
-            aria-label={t('lots.filters.grade')}
+          />
+          <FilterMenu
+            name={t('lots.filters.grade')}
             value={gradeId}
-            onChange={(event) => {
-              setGradeId(event.target.value)
+            defaultValue=""
+            options={[
+              { value: '', label: t('lots.filters.all') },
+              ...grades.map((grade) => ({ value: String(grade.id), label: gradeName(grade.name) })),
+            ]}
+            valueLabel={filterValue}
+            onChange={(value) => {
+              setGradeId(value)
               setPage(0)
             }}
-            className={selectClass}
-          >
-            <option value="">
-              {t('lots.filters.grade')}: {t('lots.filters.all')}
-            </option>
-            {grades.map((grade) => (
-              <option key={grade.id} value={grade.id}>
-                {gradeName(grade.name)}
-              </option>
-            ))}
-          </select>
+          />
         </div>
       </div>
       {renderBody()}

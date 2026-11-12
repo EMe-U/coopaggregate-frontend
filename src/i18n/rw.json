@@ -429,7 +429,8 @@
       "status": "Uko gihagaze",
       "grade": "Urwego",
       "all": "Byose",
-      "active": "Ibikiri gukoreshwa"
+      "active": "Ibikiri gukoreshwa",
+      "value": "{{filter}}: {{value}}"
     },
     "loss": {
       "subtitle": "Andika ibyaboze, ibyangiritse cyangwa ibindi byatakaye kugira ngo ububiko bube ukuri.",
@@ -1522,6 +1523,7 @@
       "lots.fill.soldOut",
       "lots.fill.soldKg",
       "lots.filters.active",
+      "lots.filters.value",
       "lots.table.noActive",
       "lots.detail.paidBySales",
       "payments.subtitle",
