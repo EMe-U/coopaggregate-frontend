@@ -429,7 +429,8 @@
       "status": "Status",
       "grade": "Grade",
       "all": "All",
-      "active": "Active"
+      "active": "Active",
+      "value": "{{filter}}: {{value}}"
     },
     "loss": {
       "subtitle": "Record rot, damage or other losses so the stock stays correct.",
