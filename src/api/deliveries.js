@@ -9,11 +9,12 @@ export async function recordDelivery(delivery, config) {
 
 // from and to are whole days (YYYY-MM-DD, Kigali time), both inclusive. Newest first.
 // Reversed deliveries are left out unless includeReversed is true; lists that show the history
-// ask for them, while totals and checks never count them. confirmationStatus (PENDING, CONFIRMED,
-// DISPUTED) and deliveredBefore (a timestamp) narrow the list for the dashboard's follow-ups.
+// ask for them, while totals and checks never count them.
 // status (PENDING, CONFIRMED, DISPUTED or REVERSED) overrides includeReversed: REVERSED lists only
 // reversed deliveries, the others only deliveries that are not reversed. search matches part of the
-// member's name, the member number or the receipt code. All filters combine.
+// member's name, the member number or the receipt code. createdBefore (an ISO timestamp, strictly
+// before) compares to when the server saved the delivery, as the dashboard counts late confirmations.
+// All filters combine.
 export async function listDeliveries({
   page = 0,
   size = 20,
@@ -25,16 +26,14 @@ export async function listDeliveries({
   includeReversed,
   status,
   search,
-  confirmationStatus,
-  deliveredBefore,
+  createdBefore,
 } = {}) {
   const params = { page, size }
   if (includeReversed) params.includeReversed = true
   if (status) params.status = status
   if (search?.trim()) params.search = search.trim()
   if (gradeId) params.gradeId = gradeId
-  if (confirmationStatus) params.confirmationStatus = confirmationStatus
-  if (deliveredBefore) params.deliveredBefore = deliveredBefore
+  if (createdBefore) params.createdBefore = createdBefore
   if (memberId) params.memberId = memberId
   if (lotId) params.lotId = lotId
   if (from) params.from = from

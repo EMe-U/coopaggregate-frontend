@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { ArrowLeft } from 'lucide-react'
@@ -17,10 +17,8 @@ const STATUSES = ['PENDING', 'CONFIRMED', 'DISPUTED']
 
 // Deliveries filtered by confirmation status, opened from the dashboard's "Needs attention":
 // /deliveries?status=DISPUTED, or /deliveries?status=PENDING&olderThanHours=48.
-// The list asks for status (the backend's filter: not reversed, with that confirmation status), so the
-// disputed list matches the dashboard's count. The backend cannot yet filter "waiting longer than 48
-// hours" (counted from when the server saved the delivery), so that link still sends its old
-// parameters, which the backend ignores, until it can.
+// Both lists use the same filters as the dashboard's counts: status (not reversed, with that confirmation
+// status) and, for the late ones, createdBefore (saved by the server more than olderThanHours ago).
 export default function Deliveries() {
   const { t } = useTranslation()
   const pageSize = usePageSize()
@@ -32,6 +30,11 @@ export default function Deliveries() {
   const [result, setResult] = useState(null)
   const [loadError, setLoadError] = useState(false)
   const [reloadKey, setReloadKey] = useState(0)
+  // Fixed while paging, so a delivery cannot move between pages as time passes; a reload takes a new one.
+  const createdBefore = useMemo(
+    () => (olderThanHours ? new Date(Date.now() - olderThanHours * 60 * 60 * 1000).toISOString() : undefined),
+    [olderThanHours, reloadKey],
+  )
 
   useEffect(() => {
     setPage(0)
@@ -40,11 +43,7 @@ export default function Deliveries() {
   useEffect(() => {
     let ignore = false
     setLoadError(false)
-    const deliveredBefore = olderThanHours
-      ? new Date(Date.now() - olderThanHours * 60 * 60 * 1000).toISOString()
-      : undefined
-    const filters = olderThanHours ? { confirmationStatus: status, deliveredBefore } : { status: status ?? undefined }
-    listDeliveries({ ...filters, page, size: pageSize })
+    listDeliveries({ status: status ?? undefined, createdBefore, page, size: pageSize })
       .then((data) => {
         if (!ignore) setResult(data)
       })
@@ -54,7 +53,7 @@ export default function Deliveries() {
     return () => {
       ignore = true
     }
-  }, [status, olderThanHours, page, pageSize, reloadKey])
+  }, [status, createdBefore, page, pageSize, reloadKey])
 
   const deliveries = result?.content ?? []
   const sharedLots = useSharedLots(deliveries.map((delivery) => delivery.lotId), reloadKey)
