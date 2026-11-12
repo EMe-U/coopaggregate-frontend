@@ -1877,5 +1877,50 @@
       }
     ],
     "link": "Privacy notice"
+  },
+  "allDeliveries": {
+    "tabs": {
+      "label": "Deliveries",
+      "record": "Record",
+      "all": "All deliveries"
+    },
+    "title": "All deliveries",
+    "viewDetails": "View details",
+    "queue": {
+      "title": "Waiting to sync on this device",
+      "empty": "Nothing waiting"
+    },
+    "filters": {
+      "search": "Search",
+      "searchPlaceholder": "Name, member number or receipt code",
+      "from": "From",
+      "to": "To",
+      "status": "Status",
+      "grade": "Grade",
+      "allGrades": "All grades",
+      "clear": "Clear filters",
+      "rangeInvalid": "The \"From\" date is after the \"To\" date."
+    },
+    "status": {
+      "all": "All",
+      "PENDING": "Waiting for confirmation",
+      "CONFIRMED": "Confirmed",
+      "DISPUTED": "Disputed",
+      "REVERSED": "Reversed"
+    },
+    "columns": {
+      "date": "Date and time",
+      "receipt": "Receipt code",
+      "member": "Member",
+      "grade": "Grade",
+      "kg": "Kg",
+      "lot": "Lot",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "empty": "No deliveries recorded yet.",
+    "noResults": "No deliveries match these filters.",
+    "error": "Could not load the deliveries.",
+    "offline": "You are offline. The deliveries saved on the server show again when the internet is back."
   }
 }

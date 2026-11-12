@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Lightbulb, Save, WifiOff } from 'lucide-react'
+import { ClipboardList, Lightbulb, PackagePlus, Save, WifiOff } from 'lucide-react'
 import { recordDelivery } from '../../api/deliveries'
+import AllDeliveries from '../../components/deliveries/AllDeliveries'
 import DeliveryConfirmation from '../../components/deliveries/DeliveryConfirmation'
 import DeliveryReceipt from '../../components/deliveries/DeliveryReceipt'
 import DuplicateWarning from '../../components/deliveries/DuplicateWarning'
@@ -57,10 +59,75 @@ function FieldError({ message }) {
   return message ? <p className="mt-1 text-sm text-danger">{message}</p> : null
 }
 
+const TABS = [
+  { key: 'record', icon: PackagePlus },
+  { key: 'all', icon: ClipboardList },
+]
+
+// Record | All deliveries. The arrow keys, Home and End move between the tabs (the selected one is
+// the only tab stop).
+function Tabs({ active, onChange }) {
+  const { t } = useTranslation()
+  const refs = useRef({})
+
+  function handleKeyDown(event) {
+    const index = TABS.findIndex((tab) => tab.key === active)
+    let next
+    if (event.key === 'ArrowRight') next = (index + 1) % TABS.length
+    else if (event.key === 'ArrowLeft') next = (index - 1 + TABS.length) % TABS.length
+    else if (event.key === 'Home') next = 0
+    else if (event.key === 'End') next = TABS.length - 1
+    else return
+    event.preventDefault()
+    onChange(TABS[next].key)
+    refs.current[TABS[next].key]?.focus()
+  }
+
+  return (
+    <div role="tablist" aria-label={t('allDeliveries.tabs.label')} className="flex gap-1 rounded-xl bg-surface p-1 shadow-sm sm:inline-flex print:hidden">
+      {TABS.map(({ key, icon: Icon }) => {
+        const selected = key === active
+        return (
+          <button
+            key={key}
+            ref={(element) => {
+              refs.current[key] = element
+            }}
+            type="button"
+            role="tab"
+            id={`delivery-tab-${key}`}
+            aria-selected={selected}
+            // The All deliveries panel is only on the page while its tab is selected.
+            aria-controls={key === 'record' || selected ? `delivery-panel-${key}` : undefined}
+            tabIndex={selected ? 0 : -1}
+            onClick={() => onChange(key)}
+            onKeyDown={handleKeyDown}
+            className={`flex min-h-11 flex-1 items-center justify-center gap-2 rounded-lg px-4 text-sm font-semibold sm:flex-none ${
+              selected ? 'bg-primary text-white' : 'text-muted hover:bg-background hover:text-text'
+            }`}
+          >
+            <Icon size={16} />
+            {t(`allDeliveries.tabs.${key}`)}
+          </button>
+        )
+      })}
+    </div>
+  )
+}
+
 export default function RecordDelivery() {
   const { t } = useTranslation()
   const isOnline = useOnlineStatus()
   const today = kigaliIsoDate()
+  // ?tab=all opens All deliveries. The Record tab stays mounted while hidden, so a half-typed
+  // delivery is still there when coming back.
+  const [searchParams, setSearchParams] = useSearchParams()
+  const tab = searchParams.get('tab') === 'all' ? 'all' : 'record'
+
+  function changeTab(key) {
+    if (key === tab) return
+    setSearchParams(key === 'all' ? { tab: 'all' } : {}, { replace: true })
+  }
 
   const [form, setForm] = useState(emptyForm)
   // Created once per delivery and reused on every retry, so a double tap or a retry after a
@@ -169,109 +236,125 @@ export default function RecordDelivery() {
         </div>
       )}
 
-      <div className="grid gap-6 lg:grid-cols-5">
-        <form
-          onSubmit={handleSubmit}
-          noValidate
-          className="min-w-0 space-y-5 rounded-xl bg-surface p-5 shadow-sm sm:p-6 lg:col-span-3 print:hidden"
-        >
-          <h1 className="text-lg font-semibold text-text">{t('deliveries.title')}</h1>
+      <Tabs active={tab} onChange={changeTab} />
 
-          {formError && (
-            <p role="alert" className="rounded-lg bg-danger/10 px-3 py-2 text-sm text-danger">
-              {formError}
-            </p>
-          )}
+      {tab === 'all' && (
+        <div role="tabpanel" id="delivery-panel-all" aria-labelledby="delivery-tab-all">
+          <AllDeliveries />
+        </div>
+      )}
 
-          <div>
-            <Label htmlFor="member-search">{t('deliveries.member.label')}</Label>
-            <MemberPicker
-              member={form.member}
-              onChange={(member) => setField('member', member)}
-              disabled={locked}
-              error={errors.member}
-            />
-            <FieldError message={errors.member && t(errors.member)} />
-          </div>
-
-          <DuplicateWarning memberId={form.member?.id} />
-
-          <div className="grid gap-5 sm:grid-cols-2">
-            <div>
-              <Label htmlFor="delivery-date">{t('deliveries.date.label')}</Label>
-              <input
-                id="delivery-date"
-                type="date"
-                value={form.date}
-                max={today}
-                onChange={(event) => setField('date', event.target.value)}
-                disabled={locked}
-                className="min-h-12 w-full rounded-lg border border-transparent bg-background px-3 text-base outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
-              />
-              <FieldError message={errors.date && t(errors.date)} />
-            </div>
-
-            <div>
-              <Label id="grade-label">{t('deliveries.grade.label')}</Label>
-              <GradeSelector
-                gradeId={form.grade?.id}
-                onChange={(grade) => setField('grade', grade)}
-                disabled={locked}
-              />
-              <FieldError message={errors.grade && t(errors.grade)} />
-            </div>
-          </div>
-
-          <div>
-            <Label htmlFor="quantity">{t('deliveries.quantity.label')}</Label>
-            <div className="relative">
-              <input
-                id="quantity"
-                type="text"
-                inputMode="decimal"
-                autoComplete="off"
-                value={form.quantityText}
-                onChange={(event) => setField('quantityText', event.target.value)}
-                disabled={locked}
-                aria-invalid={Boolean(errors.quantityText)}
-                className="min-h-12 w-full rounded-lg border border-transparent bg-background py-3 pl-3 pr-12 text-lg font-semibold outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
-              />
-              <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted">
-                {t('deliveries.quantity.unit')}
-              </span>
-            </div>
-            <FieldError message={errors.quantityText && t(errors.quantityText)} />
-          </div>
-
-          <LotAssignment gradeId={form.grade?.id} quantityKg={quantityKg > 0 ? quantityKg : null} />
-
-          <button
-            type="submit"
-            disabled={locked}
-            className="flex min-h-14 w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 text-base font-semibold text-white shadow-sm hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
+      <div
+        role="tabpanel"
+        id="delivery-panel-record"
+        aria-labelledby="delivery-tab-record"
+        hidden={tab !== 'record'}
+        className="space-y-6"
+      >
+        <div className="grid gap-6 lg:grid-cols-5">
+          <form
+            onSubmit={handleSubmit}
+            noValidate
+            className="min-w-0 space-y-5 rounded-xl bg-surface p-5 shadow-sm sm:p-6 lg:col-span-3 print:hidden"
           >
-            <Save size={18} />
-            {saving ? t('deliveries.saving') : t('deliveries.save')}
-          </button>
-        </form>
+            <h1 className="text-lg font-semibold text-text">{t('deliveries.title')}</h1>
 
-        <div className="min-w-0 space-y-6 lg:col-span-2">
-          {shownReceipt && <DeliveryReceipt delivery={shownReceipt} onRecordAnother={handleRecordAnother} />}
-          {pendingReceipt && !shownReceipt && (
-            <PendingReceipt delivery={queued ?? pendingReceipt} onRecordAnother={handleRecordAnother} />
-          )}
+            {formError && (
+              <p role="alert" className="rounded-lg bg-danger/10 px-3 py-2 text-sm text-danger">
+                {formError}
+              </p>
+            )}
 
-          <div className="rounded-xl bg-background p-4 text-sm ring-1 ring-text/5 print:hidden">
-            <p className="flex items-center gap-2 font-semibold text-text">
-              <Lightbulb size={16} />
-              {t('deliveries.tips.title')}
-            </p>
-            <p className="mt-1 text-muted">{t('deliveries.tips.text')}</p>
+            <div>
+              <Label htmlFor="member-search">{t('deliveries.member.label')}</Label>
+              <MemberPicker
+                member={form.member}
+                onChange={(member) => setField('member', member)}
+                disabled={locked}
+                error={errors.member}
+              />
+              <FieldError message={errors.member && t(errors.member)} />
+            </div>
+
+            <DuplicateWarning memberId={form.member?.id} />
+
+            <div className="grid gap-5 sm:grid-cols-2">
+              <div>
+                <Label htmlFor="delivery-date">{t('deliveries.date.label')}</Label>
+                <input
+                  id="delivery-date"
+                  type="date"
+                  value={form.date}
+                  max={today}
+                  onChange={(event) => setField('date', event.target.value)}
+                  disabled={locked}
+                  className="min-h-12 w-full rounded-lg border border-transparent bg-background px-3 text-base outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+                />
+                <FieldError message={errors.date && t(errors.date)} />
+              </div>
+
+              <div>
+                <Label id="grade-label">{t('deliveries.grade.label')}</Label>
+                <GradeSelector
+                  gradeId={form.grade?.id}
+                  onChange={(grade) => setField('grade', grade)}
+                  disabled={locked}
+                />
+                <FieldError message={errors.grade && t(errors.grade)} />
+              </div>
+            </div>
+
+            <div>
+              <Label htmlFor="quantity">{t('deliveries.quantity.label')}</Label>
+              <div className="relative">
+                <input
+                  id="quantity"
+                  type="text"
+                  inputMode="decimal"
+                  autoComplete="off"
+                  value={form.quantityText}
+                  onChange={(event) => setField('quantityText', event.target.value)}
+                  disabled={locked}
+                  aria-invalid={Boolean(errors.quantityText)}
+                  className="min-h-12 w-full rounded-lg border border-transparent bg-background py-3 pl-3 pr-12 text-lg font-semibold outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+                />
+                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted">
+                  {t('deliveries.quantity.unit')}
+                </span>
+              </div>
+              <FieldError message={errors.quantityText && t(errors.quantityText)} />
+            </div>
+
+            <LotAssignment gradeId={form.grade?.id} quantityKg={quantityKg > 0 ? quantityKg : null} />
+
+            <button
+              type="submit"
+              disabled={locked}
+              className="flex min-h-14 w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 text-base font-semibold text-white shadow-sm hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              <Save size={18} />
+              {saving ? t('deliveries.saving') : t('deliveries.save')}
+            </button>
+          </form>
+
+          <div className="min-w-0 space-y-6 lg:col-span-2">
+            {shownReceipt && <DeliveryReceipt delivery={shownReceipt} onRecordAnother={handleRecordAnother} />}
+            {pendingReceipt && !shownReceipt && (
+              <PendingReceipt delivery={queued ?? pendingReceipt} onRecordAnother={handleRecordAnother} />
+            )}
+
+            <div className="rounded-xl bg-background p-4 text-sm ring-1 ring-text/5 print:hidden">
+              <p className="flex items-center gap-2 font-semibold text-text">
+                <Lightbulb size={16} />
+                {t('deliveries.tips.title')}
+              </p>
+              <p className="mt-1 text-muted">{t('deliveries.tips.text')}</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <TodayDeliveries reloadKey={`${shownReceipt?.id}-${listKey}`} />
+        <TodayDeliveries reloadKey={`${shownReceipt?.id}-${listKey}`} />
+      </div>
 
       {askingCode && receipt && (
         <div className="fixed inset-0 z-40 flex items-center justify-center overflow-y-auto bg-black/40 p-4 print:hidden">

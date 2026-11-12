@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { ArrowLeft, ReceiptText, SearchX } from 'lucide-react'
 import { getDelivery } from '../../api/deliveries'
@@ -28,6 +28,9 @@ export default function DeliveryDetail() {
   const { t } = useTranslation()
   const { id } = useParams()
   const navigate = useNavigate()
+  // Opened from the All deliveries tab: the back link returns to it, with its filters.
+  const location = useLocation()
+  const backTo = location.state?.from?.startsWith('/record-delivery') ? location.state.from : '/record-delivery'
   const [delivery, setDelivery] = useState(null)
   const [loadState, setLoadState] = useState('loading')
   const [reloadKey, setReloadKey] = useState(0)
@@ -54,13 +57,13 @@ export default function DeliveryDetail() {
 
   // A correction is a new delivery with its own code, so the page moves to it.
   function handleChanged(updated) {
-    if (updated && updated.id !== delivery.id) navigate(`/deliveries/${updated.id}`)
+    if (updated && updated.id !== delivery.id) navigate(`/deliveries/${updated.id}`, { state: location.state })
     else if (updated) setDelivery(updated)
     else setReloadKey((key) => key + 1)
   }
 
   const backLink = (
-    <Link to="/record-delivery" className="inline-flex min-h-11 items-center gap-1.5 text-sm text-muted hover:text-primary">
+    <Link to={backTo} className="inline-flex min-h-11 items-center gap-1.5 text-sm text-muted hover:text-primary">
       <ArrowLeft size={16} />
       {t('deliveryDetail.back')}
     </Link>
