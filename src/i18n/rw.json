@@ -722,7 +722,12 @@
       "empty": "Nta munyamuryango urinjiza amafaranga. Ayo babereyemo agaragara iyo ibirayi byabo bimaze kugurishwa.",
       "noResults": "Nta munyamuryango uhuye n'ibyo washakishije.",
       "error": "Ntibishobotse kubona ayo babereyemo.",
-      "retry": "Ongera ugerageze"
+      "retry": "Ongera ugerageze",
+      "actions": "Ibikorwa",
+      "menu": "Ibikorwa kuri {{name}}",
+      "viewBreakdown": "Reba ibigize ayo abereyemo",
+      "recordPayment": "Andika ubwishyu",
+      "nothingToPay": "Nta cyo kwishyura: asigaje ni 0"
     },
     "form": {
       "title": "Andika ubwishyu",
@@ -1558,7 +1563,12 @@
       "payments.breakdown.balance",
       "reversal.payment.member",
       "reversal.payment.backToBalance",
-      "reversal.payment.smsWarning"
+      "reversal.payment.smsWarning",
+      "payments.balances.actions",
+      "payments.balances.menu",
+      "payments.balances.viewBreakdown",
+      "payments.balances.recordPayment",
+      "payments.balances.nothingToPay"
     ]
   },
   "publicHome": {

@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Banknote, Search, Wallet } from 'lucide-react'
+import { Banknote, Eye, HandCoins, Search, Wallet } from 'lucide-react'
 import { getBalances } from '../../api/payments'
 import useDebouncedValue from '../../hooks/useDebouncedValue'
+import ActionsMenu from '../ActionsMenu'
 import EmptyState from '../EmptyState'
 import { formatMoney } from '../../utils/format'
 
@@ -17,8 +18,31 @@ const statusStyles = {
 const controlClass =
   'min-h-11 rounded-lg border border-transparent bg-background text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20'
 
-// Clicking a row (or Enter on it) opens what the member's amounts are made of: onOpen(member).
-export default function BalancesTable({ reloadKey, selectedId, onOpen }) {
+// The ⋮ menu of a row: view the breakdown, or pick the member in the Record payment panel. Nothing
+// to pay keeps the item, greyed out, with the reason.
+function BalanceActionsMenu({ member, onOpen, onPay }) {
+  const { t } = useTranslation()
+  const nothingToPay = !(member.balanceRwf > 0)
+  return (
+    <ActionsMenu
+      label={t('payments.balances.menu', { name: member.memberName })}
+      actions={[
+        { key: 'breakdown', icon: Eye, label: t('payments.balances.viewBreakdown'), run: () => onOpen(member) },
+        {
+          key: 'pay',
+          icon: HandCoins,
+          label: t('payments.balances.recordPayment'),
+          run: () => onPay(member),
+          ...(nothingToPay && { disabled: true, title: t('payments.balances.nothingToPay') }),
+        },
+      ]}
+    />
+  )
+}
+
+// Each row has a ⋮ menu (keyboard: Tab to it, Enter, arrow keys). Clicking anywhere else on the row
+// is a shortcut to the breakdown: onOpen(member). onPay(member) selects the member for a payment.
+export default function BalancesTable({ reloadKey, selectedId, onOpen, onPay }) {
   const { t } = useTranslation()
 
   const [search, setSearch] = useState('')
@@ -79,6 +103,8 @@ export default function BalancesTable({ reloadKey, selectedId, onOpen }) {
     }
 
     const cell = 'px-3 py-3'
+    // On a narrow screen the table scrolls sideways: the Actions column stays in view at the right.
+    const pinned = 'max-lg:sticky max-lg:right-0 max-lg:bg-surface max-lg:shadow-[-6px_0_6px_-6px_rgba(0,0,0,0.15)]'
     const number = `${cell} text-right`
     return (
       <div className={`overflow-x-auto ${loading ? 'opacity-60' : ''}`}>
@@ -92,6 +118,7 @@ export default function BalancesTable({ reloadKey, selectedId, onOpen }) {
                 </th>
               ))}
               <th className="whitespace-nowrap px-3 py-2 font-semibold">{t('payments.balances.status')}</th>
+              <th className={`whitespace-nowrap px-3 py-2 font-semibold ${pinned}`}>{t('payments.balances.actions')}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-text/5">
@@ -101,9 +128,7 @@ export default function BalancesTable({ reloadKey, selectedId, onOpen }) {
                 <tr
                   key={member.memberId}
                   onClick={() => onOpen(member)}
-                  onKeyDown={(event) => event.key === 'Enter' && onOpen(member)}
-                  tabIndex={0}
-                  aria-label={t('payments.breakdown.open', { name: member.memberName })}
+                  title={t('payments.breakdown.open', { name: member.memberName })}
                   className={`cursor-pointer hover:bg-background/70 ${selected ? 'bg-primary-light/60' : ''}`}
                 >
                   <td className={`${cell} min-w-36`}>
@@ -118,6 +143,11 @@ export default function BalancesTable({ reloadKey, selectedId, onOpen }) {
                     <span className={`whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs font-medium ${statusStyles[member.status]}`}>
                       {t(`payments.status.${member.status}`)}
                     </span>
+                  </td>
+                  {/* The menu is drawn in a portal, but its events still reach the row: stop them
+                      here so choosing an item does not also open the breakdown. */}
+                  <td className={`px-1 py-1 text-right ${pinned}`} onClick={(event) => event.stopPropagation()} onKeyDown={(event) => event.stopPropagation()}>
+                    <BalanceActionsMenu member={member} onOpen={onOpen} onPay={onPay} />
                   </td>
                 </tr>
               )
