@@ -17,6 +17,10 @@ const STATUSES = ['PENDING', 'CONFIRMED', 'DISPUTED']
 
 // Deliveries filtered by confirmation status, opened from the dashboard's "Needs attention":
 // /deliveries?status=DISPUTED, or /deliveries?status=PENDING&olderThanHours=48.
+// The list asks for status (the backend's filter: not reversed, with that confirmation status), so the
+// disputed list matches the dashboard's count. The backend cannot yet filter "waiting longer than 48
+// hours" (counted from when the server saved the delivery), so that link still sends its old
+// parameters, which the backend ignores, until it can.
 export default function Deliveries() {
   const { t } = useTranslation()
   const pageSize = usePageSize()
@@ -39,7 +43,8 @@ export default function Deliveries() {
     const deliveredBefore = olderThanHours
       ? new Date(Date.now() - olderThanHours * 60 * 60 * 1000).toISOString()
       : undefined
-    listDeliveries({ confirmationStatus: status, deliveredBefore, page, size: pageSize })
+    const filters = olderThanHours ? { confirmationStatus: status, deliveredBefore } : { status: status ?? undefined }
+    listDeliveries({ ...filters, page, size: pageSize })
       .then((data) => {
         if (!ignore) setResult(data)
       })
