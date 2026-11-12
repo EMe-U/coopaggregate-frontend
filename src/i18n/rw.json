@@ -692,7 +692,7 @@
   "payments": {
     "eyebrow": "Ibikorwa by'imari",
     "title": "Kwishyura Abanyamuryango",
-    "subtitle": "Ishyura abanyamuryango umugabane wabo nyuma yo kugabanya ibirundo, kandi ukurikirane ayo buri wese asigaje.",
+    "subtitle": "Abanyamuryango babona amafaranga kuri buri igurisha ry'ibirayi byabo. Bishyure hano kandi ukurikirane ayo buri wese asigaje.",
     "totalOwed": "Ayo babereyemo yose",
     "paidThisWeek": "Ayishyuwe iki cyumweru",
     "methods": {
@@ -713,13 +713,13 @@
       "filterLabel": "Uko bihagaze",
       "allStatuses": "Byose",
       "member": "Umunyamuryango",
-      "share": "Umugabane",
+      "share": "Ayo yinjije",
       "deduction": "Ibikurwaho",
       "paidSoFar": "Ayamaze kwishyurwa",
       "balance": "Asigaye",
       "status": "Uko bihagaze",
       "pay": "Ishyura",
-      "empty": "Nta munyamuryango ufite umugabane. Ayo babereyemo agaragara nyuma yo kugabanya ikirundo.",
+      "empty": "Nta munyamuryango urinjiza amafaranga. Ayo babereyemo agaragara iyo ibirayi byabo bimaze kugurishwa.",
       "noResults": "Nta munyamuryango uhuye n'ibyo washakishije.",
       "error": "Ntibishobotse kubona ayo babereyemo.",
       "retry": "Ongera ugerageze"
@@ -753,7 +753,8 @@
         "dateFuture": "Itariki ntishobora kuba iri imbere",
         "generic": "Ntibishobotse kubika ubwishyu. Ongera ugerageze.",
         "serverUnreachable": "Ntibishoboka kugera kuri seriveri. Reba murandasi yawe wongere ugerageze."
-      }
+      },
+      "smsNote": "Umunyamuryango azabona SMS irimo amafaranga yishyuwe n'ayo asigaje."
     },
     "history": {
       "title": "Amateka y'ubwishyu",
@@ -769,6 +770,35 @@
       "noResults": "Nta bwishyu bukoresheje ubu buryo.",
       "error": "Ntibishobotse kubona ubwishyu.",
       "retry": "Ongera ugerageze"
+    },
+    "breakdown": {
+      "title": "Ayo {{name}} abereyemo",
+      "open": "Reba ibigize ayo {{name}} abereyemo",
+      "loading": "Biraza…",
+      "error": "Ntibishobotse kubona ibigize ayo uyu munyamuryango abereyemo.",
+      "changed": "Imibare yahindutse kuva urutonde rwazanwa. Iyi ni yo y'ubu.",
+      "salesTitle": "Igurisha",
+      "columns": {
+        "date": "Itariki",
+        "lot": "Ikirundo",
+        "buyer": "Umuguzi",
+        "kg": "Kg zagurishijwe",
+        "pricePerKg": "Igiciro/kg",
+        "amount": "Amafaranga",
+        "deduction": "Ibikurwaho",
+        "net": "Asigaye"
+      },
+      "card": "{{kg}} × {{price}} = {{amount}} · ibikurwaho {{deduction}}",
+      "olderShares": "Imigabane ku birundo bya kera ({{lots}})",
+      "total": "Igiteranyo",
+      "noSales": "Nta igurisha riraboneka kuri uyu munyamuryango.",
+      "paymentsTitle": "Ubwishyu bwakozwe",
+      "noPayments": "Nta bwishyu burakorwa.",
+      "totalPaid": "Ayishyuwe yose",
+      "balanceTitle": "Asigaye",
+      "earnedNet": "Yinjije (nyuma yo gukuraho)",
+      "paid": "Ayishyuwe",
+      "balance": "Asigaye kwishyurwa"
     }
   },
   "ledger": {
@@ -1044,8 +1074,12 @@
       "reverse": "Hagarika ubwishyu",
       "reverseTitle": "Guhagarika ubwishyu {{code}}?",
       "reverseExplanation": "Ubwishyu bugumye mu mateka, bwanditseho ko bwahagaritswe. Umunyamuryango azongera kubarirwaho aya mafaranga.",
-      "done": "Ubwishyu {{code}} bwahagaritswe"
-    }
+      "done": "Ubwishyu {{code}} bwahagaritswe",
+      "member": "Umunyamuryango",
+      "backToBalance": "Bisubira ku ayo asigaje",
+      "smsWarning": "Umunyamuryango azakira iyi mpamvu kuri SMS. Yandike ku buryo umunyamuryango ayumva."
+    },
+    "count": "{{count}}/{{max}}"
   },
   "confirmation": {
     "status": "Kwemezwa",
@@ -1499,7 +1533,32 @@
       "lots.fill.soldKg",
       "lots.filters.active",
       "lots.table.noActive",
-      "lots.detail.paidBySales"
+      "lots.detail.paidBySales",
+      "payments.subtitle",
+      "payments.balances.share",
+      "payments.balances.empty",
+      "payments.form.smsNote",
+      "payments.breakdown.title",
+      "payments.breakdown.open",
+      "payments.breakdown.loading",
+      "payments.breakdown.error",
+      "payments.breakdown.changed",
+      "payments.breakdown.salesTitle",
+      "payments.breakdown.columns",
+      "payments.breakdown.card",
+      "payments.breakdown.olderShares",
+      "payments.breakdown.total",
+      "payments.breakdown.noSales",
+      "payments.breakdown.paymentsTitle",
+      "payments.breakdown.noPayments",
+      "payments.breakdown.totalPaid",
+      "payments.breakdown.balanceTitle",
+      "payments.breakdown.earnedNet",
+      "payments.breakdown.paid",
+      "payments.breakdown.balance",
+      "reversal.payment.member",
+      "reversal.payment.backToBalance",
+      "reversal.payment.smsWarning"
     ]
   },
   "publicHome": {

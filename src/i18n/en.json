@@ -692,7 +692,7 @@
   "payments": {
     "eyebrow": "Financial operations",
     "title": "Member Payments & Settlements",
-    "subtitle": "Pay members their share after their lots are shared, and follow each member's balance.",
+    "subtitle": "Members earn money from each sale of their potatoes. Pay them here and follow each balance.",
     "totalOwed": "Total owed",
     "paidThisWeek": "Paid this week",
     "methods": {
@@ -713,13 +713,13 @@
       "filterLabel": "Status",
       "allStatuses": "All statuses",
       "member": "Member",
-      "share": "Share",
+      "share": "Earned",
       "deduction": "Deduction",
       "paidSoFar": "Paid so far",
       "balance": "Balance",
       "status": "Status",
       "pay": "Pay",
-      "empty": "No member has a share yet. Balances appear after a lot is shared.",
+      "empty": "No member has earned money yet. Balances appear once their potatoes are sold.",
       "noResults": "No member matches this search or filter.",
       "error": "Could not load the balances.",
       "retry": "Try again"
@@ -753,7 +753,8 @@
         "dateFuture": "The payment date cannot be in the future",
         "generic": "Could not save the payment. Please try again.",
         "serverUnreachable": "Cannot reach the server. Check your connection and try again."
-      }
+      },
+      "smsNote": "The member will get an SMS with the amount and their balance."
     },
     "history": {
       "title": "Payment history",
@@ -769,6 +770,35 @@
       "noResults": "No payments with this method.",
       "error": "Could not load payments.",
       "retry": "Try again"
+    },
+    "breakdown": {
+      "title": "Amounts owed: {{name}}",
+      "open": "Show what {{name}} is owed",
+      "loading": "Loading…",
+      "error": "Could not load this member's breakdown.",
+      "changed": "The figures changed since the list was loaded. These are the current ones.",
+      "salesTitle": "Sales",
+      "columns": {
+        "date": "Date",
+        "lot": "Lot",
+        "buyer": "Buyer",
+        "kg": "Kg sold",
+        "pricePerKg": "Price/kg",
+        "amount": "Amount",
+        "deduction": "Deduction",
+        "net": "Net"
+      },
+      "card": "{{kg}} × {{price}} = {{amount}} · deduction {{deduction}}",
+      "olderShares": "Older lot shares ({{lots}})",
+      "total": "Total",
+      "noSales": "No sales for this member yet.",
+      "paymentsTitle": "Payments made",
+      "noPayments": "No payments yet.",
+      "totalPaid": "Total paid",
+      "balanceTitle": "Balance",
+      "earnedNet": "Earned (after deductions)",
+      "paid": "Paid",
+      "balance": "Balance"
     }
   },
   "ledger": {
@@ -1044,8 +1074,12 @@
       "reverse": "Reverse payment",
       "reverseTitle": "Reverse payment {{code}}?",
       "reverseExplanation": "The payment stays in the history, marked as reversed. The member will be owed this amount again.",
-      "done": "Payment {{code}} reversed"
-    }
+      "done": "Payment {{code}} reversed",
+      "member": "Member",
+      "backToBalance": "Returns to their balance",
+      "smsWarning": "The member will receive this reason by SMS. Write it so the member understands it."
+    },
+    "count": "{{count}}/{{max}}"
   },
   "confirmation": {
     "status": "Confirmation",

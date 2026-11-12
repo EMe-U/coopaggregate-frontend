@@ -5,7 +5,9 @@ import useNeedsInternet from '../hooks/useNeedsInternet'
 
 // Asks for a required reason before reversing a record, or a note for other decisions (tone
 // "primary"; optional lets the text stay empty). onConfirm(text) sends the request; when it fails, the server's message is shown (for
-// example the 409 explaining why a record cannot be reversed) and the dialog stays open.
+// example the 409 explaining why a record cannot be reversed) and the dialog stays open. details is
+// shown under the summary (what the action changes); warning under the field label; maxLength with
+// showCount adds a live counter.
 export default function ReasonDialog({
   title,
   summary,
@@ -18,6 +20,10 @@ export default function ReasonDialog({
   requiredMessage,
   optional,
   tone = 'danger',
+  details,
+  warning,
+  maxLength = 500,
+  showCount = false,
 }) {
   const { t } = useTranslation()
   const needsInternet = useNeedsInternet()
@@ -72,6 +78,7 @@ export default function ReasonDialog({
           {title}
         </h2>
         {summary && <p className="mt-1 text-sm text-muted">{summary}</p>}
+        {details}
         <p id="reason-dialog-explanation" className="mt-3 rounded-lg bg-warning/15 p-3 text-sm text-amber-800">
           {explanation}
         </p>
@@ -79,11 +86,16 @@ export default function ReasonDialog({
         <label htmlFor="reason-dialog-reason" className="mt-4 mb-1.5 block text-sm font-medium text-text">
           {fieldLabel ?? t('reversal.reason')}
         </label>
+        {warning && (
+          <p id="reason-dialog-warning" className="mb-2 text-sm text-text">
+            {warning}
+          </p>
+        )}
         <textarea
           id="reason-dialog-reason"
           ref={reasonRef}
           rows={3}
-          maxLength={500}
+          maxLength={maxLength}
           value={reason}
           onChange={(event) => {
             setReason(event.target.value)
@@ -92,9 +104,22 @@ export default function ReasonDialog({
           placeholder={placeholder ?? t('reversal.reasonPlaceholder')}
           disabled={busy}
           aria-invalid={Boolean(reasonError)}
+          aria-describedby={[warning && 'reason-dialog-warning', showCount && 'reason-dialog-count'].filter(Boolean).join(' ') || undefined}
           className="w-full rounded-lg border border-transparent bg-background px-3 py-2 text-base outline-none placeholder:text-muted/70 focus:border-primary focus:ring-2 focus:ring-primary/20"
         />
-        {reasonError && <p className="mt-1 text-sm text-danger">{reasonError}</p>}
+        {(reasonError || showCount) && (
+          <div className="mt-1 flex items-start justify-between gap-2">
+            {reasonError ? <p className="min-w-0 text-sm text-danger">{reasonError}</p> : <span />}
+            {showCount && (
+              <span
+                id="reason-dialog-count"
+                className={`shrink-0 text-xs tabular-nums ${reason.length >= maxLength ? 'font-medium text-amber-800' : 'text-muted'}`}
+              >
+                {t('reversal.count', { count: reason.length, max: maxLength })}
+              </span>
+            )}
+          </div>
+        )}
 
         {error && (
           <p role="alert" className="mt-3 rounded-lg bg-danger/10 px-3 py-2 text-sm text-danger">
