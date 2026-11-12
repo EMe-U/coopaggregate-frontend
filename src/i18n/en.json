@@ -592,7 +592,8 @@
         "dateRequired": "Choose the sale date",
         "dateFuture": "The sale date cannot be in the future",
         "generic": "Could not save the sale. Please try again.",
-        "serverUnreachable": "Cannot reach the server. Check your connection and try again."
+        "serverUnreachable": "Cannot reach the server. Check your connection and try again.",
+        "noSkipping": "Lots cannot be skipped: a sale always uses the oldest lots first."
       }
     },
     "buyer": {
@@ -645,27 +646,16 @@
       "retry": "Try again"
     },
     "preview": {
-      "intro": "Sale to {{buyer}} on {{date}}. These are the lots the sale would use, first in first out, with each member's part. Check them, then save.",
+      "intro": "Sale to {{buyer}} on {{date}}. A sale always uses the oldest lots first. These are the lots it would use, with each member's part. Check them, then save.",
       "itemTitle": "{{grade}}: {{kg}} at {{price}} per kg",
       "stock": "Sellable now: {{sellable}} · Waiting for confirmation: {{waiting}} · Disputed: {{disputed}}",
       "belowFloor": "This price is below the floor price of the grade. The sale can still be saved.",
-      "skipLimit": "At most {{max}} lots can be skipped",
-      "skippedTitle_one": "{{count}} lot skipped",
-      "skippedTitle_other": "{{count}} lots skipped",
-      "useAgain": "Use again",
-      "skipReason": "Why are these lots skipped?",
-      "skipReasonPlaceholder": "For example: these potatoes are kept for seed",
-      "skipReasonShort": "Write at least {{min}} characters",
-      "skipReasonLong": "Write at most {{max}} characters",
-      "counter": "{{count}} / {{max}}",
       "totalAmount": "Sale amount",
       "totalDeduction": "Deduction ({{perKg}} per kg)",
       "totalNet": "Paid to members",
       "mayChange": "The sale checks the lots again when it is saved.",
       "back": "Back",
-      "checkAgain": "Check again",
-      "skipLot": "Skip lot",
-      "skipHint": "Pass over this whole lot. A reason is needed."
+      "checkAgain": "Check again"
     },
     "batches": {
       "member": "Member",

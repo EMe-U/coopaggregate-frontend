@@ -592,7 +592,8 @@
         "dateRequired": "Hitamo itariki y'igurisha",
         "dateFuture": "Itariki ntishobora kuba iri imbere",
         "generic": "Ntibishobotse kubika igurisha. Ongera ugerageze.",
-        "serverUnreachable": "Ntibishoboka kugera kuri seriveri. Reba murandasi yawe wongere ugerageze."
+        "serverUnreachable": "Ntibishoboka kugera kuri seriveri. Reba murandasi yawe wongere ugerageze.",
+        "noSkipping": "Nta kirundo gishobora gusimbukwa: igurisha rihera buri gihe ku birundo bya kera."
       }
     },
     "buyer": {
@@ -645,27 +646,16 @@
       "retry": "Ongera ugerageze"
     },
     "preview": {
-      "intro": "Igurisha kuri {{buyer}} ku wa {{date}}. Ibi ni ibirundo igurisha ryakoresha, uhereye ku bya mbere, n'uruhare rwa buri munyamuryango. Bigenzure, hanyuma ubike.",
+      "intro": "Igurisha kuri {{buyer}} ku wa {{date}}. Igurisha rihera buri gihe ku birundo bya kera. Ibi ni ibirundo ryakoresha, n'uruhare rwa buri munyamuryango. Bigenzure, hanyuma ubike.",
       "itemTitle": "{{grade}}: {{kg}} ku {{price}} kuri kg",
       "stock": "Ibishobora kugurishwa ubu: {{sellable}} · Bitegereje kwemezwa: {{waiting}} · Biri mu mpaka: {{disputed}}",
       "belowFloor": "Iki giciro kiri munsi y'igiciro fatizo cy'urwego. Igurisha rishobora kubikwa uko byagenda kose.",
-      "skipLimit": "Ntushobora gusimbuka ibirundo birenze {{max}}",
-      "skippedTitle_one": "Ikirundo {{count}} cyasimbutswe",
-      "skippedTitle_other": "Ibirundo {{count}} byasimbutswe",
-      "useAgain": "Ongera ubikoreshe",
-      "skipReason": "Kuki ibi birundo bisimbutswe?",
-      "skipReasonPlaceholder": "Urugero: ibi birayi bibikiwe imbuto",
-      "skipReasonShort": "Andika nibura inyuguti {{min}}",
-      "skipReasonLong": "Nturenze inyuguti {{max}}",
-      "counter": "{{count}} / {{max}}",
       "totalAmount": "Amafaranga y'igurisha",
       "totalDeduction": "Ibikurwaho ({{perKg}} kuri kg)",
       "totalNet": "Ahabwa abanyamuryango",
       "mayChange": "Igurisha ryongera kugenzura ibirundo iyo ribitswe.",
       "back": "Subira inyuma",
-      "checkAgain": "Ongera ugenzure",
-      "skipLot": "Simbuka ikirundo",
-      "skipHint": "Simbuka iki kirundo cyose. Hakenewe impamvu."
+      "checkAgain": "Ongera ugenzure"
     },
     "batches": {
       "member": "Umunyamuryango",
@@ -1419,13 +1409,8 @@
       "settings.lotSize.hint",
       "settings.lotSize.invalid",
       "sales.form.subtitle",
+      "sales.form.errors.noSkipping",
       "sales.preview.intro",
-      "sales.preview.skipLot",
-      "sales.preview.skipHint",
-      "sales.preview.skipLimit",
-      "sales.preview.skippedTitle_one",
-      "sales.preview.skippedTitle_other",
-      "sales.preview.skipReason",
       "sales.preview.mayChange",
       "sales.batches.lotHeading",
       "sales.batches.lotKg_one",
