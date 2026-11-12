@@ -1,6 +1,6 @@
 import client from './client'
 
-// One row per member who has a share: share, deduction, paid so far, balance and status,
+// One row per member who has earned money: earned (shareRwf), deduction, paid so far, balance and status,
 // plus the total owed and the amount paid this week for all members.
 export async function getBalances({ search, status } = {}) {
   const params = {}

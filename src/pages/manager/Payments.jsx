@@ -4,6 +4,7 @@ import { Wallet } from 'lucide-react'
 import { getBalances } from '../../api/payments'
 import PageTitle from '../../components/PageTitle'
 import SuccessToast from '../../components/SuccessToast'
+import BalanceBreakdown from '../../components/payments/BalanceBreakdown'
 import BalancesTable from '../../components/payments/BalancesTable'
 import PaymentHistory from '../../components/payments/PaymentHistory'
 import RecordPaymentPanel from '../../components/payments/RecordPaymentPanel'
@@ -25,6 +26,8 @@ export default function Payments() {
   // Loaded without filters: the header totals and the panel's member list cover everyone.
   const [balances, setBalances] = useState(null)
   const [selectedId, setSelectedId] = useState(null)
+  // The row whose breakdown is open.
+  const [breakdownOf, setBreakdownOf] = useState(null)
   // Bumped after a payment so the totals, the balances table and the history reload.
   const [reloadKey, setReloadKey] = useState(0)
   const [notice, setNotice] = useState('')
@@ -47,6 +50,7 @@ export default function Payments() {
   const noValue = t('members.statement.noValue')
 
   function handlePay(member) {
+    setBreakdownOf(null)
     setSelectedId(member.memberId)
     panelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
@@ -85,7 +89,7 @@ export default function Payments() {
 
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_22rem]">
         <div className="min-w-0">
-          <BalancesTable reloadKey={reloadKey} selectedId={selectedId} onPay={handlePay} />
+          <BalancesTable reloadKey={reloadKey} selectedId={selectedId} onOpen={setBreakdownOf} />
         </div>
         <RecordPaymentPanel
           ref={panelRef}
@@ -99,6 +103,9 @@ export default function Payments() {
 
       <PaymentHistory reloadKey={reloadKey} onChanged={handleReversed} />
 
+      {breakdownOf && (
+        <BalanceBreakdown member={breakdownOf} onClose={() => setBreakdownOf(null)} onPay={handlePay} />
+      )}
       {notice && <SuccessToast message={notice} onDone={clearNotice} />}
     </div>
   )

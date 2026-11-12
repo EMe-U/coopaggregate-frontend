@@ -17,7 +17,8 @@ const statusStyles = {
 const controlClass =
   'min-h-11 rounded-lg border border-transparent bg-background text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20'
 
-export default function BalancesTable({ reloadKey, selectedId, onPay }) {
+// Clicking a row (or Enter on it) opens what the member's amounts are made of: onOpen(member).
+export default function BalancesTable({ reloadKey, selectedId, onOpen }) {
   const { t } = useTranslation()
 
   const [search, setSearch] = useState('')
@@ -95,16 +96,15 @@ export default function BalancesTable({ reloadKey, selectedId, onPay }) {
           </thead>
           <tbody className="divide-y divide-text/5">
             {members.map((member) => {
-              const payable = member.balanceRwf > 0
               const selected = member.memberId === selectedId
               return (
                 <tr
                   key={member.memberId}
-                  onClick={payable ? () => onPay(member) : undefined}
-                  onKeyDown={payable ? (event) => event.key === 'Enter' && onPay(member) : undefined}
-                  tabIndex={payable ? 0 : undefined}
-                  aria-label={payable ? `${t('payments.balances.pay')} ${member.memberName}` : undefined}
-                  className={`${payable ? 'cursor-pointer hover:bg-background/70' : ''} ${selected ? 'bg-primary-light/60' : ''}`}
+                  onClick={() => onOpen(member)}
+                  onKeyDown={(event) => event.key === 'Enter' && onOpen(member)}
+                  tabIndex={0}
+                  aria-label={t('payments.breakdown.open', { name: member.memberName })}
+                  className={`cursor-pointer hover:bg-background/70 ${selected ? 'bg-primary-light/60' : ''}`}
                 >
                   <td className={`${cell} min-w-36`}>
                     <p className="font-medium text-text">{member.memberName}</p>

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Save } from 'lucide-react'
+import { MessageSquare, Save } from 'lucide-react'
 import { recordPayment } from '../../api/payments'
 import { formatMoney, kigaliIsoDate } from '../../utils/format'
 import useNeedsInternet from '../../hooks/useNeedsInternet'
@@ -161,6 +161,11 @@ export default function PaymentForm({ member, onSaved, onCancel }) {
           {errors.date && <p className="mt-1 text-sm text-danger">{errors.date}</p>}
         </div>
       </div>
+
+      <p className="flex items-start gap-2 rounded-lg bg-background px-3 py-2 text-sm text-muted">
+        <MessageSquare size={16} className="mt-0.5 shrink-0" aria-hidden="true" />
+        {t('payments.form.smsNote')}
+      </p>
 
       <div className="flex gap-2 pt-1">
         {onCancel && (
