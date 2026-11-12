@@ -4,8 +4,8 @@ import { X } from 'lucide-react'
 import { formatMoney } from '../../utils/format'
 import PaymentForm from './PaymentForm'
 
-// member: { memberId, memberName, owedRwf }
-export default function PaymentFormModal({ member, onClose, onSaved }) {
+// The Disburse dialog. member: { memberId, memberName, memberNumber, owedRwf }
+export default function PaymentFormModal({ member, onClose, onSaved, onRefused }) {
   const { t } = useTranslation()
 
   useEffect(() => {
@@ -29,6 +29,7 @@ export default function PaymentFormModal({ member, onClose, onSaved }) {
             <h2 id="payment-form-title" className="text-lg font-semibold text-text">
               {t('payments.form.modalTitle', { name: member.memberName })}
             </h2>
+            {member.memberNumber && <p className="font-mono text-xs text-muted">{member.memberNumber}</p>}
             <p className="text-sm text-muted">{t('payments.form.owed', { amount: formatMoney(member.owedRwf) })}</p>
           </div>
           <button
@@ -41,7 +42,7 @@ export default function PaymentFormModal({ member, onClose, onSaved }) {
           </button>
         </div>
         <div className="px-5 py-4">
-          <PaymentForm member={member} onSaved={onSaved} onCancel={onClose} />
+          <PaymentForm member={member} onSaved={onSaved} onCancel={onClose} onRefused={onRefused} />
         </div>
       </div>
     </div>

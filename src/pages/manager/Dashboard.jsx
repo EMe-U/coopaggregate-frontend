@@ -13,7 +13,7 @@ import { getDashboard } from '../../api/dashboard'
 const quickLinks = [
   { to: '/record-delivery', key: 'recordDelivery', icon: Truck, primary: true },
   { to: '/sales', key: 'recordSale', icon: ShoppingCart },
-  { to: '/payments', key: 'payment', icon: Banknote },
+  { to: '/disburse', key: 'payment', icon: Banknote },
 ]
 
 export default function Dashboard() {

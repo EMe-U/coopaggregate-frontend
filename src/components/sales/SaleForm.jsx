@@ -9,6 +9,7 @@ import BuyerPicker from './BuyerPicker'
 import SaleOrderLines from './SaleOrderLines'
 import SalePreview from './SalePreview'
 import SaleResult from './SaleResult'
+import { MAX_REFERENCE, MethodPicker, NEEDS_REFERENCE } from '../payments/PaymentForm'
 import useNeedsInternet from '../../hooks/useNeedsInternet'
 
 const PRICE_PATTERN = /^\d+$/
@@ -65,6 +66,9 @@ export default function SaleForm({ initialGradeName, onSaved }) {
   // By item key: { status, data, message }.
   const [previews, setPreviews] = useState({})
   const [formError, setFormError] = useState('')
+  // How the buyer paid the whole sale or order: asked before Save, sent with it.
+  const [payment, setPayment] = useState({ method: '', reference: '' })
+  const [paymentTried, setPaymentTried] = useState(false)
   const [saving, setSaving] = useState(false)
   const [result, setResult] = useState(null)
   // The clientUuid belongs to one attempt: the same request sent again keeps it, so a retry after
@@ -164,15 +168,26 @@ export default function SaleForm({ initialGradeName, onSaved }) {
   const canSave = step === 'preview' && allPreviewed && !saving && !needsInternet.offline
   const previewTotal = items.reduce((sum, item) => sum + (previews[item.key]?.data?.totalAmountRwf ?? 0), 0)
 
+  const paymentErrors = {
+    method: paymentTried && !payment.method ? t('sales.payment.methodRequired') : '',
+    reference:
+      paymentTried && NEEDS_REFERENCE.includes(payment.method) && !payment.reference.trim()
+        ? t('sales.payment.referenceRequired')
+        : '',
+  }
+
   async function handleSave() {
     if (!canSave) return
     setFormError('')
+    setPaymentTried(true)
+    if (!payment.method || (NEEDS_REFERENCE.includes(payment.method) && !payment.reference.trim())) return
+    const paid = { paymentMethod: payment.method, paymentReference: payment.reference.trim() || null }
 
     const single = items.length === 1
     const lines = items.map((item) => ({ gradeId: Number(item.gradeId), quantityKg: item.check.kg, pricePerKg: item.check.price }))
     const body = single
-      ? { ...lines[0], buyerId: form.buyer.id, soldAt: form.date }
-      : { buyerId: form.buyer.id, soldAt: form.date, items: lines }
+      ? { ...lines[0], buyerId: form.buyer.id, soldAt: form.date, ...paid }
+      : { buyerId: form.buyer.id, soldAt: form.date, items: lines, ...paid }
     const key = JSON.stringify({ single, body })
     if (attempt.current.key !== key) attempt.current = { key, uuid: crypto.randomUUID() }
 
@@ -199,6 +214,8 @@ export default function SaleForm({ initialGradeName, onSaved }) {
     setTried(false)
     setStep('edit')
     setPreviews({})
+    setPayment({ method: '', reference: '' })
+    setPaymentTried(false)
     setFormError('')
     setResult(null)
     attempt.current = { key: null, uuid: null }
@@ -276,6 +293,40 @@ export default function SaleForm({ initialGradeName, onSaved }) {
           {items.map((item) => (
             <SalePreview key={item.key} item={item} preview={previews[item.key]} />
           ))}
+
+          <fieldset className="space-y-4 rounded-lg border border-text/10 p-4" disabled={saving}>
+            <legend id="sale-payment-method" className="px-1 text-sm font-semibold text-text">
+              {t('sales.payment.question')}
+            </legend>
+            <div>
+              <MethodPicker
+                id="sale-payment-method"
+                value={payment.method}
+                onChange={(method) => setPayment((current) => ({ ...current, method }))}
+                disabled={saving}
+              />
+              {paymentErrors.method && <p className="mt-1 text-sm text-danger">{paymentErrors.method}</p>}
+            </div>
+            <div>
+              <label htmlFor="sale-payment-reference" className="mb-1.5 block text-sm font-medium text-text">
+                {NEEDS_REFERENCE.includes(payment.method) ? t('sales.payment.reference') : t('sales.payment.referenceOptional')}
+              </label>
+              <input
+                id="sale-payment-reference"
+                autoComplete="off"
+                maxLength={MAX_REFERENCE}
+                value={payment.reference}
+                onChange={(event) => setPayment((current) => ({ ...current, reference: event.target.value }))}
+                aria-invalid={Boolean(paymentErrors.reference)}
+                className={fieldClass}
+              />
+              {paymentErrors.reference ? (
+                <p className="mt-1 text-sm text-danger">{paymentErrors.reference}</p>
+              ) : (
+                NEEDS_REFERENCE.includes(payment.method) && <p className="mt-1 text-xs text-muted">{t('sales.payment.referenceHint')}</p>
+              )}
+            </div>
+          </fieldset>
 
           <div className="flex flex-wrap items-end justify-between gap-4 rounded-lg bg-background p-4">
             <div>

@@ -100,7 +100,7 @@ export function MoneyCards({ summary }) {
         {summary && (
           <>
             <p className={valueClass}>{formatMoney(summary.owedToMembersRwf)}</p>
-            <Link to="/payments" className={linkClass}>
+            <Link to="/disburse" className={linkClass}>
               {t('dashboard.cards.membersWaiting', { count: summary.membersAwaitingPayment })}
               <ArrowRight size={14} />
             </Link>

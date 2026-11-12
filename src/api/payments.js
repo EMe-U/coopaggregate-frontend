@@ -1,7 +1,8 @@
 import client from './client'
 
-// One row per member who has earned money: earned (shareRwf), deduction, paid so far, balance and status,
-// plus the total owed and the amount paid this week for all members.
+// One row per member who has earned money: earned (shareRwf), deduction, paid so far, balance, and
+// settlement (OWED while the balance is above 0, SETTLED once it is disbursed), plus the total owed and
+// the amount paid this week for all members. Not paged.
 export async function getBalances({ search, status } = {}) {
   const params = {}
   if (search) params.search = search
@@ -11,6 +12,7 @@ export async function getBalances({ search, status } = {}) {
   return response.data
 }
 
+// Disburses a member's whole balance: amountRwf must equal it (400 otherwise, or when nothing is owed).
 // The backend answers 201 for a new payment and 200 when a payment with the same clientUuid
 // was already saved, so a retry never pays a member twice.
 export async function recordPayment(payment) {

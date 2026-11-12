@@ -18,7 +18,8 @@
     "logout": "Logout",
     "soon": "soon",
     "publicSite": "Public site",
-    "publicSiteLabel": "Public site: open the home page, you stay logged in"
+    "publicSiteLabel": "Public site: open the home page, you stay logged in",
+    "disburse": "Disburse"
   },
   "publicNav": {
     "sendRequest": "Send Request",
@@ -564,7 +565,7 @@
     },
     "form": {
       "title": "Record sale",
-      "subtitle": "Sell by grade. The kg come from the grade's lots in the order they were filled, shared in proportion inside a lot.",
+      "subtitle": "Sell by grade. The kg come from the grade's lots in the order they were filled, split in proportion inside a lot.",
       "buyer": "Buyer",
       "date": "Sale date",
       "linesTitle": "Grades in this sale",
@@ -640,7 +641,7 @@
       "batchCount_other": "{{count}} batches",
       "orderLines_one": "{{count}} grade",
       "orderLines_other": "{{count}} grades",
-      "paidByLotShare": "Sold from lot {{lot}} before sales by grade: its members are paid through the lot share.",
+      "paidByLotShare": "Sold from lot {{lot}} before sales by grade: paid through lot share.",
       "noBatches": "No batch details were kept for this sale.",
       "empty": "No sales yet.",
       "error": "Could not load sales.",
@@ -668,10 +669,18 @@
       "deduction": "Deduction",
       "net": "Net to member",
       "money": "Money",
-      "paidByLotShare": "Paid through the lot share",
+      "paidByLotShare": "Paid through lot share",
       "lotHeading": "Lot",
       "lotKg_one": "{{kg}} from {{count}} delivery",
       "lotKg_other": "{{kg}} from {{count}} deliveries"
+    },
+    "payment": {
+      "question": "How did the buyer pay?",
+      "reference": "Reference #",
+      "referenceOptional": "Reference # (optional)",
+      "referenceHint": "The transaction ID",
+      "methodRequired": "Choose how the buyer paid",
+      "referenceRequired": "Enter the transaction reference"
     }
   },
   "pagination": {
@@ -681,9 +690,9 @@
     "label": "Pages"
   },
   "payments": {
-    "eyebrow": "Financial operations",
-    "title": "Member Payments & Settlements",
-    "subtitle": "Members earn money from each sale of their potatoes. Pay them here and follow each balance.",
+    "eyebrow": "Money out",
+    "title": "Disburse to farmers",
+    "subtitle": "Farmers earn from every sale of their potatoes. Disburse each farmer's whole balance here and follow what is owed.",
     "totalOwed": "Total owed",
     "paidThisWeek": "Paid this week",
     "methods": {
@@ -692,86 +701,69 @@
       "MOBILE_MONEY": "Mobile money",
       "BANK": "Bank"
     },
-    "status": {
-      "UNPAID": "Unpaid",
-      "PART_PAID": "Part paid",
-      "PAID": "Paid"
-    },
     "balances": {
-      "title": "Amounts owed summary",
-      "searchLabel": "Search members",
-      "searchPlaceholder": "Search member",
-      "filterLabel": "Status",
-      "allStatuses": "All statuses",
-      "member": "Member",
-      "share": "Earned",
-      "deduction": "Deduction",
-      "paidSoFar": "Paid so far",
+      "title": "Farmers and what they are owed",
+      "searchLabel": "Search farmers",
+      "searchPlaceholder": "Search farmer",
       "balance": "Balance",
       "status": "Status",
-      "pay": "Pay",
-      "empty": "No member has earned money yet. Balances appear once their potatoes are sold.",
-      "noResults": "No member matches this search or filter.",
+      "empty": "No farmer has earned money yet. Balances appear once their potatoes are sold.",
+      "noResults": "No farmer matches this search or filter.",
       "error": "Could not load the balances.",
       "retry": "Try again",
       "actions": "Actions",
       "menu": "Actions for {{name}}",
-      "viewBreakdown": "View breakdown",
-      "recordPayment": "Record payment",
-      "nothingToPay": "Nothing to pay: the balance is 0"
+      "farmer": "Farmer",
+      "earned": "Earned",
+      "deductions": "Deductions",
+      "paid": "Paid",
+      "all": "All",
+      "viewEarnings": "View earnings",
+      "disburse": "Disburse",
+      "noneOwed": "No farmer is owed money right now."
     },
     "form": {
-      "title": "Record payment",
-      "modalTitle": "Pay {{name}}",
-      "member": "Member",
-      "chooseMember": "Choose a member with a balance",
-      "noMembers": "Nobody has a balance to pay.",
+      "title": "Disburse",
+      "modalTitle": "Disburse to {{name}}",
       "owed": "Owed: {{amount}}",
-      "amount": "Amount (RWF)",
-      "maxAllowed": "Max allowed: {{amount}}",
+      "amount": "Amount to disburse",
       "method": "Payment method",
       "reference": "Reference #",
       "referenceOptional": "Reference # (optional)",
       "referenceHint": "The transaction ID",
-      "date": "Date",
       "cancel": "Cancel",
       "close": "Close",
-      "save": "Save payment",
-      "saving": "Saving...",
-      "saved": "Payment recorded",
+      "save": "Disburse",
+      "saving": "Disbursing...",
+      "saved": "Disbursement recorded",
       "errors": {
-        "memberRequired": "Choose a member",
-        "amountRequired": "Enter the amount",
-        "amountInvalid": "Enter a whole number of RWF above 0",
-        "amountTooLarge": "The amount cannot be more than the {{amount}} owed",
         "referenceRequired": "Enter the transaction reference",
-        "dateRequired": "Choose the payment date",
-        "dateFuture": "The payment date cannot be in the future",
-        "generic": "Could not save the payment. Please try again.",
+        "generic": "Could not record the disbursement. Please try again.",
         "serverUnreachable": "Cannot reach the server. Check your connection and try again."
       },
-      "smsNote": "The member will get an SMS with the amount and their balance."
+      "smsNote": "The farmer will get an SMS with the amount.",
+      "fullBalance": "The farmer's whole balance. It cannot be changed."
     },
     "history": {
-      "title": "Payment history",
-      "paymentId": "Payment ID",
+      "title": "Disbursement history",
+      "paymentId": "Disbursement ID",
       "date": "Date",
-      "member": "Member",
+      "member": "Farmer",
       "amount": "Amount",
       "method": "Method",
       "reference": "Reference",
       "filterLabel": "Method",
       "all": "All methods",
-      "empty": "No payments yet.",
-      "noResults": "No payments with this method.",
-      "error": "Could not load payments.",
+      "empty": "No disbursements yet.",
+      "noResults": "No disbursements with this method.",
+      "error": "Could not load the disbursements.",
       "retry": "Try again"
     },
     "breakdown": {
-      "title": "Amounts owed: {{name}}",
-      "open": "Show what {{name}} is owed",
+      "title": "Earnings: {{name}}",
+      "open": "Show what {{name}} earned",
       "loading": "Loading…",
-      "error": "Could not load this member's breakdown.",
+      "error": "Could not load this farmer's earnings.",
       "changed": "The figures changed since the list was loaded. These are the current ones.",
       "salesTitle": "Sales",
       "columns": {
@@ -785,16 +777,21 @@
         "net": "Net"
       },
       "card": "{{kg}} × {{price}} = {{amount}} · deduction {{deduction}}",
-      "olderShares": "Older lot shares ({{lots}})",
+      "olderShares": "Paid through lot share ({{lots}})",
       "total": "Total",
-      "noSales": "No sales for this member yet.",
-      "paymentsTitle": "Payments made",
-      "noPayments": "No payments yet.",
-      "totalPaid": "Total paid",
+      "noSales": "No sales for this farmer yet.",
+      "paymentsTitle": "Disbursements",
+      "noPayments": "No disbursements yet.",
+      "totalPaid": "Total disbursed",
       "balanceTitle": "Balance",
       "earnedNet": "Earned (after deductions)",
       "paid": "Paid",
       "balance": "Balance"
+    },
+    "filterValue": "{{filter}}: {{value}}",
+    "settlement": {
+      "OWED": "Owed",
+      "SETTLED": "Settled"
     }
   },
   "ledger": {
@@ -904,7 +901,7 @@
     "quick": {
       "recordDelivery": "Record delivery",
       "recordSale": "Record sale",
-      "payment": "Payment"
+      "payment": "Disburse"
     },
     "error": "Could not load the overview. Please try again.",
     "retry": "Try again",
@@ -1913,5 +1910,52 @@
     "noResults": "No deliveries match these filters.",
     "error": "Could not load the deliveries.",
     "offline": "You are offline. The deliveries saved on the server show again when the internet is back."
+  },
+  "buyerPayments": {
+    "eyebrow": "Money in",
+    "pageTitle": "Payments from buyers",
+    "subtitle": "A buyer pays each order once, in full. Open a payment to see how it was split between the farmers. Paying the farmers is on Disburse.",
+    "title": "Payments received",
+    "notRecorded": "Not recorded",
+    "columns": {
+      "date": "Date",
+      "order": "Order",
+      "buyer": "Buyer",
+      "grades": "Grades",
+      "totalKg": "Total kg",
+      "amount": "Amount",
+      "method": "Method",
+      "reference": "Reference",
+      "actions": "Actions"
+    },
+    "menu": "Actions for {{code}}",
+    "viewSplit": "View split",
+    "open": "Show the split of {{code}}",
+    "filters": {
+      "buyer": "Buyer",
+      "all": "All buyers"
+    },
+    "empty": "No payments from buyers yet. They appear when a sale is saved.",
+    "noResults": "No payments from this buyer.",
+    "error": "Could not load the payments.",
+    "retry": "Try again",
+    "split": {
+      "title": "Split of {{code}}",
+      "salesTitle": "Sales",
+      "saleLine": "{{kg}} at {{price}} per kg",
+      "lots": "Lots:",
+      "farmersTitle": "Farmers",
+      "columns": {
+        "farmer": "Farmer",
+        "kg": "Kg",
+        "gross": "Gross",
+        "deduction": "Deduction",
+        "net": "Net"
+      },
+      "total": "Total",
+      "lotShare": "Paid through lot share",
+      "card": "{{kg}} · {{gross}} − {{deduction}}",
+      "noFarmers": "No farmer lines for this order."
+    }
   }
 }
