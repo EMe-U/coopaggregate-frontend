@@ -21,9 +21,8 @@ function groupByLot(batches) {
 // takeKg in a preview and kg in a saved sale. withDelivered adds the delivery date (preview);
 // withMoney adds gross and deduction before the net. A sale from before sales by grade has no money
 // per batch: its members are paid through the lot share, which the last column says instead.
-// renderLotAction adds a button to each lot's heading, for example the preview's "Skip lot".
 // Lines without a lot (older sales) are listed without lot headings.
-export default function SaleBatchesTable({ batches, kgField = 'kg', withDelivered, withMoney, paidByLotShare, renderLotAction }) {
+export default function SaleBatchesTable({ batches, kgField = 'kg', withDelivered, withMoney, paidByLotShare }) {
   const { t } = useTranslation()
   const key = 'sales.batches'
   const grouped = batches.every((batch) => batch.lotId != null)
@@ -72,7 +71,6 @@ export default function SaleBatchesTable({ batches, kgField = 'kg', withDelivere
                           })}
                         </span>
                       </span>
-                      {renderLotAction?.(group)}
                     </div>
                   </td>
                 </tr>
