@@ -1568,7 +1568,8 @@
       "payments.balances.menu",
       "payments.balances.viewBreakdown",
       "payments.balances.recordPayment",
-      "payments.balances.nothingToPay"
+      "payments.balances.nothingToPay",
+      "allDeliveries"
     ]
   },
   "publicHome": {
@@ -2126,5 +2127,50 @@
       }
     ],
     "link": "Amakuru bwite"
+  },
+  "allDeliveries": {
+    "tabs": {
+      "label": "Ibyagemuwe",
+      "record": "Andika",
+      "all": "Ibyagemuwe byose"
+    },
+    "title": "Ibyagemuwe byose",
+    "viewDetails": "Reba ibisobanuro",
+    "queue": {
+      "title": "Bitegereje koherezwa kuri iki gikoresho",
+      "empty": "Nta bitegereje"
+    },
+    "filters": {
+      "search": "Shakisha",
+      "searchPlaceholder": "Izina, nimero cyangwa kode y'inyemezabwishyu",
+      "from": "Kuva",
+      "to": "Kugeza",
+      "status": "Uko bihagaze",
+      "grade": "Urwego",
+      "allGrades": "Inzego zose",
+      "clear": "Kuraho iyungurura",
+      "rangeInvalid": "Itariki ya \"Kuva\" iri nyuma y'iya \"Kugeza\"."
+    },
+    "status": {
+      "all": "Byose",
+      "PENDING": "Bitegereje kwemezwa",
+      "CONFIRMED": "Byemejwe",
+      "DISPUTED": "Bijuririwe",
+      "REVERSED": "Byahagaritswe"
+    },
+    "columns": {
+      "date": "Itariki n'isaha",
+      "receipt": "Kode y'inyemezabwishyu",
+      "member": "Umunyamuryango",
+      "grade": "Urwego",
+      "kg": "Kg",
+      "lot": "Ikirundo",
+      "status": "Uko bihagaze",
+      "actions": "Ibikorwa"
+    },
+    "empty": "Nta byagemuwe biranditswe.",
+    "noResults": "Nta byagemuwe bihuye n'iri yungurura.",
+    "error": "Ntibishobotse kubona ibyagemuwe.",
+    "offline": "Nta interineti uriho. Ibyagemuwe biri kuri seriveri biragaruka interineti igarutse."
   }
 }

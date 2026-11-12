@@ -1,6 +1,7 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { CircleCheck, MessageSquareWarning, PencilLine, Smartphone, Undo2 } from 'lucide-react'
+import { CircleCheck, Eye, MessageSquareWarning, PencilLine, Smartphone, Undo2 } from 'lucide-react'
 import { resolveDispute, reverseDelivery } from '../../api/deliveries'
 import useNeedsInternet from '../../hooks/useNeedsInternet'
 import { formatKg } from '../../utils/format'
@@ -17,14 +18,25 @@ import { plainReversalError } from './reversalError'
 // with sold kg is refused by the server (409), and the dialog says so in plain words. onChanged
 // runs after any change so the page can reload its lists and totals.
 // onDetailPage leaves out "Confirm with code", which that page already shows.
-export default function DeliveryActionsMenu({ delivery, lotShared, onChanged, onDetailPage }) {
+// detailsFrom adds "View details" first (also for a reversed delivery, which has no other action); the
+// detail page's back link returns to that URL.
+export default function DeliveryActionsMenu({ delivery, lotShared, onChanged, onDetailPage, detailsFrom }) {
   const { t } = useTranslation()
   const gradeName = useGradeName()
   const needsInternet = useNeedsInternet()
+  const navigate = useNavigate()
   // Which dialog is open: dispute, resolve, correct or reverse.
   const [open, setOpen] = useState(null)
 
-  if (delivery.reversed) return null
+  const details = detailsFrom && {
+    key: 'details',
+    icon: Eye,
+    label: t('allDeliveries.viewDetails'),
+    run: () => navigate(`/deliveries/${delivery.id}`, { state: { from: detailsFrom } }),
+  }
+  if (delivery.reversed) {
+    return details ? <ActionsMenu label={t('reversal.delivery.menu', { code: delivery.receiptCode })} actions={[details]} /> : null
+  }
 
   const offline = { disabled: needsInternet.offline, title: needsInternet.title }
   let blockedReason
@@ -33,7 +45,7 @@ export default function DeliveryActionsMenu({ delivery, lotShared, onChanged, on
   const blocked = { disabled: Boolean(blockedReason), title: blockedReason }
 
   const status = delivery.confirmationStatus
-  const actions = []
+  const actions = details ? [details] : []
   if (status === 'PENDING' && !onDetailPage) {
     actions.push({
       key: 'confirm',

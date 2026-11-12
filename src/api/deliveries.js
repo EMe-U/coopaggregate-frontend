@@ -11,19 +11,28 @@ export async function recordDelivery(delivery, config) {
 // Reversed deliveries are left out unless includeReversed is true; lists that show the history
 // ask for them, while totals and checks never count them. confirmationStatus (PENDING, CONFIRMED,
 // DISPUTED) and deliveredBefore (a timestamp) narrow the list for the dashboard's follow-ups.
+// status (PENDING, CONFIRMED, DISPUTED or REVERSED) overrides includeReversed: REVERSED lists only
+// reversed deliveries, the others only deliveries that are not reversed. search matches part of the
+// member's name, the member number or the receipt code. All filters combine.
 export async function listDeliveries({
   page = 0,
   size = 20,
   memberId,
   lotId,
+  gradeId,
   from,
   to,
   includeReversed,
+  status,
+  search,
   confirmationStatus,
   deliveredBefore,
 } = {}) {
   const params = { page, size }
   if (includeReversed) params.includeReversed = true
+  if (status) params.status = status
+  if (search?.trim()) params.search = search.trim()
+  if (gradeId) params.gradeId = gradeId
   if (confirmationStatus) params.confirmationStatus = confirmationStatus
   if (deliveredBefore) params.deliveredBefore = deliveredBefore
   if (memberId) params.memberId = memberId
