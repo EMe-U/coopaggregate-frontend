@@ -89,7 +89,7 @@ export default function Payments() {
 
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_22rem]">
         <div className="min-w-0">
-          <BalancesTable reloadKey={reloadKey} selectedId={selectedId} onOpen={setBreakdownOf} />
+          <BalancesTable reloadKey={reloadKey} selectedId={selectedId} onOpen={setBreakdownOf} onPay={handlePay} />
         </div>
         <RecordPaymentPanel
           ref={panelRef}

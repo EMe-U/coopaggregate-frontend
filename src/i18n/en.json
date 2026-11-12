@@ -722,7 +722,12 @@
       "empty": "No member has earned money yet. Balances appear once their potatoes are sold.",
       "noResults": "No member matches this search or filter.",
       "error": "Could not load the balances.",
-      "retry": "Try again"
+      "retry": "Try again",
+      "actions": "Actions",
+      "menu": "Actions for {{name}}",
+      "viewBreakdown": "View breakdown",
+      "recordPayment": "Record payment",
+      "nothingToPay": "Nothing to pay: the balance is 0"
     },
     "form": {
       "title": "Record payment",
