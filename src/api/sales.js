@@ -11,6 +11,9 @@ export async function recordSale(sale) {
   return response.data
 }
 
+// A sale and an order both carry how the buyer paid the whole of it: paymentMethod (CASH, MOMO or
+// BANK) and paymentReference, which MOMO and BANK need (400 otherwise).
+
 // One buyer order with several grades, each grade once. If one item fails, nothing is saved.
 export async function recordSaleOrder(order) {
   const response = await client.post('/api/sales/orders', order)
@@ -23,6 +26,12 @@ export async function recordSaleOrder(order) {
 export async function previewSale(gradeId, { quantityKg, pricePerKg }) {
   const params = { quantityKg, pricePerKg }
   const response = await client.get(`/api/grades/${gradeId}/sale-preview`, { params })
+  return response.data
+}
+
+// One sale, the same as its row in the list, with its batches and their lots.
+export async function getSale(id) {
+  const response = await client.get(`/api/sales/${id}`)
   return response.data
 }
 

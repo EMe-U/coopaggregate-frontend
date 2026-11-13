@@ -12,7 +12,7 @@ const items = [
   },
   // Sales are by grade and only take confirmed kg, so this counts grades with sellable kg.
   { key: 'gradesToSell', field: 'gradesWithSellableKg', to: '/sales', icon: Truck },
-  { key: 'awaitingPayment', field: 'membersAwaitingPayment', to: '/payments', icon: Wallet },
+  { key: 'awaitingPayment', field: 'membersAwaitingPayment', to: '/disburse', icon: Wallet },
 ]
 
 export default function NeedsAttention({ summary }) {

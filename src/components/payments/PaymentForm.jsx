@@ -1,75 +1,106 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { MessageSquare, Save } from 'lucide-react'
+import { MessageSquare, Send } from 'lucide-react'
 import { recordPayment } from '../../api/payments'
-import { formatMoney, kigaliIsoDate } from '../../utils/format'
+import { formatMoney } from '../../utils/format'
 import useNeedsInternet from '../../hooks/useNeedsInternet'
 
-const METHODS = ['CASH', 'MOMO', 'BANK']
-// Same rule as the backend: mobile money and bank payments need the transaction reference.
-const NEEDS_REFERENCE = ['MOMO', 'BANK']
-const AMOUNT_PATTERN = /^\d+$/
+export const METHODS = ['CASH', 'MOMO', 'BANK']
+// Same rules as the backend (PaymentReferences): a MoMo or bank payment needs its transaction ID, 6 to
+// 40 letters, digits, dots, dashes or slashes, used only once per method (409 when reused). A cash
+// reference stays optional and free, up to 50 characters.
+export const NEEDS_REFERENCE = ['MOMO', 'BANK']
+export const MIN_REFERENCE = 6
+export const MAX_REFERENCE = 40
+export const MAX_CASH_REFERENCE = 50
+const REFERENCE_PATTERN = /^[A-Za-z0-9./-]+$/
+
+export const maxReferenceLength = (method) => (NEEDS_REFERENCE.includes(method) ? MAX_REFERENCE : MAX_CASH_REFERENCE)
+
+// The message to show under the reference field, or '' when it is fine.
+export function referenceError(t, method, reference) {
+  if (!NEEDS_REFERENCE.includes(method)) return ''
+  const value = reference.trim()
+  if (!value) return t('payments.form.errors.referenceRequired')
+  if (value.length < MIN_REFERENCE || value.length > MAX_REFERENCE || !REFERENCE_PATTERN.test(value)) {
+    return t('payments.form.errors.referenceInvalid', { min: MIN_REFERENCE, max: MAX_REFERENCE })
+  }
+  return ''
+}
 
 const fieldClass =
   'min-h-12 w-full rounded-lg border border-transparent bg-background px-3 text-base outline-none focus:border-primary focus:ring-2 focus:ring-primary/20'
 
-// member: { memberId, memberName, owedRwf }. Give the form a new key for each member so the
-// amount and the clientUuid start fresh.
-export default function PaymentForm({ member, onSaved, onCancel }) {
+// The method buttons, shared with the sale form's "How did the buyer pay?".
+export function MethodPicker({ id, value, onChange, disabled }) {
+  const { t } = useTranslation()
+  return (
+    <div role="radiogroup" aria-labelledby={id} className="grid grid-cols-3 gap-2">
+      {METHODS.map((method) => (
+        <button
+          key={method}
+          type="button"
+          role="radio"
+          aria-checked={value === method}
+          onClick={() => onChange(method)}
+          disabled={disabled}
+          className={`min-h-12 rounded-lg px-1 text-sm font-medium ${
+            value === method ? 'bg-primary text-white shadow-sm' : 'bg-background text-text hover:bg-primary-light'
+          }`}
+        >
+          {t(`payments.methods.${method}`)}
+        </button>
+      ))}
+    </div>
+  )
+}
+
+// Disburses the farmer's whole balance: the amount is shown, not typed, and sent as it is. If a sale
+// credited the farmer in the meantime the backend refuses it (400) and its message is shown; onRefused
+// lets the page reload the balance. member: { memberId, memberName, owedRwf }.
+export default function PaymentForm({ member, onSaved, onCancel, onRefused }) {
   const { t } = useTranslation()
   const needsInternet = useNeedsInternet()
-  const today = kigaliIsoDate()
 
-  const [amountText, setAmountText] = useState(String(member.owedRwf))
   const [method, setMethod] = useState('CASH')
   const [reference, setReference] = useState('')
-  const [date, setDate] = useState(today)
-  // Created once for this payment and reused on every retry, so a double tap or a retry
-  // after a lost response returns the payment that was already saved instead of paying twice.
+  // Created once for this disbursement and reused on every retry, so a double tap or a retry after a
+  // lost response returns the payment already saved instead of paying twice.
   const [clientUuid] = useState(() => crypto.randomUUID())
-  const [errors, setErrors] = useState({})
+  const [fieldError, setFieldError] = useState('')
   const [formError, setFormError] = useState('')
   const [saving, setSaving] = useState(false)
 
-  const amountRwf = AMOUNT_PATTERN.test(amountText.trim()) ? Number(amountText.trim()) : null
   const needsReference = NEEDS_REFERENCE.includes(method)
-
-  function validate() {
-    const fieldErrors = {}
-    if (amountText.trim() === '') fieldErrors.amount = t('payments.form.errors.amountRequired')
-    else if (!amountRwf) fieldErrors.amount = t('payments.form.errors.amountInvalid')
-    else if (amountRwf > member.owedRwf) {
-      fieldErrors.amount = t('payments.form.errors.amountTooLarge', { amount: formatMoney(member.owedRwf) })
-    }
-    if (needsReference && !reference.trim()) fieldErrors.reference = t('payments.form.errors.referenceRequired')
-    if (!date) fieldErrors.date = t('payments.form.errors.dateRequired')
-    else if (date > today) fieldErrors.date = t('payments.form.errors.dateFuture')
-    return fieldErrors
-  }
+  const nothingOwed = !(member.owedRwf > 0)
 
   async function handleSubmit(event) {
     event.preventDefault()
-    if (saving) return
+    if (saving || nothingOwed) return
     setFormError('')
 
-    const fieldErrors = validate()
-    setErrors(fieldErrors)
-    if (Object.keys(fieldErrors).length > 0) return
+    const error = referenceError(t, method, reference)
+    setFieldError(error)
+    if (error) return
 
     setSaving(true)
     try {
       const payment = await recordPayment({
         clientUuid,
         memberId: member.memberId,
-        amountRwf,
+        amountRwf: member.owedRwf,
         method,
         reference: reference.trim() || null,
-        paidAt: date,
       })
       onSaved(payment)
-    } catch (error) {
-      if (!error.response) setFormError(t('payments.form.errors.serverUnreachable'))
-      else setFormError(error.response.data?.message || t('payments.form.errors.generic'))
+    } catch (requestError) {
+      // A 400 (balance changed, nothing to disburse, reference refused) or a 409 (reference already
+      // used) says what is wrong: its message is shown as it is.
+      if (!requestError.response) setFormError(t('payments.form.errors.serverUnreachable'))
+      else {
+        setFormError(requestError.response.data?.message || t('payments.form.errors.generic'))
+        if (requestError.response.status === 400) onRefused?.()
+      }
       setSaving(false)
     }
   }
@@ -82,84 +113,42 @@ export default function PaymentForm({ member, onSaved, onCancel }) {
         </p>
       )}
 
-      <div>
-        <div className="mb-1.5 flex flex-wrap items-baseline justify-between gap-2">
-          <label htmlFor="payment-amount" className="text-sm font-medium text-text">
-            {t('payments.form.amount')}
-          </label>
-          <span className="text-xs text-muted">{t('payments.form.maxAllowed', { amount: formatMoney(member.owedRwf) })}</span>
-        </div>
-        <input
-          id="payment-amount"
-          type="text"
-          inputMode="numeric"
-          autoComplete="off"
-          value={amountText}
-          onChange={(event) => setAmountText(event.target.value)}
-          disabled={saving}
-          className={`${fieldClass} text-lg font-semibold`}
-        />
-        {errors.amount && <p className="mt-1 text-sm text-danger">{errors.amount}</p>}
+      <div className="rounded-lg bg-primary-light/60 p-4">
+        <p id="payment-amount-label" className="text-sm font-medium text-text">
+          {t('payments.form.amount')}
+        </p>
+        <p className="mt-1 text-2xl font-semibold text-text" aria-labelledby="payment-amount-label" data-testid="disburse-amount">
+          {formatMoney(member.owedRwf)}
+        </p>
+        <p className="mt-1 text-xs text-muted">{t('payments.form.fullBalance')}</p>
       </div>
 
       <div>
         <p id="payment-method-label" className="mb-1.5 text-sm font-medium text-text">
           {t('payments.form.method')}
         </p>
-        <div role="radiogroup" aria-labelledby="payment-method-label" className="grid grid-cols-3 gap-2">
-          {METHODS.map((value) => (
-            <button
-              key={value}
-              type="button"
-              role="radio"
-              aria-checked={method === value}
-              onClick={() => setMethod(value)}
-              disabled={saving}
-              className={`min-h-12 rounded-lg px-1 text-sm font-medium ${
-                method === value ? 'bg-primary text-white shadow-sm' : 'bg-background text-text hover:bg-primary-light'
-              }`}
-            >
-              {t(`payments.methods.${value}`)}
-            </button>
-          ))}
-        </div>
+        <MethodPicker id="payment-method-label" value={method} onChange={setMethod} disabled={saving} />
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div>
-          <label htmlFor="payment-reference" className="mb-1.5 block text-sm font-medium text-text">
-            {needsReference ? t('payments.form.reference') : t('payments.form.referenceOptional')}
-          </label>
-          <input
-            id="payment-reference"
-            autoComplete="off"
-            maxLength={50}
-            value={reference}
-            onChange={(event) => setReference(event.target.value)}
-            disabled={saving}
-            className={fieldClass}
-          />
-          {errors.reference ? (
-            <p className="mt-1 text-sm text-danger">{errors.reference}</p>
-          ) : (
-            needsReference && <p className="mt-1 text-xs text-muted">{t('payments.form.referenceHint')}</p>
-          )}
-        </div>
-        <div>
-          <label htmlFor="payment-date" className="mb-1.5 block text-sm font-medium text-text">
-            {t('payments.form.date')}
-          </label>
-          <input
-            id="payment-date"
-            type="date"
-            value={date}
-            max={today}
-            onChange={(event) => setDate(event.target.value)}
-            disabled={saving}
-            className={fieldClass}
-          />
-          {errors.date && <p className="mt-1 text-sm text-danger">{errors.date}</p>}
-        </div>
+      <div>
+        <label htmlFor="payment-reference" className="mb-1.5 block text-sm font-medium text-text">
+          {needsReference ? t('payments.form.reference') : t('payments.form.referenceOptional')}
+        </label>
+        <input
+          id="payment-reference"
+          autoComplete="off"
+          maxLength={maxReferenceLength(method)}
+          value={reference}
+          onChange={(event) => setReference(event.target.value)}
+          disabled={saving}
+          aria-invalid={Boolean(fieldError)}
+          aria-describedby="payment-reference-hint"
+          className={fieldClass}
+        />
+        {fieldError && <p className="mt-1 text-sm text-danger">{fieldError}</p>}
+        <p id="payment-reference-hint" className="mt-1 text-xs text-muted">
+          {t('payments.form.referenceHint')}
+        </p>
       </div>
 
       <p className="flex items-start gap-2 rounded-lg bg-background px-3 py-2 text-sm text-muted">
@@ -180,11 +169,11 @@ export default function PaymentForm({ member, onSaved, onCancel }) {
         )}
         <button
           type="submit"
-          disabled={saving || needsInternet.offline}
+          disabled={saving || nothingOwed || needsInternet.offline}
           title={needsInternet.title}
           className="flex min-h-12 flex-1 items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-semibold text-white hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          <Save size={16} />
+          <Send size={16} />
           {saving ? t('payments.form.saving') : t('payments.form.save')}
         </button>
       </div>

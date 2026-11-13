@@ -333,7 +333,7 @@ export default function BalanceBreakdown({ member, onClose, onPay }) {
           >
             {t('payments.form.close')}
           </button>
-          {member.balanceRwf > 0 && (
+          {member.settlement === 'OWED' && member.balanceRwf > 0 && (
             <button
               type="button"
               onClick={() => onPay(member)}

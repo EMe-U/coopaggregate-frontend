@@ -203,9 +203,10 @@ export default function MemberDetail() {
       )}
       {paying && (
         <PaymentFormModal
-          member={{ memberId: member.id, memberName: member.fullName, owedRwf: statement.owedRwf }}
+          member={{ memberId: member.id, memberName: member.fullName, memberNumber: member.memberCode, owedRwf: statement.owedRwf }}
           onClose={() => setPaying(false)}
           onSaved={handlePaymentSaved}
+          onRefused={() => setStatementReloadKey((key) => key + 1)}
         />
       )}
       {notice && <SuccessToast message={notice} onDone={clearNotice} />}
