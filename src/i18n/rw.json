@@ -678,9 +678,7 @@
       "question": "Umuguzi yishyuye ate?",
       "reference": "Nimero y'ikimenyetso",
       "referenceOptional": "Nimero y'ikimenyetso (si ngombwa)",
-      "referenceHint": "Nimero y'igikorwa",
-      "methodRequired": "Hitamo uko umuguzi yishyuye",
-      "referenceRequired": "Andika nimero y'ikimenyetso cy'igikorwa"
+      "methodRequired": "Hitamo uko umuguzi yishyuye"
     }
   },
   "pagination": {
@@ -730,7 +728,7 @@
       "method": "Uburyo bwo kwishyura",
       "reference": "Nimero y'ikimenyetso",
       "referenceOptional": "Nimero y'ikimenyetso (si ngombwa)",
-      "referenceHint": "Nimero y'igikorwa",
+      "referenceHint": "Nimero y'igikorwa yo kuri MoMo cyangwa muri banki, urugero MP241113.1045.A12345",
       "cancel": "Hagarika",
       "close": "Funga",
       "save": "Ishyura",
@@ -739,7 +737,8 @@
       "errors": {
         "referenceRequired": "Andika nimero y'ikimenyetso cy'igikorwa",
         "generic": "Ntibishobotse kwandika ubwishyu. Ongera ugerageze.",
-        "serverUnreachable": "Ntibishoboka kugera kuri seriveri. Reba murandasi yawe wongere ugerageze."
+        "serverUnreachable": "Ntibishoboka kugera kuri seriveri. Reba murandasi yawe wongere ugerageze.",
+        "referenceInvalid": "Koresha inyuguti {{min}} kugeza kuri {{max}}: inyuguti, imibare, akadomo (.), agakoni (-) cyangwa akarongo kegeranye (/) gusa."
       },
       "smsNote": "Umuhinzi azabona SMS irimo amafaranga yahawe.",
       "fullBalance": "Ni amafaranga yose umuhinzi afitiwe. Ntashobora guhindurwa."
@@ -1556,9 +1555,7 @@
       "sales.payment.question",
       "sales.payment.reference",
       "sales.payment.referenceOptional",
-      "sales.payment.referenceHint",
       "sales.payment.methodRequired",
-      "sales.payment.referenceRequired",
       "payments.eyebrow",
       "payments.title",
       "payments.settlement.OWED",
@@ -1591,7 +1588,9 @@
       "payments.history.error",
       "buyerPayments",
       "sales.history.paidByLotShare",
-      "sales.batches.paidByLotShare"
+      "sales.batches.paidByLotShare",
+      "payments.form.referenceHint",
+      "payments.form.errors.referenceInvalid"
     ]
   },
   "publicHome": {

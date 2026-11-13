@@ -678,9 +678,7 @@
       "question": "How did the buyer pay?",
       "reference": "Reference #",
       "referenceOptional": "Reference # (optional)",
-      "referenceHint": "The transaction ID",
-      "methodRequired": "Choose how the buyer paid",
-      "referenceRequired": "Enter the transaction reference"
+      "methodRequired": "Choose how the buyer paid"
     }
   },
   "pagination": {
@@ -730,7 +728,7 @@
       "method": "Payment method",
       "reference": "Reference #",
       "referenceOptional": "Reference # (optional)",
-      "referenceHint": "The transaction ID",
+      "referenceHint": "Transaction ID from MoMo or the bank, e.g. MP241113.1045.A12345",
       "cancel": "Cancel",
       "close": "Close",
       "save": "Disburse",
@@ -739,7 +737,8 @@
       "errors": {
         "referenceRequired": "Enter the transaction reference",
         "generic": "Could not record the disbursement. Please try again.",
-        "serverUnreachable": "Cannot reach the server. Check your connection and try again."
+        "serverUnreachable": "Cannot reach the server. Check your connection and try again.",
+        "referenceInvalid": "Use {{min}} to {{max}} characters: letters, digits, dot (.), dash (-) or slash (/) only."
       },
       "smsNote": "The farmer will get an SMS with the amount.",
       "fullBalance": "The farmer's whole balance. It cannot be changed."

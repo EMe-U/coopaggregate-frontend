@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { listPayments } from '../../api/payments'
+import FilterMenu from '../FilterMenu'
 import Pagination from '../Pagination'
 import ReversedBadge from '../ReversedBadge'
 import PaymentActionsMenu from './PaymentActionsMenu'
@@ -53,22 +54,22 @@ export default function PaymentHistory({ reloadKey, onChanged }) {
     <section className="min-w-0 rounded-xl bg-surface p-5 shadow-sm">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-lg font-semibold text-text">{t('payments.history.title')}</h2>
-        <select
-          aria-label={t('payments.history.filterLabel')}
-          value={method}
-          onChange={(event) => {
-            setMethod(event.target.value)
-            setPage(0)
-          }}
-          className="min-h-11 rounded-lg border border-transparent bg-background px-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
-        >
-          <option value="">{t('payments.history.all')}</option>
-          {METHODS.map((value) => (
-            <option key={value} value={value}>
-              {t(`payments.methods.${value}`)}
-            </option>
-          ))}
-        </select>
+        <div className="-mr-2 ml-auto">
+          <FilterMenu
+            name={t('payments.history.filterLabel')}
+            value={method}
+            defaultValue=""
+            options={[
+              { value: '', label: t('payments.history.all') },
+              ...METHODS.map((value) => ({ value, label: t(`payments.methods.${value}`) })),
+            ]}
+            valueLabel={(filter, value) => t('payments.filterValue', { filter, value })}
+            onChange={(value) => {
+              setMethod(value)
+              setPage(0)
+            }}
+          />
+        </div>
       </div>
 
       {loadError && (

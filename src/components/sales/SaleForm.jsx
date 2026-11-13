@@ -9,7 +9,7 @@ import BuyerPicker from './BuyerPicker'
 import SaleOrderLines from './SaleOrderLines'
 import SalePreview from './SalePreview'
 import SaleResult from './SaleResult'
-import { MAX_REFERENCE, MethodPicker, NEEDS_REFERENCE } from '../payments/PaymentForm'
+import { MethodPicker, NEEDS_REFERENCE, maxReferenceLength, referenceError } from '../payments/PaymentForm'
 import useNeedsInternet from '../../hooks/useNeedsInternet'
 
 const PRICE_PATTERN = /^\d+$/
@@ -42,8 +42,8 @@ function Field({ htmlFor, label, error, children }) {
   )
 }
 
-// The backend's own message is shown as it is, except the refusal to skip a lot, which is
-// translated: sales always use the oldest lot first.
+// The backend's own message (400 or 409, for example a reference already used) is shown as it is,
+// except the refusal to skip a lot, which is translated: sales always use the oldest lot first.
 function requestMessage(t, error) {
   if (!error.response) return t('sales.form.errors.serverUnreachable')
   const message = error.response.data?.message
@@ -168,19 +168,18 @@ export default function SaleForm({ initialGradeName, onSaved }) {
   const canSave = step === 'preview' && allPreviewed && !saving && !needsInternet.offline
   const previewTotal = items.reduce((sum, item) => sum + (previews[item.key]?.data?.totalAmountRwf ?? 0), 0)
 
+  // The same reference rules as the Disburse dialog; the backend answers 409 when a MoMo or bank
+  // reference was already used, and that message is shown above like any other.
   const paymentErrors = {
     method: paymentTried && !payment.method ? t('sales.payment.methodRequired') : '',
-    reference:
-      paymentTried && NEEDS_REFERENCE.includes(payment.method) && !payment.reference.trim()
-        ? t('sales.payment.referenceRequired')
-        : '',
+    reference: paymentTried ? referenceError(t, payment.method, payment.reference) : '',
   }
 
   async function handleSave() {
     if (!canSave) return
     setFormError('')
     setPaymentTried(true)
-    if (!payment.method || (NEEDS_REFERENCE.includes(payment.method) && !payment.reference.trim())) return
+    if (!payment.method || referenceError(t, payment.method, payment.reference)) return
     const paid = { paymentMethod: payment.method, paymentReference: payment.reference.trim() || null }
 
     const single = items.length === 1
@@ -314,17 +313,17 @@ export default function SaleForm({ initialGradeName, onSaved }) {
               <input
                 id="sale-payment-reference"
                 autoComplete="off"
-                maxLength={MAX_REFERENCE}
+                maxLength={maxReferenceLength(payment.method)}
                 value={payment.reference}
                 onChange={(event) => setPayment((current) => ({ ...current, reference: event.target.value }))}
                 aria-invalid={Boolean(paymentErrors.reference)}
+                aria-describedby="sale-payment-reference-hint"
                 className={fieldClass}
               />
-              {paymentErrors.reference ? (
-                <p className="mt-1 text-sm text-danger">{paymentErrors.reference}</p>
-              ) : (
-                NEEDS_REFERENCE.includes(payment.method) && <p className="mt-1 text-xs text-muted">{t('sales.payment.referenceHint')}</p>
-              )}
+              {paymentErrors.reference && <p className="mt-1 text-sm text-danger">{paymentErrors.reference}</p>}
+              <p id="sale-payment-reference-hint" className="mt-1 text-xs text-muted">
+                {t('payments.form.referenceHint')}
+              </p>
             </div>
           </fieldset>
 

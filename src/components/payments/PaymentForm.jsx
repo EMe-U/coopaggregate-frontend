@@ -6,9 +6,27 @@ import { formatMoney } from '../../utils/format'
 import useNeedsInternet from '../../hooks/useNeedsInternet'
 
 export const METHODS = ['CASH', 'MOMO', 'BANK']
-// Same rule as the backend: mobile money and bank payments need the transaction reference.
+// Same rules as the backend (PaymentReferences): a MoMo or bank payment needs its transaction ID, 6 to
+// 40 letters, digits, dots, dashes or slashes, used only once per method (409 when reused). A cash
+// reference stays optional and free, up to 50 characters.
 export const NEEDS_REFERENCE = ['MOMO', 'BANK']
-export const MAX_REFERENCE = 50
+export const MIN_REFERENCE = 6
+export const MAX_REFERENCE = 40
+export const MAX_CASH_REFERENCE = 50
+const REFERENCE_PATTERN = /^[A-Za-z0-9./-]+$/
+
+export const maxReferenceLength = (method) => (NEEDS_REFERENCE.includes(method) ? MAX_REFERENCE : MAX_CASH_REFERENCE)
+
+// The message to show under the reference field, or '' when it is fine.
+export function referenceError(t, method, reference) {
+  if (!NEEDS_REFERENCE.includes(method)) return ''
+  const value = reference.trim()
+  if (!value) return t('payments.form.errors.referenceRequired')
+  if (value.length < MIN_REFERENCE || value.length > MAX_REFERENCE || !REFERENCE_PATTERN.test(value)) {
+    return t('payments.form.errors.referenceInvalid', { min: MIN_REFERENCE, max: MAX_REFERENCE })
+  }
+  return ''
+}
 
 const fieldClass =
   'min-h-12 w-full rounded-lg border border-transparent bg-background px-3 text-base outline-none focus:border-primary focus:ring-2 focus:ring-primary/20'
@@ -49,7 +67,7 @@ export default function PaymentForm({ member, onSaved, onCancel, onRefused }) {
   // Created once for this disbursement and reused on every retry, so a double tap or a retry after a
   // lost response returns the payment already saved instead of paying twice.
   const [clientUuid] = useState(() => crypto.randomUUID())
-  const [referenceError, setReferenceError] = useState('')
+  const [fieldError, setFieldError] = useState('')
   const [formError, setFormError] = useState('')
   const [saving, setSaving] = useState(false)
 
@@ -61,8 +79,8 @@ export default function PaymentForm({ member, onSaved, onCancel, onRefused }) {
     if (saving || nothingOwed) return
     setFormError('')
 
-    const error = needsReference && !reference.trim() ? t('payments.form.errors.referenceRequired') : ''
-    setReferenceError(error)
+    const error = referenceError(t, method, reference)
+    setFieldError(error)
     if (error) return
 
     setSaving(true)
@@ -76,6 +94,8 @@ export default function PaymentForm({ member, onSaved, onCancel, onRefused }) {
       })
       onSaved(payment)
     } catch (requestError) {
+      // A 400 (balance changed, nothing to disburse, reference refused) or a 409 (reference already
+      // used) says what is wrong: its message is shown as it is.
       if (!requestError.response) setFormError(t('payments.form.errors.serverUnreachable'))
       else {
         setFormError(requestError.response.data?.message || t('payments.form.errors.generic'))
@@ -117,18 +137,18 @@ export default function PaymentForm({ member, onSaved, onCancel, onRefused }) {
         <input
           id="payment-reference"
           autoComplete="off"
-          maxLength={MAX_REFERENCE}
+          maxLength={maxReferenceLength(method)}
           value={reference}
           onChange={(event) => setReference(event.target.value)}
           disabled={saving}
-          aria-invalid={Boolean(referenceError)}
+          aria-invalid={Boolean(fieldError)}
+          aria-describedby="payment-reference-hint"
           className={fieldClass}
         />
-        {referenceError ? (
-          <p className="mt-1 text-sm text-danger">{referenceError}</p>
-        ) : (
-          needsReference && <p className="mt-1 text-xs text-muted">{t('payments.form.referenceHint')}</p>
-        )}
+        {fieldError && <p className="mt-1 text-sm text-danger">{fieldError}</p>}
+        <p id="payment-reference-hint" className="mt-1 text-xs text-muted">
+          {t('payments.form.referenceHint')}
+        </p>
       </div>
 
       <p className="flex items-start gap-2 rounded-lg bg-background px-3 py-2 text-sm text-muted">
