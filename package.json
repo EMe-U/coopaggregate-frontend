@@ -6,7 +6,15 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:e2e": "node tests/run.mjs",
+    "test:e2e:lots": "node tests/run.mjs lots",
+    "test:e2e:sales": "node tests/run.mjs sales",
+    "test:e2e:payments": "node tests/run.mjs payments",
+    "test:e2e:disburse": "node tests/run.mjs disburse",
+    "test:e2e:deliveries": "node tests/run.mjs deliveries",
+    "test:e2e:filters": "node tests/run.mjs filters",
+    "test:e2e:dashboard": "node tests/run.mjs dashboard"
   },
   "dependencies": {
     "axios": "^1.20.0",
