@@ -13,8 +13,8 @@ frontend. All data comes from a separate Spring Boot REST API (the backend repos
 
 - Live app: https://coopaggregate-frontend.onrender.com
 - Backend repository: https://github.com/EMe-U/coopaggregate-backend
-- Walkthrough video: VIDEO_LINK
-- Technical report: REPORT_LINK
+- Walkthrough video: https://drive.google.com/file/d/1No90uH3VIGJ2lxM5fEgdKKYCzFpFetwZ/view?usp=sharing
+- Technical report: https://docs.google.com/document/d/1bGd_vEHIhrF_s2BjH-lA2hCFNF04xbaM0iUS5jVTE9E/edit?usp=sharing
 - Figma designs: https://www.figma.com/design/Xzp3pqB8GGrTBIW6leDQkh/coopagregate?node-id=0-1&t=crHfOMSkCjKROOhn-1
 
 ## Main pages and features
